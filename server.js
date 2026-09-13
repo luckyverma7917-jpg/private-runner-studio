@@ -83,7 +83,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio V3</title>
+<title>Private Runner Studio V4</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -112,20 +112,20 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V3 GAME</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V4 REF</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">V3 gives a more game-like vertical highway, more visible road from the bottom, a clearer far target, and raised glowing pads that float slightly above the road like the reference shorts. Best results: use transparent PNG or WebP.</div>
+    <div class="note">V4 Reference Match: the road now starts lower like the reference, stays narrow in the distance and wide at the bottom, while the choice pads are compact horizontal floating bars instead of full-lane slabs.</div>
   </section>
   <section class="controls">
-    <details open><summary>Runner / Character</summary><div class="grid"><label>Runner PNG/WebP <input id="runnerInput" type="file" accept="image/png,image/webp,image/jpeg"></label><label class="toggle"><input id="runnerRemoveBg" type="checkbox" checked> Auto remove border background</label><label>Runner size <input id="runnerSize" type="range" min="70" max="360" value="145"></label><label>Runner X <input id="runnerX" type="range" min="-260" max="260" value="0"></label><label>Runner Y <input id="runnerY" type="range" min="760" max="1210" value="1070"></label></div></details>
-    <details open><summary>Final Target / Enemy</summary><div class="grid"><label>Target PNG/WebP <input id="targetInput" type="file" accept="image/png,image/webp,image/jpeg"></label><label class="toggle"><input id="targetRemoveBg" type="checkbox" checked> Auto remove border background</label><label>Target size <input id="targetSize" type="range" min="45" max="300" value="115"></label><label>Target distance <input id="targetZ" type="range" min="0.02" max="0.34" step="0.01" value="0.06"></label></div></details>
-    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.06" max="0.75" step="0.01" value="0.23"></label><label>Road width <input id="roadWidth" type="range" min="0.78" max="1.08" step="0.01" value="0.98"></label><label>Horizon <input id="horizon" type="range" min="250" max="470" value="320"></label><label>Perspective <input id="perspectivePower" type="range" min="0.85" max="1.8" step="0.05" value="1.08"></label><label>Pad lift <input id="padLift" type="range" min="10" max="90" value="34"></label><label>Pad thickness <input id="padThickness" type="range" min="8" max="58" value="24"></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
-    <details open><summary>Choice Rows / Glowing Pads</summary><div class="rowbar"><button id="addRowBtn">+ Add Row</button><label>Row gap <input id="rowGap" type="range" min="0.14" max="0.32" step="0.01" value="0.19"></label></div><div id="rows" class="rows"></div></details>
+    <details open><summary>Runner / Character</summary><div class="grid"><label>Runner PNG/WebP <input id="runnerInput" type="file" accept="image/png,image/webp,image/jpeg"></label><label class="toggle"><input id="runnerRemoveBg" type="checkbox" checked> Auto remove border background</label><label>Runner size <input id="runnerSize" type="range" min="70" max="360" value="135"></label><label>Runner X <input id="runnerX" type="range" min="-260" max="260" value="0"></label><label>Runner Y <input id="runnerY" type="range" min="760" max="1210" value="1095"></label></div></details>
+    <details open><summary>Final Target / Enemy</summary><div class="grid"><label>Target PNG/WebP <input id="targetInput" type="file" accept="image/png,image/webp,image/jpeg"></label><label class="toggle"><input id="targetRemoveBg" type="checkbox" checked> Auto remove border background</label><label>Target size <input id="targetSize" type="range" min="45" max="300" value="120"></label><label>Target distance <input id="targetZ" type="range" min="0.02" max="0.34" step="0.01" value="0.05"></label></div></details>
+    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.06" max="0.75" step="0.01" value="0.22"></label><label>Road width <input id="roadWidth" type="range" min="0.78" max="1.08" step="0.01" value="1.02"></label><label>Horizon <input id="horizon" type="range" min="250" max="470" value="595"></label><label>Perspective <input id="perspectivePower" type="range" min="0.85" max="1.8" step="0.05" value="1.22"></label><label>Pad lift <input id="padLift" type="range" min="10" max="90" value="18"></label><label>Pad thickness <input id="padThickness" type="range" min="8" max="58" value="12"></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Choice Rows / Glowing Pads</summary><div class="rowbar"><button id="addRowBtn">+ Add Row</button><label>Row gap <input id="rowGap" type="range" min="0.14" max="0.32" step="0.01" value="0.18"></label></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
 
@@ -164,17 +164,17 @@ const $=id=>document.getElementById(id);
 let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
-  speed:0.23,
-  roadWidth:0.98,
-  horizon:320,
-  perspectivePower:1.08,
-  padLift:34,
-  padThickness:24,
-  rowGap:0.19,
+  speed:0.22,
+  roadWidth:1.02,
+  horizon:595,
+  perspectivePower:1.22,
+  padLift:18,
+  padThickness:12,
+  rowGap:0.18,
   speedLines:true,
   roadShine:true,
-  runner:null, runnerSrc:null, runnerRemoveBg:true, runnerSize:145, runnerX:0, runnerY:1070,
-  target:null, targetSrc:null, targetRemoveBg:true, targetSize:115, targetZ:0.06,
+  runner:null, runnerSrc:null, runnerRemoveBg:true, runnerSize:135, runnerX:0, runnerY:1095,
+  target:null, targetSrc:null, targetRemoveBg:true, targetSize:120, targetZ:0.05,
   rows:[]
 };
 
@@ -260,8 +260,8 @@ for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green'
 function easeZ(z){z=Math.max(0,Math.min(1,z)); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
   const e=easeZ(z);
-  const topHalf=84;
-  const bottomHalf=W*0.49*state.roadWidth;
+  const topHalf=76;
+  const bottomHalf=W*0.495*state.roadWidth;
   const y=state.horizon + (H - state.horizon) * e;
   const half=topHalf + (bottomHalf-topHalf) * e;
   return {e,y,l:W/2-half,r:W/2+half,half};
@@ -279,7 +279,7 @@ function drawBackground(){
     ctx.save();
     ctx.strokeStyle='rgba(255,255,255,.45)';
     ctx.lineCap='round';
-    for(let i=0;i<16;i++){
+    for(let i=0;i<13;i++){
       const sideDir=i%2===0?-1:1;
       const z=(i*0.075 + roadTime*state.speed*0.75)%1;
       const e=easeZ(z);
@@ -302,7 +302,7 @@ function drawRoad(){
   drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]], '#9d979a');
 
   for(let i=0;i<16;i++){
-    const z0=(i/16 + roadTime*state.speed)%1;
+    const z0=(i/13 + roadTime*state.speed)%1;
     const z1=z0+0.08;
     if(z1>1) continue;
     const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
@@ -338,45 +338,62 @@ function drawRoad(){
 }
 
 function drawRaisedPad(z, side, color){
-  const a=roadBoundsAtZ(z);
-  const b=roadBoundsAtZ(Math.min(1,z+0.06));
-  const innerMarginA=Math.max(16, 26 + 12*a.e);
-  const innerMarginB=Math.max(18, 28 + 12*b.e);
-  const laneStartA = side==='left' ? a.l + innerMarginA : W/2 + innerMarginA*0.45;
-  const laneEndA   = side==='left' ? W/2 - innerMarginA*0.45 : a.r - innerMarginA;
-  const laneStartB = side==='left' ? b.l + innerMarginB : W/2 + innerMarginB*0.45;
-  const laneEndB   = side==='left' ? W/2 - innerMarginB*0.45 : b.r - innerMarginB;
-  const topPts=[[laneStartA,a.y],[laneEndA,a.y],[laneEndB,b.y],[laneStartB,b.y]];
-  const lift=state.padLift*(0.28 + 0.85*a.e);
-  const thickness=state.padThickness*(0.30 + 0.70*a.e);
-  const raisedTop=topPts.map(([x,y])=>[x,y-lift]);
-  const frontFace=[raisedTop[3],raisedTop[2],topPts[1],topPts[0]];
-  const sideFace=side==='left' ? [raisedTop[1],raisedTop[2],topPts[1]] : [raisedTop[0],raisedTop[3],topPts[0]];
-  const glow=color==='red' ? '255,64,64' : '67,255,147';
-  const edge=color==='red' ? 'rgba(255,180,180,.42)' : 'rgba(220,255,234,.42)';
+  const p=roadBoundsAtZ(z);
+  const e=p.e;
 
+  // Compact horizontal gate/pad like the reference:
+  // follow the lane centre, but do not fill the entire half of the road.
+  const laneCenter = side==='left'
+    ? W/2 - p.half*0.48
+    : W/2 + p.half*0.48;
+
+  const width = Math.max(66, p.half * 0.82);
+  const height = Math.max(30, width * 0.34);
+  const lift = state.padLift * (0.45 + 0.70*e);
+  const thickness = state.padThickness * (0.45 + 0.65*e);
+  const x = laneCenter;
+  const y = p.y - lift;
+
+  const rgb = color==='red' ? '255,55,55' : '54,255,142';
+  const dark = color==='red' ? 'rgba(132,28,28,.64)' : 'rgba(18,105,57,.62)';
+
+  // soft ground shadow, clearly separated from the top glowing plate
   ctx.save();
-  ctx.fillStyle='rgba(0,0,0,.18)';
-  const shadow=topPts.map(([x,y])=>[x,y+6+6*a.e]);
-  drawPoly(shadow,'rgba(0,0,0,.16)');
+  ctx.fillStyle='rgba(0,0,0,.16)';
+  ctx.beginPath();
+  ctx.roundRect(x-width/2+3, y+height/2+thickness, width-6, Math.max(8,thickness), 7);
+  ctx.fill();
   ctx.restore();
 
-  drawPoly(frontFace, color==='red' ? 'rgba(155,34,34,.78)' : 'rgba(26,128,69,.76)');
-  drawPoly(sideFace, color==='red' ? 'rgba(120,24,24,.54)' : 'rgba(18,96,52,.52)');
-
+  // thin front edge gives the "slightly lifted" feeling
   ctx.save();
-  ctx.shadowColor='rgb('+glow+')';
-  ctx.shadowBlur=16 + 26*a.e;
-  drawPoly(raisedTop, 'rgba('+glow+',.88)');
-  ctx.strokeStyle=edge;
-  ctx.lineWidth=1.4;
-  ctx.beginPath(); ctx.moveTo(raisedTop[0][0],raisedTop[0][1]); for(let i=1;i<raisedTop.length;i++) ctx.lineTo(raisedTop[i][0],raisedTop[i][1]); ctx.closePath(); ctx.stroke();
+  ctx.fillStyle=dark;
+  ctx.beginPath();
+  ctx.roundRect(x-width/2, y-height/2+thickness, width, Math.max(7,thickness), 6);
+  ctx.fill();
   ctx.restore();
 
-  const center=averagePoint(raisedTop);
-  return {center, scale:(0.26 + 1.02*((a.e+b.e)/2)), lift, topPts:raisedTop, roadPts:topPts};
+  // glowing top surface
+  ctx.save();
+  ctx.shadowColor='rgb('+rgb+')';
+  ctx.shadowBlur=12 + 22*e;
+  ctx.fillStyle='rgba('+rgb+',.90)';
+  ctx.beginPath();
+  ctx.roundRect(x-width/2, y-height/2, width, height, 7+8*e);
+  ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,.28)';
+  ctx.lineWidth=1.2;
+  ctx.stroke();
+  ctx.restore();
+
+  return {
+    center:[x,y],
+    scale:0.30 + 0.92*e,
+    width,
+    height,
+    e
+  };
 }
-
 function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
   if(!im) return;
   const iw=im.naturalWidth||im.width, ih=im.naturalHeight||im.height;
@@ -405,27 +422,35 @@ function placeholder(x,y,w,h,label){
 
 function drawTarget(){
   const p=roadBoundsAtZ(state.targetZ);
-  const size=state.targetSize*(0.26 + 0.84*p.e);
-  const y=p.y - state.padLift*(0.1 + 0.52*p.e) - 10;
+  const size=state.targetSize*(0.30 + 0.80*p.e);
+  const y=p.y - 18;
   if(state.target) drawImageFit(state.target, W/2, y, size, size, 'bottom');
-  else placeholder(W/2, y-size*0.18, size*0.62, size*0.40, 'TARGET');
+  else placeholder(W/2, y-size*0.12, size*0.62, size*0.36, 'TARGET');
 }
 
 function drawRows(){
   state.rows.forEach((row,i)=>{
-    const z=(i*state.rowGap + roadTime*state.speed*0.9)%1;
-    if(z<0.04 || z>0.87) return;
+    const z=(i*state.rowGap + roadTime*state.speed*0.90)%1;
+    if(z<0.035 || z>0.91) return;
+
     const left=drawRaisedPad(z,'left',row.leftColor);
     const right=drawRaisedPad(z,'right',row.rightColor);
-    const boxWL=(left.topPts[1][0]-left.topPts[0][0])*0.52;
-    const boxWR=(right.topPts[1][0]-right.topPts[0][0])*0.52;
-    const boxH=28 + 84*Math.max(left.scale,right.scale)*0.36;
-    const yL=left.center[1]-8; const yR=right.center[1]-8;
-    row.leftImg ? drawImageFit(row.leftImg,left.center[0],yL,row.leftSize*left.scale,row.leftSize*left.scale,'bottom') : placeholder(left.center[0],yL-10,54+40*left.scale,30+24*left.scale,'PNG');
-    row.rightImg ? drawImageFit(row.rightImg,right.center[0],yR,row.rightSize*right.scale,row.rightSize*right.scale,'bottom') : placeholder(right.center[0],yR-10,54+40*right.scale,30+24*right.scale,'PNG');
+
+    // Put PNG slightly above the glowing bar, just like the reference.
+    const leftBox=Math.min(row.leftSize*left.scale, left.width*0.92);
+    const rightBox=Math.min(row.rightSize*right.scale, right.width*0.92);
+    const leftY=left.center[1] + left.height*0.12;
+    const rightY=right.center[1] + right.height*0.12;
+
+    row.leftImg
+      ? drawImageFit(row.leftImg,left.center[0],leftY,leftBox,leftBox,'bottom')
+      : placeholder(left.center[0],left.center[1],Math.min(78,left.width*.58),Math.min(42,left.height*.64),'PNG');
+
+    row.rightImg
+      ? drawImageFit(row.rightImg,right.center[0],rightY,rightBox,rightBox,'bottom')
+      : placeholder(right.center[0],right.center[1],Math.min(78,right.width*.58),Math.min(42,right.height*.64),'PNG');
   });
 }
-
 function drawRunner(){
   const bob=Math.sin(roadTime*8)*3;
   const x=W/2+state.runnerX;
@@ -463,11 +488,11 @@ $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pau
 $('resetBtn').onclick=()=>roadTime=0;
 $('saveBtn').onclick=()=>{
   const save={...state, runner:null, target:null, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};
-  localStorage.setItem('runnerStudioV3', JSON.stringify(save));
+  localStorage.setItem('runnerStudioV4', JSON.stringify(save));
   alert('Saved on this device');
 };
 $('loadBtn').onclick=async()=>{
-  const raw=localStorage.getItem('runnerStudioV3');
+  const raw=localStorage.getItem('runnerStudioV4');
   if(!raw) return alert('No save found on this device');
   const s=JSON.parse(raw);
   Object.assign(state,s);
@@ -529,4 +554,4 @@ const server=http.createServer(async(req,res)=>{
   return send(res,404,'Not found');
 });
 
-server.listen(PORT,()=>console.log(`Private Runner Studio V3 running on http://localhost:${PORT}`));
+server.listen(PORT,()=>console.log(`Private Runner Studio V4 running on http://localhost:${PORT}`));
