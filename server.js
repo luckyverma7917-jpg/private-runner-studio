@@ -83,7 +83,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio V3</title>
+<title>Private Runner Studio Front Highway</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -112,19 +112,17 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V3 GAME</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">FRONT HIGHWAY</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">V3 gives a more game-like vertical highway, more visible road from the bottom, a clearer far target, and raised glowing pads that float slightly above the road like the reference shorts. Best results: use transparent PNG or WebP.</div>
+    <div class="note">This version removes the fixed runner PNG and target PNG. Only the moving highway and raised glowing pads remain. The road is more front-facing from the bottom so it feels closer to what you see in runner shorts.</div>
   </section>
   <section class="controls">
-    <details open><summary>Runner / Character</summary><div class="grid"><label>Runner PNG/WebP <input id="runnerInput" type="file" accept="image/png,image/webp,image/jpeg"></label><label class="toggle"><input id="runnerRemoveBg" type="checkbox" checked> Auto remove border background</label><label>Runner size <input id="runnerSize" type="range" min="70" max="360" value="145"></label><label>Runner X <input id="runnerX" type="range" min="-260" max="260" value="0"></label><label>Runner Y <input id="runnerY" type="range" min="760" max="1210" value="1070"></label></div></details>
-    <details open><summary>Final Target / Enemy</summary><div class="grid"><label>Target PNG/WebP <input id="targetInput" type="file" accept="image/png,image/webp,image/jpeg"></label><label class="toggle"><input id="targetRemoveBg" type="checkbox" checked> Auto remove border background</label><label>Target size <input id="targetSize" type="range" min="45" max="300" value="115"></label><label>Target distance <input id="targetZ" type="range" min="0.02" max="0.34" step="0.01" value="0.06"></label></div></details>
-    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.06" max="0.75" step="0.01" value="0.23"></label><label>Road width <input id="roadWidth" type="range" min="0.78" max="1.08" step="0.01" value="0.98"></label><label>Horizon <input id="horizon" type="range" min="250" max="470" value="320"></label><label>Perspective <input id="perspectivePower" type="range" min="0.85" max="1.8" step="0.05" value="1.08"></label><label>Pad lift <input id="padLift" type="range" min="10" max="90" value="34"></label><label>Pad thickness <input id="padThickness" type="range" min="8" max="58" value="24"></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.06" max="0.75" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.88" max="1.18" step="0.01" value="1.08"></label><label>Horizon <input id="horizon" type="range" min="320" max="560" value="430"></label><label>Perspective <input id="perspectivePower" type="range" min="0.72" max="1.4" step="0.02" value="0.92"></label><label>Pad lift <input id="padLift" type="range" min="10" max="90" value="34"></label><label>Pad thickness <input id="padThickness" type="range" min="8" max="58" value="22"></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
     <details open><summary>Choice Rows / Glowing Pads</summary><div class="rowbar"><button id="addRowBtn">+ Add Row</button><label>Row gap <input id="rowGap" type="range" min="0.14" max="0.32" step="0.01" value="0.19"></label></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
@@ -164,17 +162,15 @@ const $=id=>document.getElementById(id);
 let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
-  speed:0.23,
-  roadWidth:0.98,
-  horizon:320,
-  perspectivePower:1.08,
+  speed:0.24,
+  roadWidth:1.08,
+  horizon:430,
+  perspectivePower:0.92,
   padLift:34,
-  padThickness:24,
+  padThickness:22,
   rowGap:0.19,
   speedLines:true,
   roadShine:true,
-  runner:null, runnerSrc:null, runnerRemoveBg:true, runnerSize:145, runnerX:0, runnerY:1070,
-  target:null, targetSrc:null, targetRemoveBg:true, targetSize:115, targetZ:0.06,
   rows:[]
 };
 
@@ -212,13 +208,9 @@ function processImageDataUrl(dataUrl, removeBg){
 }
 async function dataToProcessedImage(src, removeBg){return dataToImage(await processImageDataUrl(src, removeBg))}
 function bindRange(id,key){$(id).addEventListener('input',e=>state[key]=Number(e.target.value))}
-['speed','roadWidth','horizon','perspectivePower','padLift','padThickness','rowGap','runnerSize','runnerX','runnerY','targetSize','targetZ'].forEach(id=>bindRange(id,id));
+['speed','roadWidth','horizon','perspectivePower','padLift','padThickness','rowGap'].forEach(id=>bindRange(id,id));
 $('speedLines').onchange=e=>state.speedLines=e.target.checked;
 $('roadShine').onchange=e=>state.roadShine=e.target.checked;
-$('runnerRemoveBg').onchange=async e=>{state.runnerRemoveBg=e.target.checked;if(state.runnerSrc)state.runner=await dataToProcessedImage(state.runnerSrc,state.runnerRemoveBg)};
-$('targetRemoveBg').onchange=async e=>{state.targetRemoveBg=e.target.checked;if(state.targetSrc)state.target=await dataToProcessedImage(state.targetSrc,state.targetRemoveBg)};
-$('runnerInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;state.runnerSrc=await readFile(f);state.runner=await dataToProcessedImage(state.runnerSrc,state.runnerRemoveBg)};
-$('targetInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;state.targetSrc=await readFile(f);state.target=await dataToProcessedImage(state.targetSrc,state.targetRemoveBg)};
 
 function makeId(){return (crypto.randomUUID&&crypto.randomUUID()) || String(Date.now()+Math.random())}
 function addRow(saved={}){
@@ -260,37 +252,36 @@ for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green'
 function easeZ(z){z=Math.max(0,Math.min(1,z)); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
   const e=easeZ(z);
-  const topHalf=84;
-  const bottomHalf=W*0.49*state.roadWidth;
+  const topHalf=78;
+  const bottomHalf=W*0.60*state.roadWidth;
   const y=state.horizon + (H - state.horizon) * e;
   const half=topHalf + (bottomHalf-topHalf) * e;
   return {e,y,l:W/2-half,r:W/2+half,half};
 }
 function lerp(a,b,t){return a+(b-a)*t}
-function pointOnSegment(a,b,t){return [lerp(a[0],b[0],t), lerp(a[1],b[1],t)]}
 function averagePoint(pts){return pts.reduce((s,p)=>[s[0]+p[0],s[1]+p[1]],[0,0]).map(v=>v/pts.length)}
 function drawPoly(pts, fill){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
 
 function drawBackground(){
   const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#16eb8d');g.addColorStop(0.52,'#0cdf80');g.addColorStop(1,'#08b666');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-  const rg=ctx.createRadialGradient(W/2,250,10,W/2,450,600);rg.addColorStop(0,'rgba(255,255,255,.10)');rg.addColorStop(1,'rgba(0,0,0,.13)');ctx.fillStyle=rg;ctx.fillRect(0,0,W,H);
+  const rg=ctx.createRadialGradient(W/2,280,20,W/2,480,700);rg.addColorStop(0,'rgba(255,255,255,.09)');rg.addColorStop(1,'rgba(0,0,0,.14)');ctx.fillStyle=rg;ctx.fillRect(0,0,W,H);
   const side=ctx.createLinearGradient(0,0,W,0);side.addColorStop(0,'rgba(1,44,24,.35)');side.addColorStop(.12,'rgba(255,255,255,.03)');side.addColorStop(.5,'rgba(255,255,255,0)');side.addColorStop(.88,'rgba(255,255,255,.03)');side.addColorStop(1,'rgba(1,44,24,.35)');ctx.fillStyle=side;ctx.fillRect(0,0,W,H);
   if(state.speedLines){
     ctx.save();
-    ctx.strokeStyle='rgba(255,255,255,.45)';
+    ctx.strokeStyle='rgba(255,255,255,.38)';
     ctx.lineCap='round';
-    for(let i=0;i<16;i++){
+    for(let i=0;i<14;i++){
       const sideDir=i%2===0?-1:1;
-      const z=(i*0.075 + roadTime*state.speed*0.75)%1;
+      const z=(i*0.082 + roadTime*state.speed*0.78)%1;
       const e=easeZ(z);
       const y=state.horizon - 120 + (H-state.horizon+120)*e;
-      const x=sideDir<0 ? lerp(58,170,e) : lerp(W-58,W-170,e);
-      const len=16 + 118*e;
-      ctx.globalAlpha=0.12 + 0.48*e;
+      const x=sideDir<0 ? lerp(70,150,e) : lerp(W-70,W-150,e);
+      const len=16 + 130*e;
+      ctx.globalAlpha=0.09 + 0.42*e;
       ctx.lineWidth=2 + 3.2*e;
       ctx.beginPath();
-      ctx.moveTo(x,y-len*0.7);
-      ctx.lineTo(x+sideDir*12*e,y+len*0.3);
+      ctx.moveTo(x,y-len*0.65);
+      ctx.lineTo(x+sideDir*6*e,y+len*0.35);
       ctx.stroke();
     }
     ctx.restore();
@@ -299,20 +290,20 @@ function drawBackground(){
 
 function drawRoad(){
   const top=roadBoundsAtZ(0), bottom=roadBoundsAtZ(1);
-  drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]], '#9d979a');
+  drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]], '#9e999b');
 
-  for(let i=0;i<16;i++){
-    const z0=(i/16 + roadTime*state.speed)%1;
-    const z1=z0+0.08;
+  for(let i=0;i<12;i++){
+    const z0=(i/12 + roadTime*state.speed)%1;
+    const z1=z0+0.11;
     if(z1>1) continue;
     const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    drawPoly([[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]], i%2 ? 'rgba(255,255,255,.04)' : 'rgba(63,50,56,.065)');
+    drawPoly([[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]], i%2 ? 'rgba(255,255,255,.038)' : 'rgba(60,49,54,.07)');
   }
 
   if(state.roadShine){
     ctx.save();
-    ctx.strokeStyle='rgba(255,255,255,.52)';
-    ctx.lineWidth=2.2;
+    ctx.strokeStyle='rgba(255,255,255,.55)';
+    ctx.lineWidth=2.4;
     ctx.beginPath();
     ctx.moveTo(top.l,top.y);ctx.lineTo(bottom.l,H);
     ctx.moveTo(top.r,top.y);ctx.lineTo(bottom.r,H);
@@ -321,16 +312,16 @@ function drawRoad(){
   }
 
   ctx.save();
-  ctx.strokeStyle='rgba(255,255,255,.62)';
+  ctx.strokeStyle='rgba(255,255,255,.56)';
   ctx.lineCap='round';
   for(let i=0;i<7;i++){
-    const z=(i*0.16 + roadTime*state.speed*1.3)%1;
-    if(z<0.34) continue;
-    const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+0.08));
+    const z=(i*0.15 + roadTime*state.speed*1.18)%1;
+    if(z<0.30) continue;
+    const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+0.10));
     const laneL=lerp(a.l,W/2,0.34), laneLb=lerp(b.l,W/2,0.34);
     const laneR=lerp(a.r,W/2,0.34), laneRb=lerp(b.r,W/2,0.34);
-    ctx.globalAlpha=(z-0.25)*0.95;
-    ctx.lineWidth=1.8 + 3.3*z;
+    ctx.globalAlpha=Math.min(0.86,(z-0.20)*0.95);
+    ctx.lineWidth=2 + 3.6*z;
     ctx.beginPath();ctx.moveTo(laneL,a.y);ctx.lineTo(laneLb,b.y);ctx.stroke();
     ctx.beginPath();ctx.moveTo(laneR,a.y);ctx.lineTo(laneRb,b.y);ctx.stroke();
   }
@@ -339,42 +330,37 @@ function drawRoad(){
 
 function drawRaisedPad(z, side, color){
   const a=roadBoundsAtZ(z);
-  const b=roadBoundsAtZ(Math.min(1,z+0.06));
-  const innerMarginA=Math.max(16, 26 + 12*a.e);
-  const innerMarginB=Math.max(18, 28 + 12*b.e);
-  const laneStartA = side==='left' ? a.l + innerMarginA : W/2 + innerMarginA*0.45;
-  const laneEndA   = side==='left' ? W/2 - innerMarginA*0.45 : a.r - innerMarginA;
-  const laneStartB = side==='left' ? b.l + innerMarginB : W/2 + innerMarginB*0.45;
-  const laneEndB   = side==='left' ? W/2 - innerMarginB*0.45 : b.r - innerMarginB;
+  const b=roadBoundsAtZ(Math.min(1,z+0.075));
+  const innerMarginA=Math.max(16, 26 + 10*a.e);
+  const innerMarginB=Math.max(18, 28 + 10*b.e);
+  const laneStartA = side==='left' ? a.l + innerMarginA : W/2 + innerMarginA*0.42;
+  const laneEndA   = side==='left' ? W/2 - innerMarginA*0.42 : a.r - innerMarginA;
+  const laneStartB = side==='left' ? b.l + innerMarginB : W/2 + innerMarginB*0.42;
+  const laneEndB   = side==='left' ? W/2 - innerMarginB*0.42 : b.r - innerMarginB;
   const topPts=[[laneStartA,a.y],[laneEndA,a.y],[laneEndB,b.y],[laneStartB,b.y]];
-  const lift=state.padLift*(0.28 + 0.85*a.e);
-  const thickness=state.padThickness*(0.30 + 0.70*a.e);
+  const lift=state.padLift*(0.28 + 0.82*a.e);
+  const thickness=state.padThickness*(0.34 + 0.72*a.e);
   const raisedTop=topPts.map(([x,y])=>[x,y-lift]);
-  const frontFace=[raisedTop[3],raisedTop[2],topPts[1],topPts[0]];
-  const sideFace=side==='left' ? [raisedTop[1],raisedTop[2],topPts[1]] : [raisedTop[0],raisedTop[3],topPts[0]];
+  const frontFace=[raisedTop[3],raisedTop[2],[topPts[2][0],topPts[2][1]-thickness],[topPts[3][0],topPts[3][1]-thickness]];
+  const sideFace=side==='left' ? [raisedTop[1],raisedTop[2],[topPts[2][0],topPts[2][1]-thickness],[topPts[1][0],topPts[1][1]-thickness]] : [raisedTop[0],raisedTop[3],[topPts[3][0],topPts[3][1]-thickness],[topPts[0][0],topPts[0][1]-thickness]];
   const glow=color==='red' ? '255,64,64' : '67,255,147';
   const edge=color==='red' ? 'rgba(255,180,180,.42)' : 'rgba(220,255,234,.42)';
 
-  ctx.save();
-  ctx.fillStyle='rgba(0,0,0,.18)';
-  const shadow=topPts.map(([x,y])=>[x,y+6+6*a.e]);
-  drawPoly(shadow,'rgba(0,0,0,.16)');
-  ctx.restore();
-
-  drawPoly(frontFace, color==='red' ? 'rgba(155,34,34,.78)' : 'rgba(26,128,69,.76)');
-  drawPoly(sideFace, color==='red' ? 'rgba(120,24,24,.54)' : 'rgba(18,96,52,.52)');
+  drawPoly(topPts.map(([x,y])=>[x,y+10]),'rgba(0,0,0,.16)');
+  drawPoly(frontFace, color==='red' ? 'rgba(118,27,27,.55)' : 'rgba(22,104,58,.55)');
+  drawPoly(sideFace, color==='red' ? 'rgba(95,22,22,.46)' : 'rgba(18,86,49,.46)');
 
   ctx.save();
   ctx.shadowColor='rgb('+glow+')';
-  ctx.shadowBlur=16 + 26*a.e;
-  drawPoly(raisedTop, 'rgba('+glow+',.88)');
+  ctx.shadowBlur=16 + 24*a.e;
+  drawPoly(raisedTop, 'rgba('+glow+',.92)');
   ctx.strokeStyle=edge;
   ctx.lineWidth=1.4;
   ctx.beginPath(); ctx.moveTo(raisedTop[0][0],raisedTop[0][1]); for(let i=1;i<raisedTop.length;i++) ctx.lineTo(raisedTop[i][0],raisedTop[i][1]); ctx.closePath(); ctx.stroke();
   ctx.restore();
 
   const center=averagePoint(raisedTop);
-  return {center, scale:(0.26 + 1.02*((a.e+b.e)/2)), lift, topPts:raisedTop, roadPts:topPts};
+  return {center, scale:(0.26 + 1.02*((a.e+b.e)/2)), topPts:raisedTop};
 }
 
 function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
@@ -386,64 +372,18 @@ function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
   const dy=anchor==='center' ? y-dh/2 : y-dh;
   ctx.drawImage(im,dx,dy,dw,dh);
 }
-function placeholder(x,y,w,h,label){
-  ctx.save();
-  ctx.fillStyle='rgba(0,0,0,.25)';
-  ctx.strokeStyle='rgba(255,255,255,.72)';
-  ctx.lineWidth=2;
-  ctx.beginPath();
-  ctx.roundRect(x-w/2,y-h/2,w,h,12);
-  ctx.fill();
-  ctx.stroke();
-  ctx.fillStyle='#fff';
-  ctx.font='800 '+Math.max(13,h*0.36)+'px system-ui';
-  ctx.textAlign='center';
-  ctx.textBaseline='middle';
-  ctx.fillText(label,x,y+1);
-  ctx.restore();
-}
-
-function drawTarget(){
-  const p=roadBoundsAtZ(state.targetZ);
-  const size=state.targetSize*(0.26 + 0.84*p.e);
-  const y=p.y - state.padLift*(0.1 + 0.52*p.e) - 10;
-  if(state.target) drawImageFit(state.target, W/2, y, size, size, 'bottom');
-  else placeholder(W/2, y-size*0.18, size*0.62, size*0.40, 'TARGET');
-}
 
 function drawRows(){
   state.rows.forEach((row,i)=>{
-    const z=(i*state.rowGap + roadTime*state.speed*0.9)%1;
-    if(z<0.04 || z>0.87) return;
+    const z=(i*state.rowGap + roadTime*state.speed*0.88)%1;
+    if(z<0.05 || z>0.86) return;
     const left=drawRaisedPad(z,'left',row.leftColor);
     const right=drawRaisedPad(z,'right',row.rightColor);
-    const boxWL=(left.topPts[1][0]-left.topPts[0][0])*0.52;
-    const boxWR=(right.topPts[1][0]-right.topPts[0][0])*0.52;
-    const boxH=28 + 84*Math.max(left.scale,right.scale)*0.36;
-    const yL=left.center[1]-8; const yR=right.center[1]-8;
-    row.leftImg ? drawImageFit(row.leftImg,left.center[0],yL,row.leftSize*left.scale,row.leftSize*left.scale,'bottom') : placeholder(left.center[0],yL-10,54+40*left.scale,30+24*left.scale,'PNG');
-    row.rightImg ? drawImageFit(row.rightImg,right.center[0],yR,row.rightSize*right.scale,row.rightSize*right.scale,'bottom') : placeholder(right.center[0],yR-10,54+40*right.scale,30+24*right.scale,'PNG');
+    const yL=left.center[1]-6;
+    const yR=right.center[1]-6;
+    if(row.leftImg) drawImageFit(row.leftImg,left.center[0],yL,row.leftSize*left.scale,row.leftSize*left.scale,'bottom');
+    if(row.rightImg) drawImageFit(row.rightImg,right.center[0],yR,row.rightSize*right.scale,row.rightSize*right.scale,'bottom');
   });
-}
-
-function drawRunner(){
-  const bob=Math.sin(roadTime*8)*3;
-  const x=W/2+state.runnerX;
-  const y=state.runnerY+bob;
-  if(state.runner){
-    ctx.save();
-    ctx.shadowColor='rgba(0,0,0,.30)';
-    ctx.shadowBlur=16;
-    ctx.shadowOffsetY=10;
-    drawImageFit(state.runner,x,y,state.runnerSize,state.runnerSize,'bottom');
-    ctx.restore();
-  }else{
-    ctx.save();
-    ctx.fillStyle='#f2f0f0';
-    ctx.beginPath();ctx.arc(x,y-state.runnerSize*0.62,state.runnerSize*0.18,0,Math.PI*2);ctx.fill();
-    ctx.fillRect(x-state.runnerSize*0.24,y-state.runnerSize*0.46,state.runnerSize*0.48,state.runnerSize*0.46);
-    ctx.fillStyle='#171719';ctx.font='800 '+Math.max(15,state.runnerSize*0.11)+'px system-ui';ctx.textAlign='center';ctx.fillText('YOUR PNG',x,y-state.runnerSize*0.18);ctx.restore();
-  }
 }
 
 function frame(now){
@@ -452,9 +392,7 @@ function frame(now){
   if(running) roadTime+=dt;
   drawBackground();
   drawRoad();
-  drawTarget();
   drawRows();
-  drawRunner();
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
@@ -462,20 +400,22 @@ requestAnimationFrame(frame);
 $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pause':'Play'};
 $('resetBtn').onclick=()=>roadTime=0;
 $('saveBtn').onclick=()=>{
-  const save={...state, runner:null, target:null, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};
-  localStorage.setItem('runnerStudioV3', JSON.stringify(save));
+  const save={...state, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};
+  localStorage.setItem('runnerStudioFrontOnly', JSON.stringify(save));
   alert('Saved on this device');
 };
 $('loadBtn').onclick=async()=>{
-  const raw=localStorage.getItem('runnerStudioV3');
+  const raw=localStorage.getItem('runnerStudioFrontOnly');
   if(!raw) return alert('No save found on this device');
   const s=JSON.parse(raw);
   Object.assign(state,s);
-  ['speed','roadWidth','horizon','perspectivePower','padLift','padThickness','rowGap','runnerSize','runnerX','runnerY','targetSize','targetZ'].forEach(id=>$(id).value=state[id]);
-  $('speedLines').checked=state.speedLines; $('roadShine').checked=state.roadShine; $('runnerRemoveBg').checked=state.runnerRemoveBg; $('targetRemoveBg').checked=state.targetRemoveBg;
-  if(state.runnerSrc) state.runner=await dataToProcessedImage(state.runnerSrc,state.runnerRemoveBg); else state.runner=null;
-  if(state.targetSrc) state.target=await dataToProcessedImage(state.targetSrc,state.targetRemoveBg); else state.target=null;
-  $('rows').innerHTML=''; state.rows=[]; rowCounter=0; (s.rows||[]).forEach(addRow);
+  ['speed','roadWidth','horizon','perspectivePower','padLift','padThickness','rowGap'].forEach(id=>$(id).value=state[id]);
+  $('speedLines').checked=state.speedLines;
+  $('roadShine').checked=state.roadShine;
+  $('rows').innerHTML='';
+  state.rows=[];
+  rowCounter=0;
+  (s.rows||[]).forEach(addRow);
   alert('Loaded');
 };
 $('logoutBtn').onclick=async()=>{await fetch('/api/logout',{method:'POST'});location.href='/'};
@@ -529,4 +469,4 @@ const server=http.createServer(async(req,res)=>{
   return send(res,404,'Not found');
 });
 
-server.listen(PORT,()=>console.log(`Private Runner Studio V3 running on http://localhost:${PORT}`));
+server.listen(PORT,()=>console.log(`Private Runner Studio Front Highway running on http://localhost:${PORT}`));
