@@ -83,7 +83,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Front Highway</title>
+<title>Private Runner Studio V5 Final</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -112,17 +112,17 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">FRONT HIGHWAY</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V5 FINAL</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">This version removes the fixed runner PNG and target PNG. Only the moving highway and raised glowing pads remain. The road is more front-facing from the bottom so it feels closer to what you see in runner shorts.</div>
+    <div class="note">V5 Final: normal front-facing moving highway with no runner or target. The road stays visually normal instead of becoming too thin in the distance. Red/green pads are standing light panels with a soft fade at the top; upload your own PNGs into each pad.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.06" max="0.75" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.88" max="1.18" step="0.01" value="1.08"></label><label>Horizon <input id="horizon" type="range" min="320" max="560" value="430"></label><label>Perspective <input id="perspectivePower" type="range" min="0.72" max="1.4" step="0.02" value="0.92"></label><label>Pad lift <input id="padLift" type="range" min="10" max="90" value="34"></label><label>Pad thickness <input id="padThickness" type="range" min="8" max="58" value="22"></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.06" max="0.75" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.88" max="1.18" step="0.01" value="1.00"></label><label>Horizon <input id="horizon" type="range" min="320" max="560" value="420"></label><label>Perspective <input id="perspectivePower" type="range" min="0.72" max="1.4" step="0.02" value="1.00"></label><label>Pad lift <input id="padLift" type="range" min="10" max="90" value="10"></label><label>Pad thickness <input id="padThickness" type="range" min="8" max="58" value="16"></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
     <details open><summary>Choice Rows / Glowing Pads</summary><div class="rowbar"><button id="addRowBtn">+ Add Row</button><label>Row gap <input id="rowGap" type="range" min="0.14" max="0.32" step="0.01" value="0.19"></label></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
@@ -163,11 +163,11 @@ let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
   speed:0.24,
-  roadWidth:1.08,
-  horizon:430,
-  perspectivePower:0.92,
-  padLift:34,
-  padThickness:22,
+  roadWidth:1.00,
+  horizon:420,
+  perspectivePower:1.00,
+  padLift:10,
+  padThickness:16,
   rowGap:0.19,
   speedLines:true,
   roadShine:true,
@@ -252,8 +252,9 @@ for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green'
 function easeZ(z){z=Math.max(0,Math.min(1,z)); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
   const e=easeZ(z);
-  const topHalf=78;
-  const bottomHalf=W*0.60*state.roadWidth;
+  // Keep the highway normal even in the distance: only mild perspective narrowing.
+  const topHalf=238;
+  const bottomHalf=W*0.49*state.roadWidth;
   const y=state.horizon + (H - state.horizon) * e;
   const half=topHalf + (bottomHalf-topHalf) * e;
   return {e,y,l:W/2-half,r:W/2+half,half};
@@ -329,40 +330,67 @@ function drawRoad(){
 }
 
 function drawRaisedPad(z, side, color){
-  const a=roadBoundsAtZ(z);
-  const b=roadBoundsAtZ(Math.min(1,z+0.075));
-  const innerMarginA=Math.max(16, 26 + 10*a.e);
-  const innerMarginB=Math.max(18, 28 + 10*b.e);
-  const laneStartA = side==='left' ? a.l + innerMarginA : W/2 + innerMarginA*0.42;
-  const laneEndA   = side==='left' ? W/2 - innerMarginA*0.42 : a.r - innerMarginA;
-  const laneStartB = side==='left' ? b.l + innerMarginB : W/2 + innerMarginB*0.42;
-  const laneEndB   = side==='left' ? W/2 - innerMarginB*0.42 : b.r - innerMarginB;
-  const topPts=[[laneStartA,a.y],[laneEndA,a.y],[laneEndB,b.y],[laneStartB,b.y]];
-  const lift=state.padLift*(0.28 + 0.82*a.e);
-  const thickness=state.padThickness*(0.34 + 0.72*a.e);
-  const raisedTop=topPts.map(([x,y])=>[x,y-lift]);
-  const frontFace=[raisedTop[3],raisedTop[2],[topPts[2][0],topPts[2][1]-thickness],[topPts[3][0],topPts[3][1]-thickness]];
-  const sideFace=side==='left' ? [raisedTop[1],raisedTop[2],[topPts[2][0],topPts[2][1]-thickness],[topPts[1][0],topPts[1][1]-thickness]] : [raisedTop[0],raisedTop[3],[topPts[3][0],topPts[3][1]-thickness],[topPts[0][0],topPts[0][1]-thickness]];
-  const glow=color==='red' ? '255,64,64' : '67,255,147';
-  const edge=color==='red' ? 'rgba(255,180,180,.42)' : 'rgba(220,255,234,.42)';
+  const p=roadBoundsAtZ(z);
+  const e=p.e;
 
-  drawPoly(topPts.map(([x,y])=>[x,y+10]),'rgba(0,0,0,.16)');
-  drawPoly(frontFace, color==='red' ? 'rgba(118,27,27,.55)' : 'rgba(22,104,58,.55)');
-  drawPoly(sideFace, color==='red' ? 'rgba(95,22,22,.46)' : 'rgba(18,86,49,.46)');
+  // Standing pad / light wall. It is NOT a flat floor pad.
+  // Far pads stay readable; near pads grow naturally but not excessively.
+  const laneCenter = side==='left'
+    ? W/2 - p.half*0.47
+    : W/2 + p.half*0.47;
 
+  const scale = 0.72 + 0.46*e;
+  const width = (118 + 74*e) * scale;
+  const height = (76 + 78*e) * scale;
+  const baseY = p.y - 4 - state.padLift*(0.18 + 0.25*e);
+  const topY = baseY - height;
+  const rgb = color==='red' ? '255,55,55' : '54,255,142';
+  const dark = color==='red' ? '130,24,24' : '18,108,58';
+
+  // Small shadow on road so the panel feels planted/upright.
   ctx.save();
-  ctx.shadowColor='rgb('+glow+')';
-  ctx.shadowBlur=16 + 24*a.e;
-  drawPoly(raisedTop, 'rgba('+glow+',.92)');
-  ctx.strokeStyle=edge;
-  ctx.lineWidth=1.4;
-  ctx.beginPath(); ctx.moveTo(raisedTop[0][0],raisedTop[0][1]); for(let i=1;i<raisedTop.length;i++) ctx.lineTo(raisedTop[i][0],raisedTop[i][1]); ctx.closePath(); ctx.stroke();
+  ctx.fillStyle='rgba(0,0,0,.15)';
+  ctx.beginPath();
+  ctx.ellipse(laneCenter, baseY+6, width*0.42, Math.max(5,9+9*e), 0, 0, Math.PI*2);
+  ctx.fill();
   ctx.restore();
 
-  const center=averagePoint(raisedTop);
-  return {center, scale:(0.26 + 1.02*((a.e+b.e)/2)), topPts:raisedTop};
-}
+  // Thin darker base edge.
+  ctx.save();
+  ctx.fillStyle='rgba('+dark+',.62)';
+  ctx.beginPath();
+  ctx.roundRect(laneCenter-width/2, baseY-state.padThickness*0.28, width, state.padThickness*(0.5+0.45*e), 6);
+  ctx.fill();
+  ctx.restore();
 
+  // Upright glowing face: strong near the bottom, softly disappearing upward.
+  const g=ctx.createLinearGradient(0,baseY,0,topY);
+  g.addColorStop(0,'rgba('+rgb+',.94)');
+  g.addColorStop(.42,'rgba('+rgb+',.78)');
+  g.addColorStop(.78,'rgba('+rgb+',.34)');
+  g.addColorStop(1,'rgba('+rgb+',0)');
+
+  ctx.save();
+  ctx.shadowColor='rgb('+rgb+')';
+  ctx.shadowBlur=14+20*e;
+  ctx.fillStyle=g;
+  ctx.beginPath();
+  ctx.roundRect(laneCenter-width/2, topY, width, height, 10);
+  ctx.fill();
+  ctx.restore();
+
+  // Bright lower rim, exactly where the light meets the road.
+  ctx.save();
+  ctx.strokeStyle='rgba('+rgb+',.92)';
+  ctx.lineWidth=2+1.2*e;
+  ctx.beginPath();
+  ctx.moveTo(laneCenter-width*.46,baseY-1);
+  ctx.lineTo(laneCenter+width*.46,baseY-1);
+  ctx.stroke();
+  ctx.restore();
+
+  return {center:[laneCenter, baseY-height*0.42], baseY, width, height, scale};
+}
 function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
   if(!im) return;
   const iw=im.naturalWidth||im.width, ih=im.naturalHeight||im.height;
@@ -376,16 +404,20 @@ function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
 function drawRows(){
   state.rows.forEach((row,i)=>{
     const z=(i*state.rowGap + roadTime*state.speed*0.88)%1;
-    if(z<0.05 || z>0.86) return;
+    if(z<0.045 || z>0.90) return;
+
     const left=drawRaisedPad(z,'left',row.leftColor);
     const right=drawRaisedPad(z,'right',row.rightColor);
-    const yL=left.center[1]-6;
-    const yR=right.center[1]-6;
-    if(row.leftImg) drawImageFit(row.leftImg,left.center[0],yL,row.leftSize*left.scale,row.leftSize*left.scale,'bottom');
-    if(row.rightImg) drawImageFit(row.rightImg,right.center[0],yR,row.rightSize*right.scale,row.rightSize*right.scale,'bottom');
+
+    // PNG sits naturally inside/on the standing light panel.
+    // Far PNGs stay visible and grow to normal size as they approach.
+    const leftSize=Math.min(row.leftSize*(0.70+0.44*z), left.width*0.88);
+    const rightSize=Math.min(row.rightSize*(0.70+0.44*z), right.width*0.88);
+
+    if(row.leftImg) drawImageFit(row.leftImg,left.center[0],left.baseY-8,leftSize,leftSize,'bottom');
+    if(row.rightImg) drawImageFit(row.rightImg,right.center[0],right.baseY-8,rightSize,rightSize,'bottom');
   });
 }
-
 function frame(now){
   const dt=Math.min(0.05,(now-last)/1000);
   last=now;
@@ -401,11 +433,11 @@ $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pau
 $('resetBtn').onclick=()=>roadTime=0;
 $('saveBtn').onclick=()=>{
   const save={...state, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};
-  localStorage.setItem('runnerStudioFrontOnly', JSON.stringify(save));
+  localStorage.setItem('runnerStudioV5Final', JSON.stringify(save));
   alert('Saved on this device');
 };
 $('loadBtn').onclick=async()=>{
-  const raw=localStorage.getItem('runnerStudioFrontOnly');
+  const raw=localStorage.getItem('runnerStudioV5Final');
   if(!raw) return alert('No save found on this device');
   const s=JSON.parse(raw);
   Object.assign(state,s);
@@ -469,4 +501,4 @@ const server=http.createServer(async(req,res)=>{
   return send(res,404,'Not found');
 });
 
-server.listen(PORT,()=>console.log(`Private Runner Studio Front Highway running on http://localhost:${PORT}`));
+server.listen(PORT,()=>console.log(`Private Runner Studio V5 Final running on http://localhost:${PORT}`));
