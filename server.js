@@ -83,7 +83,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio V6 Front Straight Fix</title>
+<title>Private Runner Studio V6 Front Low Angle</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -112,17 +112,17 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V6 FRONT STRAIGHT FIX + 5 HIGHWAYS</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V6 FRONT LOW ANGLE + 5 HIGHWAYS</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">V6 Front preserved: exactly five choice rows, same pad timing, same black background, same standing pads. Highway variants stay the same. This edit pushes the road much more front-facing and straight like the reference video, while still keeping exactly 5 pads and the same black-background style.</div>
+    <div class="note">V6 Front preserved: exactly five choice rows, same pad timing, same black background, same standing pads. Same V6 Front setup, same 5 fixed pads and same highway variants. The road is now pushed much lower in the frame for a stronger low-angle front view with more black background visible behind it.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Highway <select id="roadVariant"><option value="v1" selected>Highway 1 / Original V6 Front</option><option value="v2">Highway 2 / Dark Asphalt</option><option value="v3">Highway 3 / Retro Track</option><option value="v4">Highway 4 / Neon Edge</option><option value="v5">Highway 5 / Clean Silver</option></select></label><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.88" max="1.06" step="0.01" value="0.96"></label><label>Eye-level horizon <input id="horizon" type="range" min="700" max="1120" value="980"></label><label>Perspective <input id="perspectivePower" type="range" min="0.62" max="1.00" step="0.02" value="0.78"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Highway <select id="roadVariant"><option value="v1" selected>Highway 1 / Original V6 Front</option><option value="v2">Highway 2 / Dark Asphalt</option><option value="v3">Highway 3 / Retro Track</option><option value="v4">Highway 4 / Neon Edge</option><option value="v5">Highway 5 / Clean Silver</option></select></label><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.90" max="1.08" step="0.01" value="0.98"></label><label>Eye-level horizon <input id="horizon" type="range" min="720" max="1100" value="930"></label><label>Perspective <input id="perspectivePower" type="range" min="0.70" max="1.00" step="0.02" value="0.82"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
     <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
@@ -163,9 +163,9 @@ let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
   speed:0.24,
-  roadWidth:0.96,
-  horizon:980,
-  perspectivePower:0.78,
+  roadWidth:0.98,
+  horizon:930,
+  perspectivePower:0.82,
   padDelay:1.75,
   padThickness:12,
   bgMode:'black',
@@ -255,26 +255,25 @@ function easeZ(z){z=clamp(z,0,1); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
   const e=easeZ(z);
 
-  // Strong front-view / eye-level runner perspective.
-  // Goal: the road should feel straight ahead, not top-down.
-  // We keep the road long, but reduce side convergence so it looks more like
-  // a direct front view from the player's eyes.
-  const front=clamp((state.horizon-700)/(1120-700),0,1);
+  // LOW-ANGLE FRONT VIEW: keep the whole road much lower in the frame.
+  // More black background stays visible above, while the road still stretches
+  // forward for a long distance instead of looking like a short top-down slab.
+  const front=clamp((state.horizon-720)/(1100-720),0,1);
 
-  // Push the visible start of the road a little lower as front view increases,
-  // but not so low that the road becomes short and fat.
-  const visualHorizon=520 + front*115;
+  // Start of the visible highway: deliberately low in the frame.
+  // Default is about 735px on a 1280px canvas; max can go even lower.
+  const visualHorizon=650 + front*160;
 
-  // Make the far end wider and the near end slightly less exaggerated.
-  // This keeps the highway feeling long and straight instead of overly tapered.
-  const topHalf=(88 + front*88) * state.roadWidth;
-  const bottomHalf=W*(0.42 - front*0.03) * state.roadWidth;
+  // Keep perspective mild so the road looks straight from the front.
+  // Far end stays readable; near end does not balloon excessively.
+  const topHalf=(110 + front*55) * state.roadWidth;
+  const bottomHalf=W*(0.43 - front*0.02) * state.roadWidth;
 
-  // Curves control how the road stretches into depth.
-  const yCurve=0.92 - front*0.08;
-  const halfCurve=0.96 - front*0.22;
-  const y=visualHorizon + (H - visualHorizon) * Math.pow(e,yCurve);
-  const half=topHalf + (bottomHalf-topHalf) * Math.pow(e,halfCurve);
+  // Stretch depth strongly downward: road looks long even though it begins low.
+  const yCurve=0.78 - front*0.06;
+  const halfCurve=0.88 - front*0.14;
+  const y=visualHorizon + (H-visualHorizon)*Math.pow(e,yCurve);
+  const half=topHalf + (bottomHalf-topHalf)*Math.pow(e,halfCurve);
   return {e,y,l:W/2-half,r:W/2+half,half,visualHorizon};
 }
 function lerp(a,b,t){return a+(b-a)*t}
@@ -294,8 +293,8 @@ function drawBackground(){
     for(let i=0;i<12;i++){
       const sideDir=i%2===0?-1:1;
       const phase=(i*.11 + roadTime*state.speed*.62)%1;
-      const guideTop=roadBoundsAtZ(0).y;
-      const y=guideTop-320 + phase*430;
+      const roadTop=roadBoundsAtZ(0).y;
+      const y=roadTop-360 + phase*430;
       const x=sideDir<0 ? 48+phase*96 : W-48-phase*96;
       const len=34+phase*96;
       ctx.globalAlpha=.08+.34*phase;ctx.lineWidth=2+3*phase;
@@ -438,11 +437,11 @@ $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pau
 $('resetBtn').onclick=()=>roadTime=0;
 $('saveBtn').onclick=()=>{
   const save={...state, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};
-  localStorage.setItem('runnerStudioV6Front', JSON.stringify(save));
+  localStorage.setItem('runnerStudioV6FrontLowAngle', JSON.stringify(save));
   alert('Saved on this device');
 };
 $('loadBtn').onclick=async()=>{
-  const raw=localStorage.getItem('runnerStudioV6Front');
+  const raw=localStorage.getItem('runnerStudioV6FrontLowAngle');
   if(!raw) return alert('No save found on this device');
   const s=JSON.parse(raw);
   Object.assign(state,s);
@@ -509,4 +508,4 @@ const server=http.createServer(async(req,res)=>{
   return send(res,404,'Not found');
 });
 
-server.listen(PORT,()=>console.log(`Private Runner Studio V6 Front Straight Fix running on http://localhost:${PORT}`));
+server.listen(PORT,()=>console.log(`Private Runner Studio V6 Front Low Angle running on http://localhost:${PORT}`));
