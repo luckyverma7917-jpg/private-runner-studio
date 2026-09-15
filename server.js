@@ -93,7 +93,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio V6 Front Plus</title>
+<title>Private Runner Studio V6 Five Highway Edition</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -122,41 +122,40 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V6 FRONT + HIGHWAYS</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V6 FIVE HIGHWAY EDITION</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">V6 Front preserved. The camera, black background, standing pads, 5 fixed rows, PNG controls, save/load and export stay the same. <b>Only 5 extra highway looks were added</b>; switching highways changes styling, not camera geometry.</div>
+    <div class="note">V6 adds <b>5 selectable highway variants</b> and a much stronger <b>Eye-level horizon</b> range so you can push the moving road lower and make it feel more front-facing. This version keeps <b>exactly 5 pads rows only</b>, no runner PNG, no target PNG. Upload your own PNGs directly onto the glowing pads.</div>
   </section>
   <section class="controls">
     <details open><summary>Moving Highway / Camera</summary><div class="grid two">
       <label>Highway variant
         <select id="highwayVariant">
-          <option value="front">Original V6 Front</option>
-          <option value="dark">Dark Asphalt</option>
-          <option value="retro">Retro Red-White Track</option>
-          <option value="neon">Neon Edge Highway</option>
-          <option value="double">Double Lane Highway</option>
-          <option value="clean">Clean Silver Highway</option>
+          <option value="h1">Highway 1 / Classic Front</option>
+          <option value="h2">Highway 2 / Edge Stripe</option>
+          <option value="h3">Highway 3 / Wide Arcade</option>
+          <option value="h4">Highway 4 / Speed Lane</option>
+          <option value="h5">Highway 5 / Clean Flat</option>
         </select>
       </label>
       <label>Background
         <select id="backgroundMode">
-          <option value="black" selected>Reference Black</option>
           <option value="green">Green Screen</option>
+          <option value="black">Reference Black</option>
           <option value="teal">Dark Teal</option>
         </select>
       </label>
       <label>Speed <input id="speed" type="range" min="0.06" max="0.75" step="0.01" value="0.24"></label>
       <label>Road width <input id="roadWidth" type="range" min="0.88" max="1.18" step="0.01" value="1.00"></label>
-      <label>Eye-level horizon <input id="horizon" type="range" min="420" max="760" step="5" value="585"></label>
+      <label>Eye-level horizon <input id="horizon" type="range" min="340" max="840" step="5" value="610"></label>
       <label>Perspective <input id="perspectivePower" type="range" min="0.68" max="1.34" step="0.02" value="0.96"></label>
       <label>Pad delay <input id="rowGap" type="range" min="0.17" max="0.36" step="0.01" value="0.23"></label>
-      <label>Pad glow base <input id="padLift" type="range" min="10" max="90" value="16"></label>
-      <label>Glow thickness <input id="padThickness" type="range" min="8" max="58" value="16"></label>
+      <label>Pad lift <input id="padLift" type="range" min="10" max="90" value="16"></label>
+      <label>Pad thickness <input id="padThickness" type="range" min="8" max="58" value="16"></label>
       <label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label>
       <label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label>
     </div></details>
@@ -200,20 +199,19 @@ const $ = id => document.getElementById(id);
 let running = true, last = performance.now(), roadTime = 0, recorder = null;
 
 const HIGHWAYS = {
-  front:{name:'Original V6 Front', topHalf:178, bottomHalfFactor:0.50, laneMode:'double', edgeMode:'redwhite', road:'#aeb9c8', tileA:'rgba(255,255,255,.030)', tileB:'rgba(55,66,80,.060)'},
-  dark:{name:'Dark Asphalt', topHalf:178, bottomHalfFactor:0.50, laneMode:'double', edgeMode:'white', road:'#50555c', tileA:'rgba(255,255,255,.020)', tileB:'rgba(0,0,0,.070)'},
-  retro:{name:'Retro Red-White Track', topHalf:178, bottomHalfFactor:0.50, laneMode:'single', edgeMode:'redwhite', road:'#91979f', tileA:'rgba(255,255,255,.028)', tileB:'rgba(75,63,66,.060)'},
-  neon:{name:'Neon Edge Highway', topHalf:178, bottomHalfFactor:0.50, laneMode:'double', edgeMode:'glow', road:'#66717d', tileA:'rgba(75,255,205,.020)', tileB:'rgba(0,0,0,.050)'},
-  double:{name:'Double Lane Highway', topHalf:178, bottomHalfFactor:0.50, laneMode:'triple', edgeMode:'white', road:'#88929d', tileA:'rgba(255,255,255,.026)', tileB:'rgba(40,45,55,.050)'},
-  clean:{name:'Clean Silver Highway', topHalf:178, bottomHalfFactor:0.50, laneMode:'single', edgeMode:'white', road:'#bbc0c5', tileA:'rgba(255,255,255,.020)', tileB:'rgba(95,95,95,.038)'}
+  h1:{name:'Classic Front', topHalf:270, bottomHalfFactor:0.50, laneMode:'double', edgeMode:'white', tileA:'rgba(255,255,255,.035)', tileB:'rgba(40,32,36,.075)'},
+  h2:{name:'Edge Stripe', topHalf:262, bottomHalfFactor:0.50, laneMode:'double', edgeMode:'redwhite', tileA:'rgba(255,255,255,.028)', tileB:'rgba(34,40,52,.075)'},
+  h3:{name:'Wide Arcade', topHalf:292, bottomHalfFactor:0.54, laneMode:'double', edgeMode:'glow', tileA:'rgba(255,255,255,.03)', tileB:'rgba(58,54,60,.07)'},
+  h4:{name:'Speed Lane', topHalf:280, bottomHalfFactor:0.51, laneMode:'triple', edgeMode:'white', tileA:'rgba(255,255,255,.033)', tileB:'rgba(48,32,32,.07)'},
+  h5:{name:'Clean Flat', topHalf:252, bottomHalfFactor:0.49, laneMode:'single', edgeMode:'white', tileA:'rgba(255,255,255,.03)', tileB:'rgba(28,28,28,.058)'}
 };
 
 const state = {
-  highwayVariant:'front',
-  backgroundMode:'black',
+  highwayVariant:'h1',
+  backgroundMode:'green',
   speed:0.24,
   roadWidth:1.00,
-  horizon:585,
+  horizon:610,
   perspectivePower:0.96,
   padLift:16,
   padThickness:16,
@@ -298,7 +296,7 @@ function renderRows(){
 }
 renderRows();
 
-function currentHighway(){ return HIGHWAYS[state.highwayVariant] || HIGHWAYS.front; }
+function currentHighway(){ return HIGHWAYS[state.highwayVariant] || HIGHWAYS.h1; }
 function lerp(a,b,t){ return a + (b-a) * t; }
 function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
 function easeZ(z){ z = clamp(z,0,1); return Math.pow(z, state.perspectivePower); }
@@ -351,7 +349,7 @@ function drawBackground(){
 function drawRoad(){
   const v = currentHighway();
   const top = roadBoundsAtZ(0), bottom = roadBoundsAtZ(1);
-  drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]], v.road);
+  drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]], '#949195');
 
   for(let i=0;i<12;i++){
     const z0 = (i/12 + roadTime*state.speed) % 1;
@@ -514,7 +512,7 @@ $('loadBtn').onclick = async () => {
   ['speed','roadWidth','horizon','perspectivePower','padLift','padThickness','rowGap'].forEach(id => $(id).value = state[id]);
   $('speedLines').checked = state.speedLines;
   $('roadShine').checked = state.roadShine;
-  $('highwayVariant').value = state.highwayVariant || 'front';
+  $('highwayVariant').value = state.highwayVariant || 'h1';
   $('backgroundMode').value = state.backgroundMode || 'green';
   state.rows = (s.rows && s.rows.length === 5) ? s.rows : defaultRows();
   renderRows();
@@ -592,4 +590,4 @@ const server = http.createServer(async (req, res) => {
   return send(res, 404, 'Not found');
 });
 
-server.listen(PORT, () => console.log(`Private Runner Studio V6 Front Plus running on http://localhost:${PORT}`));
+server.listen(PORT, () => console.log(`Private Runner Studio V6 Five Highway Edition running on http://localhost:${PORT}`));
