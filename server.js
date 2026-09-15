@@ -83,7 +83,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio V7 Front Phone View</title>
+<title>Private Runner Studio V8 Front Slider Fixed</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -112,17 +112,17 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V7 FRONT PHONE VIEW + 5 HIGHWAYS</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V8 FRONT SLIDER FIXED + 5 HIGHWAYS</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">V7 Front Phone View: same black background, same 5 fixed pad rows, same standing pads, and the same 5 highway variants. This version pushes the road much lower and straighter so it feels closer to a phone-front highway view.</div>
+    <div class="note">V8 Front Slider Fixed: same black background, same 5 fixed pad rows, same standing pads, and the same 5 highway variants. Low Eye-level horizon = straighter front view. High Eye-level horizon = slightly higher view, while the road stays long.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Highway <select id="roadVariant"><option value="v1" selected>Highway 1 / Original V6 Front</option><option value="v2">Highway 2 / Dark Asphalt</option><option value="v3">Highway 3 / Retro Track</option><option value="v4">Highway 4 / Neon Edge</option><option value="v5">Highway 5 / Clean Silver</option></select></label><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.12" step="0.01" value="1.00"></label><label>Eye-level horizon <input id="horizon" type="range" min="760" max="1240" value="1180"></label><label>Perspective <input id="perspectivePower" type="range" min="0.58" max="0.96" step="0.02" value="0.88"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Highway <select id="roadVariant"><option value="v1" selected>Highway 1 / Original V6 Front</option><option value="v2">Highway 2 / Dark Asphalt</option><option value="v3">Highway 3 / Retro Track</option><option value="v4">Highway 4 / Neon Edge</option><option value="v5">Highway 5 / Clean Silver</option></select></label><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.12" step="0.01" value="1.00"></label><label>Eye-level horizon <input id="horizon" type="range" min="760" max="1240" value="820"></label><label>Perspective <input id="perspectivePower" type="range" min="0.58" max="0.96" step="0.02" value="0.88"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
     <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
@@ -164,7 +164,7 @@ let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 const state={
   speed:0.24,
   roadWidth:1.00,
-  horizon:1180,
+  horizon:820,
   perspectivePower:0.88,
   padDelay:1.75,
   padThickness:12,
@@ -255,22 +255,24 @@ function easeZ(z){z=clamp(z,0,1); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
   const e=clamp(z,0,1);
 
-  // Stronger phone-front runner view:
-  // 1) road begins lower in the frame,
-  // 2) sides stay closer to parallel,
-  // 3) the road stretches forward more than it tapers.
-  const front=clamp((state.horizon-760)/(1240-760),0,1);
+  // FIXED slider logic for the user:
+  // low Eye-level horizon  -> strong front / straight view
+  // high Eye-level horizon -> slightly higher / more top-down view
+  // Road stays long; width changes only a little.
+  const t=clamp((state.horizon-760)/(1240-760),0,1);
+  const front=1-t;
 
-  // Much lower visible top edge when the slider is raised.
-  const visualHorizon=430 + front*260;
+  // Keep a tight range so the road never becomes tiny.
+  // Front view places the far road a bit higher and straighter.
+  const visualHorizon=360 + t*115;
 
-  // Keep far width strong so the road does not look too top-down.
-  const topHalf=(118 + front*82) * state.roadWidth;
-  const bottomHalf=(258 + front*72) * state.roadWidth;
+  // Nearly-parallel sides. Only a gentle width shift.
+  const topHalf=(178 - t*24) * state.roadWidth;
+  const bottomHalf=(316 - t*12) * state.roadWidth;
 
-  // Depth mapping favours forward length, not aggressive shrink.
-  const y=visualHorizon + (H - visualHorizon) * Math.pow(e, 0.96 - front*0.04);
-  const half=topHalf + (bottomHalf-topHalf) * Math.pow(e, 0.92 - front*0.10);
+  // Long forward stretch with mild perspective only.
+  const y=visualHorizon + (H - visualHorizon) * Math.pow(e, 0.98);
+  const half=topHalf + (bottomHalf-topHalf) * Math.pow(e, 0.90);
   return {e,y,l:W/2-half,r:W/2+half,half,visualHorizon};
 }
 function lerp(a,b,t){return a+(b-a)*t}
@@ -434,11 +436,11 @@ $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pau
 $('resetBtn').onclick=()=>roadTime=0;
 $('saveBtn').onclick=()=>{
   const save={...state, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};
-  localStorage.setItem('runnerStudioV7FrontPhoneView', JSON.stringify(save));
+  localStorage.setItem('runnerStudioV8FrontSliderFixed', JSON.stringify(save));
   alert('Saved on this device');
 };
 $('loadBtn').onclick=async()=>{
-  const raw=localStorage.getItem('runnerStudioV7FrontPhoneView');
+  const raw=localStorage.getItem('runnerStudioV8FrontSliderFixed');
   if(!raw) return alert('No save found on this device');
   const s=JSON.parse(raw);
   Object.assign(state,s);
@@ -505,4 +507,4 @@ const server=http.createServer(async(req,res)=>{
   return send(res,404,'Not found');
 });
 
-server.listen(PORT,()=>console.log(`Private Runner Studio V7 Front Phone View running on http://localhost:${PORT}`));
+server.listen(PORT,()=>console.log(`Private Runner Studio V8 Front Slider Fixed running on http://localhost:${PORT}`));
