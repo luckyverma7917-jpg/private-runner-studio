@@ -1,14 +1,8 @@
 services:
   - type: web
-    name: private-runner-studio
-    runtime: node
+    name: private-runner-studio-v10-front-low-view
+    env: node
     plan: free
-    buildCommand: ""
-    startCommand: npm start
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: APP_PASSWORD
-        sync: false
-      - key: SESSION_SECRET
-        generateValue: true
+    buildCommand: npm install
+    startCommand: node server.js
+    autoDeploy: true

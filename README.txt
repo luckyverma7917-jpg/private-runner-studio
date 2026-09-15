@@ -1,0 +1,1 @@
+Upload these files to your GitHub repo or extract this zip and use server.js, package.json, and render.yaml. Add APP_PASSWORD and SESSION_SECRET on Render before deploy.
