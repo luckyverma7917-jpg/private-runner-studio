@@ -101,14 +101,14 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">COMBINED FRONT PAD</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">COMBINED TRUE FRONT</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="20"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Combined version: low/front highway from the new file + raised thin glowing pads from your old file. Black background, red/white road edges, exactly 5 moving choice rows, and lifted standing pads.</div>
+    <div class="note">Combined true-front version: road pushed lower and straighter for a stronger front-driving view, while keeping the raised thin glowing pads, black background, red/white road edges, and exactly 5 moving choice rows.</div>
   </section>
   <section class="controls">
     <details open><summary>Road / Motion</summary><div class="grid two">
@@ -228,11 +228,12 @@ for(let i=0;i<5;i++)addRow({leftColor:i%2?'red':'green',rightColor:i%2?'green':'
 
 // Locked geometry from the three references: low/front camera, straight road sides,
 // narrow far end around mid-frame, near road filling past the phone edges.
-const ROAD={horizonY:465,farHalf:92,nearHalf:390,nearY:1340};
+const ROAD={horizonY:545,farHalf:122,nearHalf:360,nearY:1460};
 function project(z){
   z=clamp(z);
-  const yCurve=Math.pow(z,1.52);
-  const wCurve=Math.pow(z,1.20);
+  // Stronger driver/front view: road starts lower, stretches farther, and tapers less.
+  const yCurve=Math.pow(z,1.92);
+  const wCurve=Math.pow(z,1.04);
   const y=lerp(ROAD.horizonY,ROAD.nearY,yCurve);
   const half=lerp(ROAD.farHalf,ROAD.nearHalf,wCurve);
   return {z,y,half,l:W/2-half,r:W/2+half};
@@ -271,7 +272,7 @@ function drawRoad(){
   drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,bottom.y],[bottom.l,bottom.y]],g);
 
   // Moving red/white curb segments create forward travel while road geometry stays fixed.
-  for(let i=0;i<18;i++){
+  for(let i=0;i<20;i++){
     const z0=(i/18 + roadTime*state.speed*.58)%1;
     const z1=z0+.05;if(z1>1)continue;
     const a=project(z0),b=project(z1);
@@ -287,7 +288,7 @@ function drawRoad(){
       const z=(i/9 + roadTime*state.speed*.96)%1;
       if(z<.14)continue;
       const a=project(z),b=project(clamp(z+.12));
-      const lane=(i%3-1)*.23;
+      const lane=(i%3-1)*.20;
       ctx.globalAlpha=.10+.42*z;ctx.lineWidth=1.2+4.5*z;
       ctx.beginPath();ctx.moveTo(W/2+a.half*lane,a.y);ctx.lineTo(W/2+b.half*lane,b.y);ctx.stroke();
     }
