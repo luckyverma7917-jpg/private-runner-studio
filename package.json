@@ -1,12 +1,10 @@
 {
-  "name": "private-runner-studio-v10-front-low-view",
+  "name": "private-runner-studio",
   "version": "1.0.0",
   "private": true,
-  "type": "commonjs",
+  "description": "Private 9:16 runner-video builder for custom PNG assets",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
-  },
-  "engines": {
-    "node": ">=18"
   }
 }
