@@ -101,14 +101,14 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">NEW LOW FRONT</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">COMBINED FRONT PAD</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="20"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Reference-matched low/front runner road: black background, dark blue-grey highway, red/white edges, exactly 5 moving choice rows. The road camera is locked so it cannot accidentally become top-down.</div>
+    <div class="note">Combined version: low/front highway from the new file + raised thin glowing pads from your old file. Black background, red/white road edges, exactly 5 moving choice rows, and lifted standing pads.</div>
   </section>
   <section class="controls">
     <details open><summary>Road / Motion</summary><div class="grid two">
@@ -237,6 +237,10 @@ function project(z){
   const half=lerp(ROAD.farHalf,ROAD.nearHalf,wCurve);
   return {z,y,half,l:W/2-half,r:W/2+half};
 }
+function roadBoundsAtZ(z){
+  const p=project(z);
+  return {e:p.z,y:p.y,l:p.l,r:p.r,half:p.half};
+}
 
 function drawBackground(){
   if(state.bgMode==='green'){
@@ -291,38 +295,79 @@ function drawRoad(){
   }
 }
 
-function rowQuad(z,color,side){
-  const depth=.095;
-  const a=project(z),b=project(clamp(z+depth));
-  const mid=W/2;
-  const innerGapA=a.half*.025,innerGapB=b.half*.025;
-  let pts;
-  if(side==='left')pts=[[a.l,a.y],[mid-innerGapA,a.y],[mid-innerGapB,b.y],[b.l,b.y]];
-  else pts=[[mid+innerGapA,a.y],[a.r,a.y],[b.r,b.y],[mid+innerGapB,b.y]];
-  const rgb=color==='red'?'255,28,49':'29,236,92';
-  ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=8+18*z;drawPoly(pts,'rgba('+rgb+',.97)');ctx.restore();
-  const centerX=side==='left'?lerp(a.l,mid,.52):lerp(mid,a.r,.48);
-  const centerY=(a.y+b.y)*.5;
-  const width=Math.max(54,(a.half*.94));
-  return {centerX,centerY,width,z,baseY:b.y};
+function drawRaisedPad(z, side, color){
+  const p=roadBoundsAtZ(z), e=p.e;
+  const laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
+
+  const width=Math.max(62,p.half*.78);
+  const height=Math.max(28,width*.34);
+  const baseY=p.y-3;
+  const topY=baseY-height;
+  const rgb=color==='red'?'255,50,58':'42,255,132';
+  const dark=color==='red'?'118,23,28':'15,104,54';
+  const padThickness=Math.max(8,Math.min(16,7+e*8));
+
+  ctx.save();
+  ctx.fillStyle='rgba(0,0,0,.22)';
+  ctx.beginPath();
+  ctx.ellipse(laneCenter,baseY+5,width*.44,5+8*e,0,0,Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+
+  ctx.save();
+  ctx.fillStyle='rgba('+dark+',.76)';
+  ctx.beginPath();
+  ctx.roundRect(laneCenter-width/2,baseY-padThickness*.45,width,padThickness,5);
+  ctx.fill();
+  ctx.restore();
+
+  const g=ctx.createLinearGradient(0,baseY,0,topY);
+  g.addColorStop(0,'rgba('+rgb+',.96)');
+  g.addColorStop(.38,'rgba('+rgb+',.78)');
+  g.addColorStop(.76,'rgba('+rgb+',.30)');
+  g.addColorStop(1,'rgba('+rgb+',0)');
+  ctx.save();
+  ctx.shadowColor='rgb('+rgb+')';
+  ctx.shadowBlur=14+22*e;
+  ctx.fillStyle=g;
+  ctx.beginPath();
+  ctx.roundRect(laneCenter-width/2,topY,width,height,7);
+  ctx.fill();
+  ctx.restore();
+
+  ctx.save();
+  ctx.strokeStyle='rgba('+rgb+',.96)';
+  ctx.lineWidth=2+1.5*e;
+  ctx.beginPath();
+  ctx.moveTo(laneCenter-width*.47,baseY-1);
+  ctx.lineTo(laneCenter+width*.47,baseY-1);
+  ctx.stroke();
+  ctx.restore();
+  return {center:[laneCenter,baseY-height*.43],baseY,width,height,e};
 }
-function drawImageFit(im,x,y,boxW,boxH){
-  if(!im)return;const iw=im.naturalWidth||im.width,ih=im.naturalHeight||im.height;const s=Math.min(boxW/iw,boxH/ih);const dw=iw*s,dh=ih*s;ctx.drawImage(im,x-dw/2,y-dh*.88,dw,dh);
+function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
+  if(!im) return;
+  const iw=im.naturalWidth||im.width, ih=im.naturalHeight||im.height;
+  const scale=Math.min(boxW/iw, boxH/ih);
+  const dw=iw*scale, dh=ih*scale;
+  const dx=x-dw/2;
+  const dy=anchor==='center' ? y-dh/2 : y-dh;
+  ctx.drawImage(im,dx,dy,dw,dh);
 }
 
 function drawRows(){
   state.rows.slice(0,5).forEach((row,i)=>{
     const elapsed=roadTime-state.startDelay-i*state.rowGap;
     const z=elapsed*state.speed*.86;
-    if(z<0||z>1.08)return;
+    if(z<0||z>1.03)return;
     const zz=clamp(z);
-    const left=rowQuad(zz,row.leftColor,'left');
-    const right=rowQuad(zz,row.rightColor,'right');
-    const scale=.26+1.08*Math.pow(zz,.92);
-    const ls=Math.min(row.leftSize*scale,left.width*.92);
-    const rs=Math.min(row.rightSize*scale,right.width*.92);
-    if(row.leftImg)drawImageFit(row.leftImg,left.centerX,left.centerY,ls,ls);
-    if(row.rightImg)drawImageFit(row.rightImg,right.centerX,right.centerY,rs,rs);
+    const left=drawRaisedPad(zz,'left',row.leftColor);
+    const right=drawRaisedPad(zz,'right',row.rightColor);
+    const pngScale=.42+.74*left.e;
+    const leftSize=Math.min(row.leftSize*pngScale,left.width*.92);
+    const rightSize=Math.min(row.rightSize*pngScale,right.width*.92);
+    if(row.leftImg) drawImageFit(row.leftImg,left.center[0],left.baseY-5,leftSize,leftSize,'bottom');
+    if(row.rightImg) drawImageFit(row.rightImg,right.center[0],right.baseY-5,rightSize,rightSize,'bottom');
   });
 }
 
