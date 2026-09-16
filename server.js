@@ -119,10 +119,10 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">V6 Front: fixed to exactly five choice rows. The camera is much lower and front-facing, so the highway begins around eye level instead of being seen from above. Choice panels arrive one-by-one with a delay, stand upright, and fade softly at the top.</div>
+    <div class="note">Classic V6 road is kept untouched. I added 9 more front-view road variants, so you can switch roads and avoid repetitive visuals. Green and black background modes are both available.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="760" value="650"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="760" value="650"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
     <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
@@ -168,7 +168,8 @@ const state={
   perspectivePower:0.90,
   padDelay:1.75,
   padThickness:12,
-  bgMode:'black',
+  roadVariant:'classic',
+  bgMode:'green',
   speedLines:true,
   roadShine:true,
   rows:[]
@@ -209,6 +210,7 @@ function processImageDataUrl(dataUrl, removeBg){
 async function dataToProcessedImage(src, removeBg){return dataToImage(await processImageDataUrl(src, removeBg))}
 function bindRange(id,key){$(id).addEventListener('input',e=>state[key]=Number(e.target.value))}
 ['speed','roadWidth','horizon','perspectivePower','padDelay','padThickness'].forEach(id=>bindRange(id,id));
+$('roadVariant').onchange=e=>state.roadVariant=e.target.value;
 $('speedLines').onchange=e=>state.speedLines=e.target.checked;
 $('roadShine').onchange=e=>state.roadShine=e.target.checked;
 $('bgMode').onchange=e=>state.bgMode=e.target.value;
@@ -251,8 +253,6 @@ for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green'
 function easeZ(z){z=Math.max(0,Math.min(1,z)); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
   const e=easeZ(z);
-  // True front/eye-level runner perspective: road only begins around the horizon.
-  // It is wide at the bottom but not visible from a top-down camera.
   const topHalf=88;
   const bottomHalf=W*0.55*state.roadWidth;
   const y=state.horizon + (H - state.horizon) * e;
@@ -262,6 +262,112 @@ function roadBoundsAtZ(z){
 function lerp(a,b,t){return a+(b-a)*t}
 function averagePoint(pts){return pts.reduce((s,p)=>[s[0]+p[0],s[1]+p[1]],[0,0]).map(v=>v/pts.length)}
 function drawPoly(pts, fill){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
+function quad(a,b){return [[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]]}
+function fillRoadBase(topColor,bottomColor){
+  const top=roadBoundsAtZ(0), bottom=roadBoundsAtZ(1);
+  const g=ctx.createLinearGradient(0,top.y,0,H);
+  g.addColorStop(0,topColor);
+  g.addColorStop(1,bottomColor);
+  drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]],g);
+  return {top,bottom};
+}
+function drawRoadBand(z0,z1,fill){
+  const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(Math.min(1,z1));
+  drawPoly(quad(a,b),fill);
+}
+function drawEdgeStripSeries(count,speedFactor,widthA,widthB,colorA,colorB){
+  for(let i=0;i<count;i++){
+    const z0=(i/count + roadTime*state.speed*speedFactor)%1;
+    const z1=z0+.055;
+    if(z1>1) continue;
+    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    const wa=widthA+widthB*a.e, wb=widthA+widthB*b.e;
+    const c=i%2===0?colorA:colorB;
+    drawPoly([[a.l,a.y],[a.l+wa,a.y],[b.l+wb,b.y],[b.l,b.y]],c);
+    drawPoly([[a.r-wa,a.y],[a.r,a.y],[b.r,b.y],[b.r-wb,b.y]],c);
+  }
+}
+function drawCenterDashed(offsetRatio,color,widthBase,widthGrow,len,density,speedFactor,minZ){
+  for(let i=0;i<density;i++){
+    const z0=(i/density + roadTime*state.speed*speedFactor)%1;
+    const z1=z0+len;
+    if(z1>1 || z0<minZ) continue;
+    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    const x0=W/2+a.half*offsetRatio;
+    const x1=W/2+b.half*offsetRatio;
+    ctx.save();
+    ctx.strokeStyle=color;
+    ctx.lineCap='round';
+    ctx.lineWidth=widthBase+widthGrow*a.e;
+    ctx.beginPath();
+    ctx.moveTo(x0,a.y);
+    ctx.lineTo(x1,b.y);
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+function drawCenterPulseDots(offsetRatio,color,sizeBase,sizeGrow,count,speedFactor,minZ){
+  for(let i=0;i<count;i++){
+    const z=(i/count + roadTime*state.speed*speedFactor)%1;
+    if(z<minZ) continue;
+    const p=roadBoundsAtZ(z);
+    const x=W/2+p.half*offsetRatio;
+    ctx.save();
+    ctx.fillStyle=color;
+    ctx.shadowColor=color;
+    ctx.shadowBlur=10+18*p.e;
+    ctx.beginPath();
+    ctx.arc(x,p.y,sizeBase+sizeGrow*p.e,0,Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+function drawRoadTexture(strength){
+  ctx.save();
+  for(let i=0;i<8;i++){
+    const z=(i*.145 + roadTime*state.speed*.95)%1;
+    if(z<.20) continue;
+    const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.055));
+    const alpha=.010+strength*a.e;
+    drawPoly(quad(a,b),'rgba(255,255,255,'+alpha+')');
+  }
+  ctx.restore();
+}
+function drawRoadShineSeries(color,alphaMul){
+  ctx.save();ctx.strokeStyle=color;ctx.lineCap='round';
+  for(let i=0;i<6;i++){
+    const z=(i*.19 + roadTime*state.speed*1.18)%1;
+    if(z<.28) continue;
+    const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.10));
+    const xA=W/2 + (i%2?-1:1)*a.half*(.30+.16*(i%3));
+    const xB=W/2 + (i%2?-1:1)*b.half*(.30+.16*(i%3));
+    ctx.globalAlpha=(.14+.34*z)*alphaMul;ctx.lineWidth=2+4*z;
+    ctx.beginPath();ctx.moveTo(xA,a.y);ctx.lineTo(xB,b.y);ctx.stroke();
+  }
+  ctx.restore();
+}
+function drawSideRails(color){
+  ctx.save();
+  ctx.strokeStyle=color;
+  ctx.lineCap='round';
+  for(let i=0;i<10;i++){
+    const z0=(i/10 + roadTime*state.speed*.84)%1;
+    const z1=z0+.075;
+    if(z1>1 || z0<.06) continue;
+    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    ctx.globalAlpha=.14+.42*a.e;
+    ctx.lineWidth=2+6*a.e;
+    ctx.beginPath();
+    ctx.moveTo(a.l+12+a.e*8,a.y);
+    ctx.lineTo(b.l+12+b.e*8,b.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(a.r-12-a.e*8,a.y);
+    ctx.lineTo(b.r-12-b.e*8,b.y);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
 
 function drawBackground(){
   if(state.bgMode==='green'){
@@ -285,22 +391,19 @@ function drawBackground(){
     ctx.restore();
   }
 }
-function drawRoad(){
+
+function drawRoadClassic(){
   const top=roadBoundsAtZ(0), bottom=roadBoundsAtZ(1);
   drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]], '#59677f');
-
-  // Subtle moving texture only; no strong horizontal slabs that make it look top-down.
   ctx.save();
   for(let i=0;i<8;i++){
     const z=(i*.145 + roadTime*state.speed*.95)%1;
     if(z<.20) continue;
     const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.055));
     const alpha=.018+.038*a.e;
-    drawPoly([[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]],'rgba(255,255,255,'+alpha+')');
+    drawPoly(quad(a,b),'rgba(255,255,255,'+alpha+')');
   }
   ctx.restore();
-
-  // Red/white curb strips like the reference. They emphasize forward perspective.
   for(let i=0;i<15;i++){
     const z0=(i/15 + roadTime*state.speed*.72)%1;
     const z1=z0+.055;
@@ -311,7 +414,6 @@ function drawRoad(){
     drawPoly([[a.l,a.y],[a.l+wa,a.y],[b.l+wb,b.y],[b.l,b.y]],c);
     drawPoly([[a.r-wa,a.y],[a.r,a.y],[b.r,b.y],[b.r-wb,b.y]],c);
   }
-
   if(state.roadShine){
     ctx.save();ctx.strokeStyle='rgba(255,255,255,.34)';ctx.lineCap='round';
     for(let i=0;i<6;i++){
@@ -326,23 +428,165 @@ function drawRoad(){
     ctx.restore();
   }
 }
+function drawRoadNeonPulse(){
+  fillRoadBase('#4c5870','#2f384a');
+  drawRoadTexture(.030);
+  drawEdgeStripSeries(15,.70,6,10,'#ff2244','#ffffff');
+  drawCenterDashed(-.05,'rgba(110,255,255,.95)',2,4,.08,11,.88,.18);
+  drawCenterDashed(.05,'rgba(110,255,255,.95)',2,4,.08,11,.88,.18);
+  drawCenterPulseDots(0,'rgba(255,74,201,.9)',2,5,9,1.12,.20);
+  if(state.roadShine) drawRoadShineSeries('rgba(120,255,255,.55)',1.15);
+}
+function drawRoadTwinStripe(){
+  fillRoadBase('#697684','#45515e');
+  drawRoadTexture(.026);
+  drawEdgeStripSeries(16,.72,5,10,'#ffffff','#dbdee3');
+  drawCenterDashed(-.04,'rgba(255,216,82,.98)',3,4,.10,10,.84,.14);
+  drawCenterDashed(.04,'rgba(255,216,82,.98)',3,4,.10,10,.84,.14);
+  drawCenterDashed(-.22,'rgba(255,255,255,.45)',1.5,2.8,.06,8,.92,.24);
+  drawCenterDashed(.22,'rgba(255,255,255,.45)',1.5,2.8,.06,8,.92,.24);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.28)',.85);
+}
+function drawRoadCarbonTrack(){
+  fillRoadBase('#3f4a5e','#232c37');
+  for(let i=0;i<11;i++){
+    const z0=(i/11 + roadTime*state.speed*.62)%1;
+    const z1=z0+.075;
+    if(z1>1 || z0<.12) continue;
+    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    const insetA=a.half*.08, insetB=b.half*.08;
+    drawPoly([[a.l+insetA,a.y],[a.r-insetA,a.y],[b.r-insetB,b.y],[b.l+insetB,b.y]], i%2===0?'rgba(255,255,255,.05)':'rgba(0,0,0,.09)');
+  }
+  drawEdgeStripSeries(15,.68,5,9,'#ff8f29','#ffffff');
+  drawCenterDashed(0,'rgba(255,171,85,.75)',2,3,.07,10,.90,.20);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,186,120,.22)',.75);
+}
+function drawRoadEdgeGlow(){
+  fillRoadBase('#546170','#2f3844');
+  drawRoadTexture(.022);
+  drawEdgeStripSeries(14,.76,6,10,'rgba(45,255,128,.95)','rgba(255,62,86,.95)');
+  drawSideRails('rgba(255,255,255,.16)');
+  drawCenterDashed(-.17,'rgba(255,255,255,.36)',1.5,2.2,.08,9,.82,.24);
+  drawCenterDashed(.17,'rgba(255,255,255,.36)',1.5,2.2,.08,9,.82,.24);
+  if(state.roadShine) drawRoadShineSeries('rgba(110,255,170,.32)',.85);
+}
+function drawRoadTripleLane(){
+  fillRoadBase('#68727f','#434c59');
+  drawRoadTexture(.024);
+  drawEdgeStripSeries(15,.74,6,10,'#ff2333','#ffffff');
+  drawCenterDashed(-.26,'rgba(255,255,255,.85)',2,3.2,.085,10,.82,.16);
+  drawCenterDashed(0,'rgba(255,255,255,.85)',2,3.2,.085,10,.82,.16);
+  drawCenterDashed(.26,'rgba(255,255,255,.85)',2,3.2,.085,10,.82,.16);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.26)',.72);
+}
+function drawRoadDiamondFlow(){
+  fillRoadBase('#5c6575','#3b4553');
+  drawRoadTexture(.020);
+  drawEdgeStripSeries(15,.74,5,10,'#ff3347','#ffffff');
+  for(let i=0;i<8;i++){
+    const z=(i/8 + roadTime*state.speed*.88)%1;
+    if(z<.18 || z>.92) continue;
+    const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
+    const midY=(a.y+b.y)/2;
+    const w=16+a.e*42;
+    const h=10+a.e*26;
+    ctx.save();
+    ctx.fillStyle='rgba(255,255,255,'+(.16+.30*a.e)+')';
+    ctx.beginPath();
+    ctx.moveTo(W/2,midY-h);
+    ctx.lineTo(W/2+w,midY);
+    ctx.lineTo(W/2,midY+h);
+    ctx.lineTo(W/2-w,midY);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.24)',.76);
+}
+function drawRoadArcadeGrid(){
+  fillRoadBase('#627086','#3d4757');
+  for(let i=0;i<10;i++){
+    const z0=(i/10 + roadTime*state.speed*.78)%1;
+    const z1=z0+.065;
+    if(z1>1 || z0<.18) continue;
+    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    drawPoly(quad(a,b),'rgba(255,255,255,'+(.018+.045*a.e)+')');
+    const parts=4;
+    for(let j=1;j<parts;j++){
+      const x0=lerp(a.l,a.r,j/parts), x1=lerp(b.l,b.r,j/parts);
+      ctx.save();
+      ctx.strokeStyle='rgba(255,255,255,'+(.05+.12*a.e)+')';
+      ctx.lineWidth=1.2+2*a.e;
+      ctx.beginPath();
+      ctx.moveTo(x0,a.y);
+      ctx.lineTo(x1,b.y);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+  drawEdgeStripSeries(15,.70,6,10,'#ffffff','#7af5ff');
+  if(state.roadShine) drawRoadShineSeries('rgba(170,245,255,.30)',.80);
+}
+function drawRoadRailRunner(){
+  fillRoadBase('#576576','#34404d');
+  drawRoadTexture(.018);
+  drawEdgeStripSeries(15,.66,6,9,'#ff2f45','#ffffff');
+  drawSideRails('rgba(255,255,255,.52)');
+  drawCenterDashed(-.10,'rgba(82,190,255,.78)',2,3,.07,10,.95,.18);
+  drawCenterDashed(.10,'rgba(82,190,255,.78)',2,3,.07,10,.95,.18);
+  drawCenterPulseDots(0,'rgba(255,255,255,.75)',1.6,3.5,10,1.04,.20);
+  if(state.roadShine) drawRoadShineSeries('rgba(140,220,255,.24)',.72);
+}
+function drawRoadChevronRush(){
+  fillRoadBase('#616d7c','#3e4958');
+  drawRoadTexture(.020);
+  drawEdgeStripSeries(16,.72,5,10,'#ff3149','#ffffff');
+  for(let i=0;i<10;i++){
+    const z=(i/10 + roadTime*state.speed*.92)%1;
+    if(z<.18 || z>.95) continue;
+    const p=roadBoundsAtZ(z);
+    const span=24+p.e*70;
+    const lift=12+p.e*32;
+    ctx.save();
+    ctx.strokeStyle='rgba(255,255,255,'+(.24+.40*p.e)+')';
+    ctx.lineWidth=2+4*p.e;
+    ctx.lineCap='round';
+    ctx.beginPath();
+    ctx.moveTo(W/2-span,p.y-lift);
+    ctx.lineTo(W/2,p.y);
+    ctx.lineTo(W/2+span,p.y-lift);
+    ctx.stroke();
+    ctx.restore();
+  }
+  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.22)',.70);
+}
+function drawRoad(){
+  const fn={
+    classic:drawRoadClassic,
+    neonPulse:drawRoadNeonPulse,
+    twinStripe:drawRoadTwinStripe,
+    carbonTrack:drawRoadCarbonTrack,
+    edgeGlow:drawRoadEdgeGlow,
+    tripleLane:drawRoadTripleLane,
+    diamondFlow:drawRoadDiamondFlow,
+    arcadeGrid:drawRoadArcadeGrid,
+    railRunner:drawRoadRailRunner,
+    chevronRush:drawRoadChevronRush
+  }[state.roadVariant] || drawRoadClassic;
+  fn();
+}
+
 function drawRaisedPad(z, side, color){
   const p=roadBoundsAtZ(z), e=p.e;
   const laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
-
-  // Standing panel, not a floor tile. Width follows road depth naturally.
   const width=Math.max(62,p.half*.78);
   const height=Math.max(28,width*.34);
   const baseY=p.y-3;
   const topY=baseY-height;
   const rgb=color==='red'?'255,50,58':'42,255,132';
   const dark=color==='red'?'118,23,28':'15,104,54';
-
-  // Small ground shadow and thin glowing base.
   ctx.save();ctx.fillStyle='rgba(0,0,0,.22)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+5,width*.44,5+8*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
   ctx.save();ctx.fillStyle='rgba('+dark+',.76)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-state.padThickness*.45,width,state.padThickness,5);ctx.fill();ctx.restore();
-
-  // Face fades toward the top exactly like a standing light gate.
   const g=ctx.createLinearGradient(0,baseY,0,topY);
   g.addColorStop(0,'rgba('+rgb+',.96)');
   g.addColorStop(.38,'rgba('+rgb+',.78)');
@@ -350,7 +594,6 @@ function drawRaisedPad(z, side, color){
   g.addColorStop(1,'rgba('+rgb+',0)');
   ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=14+22*e;ctx.fillStyle=g;
   ctx.beginPath();ctx.roundRect(laneCenter-width/2,topY,width,height,7);ctx.fill();ctx.restore();
-
   ctx.save();ctx.strokeStyle='rgba('+rgb+',.96)';ctx.lineWidth=2+1.5*e;ctx.beginPath();ctx.moveTo(laneCenter-width*.47,baseY-1);ctx.lineTo(laneCenter+width*.47,baseY-1);ctx.stroke();ctx.restore();
   return {center:[laneCenter,baseY-height*.43],baseY,width,height,e};
 }
@@ -367,11 +610,9 @@ function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
 function drawRows(){
   const initialDelay=.75;
   state.rows.slice(0,5).forEach((row,i)=>{
-    // Each row arrives once. No modulo = no endless extra pads.
     const elapsed=roadTime-initialDelay-i*state.padDelay;
     const z=elapsed*state.speed*1.16;
     if(z<0 || z>1.03) return;
-
     const zz=Math.min(1,z);
     const left=drawRaisedPad(zz,'left',row.leftColor);
     const right=drawRaisedPad(zz,'right',row.rightColor);
@@ -406,9 +647,10 @@ $('loadBtn').onclick=async()=>{
   const s=JSON.parse(raw);
   Object.assign(state,s);
   ['speed','roadWidth','horizon','perspectivePower','padDelay','padThickness'].forEach(id=>$(id).value=state[id]);
+  $('roadVariant').value=state.roadVariant||'classic';
   $('speedLines').checked=state.speedLines;
   $('roadShine').checked=state.roadShine;
-  $('bgMode').value=state.bgMode||'black';
+  $('bgMode').value=state.bgMode||'green';
   $('rows').innerHTML='';
   state.rows=[];
   rowCounter=0;
