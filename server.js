@@ -254,20 +254,18 @@ function roadBoundsAtZ(z){
   const raw=clamp(z,0,1);
   const t=clamp((state.horizon-560)/(920-560),0,1);
 
-  // Driver/front-view projection.
-  // The road starts lower in the phone frame, stays narrow in the distance,
-  // then opens mostly near the viewer so it feels like a car/runner front view
-  // instead of a road seen from above.
+  // Straight driver/front-view projection.
+  // Keep both road sides almost parallel so they do not slope outward heavily.
+  // Eye-level still moves the road up/down, but it no longer makes the road fat.
   const visualHorizon=650 + 105*t;
-  const topHalf=(82 + 10*t) * state.roadWidth;
-  const bottomHalf=W*0.72*state.roadWidth;
+  const topHalf=W*0.29*state.roadWidth;
+  const bottomHalf=W*0.34*state.roadWidth;
 
-  // Keep the road long while delaying most of the width expansion until near
-  // the bottom of the screen. This removes the top-down/tabletop feeling.
-  const eY=Math.pow(raw,0.78);
-  const eW=Math.pow(raw,1.18);
+  // Use the same depth factor for Y and width. That keeps each road edge as a
+  // clean straight line instead of bending / flaring near the bottom.
+  const eY=Math.pow(raw,0.82);
   const y=visualHorizon + (H-visualHorizon)*eY;
-  const half=topHalf + (bottomHalf-topHalf)*eW;
+  const half=topHalf + (bottomHalf-topHalf)*eY;
   return {e:raw,y,l:W/2-half,r:W/2+half,half,visualHorizon};
 }
 function lerp(a,b,t){return a+(b-a)*t}
