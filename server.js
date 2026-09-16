@@ -119,10 +119,10 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">V6 Front: fixed to exactly five choice rows. The camera is much lower and front-facing, so the highway begins around eye level instead of being seen from above. Choice panels arrive one-by-one with a delay, stand upright, and fade softly at the top.</div>
+    <div class="note">V6 Front: exactly five choice rows preserved. Highway camera is tuned for a much straighter driver/front view: lower in the phone frame, long into the distance, and wide only near the viewer instead of looking top-down.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="760" value="650"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="920" value="820"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
     <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
@@ -164,7 +164,7 @@ let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 const state={
   speed:0.24,
   roadWidth:1.08,
-  horizon:650,
+  horizon:820,
   perspectivePower:0.90,
   padDelay:1.75,
   padThickness:12,
@@ -248,16 +248,27 @@ function addRow(saved={}){
 function renumber(){rowCounter=0;[...document.querySelectorAll('.row')].forEach(el=>el.querySelector('.rowtitle').textContent='Row '+(++rowCounter))}
 for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green':'red'});
 
-function easeZ(z){z=Math.max(0,Math.min(1,z)); return Math.pow(z,state.perspectivePower)}
+function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
+function easeZ(z){z=clamp(z,0,1); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
-  const e=easeZ(z);
-  // True front/eye-level runner perspective: road only begins around the horizon.
-  // It is wide at the bottom but not visible from a top-down camera.
-  const topHalf=88;
-  const bottomHalf=W*0.55*state.roadWidth;
-  const y=state.horizon + (H - state.horizon) * e;
-  const half=topHalf + (bottomHalf-topHalf) * e;
-  return {e,y,l:W/2-half,r:W/2+half,half};
+  const raw=clamp(z,0,1);
+  const t=clamp((state.horizon-560)/(920-560),0,1);
+
+  // Driver/front-view projection.
+  // The road starts lower in the phone frame, stays narrow in the distance,
+  // then opens mostly near the viewer so it feels like a car/runner front view
+  // instead of a road seen from above.
+  const visualHorizon=650 + 105*t;
+  const topHalf=(82 + 10*t) * state.roadWidth;
+  const bottomHalf=W*0.72*state.roadWidth;
+
+  // Keep the road long while delaying most of the width expansion until near
+  // the bottom of the screen. This removes the top-down/tabletop feeling.
+  const eY=Math.pow(raw,0.78);
+  const eW=Math.pow(raw,1.18);
+  const y=visualHorizon + (H-visualHorizon)*eY;
+  const half=topHalf + (bottomHalf-topHalf)*eW;
+  return {e:raw,y,l:W/2-half,r:W/2+half,half,visualHorizon};
 }
 function lerp(a,b,t){return a+(b-a)*t}
 function averagePoint(pts){return pts.reduce((s,p)=>[s[0]+p[0],s[1]+p[1]],[0,0]).map(v=>v/pts.length)}
@@ -276,7 +287,8 @@ function drawBackground(){
     for(let i=0;i<12;i++){
       const sideDir=i%2===0?-1:1;
       const phase=(i*.11 + roadTime*state.speed*.62)%1;
-      const y=state.horizon-360 + phase*430;
+      const guideTop=roadBoundsAtZ(0).y;
+      const y=guideTop-360 + phase*430;
       const x=sideDir<0 ? 48+phase*96 : W-48-phase*96;
       const len=34+phase*96;
       ctx.globalAlpha=.08+.34*phase;ctx.lineWidth=2+3*phase;
