@@ -43,7 +43,7 @@ function send(res,status,body,type='text/plain; charset=utf-8',headers={}){
 function readJson(req){
   return new Promise((resolve,reject)=>{
     let b='';
-    req.on('data',c=>{b+=c; if(b.length>1e6){reject(new Error('too large')); req.destroy();}});
+    req.on('data',c=>{b+=c;if(b.length>1e6){reject(new Error('too large'));req.destroy();}});
     req.on('end',()=>{try{resolve(JSON.parse(b||'{}'))}catch(e){reject(e)}});
     req.on('error',reject);
   });
@@ -83,47 +83,43 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio V6 Front</title>
+<title>Private Runner Studio - Low Front Road</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 .top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 14px;background:#0b0d10ee;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
-.top strong{font-size:18px}.badge{font-size:11px;color:#07110c;background:var(--accent);border-radius:99px;padding:4px 7px;margin-left:6px}
-.top-actions{display:flex;gap:7px}.top button,.transport button,.rowbar button{border:1px solid var(--line);background:#222731;color:white;border-radius:11px;padding:9px 12px;font:inherit}
-.top .primary,.transport .primary{background:var(--accent);color:#07110c;border-color:transparent;font-weight:800}
+.top strong{font-size:18px}.badge{font-size:11px;color:#07110c;background:var(--accent);border-radius:99px;padding:4px 8px;margin-left:6px}
+.top-actions{display:flex;gap:7px}.top button,.transport button{border:1px solid var(--line);background:#222731;color:white;border-radius:11px;padding:9px 12px;font:inherit}.top .primary,.transport .primary{background:var(--accent);color:#07110c;border-color:transparent;font-weight:800}
 .studio{max-width:1220px;margin:auto;padding:14px;display:grid;grid-template-columns:minmax(320px,660px) minmax(300px,1fr);gap:16px}
-.preview{min-width:0}.shell{background:#050607;border:1px solid var(--line);border-radius:18px;padding:7px;display:flex;justify-content:center;box-shadow:0 18px 60px #0007}
-.stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#08ce78}canvas{width:100%;height:100%;display:block}
-.transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}
-.note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}
-.controls{display:flex;flex-direction:column;gap:10px}
-details{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}summary{padding:13px 14px;background:var(--panel2);font-weight:800;cursor:pointer}
-.grid{padding:13px;display:grid;gap:11px}.grid.two{grid-template-columns:1fr 1fr}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px}
-input[type=file]{width:100%;font-size:12px}input[type=range]{width:100%}
-select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px}
-.toggle{display:flex!important;align-items:center;gap:8px!important}
-.rowbar{padding:11px 13px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.rows{padding:11px;display:grid;gap:10px}.row{border:1px solid var(--line);border-radius:13px;padding:10px;background:#101318}.rowhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.remove{background:#312126;color:#ffb8c0;border:1px solid #58313a;border-radius:9px;padding:7px 9px}.sides{display:grid;grid-template-columns:1fr 1fr;gap:8px}.side{background:#191d24;border-radius:10px;padding:9px;display:grid;gap:8px}.side b{font-size:12px}
-.small{font-size:11px;color:var(--muted)}
+.preview{min-width:0}.shell{background:#050607;border:1px solid var(--line);border-radius:18px;padding:7px;display:flex;justify-content:center;box-shadow:0 18px 60px #0007}.stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506}canvas{width:100%;height:100%;display:block}
+.transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:8px}
+.controls{display:flex;flex-direction:column;gap:10px}details{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}summary{padding:13px 14px;background:var(--panel2);font-weight:800;cursor:pointer}.grid{padding:13px;display:grid;gap:11px}.grid.two{grid-template-columns:1fr 1fr}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px}input[type=file]{width:100%;font-size:12px}input[type=range]{width:100%}select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px}.toggle{display:flex!important;align-items:center;gap:8px!important}
+.rows{padding:11px;display:grid;gap:10px}.row{border:1px solid var(--line);border-radius:13px;padding:10px;background:#101318}.rowhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.sides{display:grid;grid-template-columns:1fr 1fr;gap:8px}.side{background:#191d24;border-radius:10px;padding:9px;display:grid;gap:8px}.side b{font-size:12px}.small{font-size:11px;color:var(--muted)}
 @media(max-width:820px){.studio{grid-template-columns:1fr;padding:8px}.top{padding:9px}.top strong{font-size:14px}.top button{padding:8px 9px;font-size:12px}.grid.two,.sides{grid-template-columns:1fr}.controls{padding-bottom:40px}}
 </style>
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V6 FRONT</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">NEW LOW FRONT</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
-    <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">V6 Front: exactly five choice rows preserved. Highway camera is tuned for a much straighter driver/front view: lower in the phone frame, long into the distance, and wide only near the viewer instead of looking top-down.</div>
+    <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="20"></label><button id="exportBtn">Export Video</button></div>
+    <div class="note">Reference-matched low/front runner road: black background, dark blue-grey highway, red/white edges, exactly 5 moving choice rows. The road camera is locked so it cannot accidentally become top-down.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="920" value="820"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
-    <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
+    <details open><summary>Road / Motion</summary><div class="grid two">
+      <label>Speed <input id="speed" type="range" min="0.12" max="0.34" step="0.01" value="0.22"></label>
+      <label>Row gap <input id="rowGap" type="range" min="1.20" max="3.20" step="0.05" value="2.00"></label>
+      <label>Start delay <input id="startDelay" type="range" min="0.20" max="2.00" step="0.05" value="0.65"></label>
+      <label>Background <select id="bgMode"><option value="black" selected>Black reference</option><option value="green">Green screen</option></select></label>
+      <label class="toggle"><input id="speedLines" type="checkbox" checked> Long speed streaks</label>
+      <label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label>
+    </div></details>
+    <details open><summary>5 Choice Rows</summary><div class="rows" id="rows"></div></details>
   </section>
 </main>
 
@@ -133,21 +129,17 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     <div class="sides">
       <div class="side">
         <b>LEFT</b>
-        <label>Pad
-          <select class="leftColor"><option value="green">Green</option><option value="red">Red</option></select>
-        </label>
+        <label>Pad <select class="leftColor"><option value="green">Green</option><option value="red">Red</option></select></label>
         <label>PNG <input class="leftInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label class="toggle"><input class="leftRemove" type="checkbox" checked> Auto remove bg</label>
-        <label>Size <input class="leftSize" type="range" min="45" max="220" value="95"></label>
+        <label>Object size <input class="leftSize" type="range" min="50" max="210" value="100"></label>
       </div>
       <div class="side">
         <b>RIGHT</b>
-        <label>Pad
-          <select class="rightColor"><option value="red">Red</option><option value="green">Green</option></select>
-        </label>
+        <label>Pad <select class="rightColor"><option value="red">Red</option><option value="green">Green</option></select></label>
         <label>PNG <input class="rightInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label class="toggle"><input class="rightRemove" type="checkbox" checked> Auto remove bg</label>
-        <label>Size <input class="rightSize" type="range" min="45" max="220" value="95"></label>
+        <label>Object size <input class="rightSize" type="range" min="50" max="210" value="100"></label>
       </div>
     </div>
   </div>
@@ -162,81 +154,68 @@ const $=id=>document.getElementById(id);
 let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
-  speed:0.24,
-  roadWidth:1.08,
-  horizon:820,
-  perspectivePower:0.90,
-  padDelay:1.75,
-  padThickness:12,
+  speed:0.22,
+  rowGap:2.00,
+  startDelay:0.65,
   bgMode:'black',
   speedLines:true,
   roadShine:true,
   rows:[]
 };
 
+function clamp(v,a=0,b=1){return Math.max(a,Math.min(b,v))}
+function lerp(a,b,t){return a+(b-a)*t}
+function drawPoly(pts,fill){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
 function readFile(file){return new Promise((resolve,reject)=>{const fr=new FileReader();fr.onload=()=>resolve(fr.result);fr.onerror=reject;fr.readAsDataURL(file)})}
 function dataToImage(src){return new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src})}
-function processImageDataUrl(dataUrl, removeBg){
+function processImageDataUrl(dataUrl,removeBg){
   return new Promise((resolve,reject)=>{
     const img=new Image();
     img.onload=()=>{
       if(!removeBg){resolve(dataUrl);return}
-      const c=document.createElement('canvas');
-      c.width=img.width; c.height=img.height;
-      const cx=c.getContext('2d',{willReadFrequently:true});
-      cx.drawImage(img,0,0);
-      const id=cx.getImageData(0,0,c.width,c.height);
-      const d=id.data;
+      const c=document.createElement('canvas');c.width=img.width;c.height=img.height;
+      const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(img,0,0);
+      const id=cx.getImageData(0,0,c.width,c.height),d=id.data;
       const sample=(x,y)=>{const i=(y*c.width+x)*4;return[d[i],d[i+1],d[i+2]]};
       const pts=[[0,0],[c.width-1,0],[0,c.height-1],[c.width-1,c.height-1],[Math.floor(c.width/2),0],[0,Math.floor(c.height/2)],[c.width-1,Math.floor(c.height/2)],[Math.floor(c.width/2),c.height-1]];
-      let sr=0,sg=0,sb=0;
-      pts.forEach(([x,y])=>{const [r,g,b]=sample(x,y);sr+=r;sg+=g;sb+=b;});
+      let sr=0,sg=0,sb=0;pts.forEach(([x,y])=>{const [r,g,b]=sample(x,y);sr+=r;sg+=g;sb+=b});
       const br=sr/pts.length,bg=sg/pts.length,bb=sb/pts.length;
       for(let i=0;i<d.length;i+=4){
-        const dr=d[i]-br,dg=d[i+1]-bg,db=d[i+2]-bb;
-        const dist=Math.sqrt(dr*dr+dg*dg+db*db);
-        const bright=(d[i]+d[i+1]+d[i+2])/3;
-        if(dist<28 || bright>248){d[i+3]=0;}
-        else if(dist<42){d[i+3]=Math.min(d[i+3],110);}
+        const dr=d[i]-br,dg=d[i+1]-bg,db=d[i+2]-bb;const dist=Math.sqrt(dr*dr+dg*dg+db*db);const bright=(d[i]+d[i+1]+d[i+2])/3;
+        if(dist<27||bright>249)d[i+3]=0;else if(dist<44)d[i+3]=Math.min(d[i+3],120);
       }
-      cx.putImageData(id,0,0);
-      resolve(c.toDataURL('image/png'));
+      cx.putImageData(id,0,0);resolve(c.toDataURL('image/png'));
     };
-    img.onerror=reject;
-    img.src=dataUrl;
+    img.onerror=reject;img.src=dataUrl;
   });
 }
-async function dataToProcessedImage(src, removeBg){return dataToImage(await processImageDataUrl(src, removeBg))}
-function bindRange(id,key){$(id).addEventListener('input',e=>state[key]=Number(e.target.value))}
-['speed','roadWidth','horizon','perspectivePower','padDelay','padThickness'].forEach(id=>bindRange(id,id));
+async function dataToProcessedImage(src,removeBg){return dataToImage(await processImageDataUrl(src,removeBg))}
+
+$('speed').oninput=e=>state.speed=Number(e.target.value);
+$('rowGap').oninput=e=>state.rowGap=Number(e.target.value);
+$('startDelay').oninput=e=>state.startDelay=Number(e.target.value);
+$('bgMode').onchange=e=>state.bgMode=e.target.value;
 $('speedLines').onchange=e=>state.speedLines=e.target.checked;
 $('roadShine').onchange=e=>state.roadShine=e.target.checked;
-$('bgMode').onchange=e=>state.bgMode=e.target.value;
 
-function makeId(){return (crypto.randomUUID&&crypto.randomUUID()) || String(Date.now()+Math.random())}
+function makeId(){return (crypto.randomUUID&&crypto.randomUUID())||String(Date.now()+Math.random())}
 function addRow(saved={}){
   const row={
     id:makeId(),
-    leftColor:saved.leftColor||'green', rightColor:saved.rightColor||'red',
-    leftSize:saved.leftSize||95, rightSize:saved.rightSize||95,
-    leftSrc:saved.leftSrc||null, rightSrc:saved.rightSrc||null,
-    leftImg:null, rightImg:null,
-    leftRemove:saved.leftRemove!==false, rightRemove:saved.rightRemove!==false
+    leftColor:saved.leftColor||'green',rightColor:saved.rightColor||'red',
+    leftSize:saved.leftSize||100,rightSize:saved.rightSize||100,
+    leftSrc:saved.leftSrc||null,rightSrc:saved.rightSrc||null,
+    leftImg:null,rightImg:null,
+    leftRemove:saved.leftRemove!==false,rightRemove:saved.rightRemove!==false
   };
   state.rows.push(row);
-  const el=$('rowTemplate').content.firstElementChild.cloneNode(true);
-  el.dataset.id=row.id;
+  const el=$('rowTemplate').content.firstElementChild.cloneNode(true);el.dataset.id=row.id;
   el.querySelector('.rowtitle').textContent='Row '+(++rowCounter);
-  el.querySelector('.leftColor').value=row.leftColor;
-  el.querySelector('.rightColor').value=row.rightColor;
-  el.querySelector('.leftSize').value=row.leftSize;
-  el.querySelector('.rightSize').value=row.rightSize;
-  el.querySelector('.leftRemove').checked=row.leftRemove;
-  el.querySelector('.rightRemove').checked=row.rightRemove;
-  el.querySelector('.leftColor').onchange=e=>row.leftColor=e.target.value;
-  el.querySelector('.rightColor').onchange=e=>row.rightColor=e.target.value;
-  el.querySelector('.leftSize').oninput=e=>row.leftSize=Number(e.target.value);
-  el.querySelector('.rightSize').oninput=e=>row.rightSize=Number(e.target.value);
+  el.querySelector('.leftColor').value=row.leftColor;el.querySelector('.rightColor').value=row.rightColor;
+  el.querySelector('.leftSize').value=row.leftSize;el.querySelector('.rightSize').value=row.rightSize;
+  el.querySelector('.leftRemove').checked=row.leftRemove;el.querySelector('.rightRemove').checked=row.rightRemove;
+  el.querySelector('.leftColor').onchange=e=>row.leftColor=e.target.value;el.querySelector('.rightColor').onchange=e=>row.rightColor=e.target.value;
+  el.querySelector('.leftSize').oninput=e=>row.leftSize=Number(e.target.value);el.querySelector('.rightSize').oninput=e=>row.rightSize=Number(e.target.value);
   el.querySelector('.leftRemove').onchange=async e=>{row.leftRemove=e.target.checked;if(row.leftSrc)row.leftImg=await dataToProcessedImage(row.leftSrc,row.leftRemove)};
   el.querySelector('.rightRemove').onchange=async e=>{row.rightRemove=e.target.checked;if(row.rightSrc)row.rightImg=await dataToProcessedImage(row.rightSrc,row.rightRemove)};
   el.querySelector('.leftInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;row.leftSrc=await readFile(f);row.leftImg=await dataToProcessedImage(row.leftSrc,row.leftRemove)};
@@ -245,209 +224,130 @@ function addRow(saved={}){
   if(row.leftSrc)dataToProcessedImage(row.leftSrc,row.leftRemove).then(im=>row.leftImg=im);
   if(row.rightSrc)dataToProcessedImage(row.rightSrc,row.rightRemove).then(im=>row.rightImg=im);
 }
-function renumber(){rowCounter=0;[...document.querySelectorAll('.row')].forEach(el=>el.querySelector('.rowtitle').textContent='Row '+(++rowCounter))}
-for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green':'red'});
+for(let i=0;i<5;i++)addRow({leftColor:i%2?'red':'green',rightColor:i%2?'green':'red'});
 
-function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
-function easeZ(z){z=clamp(z,0,1); return Math.pow(z,state.perspectivePower)}
-function roadBoundsAtZ(z){
-  const raw=clamp(z,0,1);
-  const t=clamp((state.horizon-560)/(920-560),0,1);
-
-  // Straight driver/front-view projection.
-  // Keep both road sides almost parallel so they do not slope outward heavily.
-  // Eye-level still moves the road up/down, but it no longer makes the road fat.
-  const visualHorizon=650 + 105*t;
-  const topHalf=W*0.29*state.roadWidth;
-  const bottomHalf=W*0.34*state.roadWidth;
-
-  // Use the same depth factor for Y and width. That keeps each road edge as a
-  // clean straight line instead of bending / flaring near the bottom.
-  const eY=Math.pow(raw,0.82);
-  const y=visualHorizon + (H-visualHorizon)*eY;
-  const half=topHalf + (bottomHalf-topHalf)*eY;
-  return {e:raw,y,l:W/2-half,r:W/2+half,half,visualHorizon};
+// Locked geometry from the three references: low/front camera, straight road sides,
+// narrow far end around mid-frame, near road filling past the phone edges.
+const ROAD={horizonY:465,farHalf:92,nearHalf:390,nearY:1340};
+function project(z){
+  z=clamp(z);
+  const yCurve=Math.pow(z,1.52);
+  const wCurve=Math.pow(z,1.20);
+  const y=lerp(ROAD.horizonY,ROAD.nearY,yCurve);
+  const half=lerp(ROAD.farHalf,ROAD.nearHalf,wCurve);
+  return {z,y,half,l:W/2-half,r:W/2+half};
 }
-function lerp(a,b,t){return a+(b-a)*t}
-function averagePoint(pts){return pts.reduce((s,p)=>[s[0]+p[0],s[1]+p[1]],[0,0]).map(v=>v/pts.length)}
-function drawPoly(pts, fill){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
 
 function drawBackground(){
   if(state.bgMode==='green'){
-    const g=ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,'#12dc82');g.addColorStop(.60,'#08c875');g.addColorStop(1,'#069b5b');
-    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-  }else{
-    ctx.fillStyle='#050506';ctx.fillRect(0,0,W,H);
-  }
+    const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#09d774');g.addColorStop(1,'#079957');ctx.fillStyle=g;
+  }else ctx.fillStyle='#050506';
+  ctx.fillRect(0,0,W,H);
+
   if(state.speedLines){
-    ctx.save();ctx.strokeStyle='rgba(255,255,255,.42)';ctx.lineCap='round';
-    for(let i=0;i<12;i++){
-      const sideDir=i%2===0?-1:1;
-      const phase=(i*.11 + roadTime*state.speed*.62)%1;
-      const guideTop=roadBoundsAtZ(0).y;
-      const y=guideTop-360 + phase*430;
-      const x=sideDir<0 ? 48+phase*96 : W-48-phase*96;
-      const len=34+phase*96;
-      ctx.globalAlpha=.08+.34*phase;ctx.lineWidth=2+3*phase;
-      ctx.beginPath();ctx.moveTo(x,y-len*.55);ctx.lineTo(x+sideDir*14*phase,y+len*.45);ctx.stroke();
+    ctx.save();ctx.lineCap='round';ctx.strokeStyle='rgba(255,255,255,.88)';
+    for(let i=0;i<16;i++){
+      let z=(i/16 + roadTime*state.speed*.72)%1;
+      const a=project(z),b=project(clamp(z+.08));
+      const side=i%2?-1:1;
+      const outside=lerp(1.18,1.78,z);
+      const x1=W/2+side*a.half*outside;
+      const x2=W/2+side*b.half*outside;
+      ctx.globalAlpha=.08+.42*z;ctx.lineWidth=1.5+4.8*z;
+      ctx.beginPath();ctx.moveTo(x1,a.y-12);ctx.lineTo(x2,b.y+55*z);ctx.stroke();
     }
     ctx.restore();
   }
 }
+
 function drawRoad(){
-  const top=roadBoundsAtZ(0), bottom=roadBoundsAtZ(1);
-  drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]], '#59677f');
+  const top=project(0),bottom=project(1);
+  const g=ctx.createLinearGradient(0,top.y,0,H);
+  g.addColorStop(0,'#536781');g.addColorStop(.55,'#4a5d78');g.addColorStop(1,'#43546c');
+  drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,bottom.y],[bottom.l,bottom.y]],g);
 
-  // Subtle moving texture only; no strong horizontal slabs that make it look top-down.
-  ctx.save();
-  for(let i=0;i<8;i++){
-    const z=(i*.145 + roadTime*state.speed*.95)%1;
-    if(z<.20) continue;
-    const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.055));
-    const alpha=.018+.038*a.e;
-    drawPoly([[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]],'rgba(255,255,255,'+alpha+')');
-  }
-  ctx.restore();
-
-  // Red/white curb strips like the reference. They emphasize forward perspective.
-  for(let i=0;i<15;i++){
-    const z0=(i/15 + roadTime*state.speed*.72)%1;
-    const z1=z0+.055;
-    if(z1>1) continue;
-    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    const wa=7+12*a.e, wb=7+12*b.e;
-    const c=i%2===0?'#ff2333':'#ffffff';
+  // Moving red/white curb segments create forward travel while road geometry stays fixed.
+  for(let i=0;i<18;i++){
+    const z0=(i/18 + roadTime*state.speed*.58)%1;
+    const z1=z0+.05;if(z1>1)continue;
+    const a=project(z0),b=project(z1);
+    const wa=5+15*z0,wb=5+15*z1;
+    const c=i%2===0?'#ff2439':'#ffffff';
     drawPoly([[a.l,a.y],[a.l+wa,a.y],[b.l+wb,b.y],[b.l,b.y]],c);
     drawPoly([[a.r-wa,a.y],[a.r,a.y],[b.r,b.y],[b.r-wb,b.y]],c);
   }
 
   if(state.roadShine){
-    ctx.save();ctx.strokeStyle='rgba(255,255,255,.34)';ctx.lineCap='round';
-    for(let i=0;i<6;i++){
-      const z=(i*.19 + roadTime*state.speed*1.18)%1;
-      if(z<.28) continue;
-      const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.10));
-      const xA=W/2 + (i%2?-1:1)*a.half*(.30+.16*(i%3));
-      const xB=W/2 + (i%2?-1:1)*b.half*(.30+.16*(i%3));
-      ctx.globalAlpha=.18+.44*z;ctx.lineWidth=2+4*z;
-      ctx.beginPath();ctx.moveTo(xA,a.y);ctx.lineTo(xB,b.y);ctx.stroke();
+    ctx.save();ctx.strokeStyle='rgba(255,255,255,.62)';ctx.lineCap='round';
+    for(let i=0;i<9;i++){
+      const z=(i/9 + roadTime*state.speed*.96)%1;
+      if(z<.14)continue;
+      const a=project(z),b=project(clamp(z+.12));
+      const lane=(i%3-1)*.23;
+      ctx.globalAlpha=.10+.42*z;ctx.lineWidth=1.2+4.5*z;
+      ctx.beginPath();ctx.moveTo(W/2+a.half*lane,a.y);ctx.lineTo(W/2+b.half*lane,b.y);ctx.stroke();
     }
     ctx.restore();
   }
 }
-function drawRaisedPad(z, side, color){
-  const p=roadBoundsAtZ(z), e=p.e;
-  const laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
 
-  // Standing panel, not a floor tile. Width follows road depth naturally.
-  const width=Math.max(62,p.half*.78);
-  const height=Math.max(28,width*.34);
-  const baseY=p.y-3;
-  const topY=baseY-height;
-  const rgb=color==='red'?'255,50,58':'42,255,132';
-  const dark=color==='red'?'118,23,28':'15,104,54';
-
-  // Small ground shadow and thin glowing base.
-  ctx.save();ctx.fillStyle='rgba(0,0,0,.22)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+5,width*.44,5+8*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
-  ctx.save();ctx.fillStyle='rgba('+dark+',.76)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-state.padThickness*.45,width,state.padThickness,5);ctx.fill();ctx.restore();
-
-  // Face fades toward the top exactly like a standing light gate.
-  const g=ctx.createLinearGradient(0,baseY,0,topY);
-  g.addColorStop(0,'rgba('+rgb+',.96)');
-  g.addColorStop(.38,'rgba('+rgb+',.78)');
-  g.addColorStop(.76,'rgba('+rgb+',.30)');
-  g.addColorStop(1,'rgba('+rgb+',0)');
-  ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=14+22*e;ctx.fillStyle=g;
-  ctx.beginPath();ctx.roundRect(laneCenter-width/2,topY,width,height,7);ctx.fill();ctx.restore();
-
-  ctx.save();ctx.strokeStyle='rgba('+rgb+',.96)';ctx.lineWidth=2+1.5*e;ctx.beginPath();ctx.moveTo(laneCenter-width*.47,baseY-1);ctx.lineTo(laneCenter+width*.47,baseY-1);ctx.stroke();ctx.restore();
-  return {center:[laneCenter,baseY-height*.43],baseY,width,height,e};
+function rowQuad(z,color,side){
+  const depth=.095;
+  const a=project(z),b=project(clamp(z+depth));
+  const mid=W/2;
+  const innerGapA=a.half*.025,innerGapB=b.half*.025;
+  let pts;
+  if(side==='left')pts=[[a.l,a.y],[mid-innerGapA,a.y],[mid-innerGapB,b.y],[b.l,b.y]];
+  else pts=[[mid+innerGapA,a.y],[a.r,a.y],[b.r,b.y],[mid+innerGapB,b.y]];
+  const rgb=color==='red'?'255,28,49':'29,236,92';
+  ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=8+18*z;drawPoly(pts,'rgba('+rgb+',.97)');ctx.restore();
+  const centerX=side==='left'?lerp(a.l,mid,.52):lerp(mid,a.r,.48);
+  const centerY=(a.y+b.y)*.5;
+  const width=Math.max(54,(a.half*.94));
+  return {centerX,centerY,width,z,baseY:b.y};
 }
-function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
-  if(!im) return;
-  const iw=im.naturalWidth||im.width, ih=im.naturalHeight||im.height;
-  const scale=Math.min(boxW/iw, boxH/ih);
-  const dw=iw*scale, dh=ih*scale;
-  const dx=x-dw/2;
-  const dy=anchor==='center' ? y-dh/2 : y-dh;
-  ctx.drawImage(im,dx,dy,dw,dh);
+function drawImageFit(im,x,y,boxW,boxH){
+  if(!im)return;const iw=im.naturalWidth||im.width,ih=im.naturalHeight||im.height;const s=Math.min(boxW/iw,boxH/ih);const dw=iw*s,dh=ih*s;ctx.drawImage(im,x-dw/2,y-dh*.88,dw,dh);
 }
 
 function drawRows(){
-  const initialDelay=.75;
   state.rows.slice(0,5).forEach((row,i)=>{
-    // Each row arrives once. No modulo = no endless extra pads.
-    const elapsed=roadTime-initialDelay-i*state.padDelay;
-    const z=elapsed*state.speed*1.16;
-    if(z<0 || z>1.03) return;
-
-    const zz=Math.min(1,z);
-    const left=drawRaisedPad(zz,'left',row.leftColor);
-    const right=drawRaisedPad(zz,'right',row.rightColor);
-    const pngScale=.42+.74*left.e;
-    const leftSize=Math.min(row.leftSize*pngScale,left.width*.92);
-    const rightSize=Math.min(row.rightSize*pngScale,right.width*.92);
-    if(row.leftImg) drawImageFit(row.leftImg,left.center[0],left.baseY-5,leftSize,leftSize,'bottom');
-    if(row.rightImg) drawImageFit(row.rightImg,right.center[0],right.baseY-5,rightSize,rightSize,'bottom');
+    const elapsed=roadTime-state.startDelay-i*state.rowGap;
+    const z=elapsed*state.speed*.86;
+    if(z<0||z>1.08)return;
+    const zz=clamp(z);
+    const left=rowQuad(zz,row.leftColor,'left');
+    const right=rowQuad(zz,row.rightColor,'right');
+    const scale=.26+1.08*Math.pow(zz,.92);
+    const ls=Math.min(row.leftSize*scale,left.width*.92);
+    const rs=Math.min(row.rightSize*scale,right.width*.92);
+    if(row.leftImg)drawImageFit(row.leftImg,left.centerX,left.centerY,ls,ls);
+    if(row.rightImg)drawImageFit(row.rightImg,right.centerX,right.centerY,rs,rs);
   });
 }
+
 function frame(now){
-  const dt=Math.min(0.05,(now-last)/1000);
-  last=now;
-  if(running) roadTime+=dt;
-  drawBackground();
-  drawRoad();
-  drawRows();
-  requestAnimationFrame(frame);
+  const dt=Math.min(.05,(now-last)/1000);last=now;if(running)roadTime+=dt;
+  drawBackground();drawRoad();drawRows();requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
 
 $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pause':'Play'};
 $('resetBtn').onclick=()=>roadTime=0;
-$('saveBtn').onclick=()=>{
-  const save={...state, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};
-  localStorage.setItem('runnerStudioV6Front', JSON.stringify(save));
-  alert('Saved on this device');
-};
+$('saveBtn').onclick=()=>{const save={...state,rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};localStorage.setItem('runnerStudioNewLowFront',JSON.stringify(save));alert('Saved on this device')};
 $('loadBtn').onclick=async()=>{
-  const raw=localStorage.getItem('runnerStudioV6Front');
-  if(!raw) return alert('No save found on this device');
-  const s=JSON.parse(raw);
-  Object.assign(state,s);
-  ['speed','roadWidth','horizon','perspectivePower','padDelay','padThickness'].forEach(id=>$(id).value=state[id]);
-  $('speedLines').checked=state.speedLines;
-  $('roadShine').checked=state.roadShine;
-  $('bgMode').value=state.bgMode||'black';
-  $('rows').innerHTML='';
-  state.rows=[];
-  rowCounter=0;
-  const fixed=(s.rows||[]).slice(0,5); while(fixed.length<5) fixed.push({leftColor:fixed.length%2?'red':'green',rightColor:fixed.length%2?'green':'red'}); fixed.forEach(addRow);
-  alert('Loaded');
+  const raw=localStorage.getItem('runnerStudioNewLowFront');if(!raw)return alert('No save found on this device');
+  const s=JSON.parse(raw);Object.assign(state,s);
+  $('speed').value=state.speed;$('rowGap').value=state.rowGap;$('startDelay').value=state.startDelay;$('bgMode').value=state.bgMode||'black';$('speedLines').checked=state.speedLines;$('roadShine').checked=state.roadShine;
+  $('rows').innerHTML='';state.rows=[];rowCounter=0;const fixed=(s.rows||[]).slice(0,5);while(fixed.length<5)fixed.push({leftColor:fixed.length%2?'red':'green',rightColor:fixed.length%2?'green':'red'});fixed.forEach(addRow);alert('Loaded');
 };
 $('logoutBtn').onclick=async()=>{await fetch('/api/logout',{method:'POST'});location.href='/'};
 $('exportBtn').onclick=()=>{
-  if(recorder) return;
-  const sec=Math.max(2,Math.min(60,+$('recordSec').value||15));
-  const stream=canvas.captureStream(30);
-  let mime='video/webm;codecs=vp9';
-  if(!MediaRecorder.isTypeSupported(mime)) mime='video/webm';
-  const chunks=[];
+  if(recorder)return;const sec=Math.max(2,Math.min(60,+$('recordSec').value||20));const stream=canvas.captureStream(30);let mime='video/webm;codecs=vp9';if(!MediaRecorder.isTypeSupported(mime))mime='video/webm';const chunks=[];
   recorder=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:9000000});
-  recorder.ondataavailable=e=>{if(e.data.size) chunks.push(e.data)};
-  recorder.onstop=()=>{
-    const blob=new Blob(chunks,{type:mime});
-    const a=document.createElement('a');
-    a.href=URL.createObjectURL(blob);
-    a.download='runner-video.webm';
-    a.click();
-    setTimeout(()=>URL.revokeObjectURL(a.href),5000);
-    recorder=null;
-    $('exportBtn').textContent='Export Video';
-  };
-  recorder.start();
-  $('exportBtn').textContent='Recording...';
-  setTimeout(()=>{if(recorder&&recorder.state!=='inactive') recorder.stop()}, sec*1000);
+  recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+  recorder.onstop=()=>{const blob=new Blob(chunks,{type:mime});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='runner-low-front.webm';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000);recorder=null;$('exportBtn').textContent='Export Video'};
+  recorder.start();$('exportBtn').textContent='Recording...';setTimeout(()=>{if(recorder&&recorder.state!=='inactive')recorder.stop()},sec*1000);
 };
 })();
 </script>
@@ -457,18 +357,16 @@ $('exportBtn').onclick=()=>{
 const server=http.createServer(async(req,res)=>{
   const u=new URL(req.url,`http://${req.headers.host||'localhost'}`);
   const pathname=decodeURIComponent(u.pathname);
-  if(pathname==='/api/auth/status'&&req.method==='GET') return send(res,200,JSON.stringify({authenticated:authed(req)}),'application/json; charset=utf-8');
+  if(pathname==='/api/auth/status'&&req.method==='GET')return send(res,200,JSON.stringify({authenticated:authed(req)}),'application/json; charset=utf-8');
   if(pathname==='/api/login'&&req.method==='POST'){
     try{
       const body=await readJson(req);
-      if(!safeEqual(body.password||'',APP_PASSWORD)) return send(res,401,JSON.stringify({ok:false,error:'Wrong password'}),'application/json; charset=utf-8');
+      if(!safeEqual(body.password||'',APP_PASSWORD))return send(res,401,JSON.stringify({ok:false,error:'Wrong password'}),'application/json; charset=utf-8');
       const cookie=[`runner_session=${encodeURIComponent(makeSession())}`,'Path=/','HttpOnly','SameSite=Strict',`Max-Age=${Math.floor(SESSION_MS/1000)}`,IS_PROD?'Secure':''].filter(Boolean).join('; ');
       return send(res,200,JSON.stringify({ok:true}),'application/json; charset=utf-8',{'Set-Cookie':cookie});
-    }catch{
-      return send(res,400,JSON.stringify({ok:false}),'application/json; charset=utf-8');
-    }
+    }catch{return send(res,400,JSON.stringify({ok:false}),'application/json; charset=utf-8')}
   }
-  if(pathname==='/api/logout'&&req.method==='POST') return send(res,200,JSON.stringify({ok:true}),'application/json; charset=utf-8',{'Set-Cookie':`runner_session=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0${IS_PROD?'; Secure':''}`});
+  if(pathname==='/api/logout'&&req.method==='POST')return send(res,200,JSON.stringify({ok:true}),'application/json; charset=utf-8',{'Set-Cookie':`runner_session=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0${IS_PROD?'; Secure':''}`});
   if((pathname==='/'||pathname==='/app')&&req.method==='GET'){
     if(pathname==='/app'&&!authed(req)){res.writeHead(302,{Location:'/'});return res.end()}
     return send(res,200,authed(req)?APP_HTML:LOGIN_HTML,'text/html; charset=utf-8');
@@ -476,4 +374,4 @@ const server=http.createServer(async(req,res)=>{
   return send(res,404,'Not found');
 });
 
-server.listen(PORT,()=>console.log(`Private Runner Studio V6 Front running on http://localhost:${PORT}`));
+server.listen(PORT,()=>console.log(`Private Runner Studio - New Low Front Road running on http://localhost:${PORT}`));
