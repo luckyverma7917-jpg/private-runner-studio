@@ -119,7 +119,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Classic V6 road is kept untouched. I added 9 more front-view road variants, so you can switch roads and avoid repetitive visuals. Eye-level horizon is tuned to push the road lower and more front-facing. Green and black background modes are both available.</div>
+    <div class="note">Classic V6 road is kept untouched. I added 9 more front-view road variants, so you can switch roads and avoid repetitive visuals. Eye-level horizon is tuned to push the road lower and more front-facing, with a slightly longer back-side road length. Green and black background modes are both available.</div>
   </section>
   <section class="controls">
     <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="760" value="650"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
@@ -257,7 +257,7 @@ function roadBoundsAtZ(z){
   const e=Math.pow(Math.max(0,Math.min(1,z)),curve);
   const topHalf=88 + 56*hNorm;
   const bottomHalf=W*0.55*state.roadWidth;
-  const startY=650 + 170*hNorm;
+  const startY=635 + 150*hNorm;
   const y=startY + (H - startY) * e;
   const half=topHalf + (bottomHalf-topHalf) * e;
   return {e,y,l:W/2-half,r:W/2+half,half};
