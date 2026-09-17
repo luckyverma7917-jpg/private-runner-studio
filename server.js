@@ -118,8 +118,8 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
-    <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Classic V6 road is kept untouched. I added 9 more front-view road variants, so you can switch roads and avoid repetitive visuals. Eye-level horizon is tuned to push the road lower and more front-facing. A new road length option lets you choose Short, Long, or Very Long. This build uses a stronger forward camera push: the road flows forward while exactly 5 pad groups stay fixed on the road with larger gaps between them and disappear after the camera passes them. Green and black background modes are both available.</div>
+    <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="12"></label><button id="exportBtn">Export Video</button></div>
+    <div class="note">Classic V6 road is kept untouched. I added 9 more front-view road variants, so you can switch roads and avoid repetitive visuals. Eye-level horizon is tuned to push the road lower and more front-facing. A new road length option lets you choose Short, Long, or Very Long. 12-second low-front course: exactly 5 pad groups stay fixed on the road with clear gaps. The camera drives forward, each pad group is passed in sequence, and all five are cleared early enough to leave time for the final target/fight. Green and black background modes are both available.</div>
   </section>
   <section class="controls">
     <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="760" value="650"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="2.05"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Road length <select id="roadLengthMode"><option value="short">Short</option><option value="long" selected>Long</option><option value="veryLong">Very Long</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
@@ -255,14 +255,14 @@ for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green'
 function easeZ(z){z=Math.max(0,Math.min(1,z)); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
   const hNorm=Math.max(0,Math.min(1,(state.horizon-560)/200));
-  const curve=Math.max(0.52,state.perspectivePower-(0.26*hNorm));
+  const curve=Math.max(0.58,state.perspectivePower-(0.22*hNorm));
   const e=Math.pow(Math.max(0,Math.min(1,z)),curve);
-  const topHalf=98 + 70*hNorm;
+  const topHalf=88 + 56*hNorm;
   const bottomHalf=W*0.55*state.roadWidth;
   const lengthPresets={
-    short:{base:620, scale:150},
-    long:{base:500, scale:110},
-    veryLong:{base:410, scale:82}
+    short:{base:690, scale:170},
+    long:{base:650, scale:170},
+    veryLong:{base:610, scale:165}
   };
   const lengthCfg=lengthPresets[state.roadLengthMode]||lengthPresets.long;
   const startY=lengthCfg.base + lengthCfg.scale*hNorm;
@@ -270,9 +270,9 @@ function roadBoundsAtZ(z){
   const half=topHalf + (bottomHalf-topHalf) * e;
   return {e,y,l:W/2-half,r:W/2+half,half};
 }
-function cameraDistance(){ return roadTime*state.speed*8.6; }
+function cameraDistance(){ return roadTime*state.speed*40.5; }
 function rowWorldGap(){ return 8.0 + state.padDelay*4.2; }
-function roadSurfaceFlow(){ return cameraDistance()*0.24; }
+function roadSurfaceFlow(){ return cameraDistance()*0.09; }
 function lerp(a,b,t){return a+(b-a)*t}
 function averagePoint(pts){return pts.reduce((s,p)=>[s[0]+p[0],s[1]+p[1]],[0,0]).map(v=>v/pts.length)}
 function drawPoly(pts, fill){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
