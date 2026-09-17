@@ -119,11 +119,11 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Classic V6 road is kept untouched. I added 9 more front-view road variants, so you can switch roads and avoid repetitive visuals. Eye-level horizon is tuned to push the road lower and more front-facing. A new road length option lets you choose Short, Long, or Very Long. This build uses a stronger forward camera push: the road flows forward while the pads stay fixed on the road with gaps between them and disappear after the camera passes them. Green and black background modes are both available.</div>
+    <div class="note">Classic V6 road is kept untouched. I added 9 more front-view road variants, so you can switch roads and avoid repetitive visuals. Eye-level horizon is tuned to push the road lower and more front-facing. A new road length option lets you choose Short, Long, or Very Long. This build uses a stronger forward camera push: the road flows forward while exactly 5 pad groups stay fixed on the road with larger gaps between them and disappear after the camera passes them. Green and black background modes are both available.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="760" value="650"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Road length <select id="roadLengthMode"><option value="short">Short</option><option value="long" selected>Long</option><option value="veryLong">Very Long</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
-    <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
+    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="760" value="650"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="2.05"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Road length <select id="roadLengthMode"><option value="short">Short</option><option value="long" selected>Long</option><option value="veryLong">Very Long</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows only. Pads stay fixed on the road with larger gaps, and once the camera passes them they disappear. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
 
@@ -166,7 +166,7 @@ const state={
   roadWidth:1.08,
   horizon:650,
   perspectivePower:0.90,
-  padDelay:1.75,
+  padDelay:2.05,
   padThickness:12,
   roadVariant:'classic',
   roadLengthMode:'long',
@@ -271,8 +271,8 @@ function roadBoundsAtZ(z){
   return {e,y,l:W/2-half,r:W/2+half,half};
 }
 function cameraDistance(){ return roadTime*state.speed*8.6; }
-function rowWorldGap(){ return 4.6 + state.padDelay*3.2; }
-function roadSurfaceFlow(){ return cameraDistance()*0.22; }
+function rowWorldGap(){ return 8.0 + state.padDelay*4.2; }
+function roadSurfaceFlow(){ return cameraDistance()*0.24; }
 function lerp(a,b,t){return a+(b-a)*t}
 function averagePoint(pts){return pts.reduce((s,p)=>[s[0]+p[0],s[1]+p[1]],[0,0]).map(v=>v/pts.length)}
 function drawPoly(pts, fill){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
@@ -624,14 +624,12 @@ function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
 function drawRows(){
   const rows=state.rows.slice(0,5);
   const gap=rowWorldGap();
-  const firstOffset=5.5;
-  const cycleLength=firstOffset + rows.length*gap + 7;
-  const cam=cameraDistance()%cycleLength;
+  const firstOffset=6.5;
+  const cam=cameraDistance();
+  const visibleDepth=firstOffset + (rows.length-1)*gap + 6;
   rows.forEach((row,i)=>{
-    let worldZ=firstOffset + i*gap;
-    while(worldZ < cam-1.2) worldZ += cycleLength;
+    const worldZ=firstOffset + i*gap;
     const rel=worldZ-cam;
-    const visibleDepth=firstOffset + rows.length*gap;
     if(rel<0 || rel>visibleDepth) return;
     const z=1 - rel/visibleDepth;
     const zz=Math.max(0,Math.min(1,z));
