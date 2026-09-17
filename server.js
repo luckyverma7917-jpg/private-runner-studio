@@ -83,7 +83,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio V6 Front</title>
+<title>Private Runner Studio V6.1 Reference Angle</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -112,18 +112,17 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V6 FRONT</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V6.1 REF</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="12"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Classic V6 road is kept untouched. I added 9 more front-view road variants, so you can switch roads and avoid repetitive visuals. Eye-level horizon is tuned to push the road lower and more front-facing. A new road length option lets you choose Short, Long, or Very Long. 12-second low-front course: exactly 5 pad groups stay fixed on the road with clear gaps. The camera drives forward, each pad group is passed in sequence, and all five are cleared early enough to leave time for the final target/fight. Green and black background modes are both available.</div>
+    <div class="note">Reference-angle moving road: the camera/road geometry matches the supplied black-background road reference — a low, straight, centered one-point perspective with the road filling the bottom and converging to a single vanishing point. No glowing pads are rendered in this build. The red/white curbs and road surface move forward to create the driving effect.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="760" value="650"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="2.05"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Road length <select id="roadLengthMode"><option value="short">Short</option><option value="long" selected>Long</option><option value="veryLong">Very Long</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
-    <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows only. Pads stay fixed on the road with larger gaps, and once the camera passes them they disappear. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
+    <details open><summary>Moving Road / Reference Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.26"></label><label>Road width <input id="roadWidth" type="range" min="0.92" max="1.08" step="0.01" value="1.00"></label><label>Reference angle height <input id="horizon" type="range" min="460" max="550" value="500"></label><label>Perspective <input id="perspectivePower" type="range" min="0.88" max="1.12" step="0.01" value="1.00"></label><label>Road style <select id="roadVariant"><option value="classic">1. Reference Gray</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Road length <select id="roadLengthMode"><option value="short">Reference</option><option value="long" selected>Long</option><option value="veryLong">Very Long</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
   </section>
 </main>
 
@@ -162,15 +161,15 @@ const $=id=>document.getElementById(id);
 let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
-  speed:0.24,
-  roadWidth:1.08,
-  horizon:650,
-  perspectivePower:0.90,
+  speed:0.26,
+  roadWidth:1.00,
+  horizon:500,
+  perspectivePower:1.00,
   padDelay:2.05,
   padThickness:12,
   roadVariant:'classic',
   roadLengthMode:'long',
-  bgMode:'green',
+  bgMode:'black',
   speedLines:true,
   roadShine:true,
   rows:[]
@@ -215,7 +214,7 @@ $('roadVariant').onchange=e=>state.roadVariant=e.target.value;
 $('roadLengthMode').onchange=e=>state.roadLengthMode=e.target.value;
 $('speedLines').onchange=e=>state.speedLines=e.target.checked;
 $('roadShine').onchange=e=>state.roadShine=e.target.checked;
-$('bgMode').onchange=e=>state.bgMode=e.target.value;
+if($('bgMode')) $('bgMode').onchange=e=>state.bgMode=e.target.value;
 
 function makeId(){return (crypto.randomUUID&&crypto.randomUUID()) || String(Date.now()+Math.random())}
 function addRow(saved={}){
@@ -245,34 +244,27 @@ function addRow(saved={}){
   el.querySelector('.rightRemove').onchange=async e=>{row.rightRemove=e.target.checked;if(row.rightSrc)row.rightImg=await dataToProcessedImage(row.rightSrc,row.rightRemove)};
   el.querySelector('.leftInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;row.leftSrc=await readFile(f);row.leftImg=await dataToProcessedImage(row.leftSrc,row.leftRemove)};
   el.querySelector('.rightInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;row.rightSrc=await readFile(f);row.rightImg=await dataToProcessedImage(row.rightSrc,row.rightRemove)};
-  $('rows').appendChild(el);
+  if($('rows')) $('rows').appendChild(el);
   if(row.leftSrc)dataToProcessedImage(row.leftSrc,row.leftRemove).then(im=>row.leftImg=im);
   if(row.rightSrc)dataToProcessedImage(row.rightSrc,row.rightRemove).then(im=>row.rightImg=im);
 }
 function renumber(){rowCounter=0;[...document.querySelectorAll('.row')].forEach(el=>el.querySelector('.rowtitle').textContent='Row '+(++rowCounter))}
-for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green':'red'});
+
 
 function easeZ(z){z=Math.max(0,Math.min(1,z)); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
-  const hNorm=Math.max(0,Math.min(1,(state.horizon-560)/200));
-  const curve=Math.max(0.58,state.perspectivePower-(0.22*hNorm));
-  const e=Math.pow(Math.max(0,Math.min(1,z)),curve);
-  const topHalf=88 + 56*hNorm;
-  const bottomHalf=W*0.55*state.roadWidth;
-  const lengthPresets={
-    short:{base:690, scale:170},
-    long:{base:650, scale:170},
-    veryLong:{base:610, scale:165}
-  };
-  const lengthCfg=lengthPresets[state.roadLengthMode]||lengthPresets.long;
-  const startY=lengthCfg.base + lengthCfg.scale*hNorm;
-  const y=startY + (H - startY) * e;
-  const half=topHalf + (bottomHalf-topHalf) * e;
+  const zz=Math.max(0,Math.min(1,z));
+  const e=Math.pow(zz,state.perspectivePower);
+  const lengthShift=state.roadLengthMode==='veryLong'?-36:(state.roadLengthMode==='long'?-18:0);
+  const vanishY=state.horizon + lengthShift;
+  const bottomHalf=(W*0.50)*state.roadWidth;
+  const half=Math.max(1,bottomHalf*e);
+  const y=vanishY + (H-vanishY)*e;
   return {e,y,l:W/2-half,r:W/2+half,half};
 }
-function cameraDistance(){ return roadTime*state.speed*40.5; }
+function cameraDistance(){ return roadTime*state.speed*5.4; }
 function rowWorldGap(){ return 8.0 + state.padDelay*4.2; }
-function roadSurfaceFlow(){ return cameraDistance()*0.09; }
+function roadSurfaceFlow(){ return roadTime*state.speed*1.35; }
 function lerp(a,b,t){return a+(b-a)*t}
 function averagePoint(pts){return pts.reduce((s,p)=>[s[0]+p[0],s[1]+p[1]],[0,0]).map(v=>v/pts.length)}
 function drawPoly(pts, fill){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
@@ -384,13 +376,7 @@ function drawSideRails(color){
 }
 
 function drawBackground(){
-  if(state.bgMode==='green'){
-    const g=ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,'#12dc82');g.addColorStop(.60,'#08c875');g.addColorStop(1,'#069b5b');
-    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-  }else{
-    ctx.fillStyle='#050506';ctx.fillRect(0,0,W,H);
-  }
+  ctx.fillStyle='#000000';ctx.fillRect(0,0,W,H);
   if(state.speedLines){
     ctx.save();ctx.strokeStyle='rgba(255,255,255,.42)';ctx.lineCap='round';
     for(let i=0;i<12;i++){
@@ -408,38 +394,39 @@ function drawBackground(){
 
 function drawRoadClassic(){
   const top=roadBoundsAtZ(0), bottom=roadBoundsAtZ(1);
-  drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]], '#59677f');
-  ctx.save();
-  for(let i=0;i<8;i++){
-    const z=(i*.145 + roadSurfaceFlow()*.95)%1;
-    if(z<.20) continue;
-    const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.055));
-    const alpha=.018+.038*a.e;
-    drawPoly(quad(a,b),'rgba(255,255,255,'+alpha+')');
-  }
-  ctx.restore();
-  for(let i=0;i<15;i++){
-    const z0=(i/15 + roadSurfaceFlow()*.72)%1;
-    const z1=z0+.055;
-    if(z1>1) continue;
-    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    const wa=7+12*a.e, wb=7+12*b.e;
-    const c=i%2===0?'#ff2333':'#ffffff';
-    drawPoly([[a.l,a.y],[a.l+wa,a.y],[b.l+wb,b.y],[b.l,b.y]],c);
-    drawPoly([[a.r-wa,a.y],[a.r,a.y],[b.r,b.y],[b.r-wb,b.y]],c);
-  }
+  const g=ctx.createLinearGradient(0,top.y,0,H);
+  g.addColorStop(0,'#c7c9cc');
+  g.addColorStop(.42,'#bfc2c6');
+  g.addColorStop(1,'#aeb2b7');
+  drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]],g);
+
+  // Soft forward-moving road streaks so the road itself feels in motion.
   if(state.roadShine){
-    ctx.save();ctx.strokeStyle='rgba(255,255,255,.34)';ctx.lineCap='round';
-    for(let i=0;i<6;i++){
-      const z=(i*.19 + roadSurfaceFlow()*1.18)%1;
-      if(z<.28) continue;
-      const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.10));
-      const xA=W/2 + (i%2?-1:1)*a.half*(.30+.16*(i%3));
-      const xB=W/2 + (i%2?-1:1)*b.half*(.30+.16*(i%3));
-      ctx.globalAlpha=.18+.44*z;ctx.lineWidth=2+4*z;
-      ctx.beginPath();ctx.moveTo(xA,a.y);ctx.lineTo(xB,b.y);ctx.stroke();
+    ctx.save();
+    for(let i=0;i<10;i++){
+      const z=(i*.113 + roadSurfaceFlow()*.82)%1;
+      if(z<.10) continue;
+      const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.075));
+      const side=(i%3===0?-.34:(i%3===1?.28:.05));
+      const xa=W/2+a.half*side, xb=W/2+b.half*side;
+      ctx.strokeStyle='rgba(255,255,255,'+(.04+.15*a.e)+')';
+      ctx.lineWidth=1.2+3.8*a.e;
+      ctx.lineCap='round';
+      ctx.beginPath();ctx.moveTo(xa,a.y);ctx.lineTo(xb,b.y);ctx.stroke();
     }
     ctx.restore();
+  }
+
+  // Moving red/white rumble curbs on the exact reference-angle road edges.
+  for(let i=0;i<22;i++){
+    const z0=(i/22 + roadSurfaceFlow()*.58)%1;
+    const z1=z0+.044;
+    if(z1>1) continue;
+    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    const wa=3+15*a.e, wb=3+15*b.e;
+    const c=i%2===0?'#ff1f2f':'#ffffff';
+    drawPoly([[a.l,a.y],[a.l+wa,a.y],[b.l+wb,b.y],[b.l,b.y]],c);
+    drawPoly([[a.r-wa,a.y],[a.r,a.y],[b.r,b.y],[b.r-wb,b.y]],c);
   }
 }
 function drawRoadNeonPulse(){
@@ -648,7 +635,6 @@ function frame(now){
   if(running) roadTime+=dt;
   drawBackground();
   drawRoad();
-  drawRows();
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
@@ -670,11 +656,8 @@ $('loadBtn').onclick=async()=>{
   $('roadLengthMode').value=state.roadLengthMode||'long';
   $('speedLines').checked=state.speedLines;
   $('roadShine').checked=state.roadShine;
-  $('bgMode').value=state.bgMode||'green';
-  $('rows').innerHTML='';
-  state.rows=[];
-  rowCounter=0;
-  const fixed=(s.rows||[]).slice(0,5); while(fixed.length<5) fixed.push({leftColor:fixed.length%2?'red':'green',rightColor:fixed.length%2?'green':'red'}); fixed.forEach(addRow);
+  if($('bgMode')) $('bgMode').value=state.bgMode||'black';
+  if($('rows')){ $('rows').innerHTML=''; state.rows=[]; rowCounter=0; const fixed=(s.rows||[]).slice(0,5); while(fixed.length<5) fixed.push({leftColor:fixed.length%2?'red':'green',rightColor:fixed.length%2?'green':'red'}); fixed.forEach(addRow); }
   alert('Loaded');
 };
 $('logoutBtn').onclick=async()=>{await fetch('/api/logout',{method:'POST'});location.href='/'};
@@ -728,4 +711,4 @@ const server=http.createServer(async(req,res)=>{
   return send(res,404,'Not found');
 });
 
-server.listen(PORT,()=>console.log(`Private Runner Studio V6 Front running on http://localhost:${PORT}`));
+server.listen(PORT,()=>console.log(`Private Runner Studio V6.1 Reference Angle running on http://localhost:${PORT}`));
