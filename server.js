@@ -45,7 +45,7 @@ function readJson(req){
     let b='';
     req.on('data',c=>{b+=c; if(b.length>1e6){reject(new Error('too large')); req.destroy();}});
     req.on('end',()=>{try{resolve(JSON.parse(b||'{}'))}catch(e){reject(e)}});
-    req.on('error',reject);
+    req.error && req.on('error',reject);
   });
 }
 
@@ -83,7 +83,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Eye-Level</title>
+<title>Private Runner Studio Ground View</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -112,18 +112,18 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">EYE-LEVEL ORIGINAL</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">GROUND EYE-LEVEL</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Perspective: Eye-level long highway view with your original glowing pads and 10 highway styles preserved.</div>
+    <div class="note">Wide Horizon Range unlocked for perfect Ground/Eye-level view. Original pads & glowing base intact.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway & Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24"></label><label>Horizon Height <input id="horizon" type="range" min="0.30" max="0.55" step="0.01" value="0.40"></label><label>Top Width <input id="topWidth" type="range" min="0.01" max="0.15" step="0.005" value="0.04"></label><label>Perspective Depth <input id="perspectivePower" type="range" min="1.2" max="2.8" step="0.05" value="2.0"></label><label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
-    <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
+    <details open><summary>Moving Highway & Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24"></label><label>Horizon Height <input id="horizon" type="range" min="0.15" max="0.65" step="0.01" value="0.28"></label><label>Top Width <input id="topWidth" type="range" min="0.005" max="0.18" step="0.005" value="0.035"></label><label>Perspective Depth <input id="perspectivePower" type="range" min="1.0" max="3.2" step="0.05" value="2.1"></label><label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
 
@@ -163,9 +163,9 @@ let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
   speed:0.24,
-  horizon:0.40,
-  topWidth:0.04,
-  perspectivePower:2.0,
+  horizon:0.28,
+  topWidth:0.035,
+  perspectivePower:2.1,
   padDelay:1.75,
   padThickness:12,
   roadVariant:'classic',
@@ -253,7 +253,6 @@ const TRACK_Z_LENGTH=220;
 const BASE_TRACK_Z_LENGTH=125;
 const TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
-// EYE-LEVEL LONG HIGHWAY PROJECTION
 function roadBoundsAtZ(z){
   const t=Math.max(0,Math.min(1,z));
   const HORIZON_Y=H*state.horizon;
@@ -548,7 +547,7 @@ function drawRoad(){
   fn();
 }
 
-// 100% ORIGINAL GLOWING PADS LOGIC PRESERVED
+// 100% ORIGINAL GLOWING PADS LOGIC
 function drawRaisedPad(z, side, color){
   const p=roadBoundsAtZ(z), e=p.e;
   const laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
@@ -613,11 +612,11 @@ $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pau
 $('resetBtn').onclick=()=>roadTime=0;
 $('saveBtn').onclick=()=>{
   const save={...state, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};
-  localStorage.setItem('runnerStudioV6LowAngle', JSON.stringify(save));
+  localStorage.setItem('runnerStudioV6Ground', JSON.stringify(save));
   alert('Saved on this device');
 };
 $('loadBtn').onclick=async()=>{
-  const raw=localStorage.getItem('runnerStudioV6LowAngle');
+  const raw=localStorage.getItem('runnerStudioV6Ground');
   if(!raw) return alert('No save found on this device');
   const s=JSON.parse(raw);
   Object.assign(state,s);
@@ -675,7 +674,7 @@ const server=http.createServer(async(req,res)=>{
       return send(res,400,JSON.stringify({ok:false}),'application/json; charset=utf-8');
     }
   }
-  if(pathname==='/api/logout'&&req.method==='POST') return send(res,200,JSON.stringify({ok:true}),'application/json; charset=utf-8',{'Set-Cookie':`runner_session=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0${IS_PROD?'; Secure':''}`});
+  if(pathname==='/api/logout'&&req.method==='POST') return send(res,200,JSON.stringify({ok:true}),'application/json; charset=utf-8',{'Set-Cookie':`runner_session=; Path=/;   HttpOnly; SameSite=Strict; Max-Age=0${IS_PROD?'; Secure':''}`});
   if((pathname==='/'||pathname==='/app')&&req.method==='GET'){
     if(pathname==='/app'&&!authed(req)){res.writeHead(302,{Location:'/'});return res.end()}
     return send(res,200,authed(req)?APP_HTML:LOGIN_HTML,'text/html; charset=utf-8');
