@@ -83,7 +83,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Ground-Eye 3D</title>
+<title>Private Runner Studio Dog-Eye 3D</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -122,7 +122,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     <div class="note">True ground-level first-person view. Flat horizon directly ahead, straight highway depth.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway & Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24"></label><label>Horizon Height <input id="horizon" type="range" min="0.30" max="0.65" step="0.01" value="0.48"></label><label>Top Width <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08"></label><label>Camera Height (Eye View) <input id="camHeight" type="range" min="0.6" max="2.4" step="0.05" value="1.2"></label><label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Moving Highway & Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24"></label><label>Horizon Height <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46"></label><label>Top Width <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08"></label><label>Camera Height (Eye View) <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2"></label><label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
     <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
@@ -163,7 +163,7 @@ let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
   speed:0.24,
-  horizon:0.48,
+  horizon:0.46,
   topWidth:0.08,
   camHeight:1.2,
   padDelay:1.75,
@@ -253,14 +253,12 @@ const TRACK_Z_LENGTH=220;
 const BASE_TRACK_Z_LENGTH=125;
 const TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
-// TRUE DOG-EYE GROUND 3D PROJECTION
 function roadBoundsAtZ(z){
   const t=Math.max(0,Math.min(1,z));
   const HORIZON_Y=H*state.horizon;
   const TOP_HALF=W*state.topWidth;
   const BOTTOM_HALF=W*0.62;
 
-  // Real Ground Perspective Math:
   const zWorld = (1.0 - t) * 12.0 + 0.9;
   const scale = 1.0 / (zWorld * state.camHeight);
   const minScale = 1.0 / (12.9 * state.camHeight);
@@ -554,7 +552,6 @@ function drawRoad(){
   fn();
 }
 
-// 100% ORIGINAL GLOWING PADS LOGIC
 function drawRaisedPad(z, side, color){
   const p=roadBoundsAtZ(z), e=p.e;
   const laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
