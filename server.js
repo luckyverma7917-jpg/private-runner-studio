@@ -83,7 +83,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio V6 Front</title>
+<title>Private Runner Studio V6 Low Angle</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -112,17 +112,17 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V6 FRONT</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">LOW ANGLE</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Classic V6 road is kept untouched. I added 9 more front-view road variants, so you can switch roads and avoid repetitive visuals. Eye-level horizon is tuned to push the road lower and more front-facing. Green and black background modes are both available.</div>
+    <div class="note">Low ground-level runner camera: straight horizon, no top-down tilt, flat clean background, and continuous forward-motion perspective. The road starts wide at the bottom edges and converges straight ahead like the reference Shorts runner view.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="760" value="650"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Moving Highway / Low Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.22"></label><label>Road width <input id="roadWidth" type="range" min="0.98" max="1.18" step="0.01" value="1.10"></label><label>Straight horizon <input id="horizon" type="range" min="610" max="730" value="668"></label><label>Low-angle depth <input id="perspectivePower" type="range" min="0.92" max="1.28" step="0.02" value="1.10"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
     <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
@@ -162,15 +162,15 @@ const $=id=>document.getElementById(id);
 let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
-  speed:0.24,
-  roadWidth:1.08,
-  horizon:650,
-  perspectivePower:0.90,
+  speed:0.22,
+  roadWidth:1.10,
+  horizon:668,
+  perspectivePower:1.10,
   padDelay:1.75,
   padThickness:12,
   roadVariant:'classic',
   bgMode:'green',
-  speedLines:true,
+  speedLines:false,
   roadShine:true,
   rows:[]
 };
@@ -252,15 +252,16 @@ for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green'
 
 function easeZ(z){z=Math.max(0,Math.min(1,z)); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
-  const hNorm=Math.max(0,Math.min(1,(state.horizon-560)/200));
-  const curve=Math.max(0.58,state.perspectivePower-(0.22*hNorm));
-  const e=Math.pow(Math.max(0,Math.min(1,z)),curve);
-  const topHalf=88 + 56*hNorm;
-  const bottomHalf=W*0.55*state.roadWidth;
-  const startY=650 + 170*hNorm;
-  const y=startY + (H - startY) * e;
-  const half=topHalf + (bottomHalf-topHalf) * e;
-  return {e,y,l:W/2-half,r:W/2+half,half};
+  // Low ground-level runner camera projection: straight ahead, no top-down tilt.
+  const zz=Math.max(0,Math.min(1,z));
+  const depth=Math.pow(zz,state.perspectivePower);
+  const horizonY=state.horizon;
+  const topHalf=72;
+  const bottomHalf=W*0.60*state.roadWidth;
+  const half=topHalf+(bottomHalf-topHalf)*Math.pow(depth,0.88);
+  const nearBottom=H+42;
+  const y=horizonY+(nearBottom-horizonY)*depth;
+  return {e:depth,y,l:W/2-half,r:W/2+half,half};
 }
 function lerp(a,b,t){return a+(b-a)*t}
 function averagePoint(pts){return pts.reduce((s,p)=>[s[0]+p[0],s[1]+p[1]],[0,0]).map(v=>v/pts.length)}
@@ -328,7 +329,7 @@ function drawCenterPulseDots(offsetRatio,color,sizeBase,sizeGrow,count,speedFact
 function drawRoadTexture(strength){
   ctx.save();
   for(let i=0;i<8;i++){
-    const z=(i*.145 + roadTime*state.speed*.95)%1;
+    const z=(i*.145 + roadTime*state.speed*1.08)%1;
     if(z<.20) continue;
     const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.055));
     const alpha=.010+strength*a.e;
@@ -374,11 +375,11 @@ function drawSideRails(color){
 
 function drawBackground(){
   if(state.bgMode==='green'){
-    const g=ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,'#12dc82');g.addColorStop(.60,'#08c875');g.addColorStop(1,'#069b5b');
-    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#08c875';
+    ctx.fillRect(0,0,W,H);
   }else{
-    ctx.fillStyle='#050506';ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#050506';
+    ctx.fillRect(0,0,W,H);
   }
   if(state.speedLines){
     ctx.save();ctx.strokeStyle='rgba(255,255,255,.42)';ctx.lineCap='round';
@@ -400,7 +401,7 @@ function drawRoadClassic(){
   drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]], '#59677f');
   ctx.save();
   for(let i=0;i<8;i++){
-    const z=(i*.145 + roadTime*state.speed*.95)%1;
+    const z=(i*.145 + roadTime*state.speed*1.08)%1;
     if(z<.20) continue;
     const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.055));
     const alpha=.018+.038*a.e;
@@ -408,7 +409,7 @@ function drawRoadClassic(){
   }
   ctx.restore();
   for(let i=0;i<15;i++){
-    const z0=(i/15 + roadTime*state.speed*.72)%1;
+    const z0=(i/15 + roadTime*state.speed*.88)%1;
     const z1=z0+.055;
     if(z1>1) continue;
     const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
@@ -614,7 +615,7 @@ function drawRows(){
   const initialDelay=.75;
   state.rows.slice(0,5).forEach((row,i)=>{
     const elapsed=roadTime-initialDelay-i*state.padDelay;
-    const z=elapsed*state.speed*1.16;
+    const z=elapsed*state.speed*1.28;
     if(z<0 || z>1.03) return;
     const zz=Math.min(1,z);
     const left=drawRaisedPad(zz,'left',row.leftColor);
@@ -641,11 +642,11 @@ $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pau
 $('resetBtn').onclick=()=>roadTime=0;
 $('saveBtn').onclick=()=>{
   const save={...state, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};
-  localStorage.setItem('runnerStudioV6Front', JSON.stringify(save));
+  localStorage.setItem('runnerStudioV6LowAngle', JSON.stringify(save));
   alert('Saved on this device');
 };
 $('loadBtn').onclick=async()=>{
-  const raw=localStorage.getItem('runnerStudioV6Front');
+  const raw=localStorage.getItem('runnerStudioV6LowAngle');
   if(!raw) return alert('No save found on this device');
   const s=JSON.parse(raw);
   Object.assign(state,s);
@@ -711,4 +712,4 @@ const server=http.createServer(async(req,res)=>{
   return send(res,404,'Not found');
 });
 
-server.listen(PORT,()=>console.log(`Private Runner Studio V6 Front running on http://localhost:${PORT}`));
+server.listen(PORT,()=>console.log(`Private Runner Studio V6 Low Angle running on http://localhost:${PORT}`));
