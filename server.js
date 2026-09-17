@@ -267,10 +267,10 @@ function roadBoundsAtZ(z){
   //   Bottom width= 100% of canvas width
   //   Perspective = non-linear power curve for strong depth
   const t=Math.max(0,Math.min(1,z));
-  const HORIZON_Y=H*0.22;
-  const TOP_HALF=W*0.04;       // 8% total road width
+  const HORIZON_Y=H*0.50;
+  const TOP_HALF=W*0.08;       // 8% total road width
   const BOTTOM_HALF=W*0.50;    // 100% total road width
-  const DEPTH_POWER=2.35;
+  const DEPTH_POWER=1.45;
 
   // Math.pow makes distant geometry move/scale very slowly,
   // then accelerate and grow rapidly as it approaches the camera.
