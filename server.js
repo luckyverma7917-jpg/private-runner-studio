@@ -83,7 +83,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Cinematic 3D</title>
+<title>Private Runner Studio Eye-Level</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -112,18 +112,18 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">CINEMATIC 3D</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">EYE-LEVEL ORIGINAL</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Matched 1:1 with reference runner video: edge-to-edge highway, infinite perspective, and 3D luminous pedestals.</div>
+    <div class="note">Perspective: Eye-level long highway view with your original glowing pads and 10 highway styles preserved.</div>
   </section>
   <section class="controls">
-    <details open><summary>Highway & Camera (Matched to Reference)</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.26"></label><label>Horizon Height <input id="horizon" type="range" min="0.30" max="0.55" step="0.01" value="0.40"></label><label>Vanishing Width <input id="topWidth" type="range" min="0.01" max="0.15" step="0.005" value="0.03"></label><label>Perspective Depth <input id="perspectivePower" type="range" min="1.4" max="2.8" step="0.05" value="2.1"></label><label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.65"></label><label>Pad glow height <input id="padThickness" type="range" min="8" max="40" value="18"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
-    <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">5 Fixed rows. Exactly matches runner layout.</span></div><div id="rows" class="rows"></div></details>
+    <details open><summary>Moving Highway & Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24"></label><label>Horizon Height <input id="horizon" type="range" min="0.30" max="0.55" step="0.01" value="0.40"></label><label>Top Width <input id="topWidth" type="range" min="0.01" max="0.15" step="0.005" value="0.04"></label><label>Perspective Depth <input id="perspectivePower" type="range" min="1.2" max="2.8" step="0.05" value="2.0"></label><label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
 
@@ -138,7 +138,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
         <label>PNG <input class="leftInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label class="toggle"><input class="leftRemove" type="checkbox" checked> Auto remove bg</label>
-        <label>Size <input class="leftSize" type="range" min="45" max="260" value="110"></label>
+        <label>Size <input class="leftSize" type="range" min="45" max="220" value="95"></label>
       </div>
       <div class="side">
         <b>RIGHT</b>
@@ -147,7 +147,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
         <label>PNG <input class="rightInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label class="toggle"><input class="rightRemove" type="checkbox" checked> Auto remove bg</label>
-        <label>Size <input class="rightSize" type="range" min="45" max="260" value="110"></label>
+        <label>Size <input class="rightSize" type="range" min="45" max="220" value="95"></label>
       </div>
     </div>
   </div>
@@ -162,12 +162,12 @@ const $=id=>document.getElementById(id);
 let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
-  speed:0.26,
+  speed:0.24,
   horizon:0.40,
-  topWidth:0.03,
-  perspectivePower:2.1,
-  padDelay:1.65,
-  padThickness:18,
+  topWidth:0.04,
+  perspectivePower:2.0,
+  padDelay:1.75,
+  padThickness:12,
   roadVariant:'classic',
   bgMode:'black',
   speedLines:false,
@@ -220,7 +220,7 @@ function addRow(saved={}){
   const row={
     id:makeId(),
     leftColor:saved.leftColor||'green', rightColor:saved.rightColor||'red',
-    leftSize:saved.leftSize||110, rightSize:saved.rightSize||110,
+    leftSize:saved.leftSize||95, rightSize:saved.rightSize||95,
     leftSrc:saved.leftSrc||null, rightSrc:saved.rightSrc||null,
     leftImg:null, rightImg:null,
     leftRemove:saved.leftRemove!==false, rightRemove:saved.rightRemove!==false
@@ -253,11 +253,12 @@ const TRACK_Z_LENGTH=220;
 const BASE_TRACK_Z_LENGTH=125;
 const TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
+// EYE-LEVEL LONG HIGHWAY PROJECTION
 function roadBoundsAtZ(z){
   const t=Math.max(0,Math.min(1,z));
   const HORIZON_Y=H*state.horizon;
   const TOP_HALF=W*state.topWidth;
-  const BOTTOM_HALF=W*0.56; // Expands completely edge-to-edge at bottom
+  const BOTTOM_HALF=W*0.56;
 
   const depth=Math.pow(t,state.perspectivePower);
   const y=HORIZON_Y+(H-HORIZON_Y)*depth;
@@ -547,78 +548,36 @@ function drawRoad(){
   fn();
 }
 
-// 3D FLOATING PEDESTAL - Exact reference match
+// 100% ORIGINAL GLOWING PADS LOGIC PRESERVED
 function drawRaisedPad(z, side, color){
   const p=roadBoundsAtZ(z), e=p.e;
-  const laneCenter=side==='left' ? W/2-p.half*.50 : W/2+p.half*.50;
-  
-  const width=Math.max(22,p.half*.80);
-  const rx=width/2;
-  const ry=Math.max(6,rx*.34);
-  const height=Math.max(5,(state.padThickness*.9)*Math.pow(e,0.7));
-  
-  const baseY=p.y;
+  const laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
+  const width=Math.max(16,p.half*.82);
+  const height=Math.max(6,width*.32);
+  const baseY=p.y-3;
   const topY=baseY-height;
-  
-  const isRed=color==='red';
-  const rgb=isRed?'255,42,65':'34,255,120';
-  const rimColor=isRed?'#ff7686':'#8cffc4';
-  const darkColor=isRed?'#4d0b13':'#073d1c';
-
-  // Ground contact shadow
-  ctx.save();
-  ctx.fillStyle='rgba(0,0,0,0.45)';
-  ctx.beginPath();
-  ctx.ellipse(laneCenter,baseY+ry*.35,rx*1.08,ry*0.9,0,0,Math.PI*2);
-  ctx.fill();
-  ctx.restore();
-
-  // 3D Cylinder Extrusion Body
-  ctx.save();
-  const bodyGrad=ctx.createLinearGradient(laneCenter-rx,0,laneCenter+rx,0);
-  bodyGrad.addColorStop(0,darkColor);
-  bodyGrad.addColorStop(0.5,'rgba('+rgb+',0.95)');
-  bodyGrad.addColorStop(1,darkColor);
-  ctx.fillStyle=bodyGrad;
-  ctx.beginPath();
-  ctx.moveTo(laneCenter-rx,topY);
-  ctx.lineTo(laneCenter-rx,baseY);
-  ctx.ellipse(laneCenter,baseY,rx,ry,0,0,Math.PI);
-  ctx.lineTo(laneCenter+rx,topY);
-  ctx.ellipse(laneCenter,topY,rx,ry,0,Math.PI,0,true);
-  ctx.closePath();
-  ctx.fill();
-  ctx.restore();
-
-  // Top Glowing Cap
-  ctx.save();
-  ctx.shadowColor='rgb('+rgb+')';
-  ctx.shadowBlur=16+28*e;
-  const topGrad=ctx.createRadialGradient(laneCenter,topY-ry*.2,rx*.1,laneCenter,topY,rx);
-  topGrad.addColorStop(0,'#ffffff');
-  topGrad.addColorStop(0.35,'rgb('+rgb+')');
-  topGrad.addColorStop(1,darkColor);
-  ctx.fillStyle=topGrad;
-  ctx.beginPath();
-  ctx.ellipse(laneCenter,topY,rx,ry,0,0,Math.PI*2);
-  ctx.fill();
-
-  // Bright Rim Highlight
-  ctx.strokeStyle=rimColor;
-  ctx.lineWidth=1.5+2.5*e;
-  ctx.stroke();
-  ctx.restore();
-
-  return {center:[laneCenter,topY],baseY:topY,width,rx,ry,e};
+  const rgb=color==='red'?'255,50,58':'42,255,132';
+  const dark=color==='red'?'118,23,28':'15,104,54';
+  ctx.save();ctx.fillStyle='rgba(0,0,0,.22)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+5,width*.44,5+8*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
+  ctx.save();ctx.fillStyle='rgba('+dark+',.76)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-state.padThickness*.45,width,state.padThickness,5);ctx.fill();ctx.restore();
+  const g=ctx.createLinearGradient(0,baseY,0,topY);
+  g.addColorStop(0,'rgba('+rgb+',.96)');
+  g.addColorStop(.38,'rgba('+rgb+',.78)');
+  g.addColorStop(.76,'rgba('+rgb+',.30)');
+  g.addColorStop(1,'rgba('+rgb+',0)');
+  ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=14+22*e;ctx.fillStyle=g;
+  ctx.beginPath();ctx.roundRect(laneCenter-width/2,topY,width,height,7);ctx.fill();ctx.restore();
+  ctx.save();ctx.strokeStyle='rgba('+rgb+',.96)';ctx.lineWidth=2+1.5*e;ctx.beginPath();ctx.moveTo(laneCenter-width*.47,baseY-1);ctx.lineTo(laneCenter+width*.47,baseY-1);ctx.stroke();ctx.restore();
+  return {center:[laneCenter,baseY-height*.43],baseY,width,height,e};
 }
 
-function drawImageFit(im, x, y, boxW, boxH){
+function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
   if(!im) return;
   const iw=im.naturalWidth||im.width, ih=im.naturalHeight||im.height;
   const scale=Math.min(boxW/iw, boxH/ih);
   const dw=iw*scale, dh=ih*scale;
   const dx=x-dw/2;
-  const dy=y-dh;
+  const dy=anchor==='center' ? y-dh/2 : y-dh;
   ctx.drawImage(im,dx,dy,dw,dh);
 }
 
@@ -626,19 +585,16 @@ function drawRows(){
   const initialDelay=.75;
   state.rows.slice(0,5).forEach((row,i)=>{
     const elapsed=roadTime-initialDelay-i*state.padDelay;
-    const z=elapsed*state.speed*1.18*TRACK_MOTION_SCALE;
-    if(z<0 || z>1.05) return;
+    const z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
+    if(z<0 || z>1.03) return;
     const zz=Math.min(1,z);
     const left=drawRaisedPad(zz,'left',row.leftColor);
     const right=drawRaisedPad(zz,'right',row.rightColor);
-    
-    // Character / Image standing exactly on top of the 3D pad
-    const pngScale=0.18 + 0.98*Math.pow(left.e, 1.2);
-    const leftSize=Math.min(row.leftSize*pngScale,left.width*1.15);
-    const rightSize=Math.min(row.rightSize*pngScale,right.width*1.15);
-    
-    if(row.leftImg) drawImageFit(row.leftImg,left.center[0],left.baseY+left.ry*.25,leftSize,leftSize);
-    if(row.rightImg) drawImageFit(row.rightImg,right.center[0],right.baseY+right.ry*.25,rightSize,rightSize);
+    const pngScale=.18+0.95*left.e;
+    const leftSize=Math.min(row.leftSize*pngScale,left.width*.92);
+    const rightSize=Math.min(row.rightSize*pngScale,right.width*.92);
+    if(row.leftImg) drawImageFit(row.leftImg,left.center[0],left.baseY-5,leftSize,leftSize,'bottom');
+    if(row.rightImg) drawImageFit(row.rightImg,right.center[0],right.baseY-5,rightSize,rightSize,'bottom');
   });
 }
 
@@ -657,11 +613,11 @@ $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pau
 $('resetBtn').onclick=()=>roadTime=0;
 $('saveBtn').onclick=()=>{
   const save={...state, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};
-  localStorage.setItem('runnerStudioV7RefMatched', JSON.stringify(save));
+  localStorage.setItem('runnerStudioV6LowAngle', JSON.stringify(save));
   alert('Saved on this device');
 };
 $('loadBtn').onclick=async()=>{
-  const raw=localStorage.getItem('runnerStudioV7RefMatched');
+  const raw=localStorage.getItem('runnerStudioV6LowAngle');
   if(!raw) return alert('No save found on this device');
   const s=JSON.parse(raw);
   Object.assign(state,s);
