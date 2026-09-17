@@ -119,10 +119,10 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Classic V6 road is kept untouched. I added 9 more front-view road variants, so you can switch roads and avoid repetitive visuals. Eye-level horizon is tuned to push the road lower and more front-facing. Green and black background modes are both available.</div>
+    <div class="note">Classic V6 road is kept untouched. I added 9 more front-view road variants, so you can switch roads and avoid repetitive visuals. Eye-level horizon is tuned to push the road lower and more front-facing. A new road length option lets you choose Short, Long, or Very Long. The front road now uses a stronger forward-camera feel, so the road appears longer while the camera feels like it is driving straight ahead. Green and black background modes are both available.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="760" value="650"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.24"></label><label>Road width <input id="roadWidth" type="range" min="0.94" max="1.16" step="0.01" value="1.08"></label><label>Eye-level horizon <input id="horizon" type="range" min="560" max="760" value="650"></label><label>Perspective <input id="perspectivePower" type="range" min="0.78" max="1.16" step="0.02" value="0.90"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Road length <select id="roadLengthMode"><option value="short">Short</option><option value="long">Long</option><option value="veryLong">Very Long</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
     <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
@@ -169,6 +169,7 @@ const state={
   padDelay:1.75,
   padThickness:12,
   roadVariant:'classic',
+  roadLengthMode:'long',
   bgMode:'green',
   speedLines:true,
   roadShine:true,
@@ -211,6 +212,7 @@ async function dataToProcessedImage(src, removeBg){return dataToImage(await proc
 function bindRange(id,key){$(id).addEventListener('input',e=>state[key]=Number(e.target.value))}
 ['speed','roadWidth','horizon','perspectivePower','padDelay','padThickness'].forEach(id=>bindRange(id,id));
 $('roadVariant').onchange=e=>state.roadVariant=e.target.value;
+$('roadLengthMode').onchange=e=>state.roadLengthMode=e.target.value;
 $('speedLines').onchange=e=>state.speedLines=e.target.checked;
 $('roadShine').onchange=e=>state.roadShine=e.target.checked;
 $('bgMode').onchange=e=>state.bgMode=e.target.value;
@@ -253,14 +255,24 @@ for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green'
 function easeZ(z){z=Math.max(0,Math.min(1,z)); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
   const hNorm=Math.max(0,Math.min(1,(state.horizon-560)/200));
-  const curve=Math.max(0.58,state.perspectivePower-(0.22*hNorm));
+  const curve=Math.max(0.56,state.perspectivePower-(0.24*hNorm));
   const e=Math.pow(Math.max(0,Math.min(1,z)),curve);
-  const topHalf=88 + 56*hNorm;
+  const topHalf=92 + 64*hNorm;
   const bottomHalf=W*0.55*state.roadWidth;
-  const startY=650 + 170*hNorm;
+  const lengthPresets={
+    short:{base:640, scale:165},
+    long:{base:575, scale:135},
+    veryLong:{base:515, scale:110}
+  };
+  const lengthCfg=lengthPresets[state.roadLengthMode]||lengthPresets.long;
+  const startY=lengthCfg.base + lengthCfg.scale*hNorm;
   const y=startY + (H - startY) * e;
   const half=topHalf + (bottomHalf-topHalf) * e;
   return {e,y,l:W/2-half,r:W/2+half,half};
+}
+function roadFlowFactor(){
+  const map={short:0.40,long:0.22,veryLong:0.12};
+  return map[state.roadLengthMode]||0.22;
 }
 function lerp(a,b,t){return a+(b-a)*t}
 function averagePoint(pts){return pts.reduce((s,p)=>[s[0]+p[0],s[1]+p[1]],[0,0]).map(v=>v/pts.length)}
@@ -280,7 +292,7 @@ function drawRoadBand(z0,z1,fill){
 }
 function drawEdgeStripSeries(count,speedFactor,widthA,widthB,colorA,colorB){
   for(let i=0;i<count;i++){
-    const z0=(i/count + roadTime*state.speed*speedFactor)%1;
+    const z0=(i/count + roadTime*state.speed*roadFlowFactor()*speedFactor)%1;
     const z1=z0+.055;
     if(z1>1) continue;
     const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
@@ -292,7 +304,7 @@ function drawEdgeStripSeries(count,speedFactor,widthA,widthB,colorA,colorB){
 }
 function drawCenterDashed(offsetRatio,color,widthBase,widthGrow,len,density,speedFactor,minZ){
   for(let i=0;i<density;i++){
-    const z0=(i/density + roadTime*state.speed*speedFactor)%1;
+    const z0=(i/density + roadTime*state.speed*roadFlowFactor()*speedFactor)%1;
     const z1=z0+len;
     if(z1>1 || z0<minZ) continue;
     const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
@@ -311,7 +323,7 @@ function drawCenterDashed(offsetRatio,color,widthBase,widthGrow,len,density,spee
 }
 function drawCenterPulseDots(offsetRatio,color,sizeBase,sizeGrow,count,speedFactor,minZ){
   for(let i=0;i<count;i++){
-    const z=(i/count + roadTime*state.speed*speedFactor)%1;
+    const z=(i/count + roadTime*state.speed*roadFlowFactor()*speedFactor)%1;
     if(z<minZ) continue;
     const p=roadBoundsAtZ(z);
     const x=W/2+p.half*offsetRatio;
@@ -328,7 +340,7 @@ function drawCenterPulseDots(offsetRatio,color,sizeBase,sizeGrow,count,speedFact
 function drawRoadTexture(strength){
   ctx.save();
   for(let i=0;i<8;i++){
-    const z=(i*.145 + roadTime*state.speed*.95)%1;
+    const z=(i*.145 + roadTime*state.speed*roadFlowFactor()*.95)%1;
     if(z<.20) continue;
     const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.055));
     const alpha=.010+strength*a.e;
@@ -339,7 +351,7 @@ function drawRoadTexture(strength){
 function drawRoadShineSeries(color,alphaMul){
   ctx.save();ctx.strokeStyle=color;ctx.lineCap='round';
   for(let i=0;i<6;i++){
-    const z=(i*.19 + roadTime*state.speed*1.18)%1;
+    const z=(i*.19 + roadTime*state.speed*roadFlowFactor()*1.18)%1;
     if(z<.28) continue;
     const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.10));
     const xA=W/2 + (i%2?-1:1)*a.half*(.30+.16*(i%3));
@@ -354,7 +366,7 @@ function drawSideRails(color){
   ctx.strokeStyle=color;
   ctx.lineCap='round';
   for(let i=0;i<10;i++){
-    const z0=(i/10 + roadTime*state.speed*.84)%1;
+    const z0=(i/10 + roadTime*state.speed*roadFlowFactor()*.84)%1;
     const z1=z0+.075;
     if(z1>1 || z0<.06) continue;
     const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
@@ -384,7 +396,7 @@ function drawBackground(){
     ctx.save();ctx.strokeStyle='rgba(255,255,255,.42)';ctx.lineCap='round';
     for(let i=0;i<12;i++){
       const sideDir=i%2===0?-1:1;
-      const phase=(i*.11 + roadTime*state.speed*.62)%1;
+      const phase=(i*.11 + roadTime*state.speed*.92)%1;
       const y=state.horizon-360 + phase*430;
       const x=sideDir<0 ? 48+phase*96 : W-48-phase*96;
       const len=34+phase*96;
@@ -400,7 +412,7 @@ function drawRoadClassic(){
   drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]], '#59677f');
   ctx.save();
   for(let i=0;i<8;i++){
-    const z=(i*.145 + roadTime*state.speed*.95)%1;
+    const z=(i*.145 + roadTime*state.speed*roadFlowFactor()*.95)%1;
     if(z<.20) continue;
     const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.055));
     const alpha=.018+.038*a.e;
@@ -420,7 +432,7 @@ function drawRoadClassic(){
   if(state.roadShine){
     ctx.save();ctx.strokeStyle='rgba(255,255,255,.34)';ctx.lineCap='round';
     for(let i=0;i<6;i++){
-      const z=(i*.19 + roadTime*state.speed*1.18)%1;
+      const z=(i*.19 + roadTime*state.speed*roadFlowFactor()*1.18)%1;
       if(z<.28) continue;
       const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.10));
       const xA=W/2 + (i%2?-1:1)*a.half*(.30+.16*(i%3));
@@ -453,7 +465,7 @@ function drawRoadTwinStripe(){
 function drawRoadCarbonTrack(){
   fillRoadBase('#3f4a5e','#232c37');
   for(let i=0;i<11;i++){
-    const z0=(i/11 + roadTime*state.speed*.62)%1;
+    const z0=(i/11 + roadTime*state.speed*roadFlowFactor()*.62)%1;
     const z1=z0+.075;
     if(z1>1 || z0<.12) continue;
     const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
@@ -487,7 +499,7 @@ function drawRoadDiamondFlow(){
   drawRoadTexture(.020);
   drawEdgeStripSeries(15,.74,5,10,'#ff3347','#ffffff');
   for(let i=0;i<8;i++){
-    const z=(i/8 + roadTime*state.speed*.88)%1;
+    const z=(i/8 + roadTime*state.speed*roadFlowFactor()*.88)%1;
     if(z<.18 || z>.92) continue;
     const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
     const midY=(a.y+b.y)/2;
@@ -509,7 +521,7 @@ function drawRoadDiamondFlow(){
 function drawRoadArcadeGrid(){
   fillRoadBase('#627086','#3d4757');
   for(let i=0;i<10;i++){
-    const z0=(i/10 + roadTime*state.speed*.78)%1;
+    const z0=(i/10 + roadTime*state.speed*roadFlowFactor()*.78)%1;
     const z1=z0+.065;
     if(z1>1 || z0<.18) continue;
     const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
@@ -545,7 +557,7 @@ function drawRoadChevronRush(){
   drawRoadTexture(.020);
   drawEdgeStripSeries(16,.72,5,10,'#ff3149','#ffffff');
   for(let i=0;i<10;i++){
-    const z=(i/10 + roadTime*state.speed*.92)%1;
+    const z=(i/10 + roadTime*state.speed*roadFlowFactor()*.92)%1;
     if(z<.18 || z>.95) continue;
     const p=roadBoundsAtZ(z);
     const span=24+p.e*70;
@@ -614,7 +626,7 @@ function drawRows(){
   const initialDelay=.75;
   state.rows.slice(0,5).forEach((row,i)=>{
     const elapsed=roadTime-initialDelay-i*state.padDelay;
-    const z=elapsed*state.speed*1.16;
+    const z=elapsed*state.speed*1.26;
     if(z<0 || z>1.03) return;
     const zz=Math.min(1,z);
     const left=drawRaisedPad(zz,'left',row.leftColor);
@@ -651,6 +663,7 @@ $('loadBtn').onclick=async()=>{
   Object.assign(state,s);
   ['speed','roadWidth','horizon','perspectivePower','padDelay','padThickness'].forEach(id=>$(id).value=state[id]);
   $('roadVariant').value=state.roadVariant||'classic';
+  $('roadLengthMode').value=state.roadLengthMode||'long';
   $('speedLines').checked=state.speedLines;
   $('roadShine').checked=state.roadShine;
   $('bgMode').value=state.bgMode||'green';
