@@ -83,7 +83,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Ground View</title>
+<title>Private Runner Studio Ground-Eye 3D</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -97,7 +97,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 .stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506}canvas{width:100%;height:100%;display:block}
 .transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}
 .note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}
-.controls{display:flex;flex-direction:column;gap:10px}
+.controls{display:flex-direction:column;gap:10px}
 details{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}summary{padding:13px 14px;background:var(--panel2);font-weight:800;cursor:pointer}
 .grid{padding:13px;display:grid;gap:11px}.grid.two{grid-template-columns:1fr 1fr}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px}
 input[type=file]{width:100%;font-size:12px}input[type=range]{width:100%}
@@ -112,17 +112,17 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">GROUND EYE-LEVEL</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">DOG-EYE GROUND 3D</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Wide Horizon Range unlocked for perfect Ground/Eye-level view. Original pads & glowing base intact.</div>
+    <div class="note">True ground-level first-person view. Flat horizon directly ahead, straight highway depth.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway & Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24"></label><label>Horizon Height <input id="horizon" type="range" min="0.15" max="0.65" step="0.01" value="0.28"></label><label>Top Width <input id="topWidth" type="range" min="0.005" max="0.18" step="0.005" value="0.035"></label><label>Perspective Depth <input id="perspectivePower" type="range" min="1.0" max="3.2" step="0.05" value="2.1"></label><label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Moving Highway & Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24"></label><label>Horizon Height <input id="horizon" type="range" min="0.30" max="0.65" step="0.01" value="0.48"></label><label>Top Width <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08"></label><label>Camera Height (Eye View) <input id="camHeight" type="range" min="0.6" max="2.4" step="0.05" value="1.2"></label><label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
     <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
@@ -163,9 +163,9 @@ let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
   speed:0.24,
-  horizon:0.28,
-  topWidth:0.035,
-  perspectivePower:2.1,
+  horizon:0.48,
+  topWidth:0.08,
+  camHeight:1.2,
   padDelay:1.75,
   padThickness:12,
   roadVariant:'classic',
@@ -209,7 +209,7 @@ function processImageDataUrl(dataUrl, removeBg){
 }
 async function dataToProcessedImage(src, removeBg){return dataToImage(await processImageDataUrl(src, removeBg))}
 function bindRange(id,key){$(id).addEventListener('input',e=>state[key]=Number(e.target.value))}
-['speed','horizon','topWidth','perspectivePower','padDelay','padThickness'].forEach(id=>bindRange(id,id));
+['speed','horizon','topWidth','camHeight','padDelay','padThickness'].forEach(id=>bindRange(id,id));
 $('roadVariant').onchange=e=>state.roadVariant=e.target.value;
 $('speedLines').onchange=e=>state.speedLines=e.target.checked;
 $('roadShine').onchange=e=>state.roadShine=e.target.checked;
@@ -253,17 +253,24 @@ const TRACK_Z_LENGTH=220;
 const BASE_TRACK_Z_LENGTH=125;
 const TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
+// TRUE DOG-EYE GROUND 3D PROJECTION
 function roadBoundsAtZ(z){
   const t=Math.max(0,Math.min(1,z));
   const HORIZON_Y=H*state.horizon;
   const TOP_HALF=W*state.topWidth;
-  const BOTTOM_HALF=W*0.56;
+  const BOTTOM_HALF=W*0.62;
 
-  const depth=Math.pow(t,state.perspectivePower);
-  const y=HORIZON_Y+(H-HORIZON_Y)*depth;
-  const half=TOP_HALF+(BOTTOM_HALF-TOP_HALF)*depth;
+  // Real Ground Perspective Math:
+  const zWorld = (1.0 - t) * 12.0 + 0.9;
+  const scale = 1.0 / (zWorld * state.camHeight);
+  const minScale = 1.0 / (12.9 * state.camHeight);
+  const maxScale = 1.0 / (0.9 * state.camHeight);
+  const depth = (scale - minScale) / (maxScale - minScale);
 
-  return {e:depth,y,l:W/2-half,r:W/2+half,half};
+  const y = HORIZON_Y + (H - HORIZON_Y) * depth;
+  const half = TOP_HALF + (BOTTOM_HALF - TOP_HALF) * depth;
+
+  return {e:depth, y, l:W/2-half, r:W/2+half, half};
 }
 function lerp(a,b,t){return a+(b-a)*t}
 function drawPoly(pts, fill){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
@@ -612,15 +619,15 @@ $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pau
 $('resetBtn').onclick=()=>roadTime=0;
 $('saveBtn').onclick=()=>{
   const save={...state, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};
-  localStorage.setItem('runnerStudioV6Ground', JSON.stringify(save));
+  localStorage.setItem('runnerStudioV6DogEye', JSON.stringify(save));
   alert('Saved on this device');
 };
 $('loadBtn').onclick=async()=>{
-  const raw=localStorage.getItem('runnerStudioV6Ground');
+  const raw=localStorage.getItem('runnerStudioV6DogEye');
   if(!raw) return alert('No save found on this device');
   const s=JSON.parse(raw);
   Object.assign(state,s);
-  ['speed','horizon','topWidth','perspectivePower','padDelay','padThickness'].forEach(id=>$(id).value=state[id]);
+  ['speed','horizon','topWidth','camHeight','padDelay','padThickness'].forEach(id=>$(id).value=state[id]);
   $('roadVariant').value=state.roadVariant||'classic';
   $('speedLines').checked=state.speedLines;
   $('roadShine').checked=state.roadShine;
@@ -674,7 +681,7 @@ const server=http.createServer(async(req,res)=>{
       return send(res,400,JSON.stringify({ok:false}),'application/json; charset=utf-8');
     }
   }
-  if(pathname==='/api/logout'&&req.method==='POST') return send(res,200,JSON.stringify({ok:true}),'application/json; charset=utf-8',{'Set-Cookie':`runner_session=; Path=/;   HttpOnly; SameSite=Strict; Max-Age=0${IS_PROD?'; Secure':''}`});
+  if(pathname==='/api/logout'&&req.method==='POST') return send(res,200,JSON.stringify({ok:true}),'application/json; charset=utf-8',{'Set-Cookie':`runner_session=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0${IS_PROD?'; Secure':''}`});
   if((pathname==='/'||pathname==='/app')&&req.method==='GET'){
     if(pathname==='/app'&&!authed(req)){res.writeHead(302,{Location:'/'});return res.end()}
     return send(res,200,authed(req)?APP_HTML:LOGIN_HTML,'text/html; charset=utf-8');
