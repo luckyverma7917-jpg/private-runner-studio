@@ -83,7 +83,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio V6 Low Angle</title>
+<title>Private Runner Studio Eye-Level</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -112,17 +112,17 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">LOW ANGLE</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">EYE-LEVEL</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Runner perspective is hardcoded in the renderer: Horizon Y = 22% of canvas height, road top width = 8%, road bottom width = 100%, with non-linear depth projection. These geometry values no longer depend on the UI sliders.</div>
+    <div class="note">Perspective: Eye-level runner view with dynamic forward-stretch and ground curvature.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway / Low Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.22"></label><label>Road width (locked 100% bottom) <input id="roadWidth" type="range" min="1" max="1" step="1" value="1" disabled></label><label>Horizon Y (locked 22%) <input id="horizon" type="range" min="22" max="22" value="22" disabled></label><label>Perspective (locked 2.35) <input id="perspectivePower" type="range" min="2.35" max="2.35" step="0.01" value="2.35" disabled></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Moving Highway / Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.22"></label><label>Horizon Level <input id="horizon" type="range" min="0.40" max="0.65" step="0.01" value="0.55"></label><label>Top Width <input id="topWidth" type="range" min="0.10" max="0.35" step="0.01" value="0.22"></label><label>Perspective Curve <input id="perspectivePower" type="range" min="1.00" max="1.80" step="0.05" value="1.15"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
     <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
@@ -163,13 +163,13 @@ let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
   speed:0.22,
-  roadWidth:1.00,
-  horizon:0.22,
-  perspectivePower:2.35,
+  horizon:0.55,
+  topWidth:0.22,
+  perspectivePower:1.15,
   padDelay:1.75,
   padThickness:12,
   roadVariant:'classic',
-  bgMode:'green',
+  bgMode:'black',
   speedLines:false,
   roadShine:true,
   rows:[]
@@ -209,7 +209,7 @@ function processImageDataUrl(dataUrl, removeBg){
 }
 async function dataToProcessedImage(src, removeBg){return dataToImage(await processImageDataUrl(src, removeBg))}
 function bindRange(id,key){$(id).addEventListener('input',e=>state[key]=Number(e.target.value))}
-['speed','padDelay','padThickness'].forEach(id=>bindRange(id,id));
+['speed','horizon','topWidth','perspectivePower','padDelay','padThickness'].forEach(id=>bindRange(id,id));
 $('roadVariant').onchange=e=>state.roadVariant=e.target.value;
 $('speedLines').onchange=e=>state.speedLines=e.target.checked;
 $('roadShine').onchange=e=>state.roadShine=e.target.checked;
@@ -247,41 +247,25 @@ function addRow(saved={}){
   if(row.leftSrc)dataToProcessedImage(row.leftSrc,row.leftRemove).then(im=>row.leftImg=im);
   if(row.rightSrc)dataToProcessedImage(row.rightSrc,row.rightRemove).then(im=>row.rightImg=im);
 }
-function renumber(){rowCounter=0;[...document.querySelectorAll('.row')].forEach(el=>el.querySelector('.rowtitle').textContent='Row '+(++rowCounter))}
 for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green':'red'});
 
-// Canvas equivalent of a ground-level Three.js runner camera.
-// Camera stays almost on the road and looks perfectly straight ahead at the same Y.
-const CAMERA_Y=0.72;
-const CAMERA_LOOK_AHEAD=220;
 const TRACK_Z_LENGTH=220;
 const BASE_TRACK_Z_LENGTH=125;
 const TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
-function easeZ(z){z=Math.max(0,Math.min(1,z)); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
-  // HARD-CODED runner projection. These values intentionally ignore UI geometry sliders.
-  // Exact requested geometry:
-  //   Horizon Y   = 22% of canvas height
-  //   Top width   = 8% of canvas width
-  //   Bottom width= 100% of canvas width
-  //   Perspective = non-linear power curve for strong depth
   const t=Math.max(0,Math.min(1,z));
-  const HORIZON_Y=H*0.50;
-  const TOP_HALF=W*0.08;       // 8% total road width
-  const BOTTOM_HALF=W*0.50;    // 100% total road width
-  const DEPTH_POWER=1.45;
+  const HORIZON_Y=H*state.horizon;
+  const TOP_HALF=W*state.topWidth;
+  const BOTTOM_HALF=W*0.48;
 
-  // Math.pow makes distant geometry move/scale very slowly,
-  // then accelerate and grow rapidly as it approaches the camera.
-  const depth=Math.pow(t,DEPTH_POWER);
+  const depth=Math.pow(t,state.perspectivePower);
   const y=HORIZON_Y+(H-HORIZON_Y)*depth;
   const half=TOP_HALF+(BOTTOM_HALF-TOP_HALF)*depth;
 
   return {e:depth,y,l:W/2-half,r:W/2+half,half};
 }
 function lerp(a,b,t){return a+(b-a)*t}
-function averagePoint(pts){return pts.reduce((s,p)=>[s[0]+p[0],s[1]+p[1]],[0,0]).map(v=>v/pts.length)}
 function drawPoly(pts, fill){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
 function quad(a,b){return [[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]]}
 function fillRoadBase(topColor,bottomColor){
@@ -305,7 +289,7 @@ function drawEdgeStripSeries(count,speedFactor,widthA,widthB,colorA,colorB){
     const wa=widthA+widthB*a.e, wb=widthA+widthB*b.e;
     const c=i%2===0?colorA:colorB;
     drawPoly([[a.l,a.y],[a.l+wa,a.y],[b.l+wb,b.y],[b.l,b.y]],c);
-    drawPoly([[a.r-wa,a.y],[a.r,a.y],[b.r,b.y],[b.r-wb,b.y]],c);
+    drawPoly([[a.r-wa,a.r-wa<a.r?a.y:a.y],[a.r,a.y],[b.r,b.y],[b.r-wb,b.y]],c);
   }
 }
 function drawCenterDashed(offsetRatio,color,widthBase,widthGrow,len,density,speedFactor,minZ){
@@ -403,7 +387,7 @@ function drawBackground(){
     for(let i=0;i<12;i++){
       const sideDir=i%2===0?-1:1;
       const phase=(i*.11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
-      const y=state.horizon-360 + phase*430;
+      const y=(H*state.horizon)-360 + phase*430;
       const x=sideDir<0 ? 48+phase*96 : W-48-phase*96;
       const len=34+phase*96;
       ctx.globalAlpha=.08+.34*phase;ctx.lineWidth=2+3*phase;
@@ -600,9 +584,8 @@ function drawRoad(){
 function drawRaisedPad(z, side, color){
   const p=roadBoundsAtZ(z), e=p.e;
   const laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
-  // True perspective scaling: very small at the horizon, large near the camera.
-  const width=Math.max(10,p.half*.82);
-  const height=Math.max(4,width*.34);
+  const width=Math.max(16,p.half*.82);
+  const height=Math.max(6,width*.32);
   const baseY=p.y-3;
   const topY=baseY-height;
   const rgb=color==='red'?'255,50,58':'42,255,132';
@@ -638,7 +621,7 @@ function drawRows(){
     const zz=Math.min(1,z);
     const left=drawRaisedPad(zz,'left',row.leftColor);
     const right=drawRaisedPad(zz,'right',row.rightColor);
-    const pngScale=.06+1.10*left.e;
+    const pngScale=.18+0.95*left.e;
     const leftSize=Math.min(row.leftSize*pngScale,left.width*.92);
     const rightSize=Math.min(row.rightSize*pngScale,right.width*.92);
     if(row.leftImg) drawImageFit(row.leftImg,left.center[0],left.baseY-5,leftSize,leftSize,'bottom');
@@ -668,12 +651,11 @@ $('loadBtn').onclick=async()=>{
   if(!raw) return alert('No save found on this device');
   const s=JSON.parse(raw);
   Object.assign(state,s);
-  ['speed','padDelay','padThickness'].forEach(id=>$(id).value=state[id]);
-  $('roadWidth').value=1; $('horizon').value=22; $('perspectivePower').value=2.35;
+  ['speed','horizon','topWidth','perspectivePower','padDelay','padThickness'].forEach(id=>$(id).value=state[id]);
   $('roadVariant').value=state.roadVariant||'classic';
   $('speedLines').checked=state.speedLines;
   $('roadShine').checked=state.roadShine;
-  $('bgMode').value=state.bgMode||'green';
+  $('bgMode').value=state.bgMode||'black';
   $('rows').innerHTML='';
   state.rows=[];
   rowCounter=0;
@@ -731,4 +713,4 @@ const server=http.createServer(async(req,res)=>{
   return send(res,404,'Not found');
 });
 
-server.listen(PORT,()=>console.log(`Private Runner Studio V6 Low Angle running on http://localhost:${PORT}`));
+server.listen(PORT,()=>console.log(`Private Runner Studio running on http://localhost:${PORT}`));
