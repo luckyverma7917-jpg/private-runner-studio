@@ -119,10 +119,10 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Extreme ground-level runner camera: Camera Y 0.82, same-height straight LookAt, longer 170-unit virtual Z track, no top-down tilt, flat clean background, and continuous forward motion. The road now begins beyond both bottom corners and converges higher on the screen.</div>
+    <div class="note">Deep 9:16 runner perspective: very high vanishing point, full-width road touching both bottom corners, tiny distant pads that grow naturally toward the camera, straight horizon, flat clean background, and long forward track motion.</div>
   </section>
   <section class="controls">
-    <details open><summary>Moving Highway / Low Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.22"></label><label>Road width <input id="roadWidth" type="range" min="1.00" max="1.24" step="0.01" value="1.16"></label><label>Straight horizon <input id="horizon" type="range" min="520" max="660" value="565"></label><label>Ground-level depth <input id="perspectivePower" type="range" min="1.00" max="1.45" step="0.01" value="1.26"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
+    <details open><summary>Moving Highway / Low Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.42" step="0.01" value="0.22"></label><label>Road width <input id="roadWidth" type="range" min="0.96" max="1.12" step="0.01" value="1.04"></label><label>High horizon <input id="horizon" type="range" min="300" max="420" value="340"></label><label>Deep perspective <input id="perspectivePower" type="range" min="1.15" max="1.75" step="0.01" value="1.42"></label><label>Pad delay <input id="padDelay" type="range" min="1.20" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="green" selected>Green</option><option value="black">Reference black</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
     <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn. Increase Pad delay above if you want more time between choices.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
@@ -163,9 +163,9 @@ let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
 
 const state={
   speed:0.22,
-  roadWidth:1.16,
-  horizon:565,
-  perspectivePower:1.26,
+  roadWidth:1.04,
+  horizon:340,
+  perspectivePower:1.42,
   padDelay:1.75,
   padThickness:12,
   roadVariant:'classic',
@@ -250,38 +250,38 @@ function addRow(saved={}){
 function renumber(){rowCounter=0;[...document.querySelectorAll('.row')].forEach(el=>el.querySelector('.rowtitle').textContent='Row '+(++rowCounter))}
 for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green':'red'});
 
-// Canvas equivalent of a Three.js ground-level runner camera.
-// Camera Y is intentionally below 1.0, and LookAt stays at the SAME Y,
-// so there is zero top-down pitch: camera.lookAt(0, CAMERA_Y, z + LOOK_AHEAD).
-const CAMERA_Y=0.82;
-const CAMERA_LOOK_AHEAD=150;
-const TRACK_Z_LENGTH=170;
+// Canvas equivalent of a ground-level Three.js runner camera.
+// Camera stays almost on the road and looks perfectly straight ahead at the same Y.
+const CAMERA_Y=0.72;
+const CAMERA_LOOK_AHEAD=220;
+const TRACK_Z_LENGTH=220;
 const BASE_TRACK_Z_LENGTH=125;
 const TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
 function easeZ(z){z=Math.max(0,Math.min(1,z)); return Math.pow(z,state.perspectivePower)}
 function roadBoundsAtZ(z){
-  // Extreme low-angle projection: long road, high vanishing point, no top-down view.
+  // Deep 9:16 runner projection. z=0 is the distant vanishing point, z=1 is camera-near.
   const zz=Math.max(0,Math.min(1,z));
-  const lengthBoost=Math.max(1,TRACK_Z_LENGTH/150);
-  const lowCameraBoost=1+Math.max(0,1-CAMERA_Y)*0.20;
-  const depth=Math.pow(zz,state.perspectivePower*lengthBoost*lowCameraBoost);
 
-  // Same-height LookAt means a perfectly straight horizon. CAMERA_LOOK_AHEAD only
-  // defines how far forward the virtual target is; there is no vertical target offset.
+  // Same-height target = zero downward pitch / no top-down camera.
   const LOOK_AT_Y=CAMERA_Y;
-  const straightPitch=LOOK_AT_Y-CAMERA_Y; // exactly 0: straight forward
+  const straightPitch=LOOK_AT_Y-CAMERA_Y;
   const horizonY=state.horizon + straightPitch*100 + CAMERA_LOOK_AHEAD*0;
 
-  // Narrow distant end + extra-wide near end makes the road start beyond both
-  // bottom corners, matching the deep 3D runner perspective in the references.
-  const topHalf=74;
-  const bottomHalf=W*0.72*state.roadWidth;
-  const nearBottom=H+86;
-  const widthDepth=Math.pow(depth,0.88);
-  const half=topHalf+(bottomHalf-topHalf)*widthDepth;
-  const y=horizonY+(nearBottom-horizonY)*depth;
-  return {e:depth,y,l:W/2-half,r:W/2+half,half};
+  // Vertical distance grows progressively, making the runway feel long instead of flat.
+  const yDepth=Math.pow(zz,1.34);
+  const y=horizonY+(H-horizonY)*yDepth;
+
+  // Width grows even more aggressively than Y. At z=1 it is EXACTLY canvas width,
+  // so the road touches bottom-left x=0 and bottom-right x=W.
+  const topHalf=18;
+  const widthDepth=Math.pow(zz,state.perspectivePower);
+  const widthInfluence=0.88+0.12*state.roadWidth;
+  const shapedWidth=Math.min(1,widthDepth*widthInfluence);
+  const bottomHalf=W/2;
+  const half=topHalf+(bottomHalf-topHalf)*shapedWidth;
+
+  return {e:widthDepth,y,l:W/2-half,r:W/2+half,half};
 }
 function lerp(a,b,t){return a+(b-a)*t}
 function averagePoint(pts){return pts.reduce((s,p)=>[s[0]+p[0],s[1]+p[1]],[0,0]).map(v=>v/pts.length)}
@@ -603,8 +603,9 @@ function drawRoad(){
 function drawRaisedPad(z, side, color){
   const p=roadBoundsAtZ(z), e=p.e;
   const laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
-  const width=Math.max(62,p.half*.78);
-  const height=Math.max(28,width*.34);
+  // True perspective scaling: very small at the horizon, large near the camera.
+  const width=Math.max(18,p.half*.80);
+  const height=Math.max(8,width*.34);
   const baseY=p.y-3;
   const topY=baseY-height;
   const rgb=color==='red'?'255,50,58':'42,255,132';
@@ -640,7 +641,7 @@ function drawRows(){
     const zz=Math.min(1,z);
     const left=drawRaisedPad(zz,'left',row.leftColor);
     const right=drawRaisedPad(zz,'right',row.rightColor);
-    const pngScale=.42+.74*left.e;
+    const pngScale=.12+1.04*left.e;
     const leftSize=Math.min(row.leftSize*pngScale,left.width*.92);
     const rightSize=Math.min(row.rightSize*pngScale,right.width*.92);
     if(row.leftImg) drawImageFit(row.leftImg,left.center[0],left.baseY-5,leftSize,leftSize,'bottom');
