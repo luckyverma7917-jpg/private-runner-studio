@@ -636,28 +636,33 @@ $('loadBtn').onclick=async()=>{
   alert('Loaded');
 };
 $('logoutBtn').onclick=async()=>{await fetch('/api/logout',{method:'POST'});location.href='/'};
-$('exportBtn').onclick=()=>{
-  if(recorder) return;
-  const sec=Math.max(2,Math.min(60,+$('recordSec').value||15));
-  const stream=canvas.captureStream(30);
-  let mime='video/webm;codecs=vp9';
-  if(!MediaRecorder.isTypeSupported(mime)) mime='video/webm';
-  const chunks=[];
-  recorder=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:9000000});
-  recorder.ondataavailable=e=>{if(e.data.size) chunks.push(e.data)};
-  recorder.onstop=()=>{
-    const blob=new Blob(chunks,{type:mime});
-    const a=document.createElement('a');
-    a.href=URL.createObjectURL(blob);
-    a.download='runner-video.webm';
+
+$('exportBtn').onclick = () => {
+  if (recorder) return;
+  const sec = Math.max(2, Math.min(60, +$('recordSec').value || 15));
+  const stream = canvas.captureStream(60);
+  let mime = 'video/webm;codecs=vp9';
+  if (!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm;codecs=vp8';
+  if (!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm';
+  const chunks = [];
+  recorder = new MediaRecorder(stream, { 
+    mimeType: mime, 
+    videoBitsPerSecond: 20000000 
+  });
+  recorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data) };
+  recorder.onstop = () => {
+    const blob = new Blob(chunks, { type: mime });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'runner-hd-video.webm';
     a.click();
-    setTimeout(()=>URL.revokeObjectURL(a.href),5000);
-    recorder=null;
-    $('exportBtn').textContent='Export Video';
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    recorder = null;
+    $('exportBtn').textContent = 'Export Video';
   };
   recorder.start();
-  $('exportBtn').textContent='Recording...';
-  setTimeout(()=>{if(recorder&&recorder.state!=='inactive') recorder.stop()}, sec*1000);
+  $('exportBtn').textContent = 'Recording HD...';
+  setTimeout(() => { if (recorder && recorder.state !== 'inactive') recorder.stop(); }, sec * 1000);
 };
 })();
 </script>
@@ -670,7 +675,7 @@ const server=http.createServer(async(req,res)=>{
   if(pathname==='/api/auth/status'&&req.method==='GET') return send(res,200,JSON.stringify({authenticated:authed(req)}),'application/json; charset=utf-8');
   if(pathname==='/api/login'&&req.method==='POST'){
     try{
-      const body=await readJson(req);
+      const body=utils=await readJson(req);
       if(!safeEqual(body.password||'',APP_PASSWORD)) return send(res,401,JSON.stringify({ok:false,error:'Wrong password'}),'application/json; charset=utf-8');
       const cookie=[`runner_session=${encodeURIComponent(makeSession())}`,'Path=/','HttpOnly','SameSite=Strict',`Max-Age=${Math.floor(SESSION_MS/1000)}`,IS_PROD?'Secure':''].filter(Boolean).join('; ');
       return send(res,200,JSON.stringify({ok:true}),'application/json; charset=utf-8',{'Set-Cookie':cookie});
