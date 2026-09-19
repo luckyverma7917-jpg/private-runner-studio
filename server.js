@@ -23,7 +23,7 @@ function verifySession(token){
   const p=token.split('.');
   if(p.length!==3) return false;
   const [exp,nonce,sig]=p;
-  const payload=`${exp}.${nonce}`;
+  const payload=${exp}.${nonce};
   const expected=crypto.createHmac('sha256',SESSION_SECRET).update(payload).digest('hex');
   return safeEqual(sig,expected) && Number(exp)>Date.now();
 }
@@ -345,8 +345,8 @@ function drawRoadShineSeries(color,alphaMul){
     const z=(i*.16 + roadTime*state.speed*TRACK_MOTION_SCALE*1.2)%1;
     if(z<.22) continue;
     const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.09));
-    const xA=W/2 + (i%2?-1:1)*a.half*(.32+.18*(i%3));
-    const xB=W/2 + (i%2?-1:1)*b.half*(.32+.18*(i%3));
+    const xA=W/2 + (i%2?-1:1)a.half(.32+.18*(i%3));
+    const xB=W/2 + (i%2?-1:1)b.half(.32+.18*(i%3));
     ctx.globalAlpha=(.16+.45*z)*alphaMul;ctx.lineWidth=2+5*z;
     ctx.beginPath();ctx.moveTo(xA,a.y);ctx.lineTo(xB,b.y);ctx.stroke();
   }
