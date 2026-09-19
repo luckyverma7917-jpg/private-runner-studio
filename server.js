@@ -123,7 +123,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
   </section>
   <section class="controls">
     <details open><summary>Moving Highway & Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24"></label><label>Horizon Height <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46"></label><label>Top Width <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08"></label><label>Camera Height (Eye View) <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2"></label><label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
-    <details open><summary>5 Fixed Choice Rows / Standing Pads</summary><div class="rowbar"><span class="small">Exactly 5 rows. No extra rows will spawn.</span></div><div id="rows" class="rows"></div></details>
+    <details open><summary>5 Fixed Rows + 3s Opponent Boss</summary><div class="rowbar"><span class="small">5 main rows + 1 Opponent appearing 3s after the last pad.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
 
@@ -133,22 +133,30 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     <div class="sides">
       <div class="side">
         <b>LEFT</b>
-        <label>Pad
-          <select class="leftColor"><option value="green">Green</option><option value="red">Red</option></select>
-        </label>
+        <label>Pad <select class="leftColor"><option value="green">Green</option><option value="red">Red</option></select></label>
         <label>PNG <input class="leftInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label class="toggle"><input class="leftRemove" type="checkbox" checked> Auto remove bg</label>
-        <label>Size <input class="leftSize" type="range" min="45" max="220" value="95"></label>
+        <label>Size <input class="leftSize" type="range" min="45" max="450" value="95"></label>
       </div>
       <div class="side">
         <b>RIGHT</b>
-        <label>Pad
-          <select class="rightColor"><option value="red">Red</option><option value="green">Green</option></select>
-        </label>
+        <label>Pad <select class="rightColor"><option value="red">Red</option><option value="green">Green</option></select></label>
         <label>PNG <input class="rightInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label class="toggle"><input class="rightRemove" type="checkbox" checked> Auto remove bg</label>
-        <label>Size <input class="rightSize" type="range" min="45" max="220" value="95"></label>
+        <label>Size <input class="rightSize" type="range" min="45" max="450" value="95"></label>
       </div>
+    </div>
+  </div>
+</template>
+
+<template id="opponentTemplate">
+  <div class="row" style="border-color:#61f0a6">
+    <div class="rowhead"><strong style="color:#61f0a6">🔥 Opponent Boss (3s after pads)</strong><span class="small">Final Encounter</span></div>
+    <div class="side" style="grid-column:span 2">
+      <b>OPPONENT CHARACTER</b>
+      <label>PNG <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
+      <label class="toggle"><input class="oppRemove" type="checkbox" checked> Auto remove bg</label>
+      <label>Size <input class="oppSize" type="range" min="50" max="500" value="180"></label>
     </div>
   </div>
 </template>
@@ -172,7 +180,8 @@ const state={
   bgMode:'black',
   speedLines:false,
   roadShine:true,
-  rows:[]
+  rows:[],
+  opponent:{src:null, img:null, removeBg:true, size:180}
 };
 
 function readFile(file){return new Promise((resolve,reject)=>{const fr=new FileReader();fr.onload=()=>resolve(fr.result);fr.onerror=reject;fr.readAsDataURL(file)})}
@@ -248,6 +257,14 @@ function addRow(saved={}){
   if(row.rightSrc)dataToProcessedImage(row.rightSrc,row.rightRemove).then(im=>row.rightImg=im);
 }
 for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green':'red'});
+
+// Opponent setup
+const oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
+oppEl.querySelector('.oppSize').value=state.opponent.size;
+oppEl.querySelector('.oppSize').oninput=e=>state.opponent.size=Number(e.target.value);
+oppEl.querySelector('.oppRemove').onchange=async e=>{state.opponent.removeBg=e.target.checked;if(state.opponent.src)state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
+oppEl.querySelector('.oppInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;state.opponent.src=await readFile(f);state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
+$('rows').appendChild(oppEl);
 
 const TRACK_Z_LENGTH=220;
 const BASE_TRACK_Z_LENGTH=125;
@@ -586,6 +603,7 @@ function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
 
 function drawRows(){
   const initialDelay=.75;
+  // 5 main rows
   state.rows.slice(0,5).forEach((row,i)=>{
     const elapsed=roadTime-initialDelay-i*state.padDelay;
     const z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
@@ -599,6 +617,18 @@ function drawRows(){
     if(row.leftImg) drawImageFit(row.leftImg,left.center[0],left.baseY-5,leftSize,leftSize,'bottom');
     if(row.rightImg) drawImageFit(row.rightImg,right.center[0],right.baseY-5,rightSize,rightSize,'bottom');
   });
+
+  // Opponent Boss appearing 3 seconds after the 5th pad
+  const lastPadElapsed = initialDelay + 4 * state.padDelay;
+  const oppElapsed = roadTime - (lastPadElapsed + 3.0); // Exactly 3 seconds after
+  const oppZ = oppElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
+  if(oppZ >= 0 && oppZ <= 1.05 && state.opponent.img){
+    const zz = Math.min(1, oppZ);
+    const p = roadBoundsAtZ(zz);
+    const pngScale = .2 + 1.2 * p.e;
+    const oppSize = state.opponent.size * pngScale;
+    drawImageFit(state.opponent.img, W/2, p.y, oppSize, oppSize, 'bottom');
+  }
 }
 
 function frame(now){
@@ -615,7 +645,7 @@ requestAnimationFrame(frame);
 $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pause':'Play'};
 $('resetBtn').onclick=()=>roadTime=0;
 $('saveBtn').onclick=()=>{
-  const save={...state, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null}))};
+  const save={...state, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null})), opponent:{...state.opponent, img:null}};
   localStorage.setItem('runnerStudioV6DogEye', JSON.stringify(save));
   alert('Saved on this device');
 };
@@ -633,6 +663,16 @@ $('loadBtn').onclick=async()=>{
   state.rows=[];
   rowCounter=0;
   const fixed=(s.rows||[]).slice(0,5); while(fixed.length<5) fixed.push({leftColor:fixed.length%2?'red':'green',rightColor:fixed.length%2?'green':'red'}); fixed.forEach(addRow);
+  
+  // Re-append opponent UI
+  const oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
+  oppEl.querySelector('.oppSize').value=state.opponent.size;
+  oppEl.querySelector('.oppSize').oninput=e=>state.opponent.size=Number(e.target.value);
+  oppEl.querySelector('.oppRemove').onchange=async e=>{state.opponent.removeBg=e.target.checked;if(state.opponent.src)state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
+  oppEl.querySelector('.oppInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;state.opponent.src=await readFile(f);state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
+  $('rows').appendChild(oppEl);
+  if(state.opponent.src) dataToProcessedImage(state.opponent.src, state.opponent.removeBg).then(im=>state.opponent.img=im);
+
   alert('Loaded');
 };
 $('logoutBtn').onclick=async()=>{await fetch('/api/logout',{method:'POST'});location.href='/'};
@@ -668,27 +708,3 @@ $('exportBtn').onclick = () => {
 </script>
 </body>
 </html>`;
-
-const server=http.createServer(async(req,res)=>{
-  const u=new URL(req.url,`http://${req.headers.host||'localhost'}`);
-  const pathname=decodeURIComponent(u.pathname);
-  if(pathname==='/api/auth/status'&&req.method==='GET') return send(res,200,JSON.stringify({authenticated:authed(req)}),'application/json; charset=utf-8');
-  if(pathname==='/api/login'&&req.method==='POST'){
-    try{
-      const body=utils=await readJson(req);
-      if(!safeEqual(body.password||'',APP_PASSWORD)) return send(res,401,JSON.stringify({ok:false,error:'Wrong password'}),'application/json; charset=utf-8');
-      const cookie=[`runner_session=${encodeURIComponent(makeSession())}`,'Path=/','HttpOnly','SameSite=Strict',`Max-Age=${Math.floor(SESSION_MS/1000)}`,IS_PROD?'Secure':''].filter(Boolean).join('; ');
-      return send(res,200,JSON.stringify({ok:true}),'application/json; charset=utf-8',{'Set-Cookie':cookie});
-    }catch{
-      return send(res,400,JSON.stringify({ok:false}),'application/json; charset=utf-8');
-    }
-  }
-  if(pathname==='/api/logout'&&req.method==='POST') return send(res,200,JSON.stringify({ok:true}),'application/json; charset=utf-8',{'Set-Cookie':`runner_session=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0${IS_PROD?'; Secure':''}`});
-  if((pathname==='/'||pathname==='/app')&&req.method==='GET'){
-    if(pathname==='/app'&&!authed(req)){res.writeHead(302,{Location:'/'});return res.end()}
-    return send(res,200,authed(req)?APP_HTML:LOGIN_HTML,'text/html; charset=utf-8');
-  }
-  return send(res,404,'Not found');
-});
-
-server.listen(PORT,()=>console.log(`Private Runner Studio running on http://localhost:${PORT}`));
