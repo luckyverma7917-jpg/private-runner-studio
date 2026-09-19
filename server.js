@@ -107,7 +107,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
   </section>
   <section class="controls">
     <details open><summary>Moving Highway & Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24"></label><label>Horizon Height <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46"></label><label>Top Width <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08"></label><label>Camera Height (Eye View) <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2"></label><label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
-    <details open><summary>5 Fixed Rows + Opponent Boss</summary><div class="rowbar"><span class="small">5 main rows + Stationary distant boss previewing after 2nd pad.</span></div><div id="rows" class="rows"></div></details>
+    <details open><summary>5 Fixed Rows + Opponent Boss</summary><div class="rowbar"><span class="small">5 main rows + Stationary Boss standing at the end after 5th pad.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
 
@@ -135,7 +135,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
 <template id="opponentTemplate">
   <div class="row" style="border-color:#61f0a6">
-    <div class="rowhead"><strong style="color:#61f0a6">🔥 Opponent Boss</strong><span class="small">Stationary distance preview after 2nd pad</span></div>
+    <div class="rowhead"><strong style="color:#61f0a6">🔥 Opponent Boss</strong><span class="small">Stands stationary at the end (2s after 5th pad)</span></div>
     <div class="side" style="grid-column:span 2">
       <b>OPPONENT CHARACTER</b>
       <label>PNG <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
@@ -438,7 +438,7 @@ function drawRoadCarbonTrack(){
   if(state.roadShine) drawRoadShineSeries('rgba(255,186,120,.22)',.75);
 }
 function drawRoadEdgeGlow(){
-  fillRoadBase('#3a4552','#192028');
+  fillRoadBase('#3a4552',' #192028');
   drawRoadTexture(.022);
   drawEdgeStripSeries(18,.84,4,20,'rgba(45,255,128,.95)','rgba(255,62,86,.95)');
   drawSideRails('rgba(255,255,255,.16)');
@@ -600,16 +600,14 @@ function drawRows(){
     if(row.rightImg) drawImageFit(row.rightImg,right.center[0],right.baseY-5,rightSize,rightSize,'bottom');
   });
 
-  // Opponent preview starts stationary in the distance right after 2nd pad, and arrives fully 2s after 5th pad
-  const secondPadFinishTime = initialDelay + 1 * state.padDelay;
+  // Boss stands stationary at the end of the road (appearing after 5th pad + 2s delay)
   const fifthPadFinishTime = initialDelay + 4 * state.padDelay;
-  const oppTargetAppearTime = fifthPadFinishTime + 2.0;
+  const oppStartTime = fifthPadFinishTime + 2.0;
 
-  if(roadTime >= secondPadFinishTime && state.opponent.img){
-    const progress = Math.min(1.0, (roadTime - secondPadFinishTime) / (oppTargetAppearTime - secondPadFinishTime));
-    const p = roadBoundsAtZ(progress);
-    const pngScale = .12 + 1.2 * p.e;
-    const oppSize = state.opponent.size * pngScale;
+  if(roadTime >= oppStartTime && state.opponent.img){
+    // Static position slightly ahead near the horizon/end of the road surface
+    const p = roadBoundsAtZ(0.22);
+    const oppSize = state.opponent.size * 0.45;
     drawImageFit(state.opponent.img, W/2, p.y + 4, oppSize, oppSize, 'bottom');
   }
 }
