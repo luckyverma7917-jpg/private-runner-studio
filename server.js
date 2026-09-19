@@ -135,7 +135,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
 <template id="opponentTemplate">
   <div class="row" style="border-color:#61f0a6">
-    <div class="rowhead"><strong style="color:#61f0a6">🔥 Opponent Boss</strong><span class="small">Stands completely fixed behind final pads after 2nd pad</span></div>
+    <div class="rowhead"><strong style="color:#61f0a6">🔥 Opponent Boss</strong><span class="small">Stands fixed behind final pads after 2nd pad</span></div>
     <div class="side" style="grid-column:span 2">
       <b>OPPONENT CHARACTER</b>
       <label>PNG <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
@@ -600,13 +600,13 @@ function drawRows(){
     if(row.rightImg) drawImageFit(row.rightImg,right.center[0],right.baseY-5,rightSize,rightSize,'bottom');
   });
 
-  // Boss appears after 2nd pad and stays completely fixed and stationary right behind the final pads area
+  // Boss appears right after 2nd pad and stays completely fixed and stationary behind final pads
   const secondPadFinishTime = initialDelay + 1 * state.padDelay;
 
   if(roadTime >= secondPadFinishTime && state.opponent.img){
-    // Fixed static position right behind the last pads, completely independent of camera movement
-    const p = roadBoundsAtZ(0.72);
-    const oppSize = state.opponent.size * 0.75;
+    // Fixed static world position right behind the last pads area, completely independent of camera movement
+    const p = roadBoundsAtZ(0.55);
+    const oppSize = state.opponent.size * 0.65;
     drawImageFit(state.opponent.img, W/2, p.y + 4, oppSize, oppSize, 'bottom');
   }
 }
