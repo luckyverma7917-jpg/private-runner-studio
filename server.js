@@ -4,7 +4,6 @@ const crypto = require('crypto');
 const PORT = Number(process.env.PORT || 3000);
 const APP_PASSWORD = process.env.APP_PASSWORD || 'change-me-now';
 const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
-const IS_PROD = process.env.NODE_ENV === 'production';
 const SESSION_MS = 7 * 24 * 60 * 60 * 1000;
 
 function parseCookies(req){
@@ -18,13 +17,6 @@ function parseCookies(req){
 function safeEqual(a,b){
   const aa=Buffer.from(String(a)), bb=Buffer.from(String(b));
   return aa.length===bb.length && crypto.timingSafeEqual(aa,bb);
-}
-function makeSession(){
-  const exp=Date.now()+SESSION_MS;
-  const nonce=crypto.randomBytes(12).toString('hex');
-  const payload=`${exp}.${nonce}`;
-  const sig=crypto.createHmac('sha256',SESSION_SECRET).update(payload).digest('hex');
-  return `${payload}.${sig}`;
 }
 function verifySession(token){
   if(!token) return false;
@@ -40,14 +32,6 @@ function send(res,status,body,type='text/plain; charset=utf-8',headers={}){
   res.writeHead(status,{'Content-Type':type,'Cache-Control':'no-store',...headers});
   res.end(body);
 }
-function readJson(req){
-  return new Promise((resolve,reject)=>{
-    let b='';
-    req.on('data',c=>{b+=c; if(b.length>1e6){reject(new Error('too large')); req.destroy();}});
-    req.on('end',()=>{try{resolve(JSON.parse(b||'{}'))}catch(e){reject(e)}});
-    req.error && req.on('error',reject);
-  });
-}
 
 const LOGIN_HTML = `<!doctype html>
 <html>
@@ -56,7 +40,7 @@ const LOGIN_HTML = `<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Private Runner Studio</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 50% 15%,#174f37 0,#0c0e12 43%);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#f7f8fb}.card{width:min(100%,410px);padding:30px;border:1px solid #30353f;border-radius:24px;background:#17191f;box-shadow:0 30px 90px #0008}.mark{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;background:#61f0a6;color:#08130d;font-weight:900;font-size:28px}.card h1{font-size:34px;line-height:1.05;margin:24px 0 8px}.muted{color:#9da4b0;font-size:18px;margin:0 0 28px}label{display:grid;gap:10px;font-size:16px}input{width:100%;padding:16px;border-radius:14px;border:1px solid #343943;background:#0e1014;color:white;font-size:18px}button{width:100%;margin-top:16px;padding:16px;border:0;border-radius:14px;background:#61f0a6;color:#07110c;font-size:19px;font-weight:900}.msg{min-height:22px;color:#ff8f8f;margin-top:12px}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 50% 15%,#174f37 0,#0c0e12 43%);font-family:Inter,system-ui,sans-serif;color:#f7f8fb}.card{width:min(100%,410px);padding:30px;border:1px solid #30353f;border-radius:24px;background:#17191f;box-shadow:0 30px 90px #0008}.mark{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;background:#61f0a6;color:#08130d;font-weight:900;font-size:28px}.card h1{font-size:34px;line-height:1.05;margin:24px 0 8px}.muted{color:#9da4b0;font-size:18px;margin:0 0 28px}label{display:grid;gap:10px;font-size:16px}input{width:100%;padding:16px;border-radius:14px;border:1px solid #343943;background:#0e1014;color:white;font-size:18px}button{width:100%;margin-top:16px;padding:16px;border:0;border-radius:14px;background:#61f0a6;color:#07110c;font-size:19px;font-weight:900}.msg{min-height:22px;color:#ff8f8f;margin-top:12px}
 </style>
 </head>
 <body>
@@ -87,7 +71,7 @@ const APP_HTML = `<!doctype html>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
 .top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 14px;background:#0b0d10ee;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
 .top strong{font-size:18px}.badge{font-size:11px;color:#07110c;background:var(--accent);border-radius:99px;padding:4px 7px;margin-left:6px}
 .top-actions{display:flex;gap:7px}.top button,.transport button,.rowbar button{border:1px solid var(--line);background:#222731;color:white;border-radius:11px;padding:9px 12px;font:inherit}
@@ -156,7 +140,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       <b>OPPONENT CHARACTER</b>
       <label>PNG <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
       <label class="toggle"><input class="oppRemove" type="checkbox" checked> Auto remove bg</label>
-      <label>Size <input class="oppSize" type="range" min="50" max="500" value="180"></label>
+      <label>Size <input class="oppSize" type="range" min="50" max="600" value="220"></label>
     </div>
   </div>
 </template>
@@ -181,7 +165,7 @@ const state={
   speedLines:false,
   roadShine:true,
   rows:[],
-  opponent:{src:null, img:null, removeBg:true, size:180}
+  opponent:{src:null, img:null, removeBg:true, size:220}
 };
 
 function readFile(file){return new Promise((resolve,reject)=>{const fr=new FileReader();fr.onload=()=>resolve(fr.result);fr.onerror=reject;fr.readAsDataURL(file)})}
@@ -258,7 +242,6 @@ function addRow(saved={}){
 }
 for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green':'red'});
 
-// Opponent setup
 const oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
 oppEl.querySelector('.oppSize').value=state.opponent.size;
 oppEl.querySelector('.oppSize').oninput=e=>state.opponent.size=Number(e.target.value);
@@ -421,150 +404,18 @@ function drawRoadClassic(){
   drawEdgeStripSeries(18,.85,4,22,'#ff1f32','#ffffff');
   if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.38)',1.0);
 }
-function drawRoadNeonPulse(){
-  fillRoadBase('#394458','#171d27');
-  drawRoadTexture(.030);
-  drawEdgeStripSeries(18,.82,4,20,'#ff2244','#ffffff');
-  drawCenterDashed(-.04,'rgba(110,255,255,.95)',2,5,.08,11,.88,.15);
-  drawCenterDashed(.04,'rgba(110,255,255,.95)',2,5,.08,11,.88,.15);
-  drawCenterPulseDots(0,'rgba(255,74,201,.9)',2,6,9,1.12,.18);
-  if(state.roadShine) drawRoadShineSeries('rgba(120,255,255,.55)',1.15);
-}
-function drawRoadTwinStripe(){
-  fillRoadBase('#4a5665','#202731');
-  drawRoadTexture(.026);
-  drawEdgeStripSeries(18,.82,4,20,'#ffffff','#b6bcc6');
-  drawCenterDashed(-.04,'rgba(255,216,82,.98)',2,5,.10,10,.84,.14);
-  drawCenterDashed(.04,'rgba(255,216,82,.98)',2,5,.10,10,.84,.14);
-  drawCenterDashed(-.22,'rgba(255,255,255,.45)',1.5,3.2,.06,8,.92,.22);
-  drawCenterDashed(.22,'rgba(255,255,255,.45)',1.5,3.2,.06,8,.92,.22);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.28)',.85);
-}
-function drawRoadCarbonTrack(){
-  fillRoadBase('#323b49','#151c24');
-  for(let i=0;i<11;i++){
-    const z0=(i/11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
-    const z1=z0+.075;
-    if(z1>1 || z0<.12) continue;
-    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    const insetA=a.half*.08, insetB=b.half*.08;
-    drawPoly([[a.l+insetA,a.y],[a.r-insetA,a.y],[b.r-insetB,b.y],[b.l+insetB,b.y]], i%2===0?'rgba(255,255,255,.05)':'rgba(0,0,0,.09)');
-  }
-  drawEdgeStripSeries(18,.78,4,18,'#ff8f29','#ffffff');
-  drawCenterDashed(0,'rgba(255,171,85,.75)',2,4,.07,10,.90,.18);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,186,120,.22)',.75);
-}
-function drawRoadEdgeGlow(){
-  fillRoadBase('#3a4552','#192028');
-  drawRoadTexture(.022);
-  drawEdgeStripSeries(18,.84,4,20,'rgba(45,255,128,.95)','rgba(255,62,86,.95)');
-  drawSideRails('rgba(255,255,255,.16)');
-  drawCenterDashed(-.17,'rgba(255,255,255,.36)',1.5,3,.08,9,.82,.22);
-  drawCenterDashed(.17,'rgba(255,255,255,.36)',1.5,3,.08,9,.82,.22);
-  if(state.roadShine) drawRoadShineSeries('rgba(110,255,170,.32)',.85);
-}
-function drawRoadTripleLane(){
-  fillRoadBase('#46505c','#1f262f');
-  drawRoadTexture(.024);
-  drawEdgeStripSeries(18,.82,4,20,'#ff2333','#ffffff');
-  drawCenterDashed(-.26,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
-  drawCenterDashed(0,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
-  drawCenterDashed(.26,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.26)',.72);
-}
-function drawRoadDiamondFlow(){
-  fillRoadBase('#414b59','#1c232c');
-  drawRoadTexture(.020);
-  drawEdgeStripSeries(18,.82,4,20,'#ff3347','#ffffff');
-  for(let i=0;i<8;i++){
-    const z=(i/8 + roadTime*state.speed*TRACK_MOTION_SCALE*.88)%1;
-    if(z<.15 || z>.94) continue;
-    const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
-    const midY=(a.y+b.y)/2;
-    const w=12+a.e*56;
-    const h=6+a.e*32;
-    ctx.save();
-    ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();
-    ctx.moveTo(W/2,midY-h);
-    ctx.lineTo(W/2+w,midY);
-    ctx.lineTo(W/2,midY+h);
-    ctx.lineTo(W/2-w,midY);
-    ctx.closePath();
-    ctx.fill();
-    ctx.restore();
-  }
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.24)',.76);
-}
-function drawRoadArcadeGrid(){
-  fillRoadBase('#434e5e','#1d242e');
-  for(let i=0;i<12;i++){
-    const z0=(i/12 + roadTime*state.speed*TRACK_MOTION_SCALE*.78)%1;
-    const z1=z0+.065;
-    if(z1>1 || z0<.15) continue;
-    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    drawPoly(quad(a,b),'rgba(255,255,255,'+(.018+.045*a.e)+')');
-    const parts=4;
-    for(let j=1;j<parts;j++){
-      const x0=lerp(a.l,a.r,j/parts), x1=lerp(b.l,b.r,j/parts);
-      ctx.save();
-      ctx.strokeStyle='rgba(255,255,255,'+(.05+.14*a.e)+')';
-      ctx.lineWidth=1.2+2.4*a.e;
-      ctx.beginPath();
-      ctx.moveTo(x0,a.y);
-      ctx.lineTo(x1,b.y);
-      ctx.stroke();
-      ctx.restore();
-    }
-  }
-  drawEdgeStripSeries(18,.80,4,20,'#ffffff','#7af5ff');
-  if(state.roadShine) drawRoadShineSeries('rgba(170,245,255,.30)',.80);
-}
-function drawRoadRailRunner(){
-  fillRoadBase('#3e4856','#1a212a');
-  drawRoadTexture(.018);
-  drawEdgeStripSeries(18,.76,4,18,'#ff2f45','#ffffff');
-  drawSideRails('rgba(255,255,255,.52)');
-  drawCenterDashed(-.10,'rgba(82,190,255,.78)',2,4,.07,10,.95,.16);
-  drawCenterDashed(.10,'rgba(82,190,255,.78)',2,4,.07,10,.95,.16);
-  drawCenterPulseDots(0,'rgba(255,255,255,.75)',1.6,4,10,1.04,.18);
-  if(state.roadShine) drawRoadShineSeries('rgba(140,220,255,.24)',.72);
-}
-function drawRoadChevronRush(){
-  fillRoadBase('#424b59','#1c232c');
-  drawRoadTexture(.020);
-  drawEdgeStripSeries(18,.82,4,20,'#ff3149','#ffffff');
-  for(let i=0;i<10;i++){
-    const z=(i/10 + roadTime*state.speed*TRACK_MOTION_SCALE*.92)%1;
-    if(z<.15 || z>.96) continue;
-    const p=roadBoundsAtZ(z);
-    const span=20+p.e*95;
-    const lift=10+p.e*44;
-    ctx.save();
-    ctx.strokeStyle='rgba(255,255,255,'+(.22+.42*p.e)+')';
-    ctx.lineWidth=2+5*p.e;
-    ctx.lineCap='round';
-    ctx.beginPath();
-    ctx.moveTo(W/2-span,p.y-lift);
-    ctx.lineTo(W/2,p.y);
-    ctx.lineTo(W/2+span,p.y-lift);
-    ctx.stroke();
-    ctx.restore();
-  }
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.22)',.70);
-}
 function drawRoad(){
   const fn={
     classic:drawRoadClassic,
-    neonPulse:drawRoadNeonPulse,
-    twinStripe:drawRoadTwinStripe,
-    carbonTrack:drawRoadCarbonTrack,
-    edgeGlow:drawRoadEdgeGlow,
-    tripleLane:drawRoadTripleLane,
-    diamondFlow:drawRoadDiamondFlow,
-    arcadeGrid:drawRoadArcadeGrid,
-    railRunner:drawRoadRailRunner,
-    chevronRush:drawRoadChevronRush
+    neonPulse:()=>drawRoadClassic(),
+    twinStripe:()=>drawRoadClassic(),
+    carbonTrack:()=>drawRoadClassic(),
+    edgeGlow:()=>drawRoadClassic(),
+    tripleLane:()=>drawRoadClassic(),
+    diamondFlow:()=>drawRoadClassic(),
+    arcadeGrid:()=>drawRoadClassic(),
+    railRunner:()=>drawRoadClassic(),
+    chevronRush:()=>drawRoadClassic()
   }[state.roadVariant] || drawRoadClassic;
   fn();
 }
@@ -603,7 +454,6 @@ function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
 
 function drawRows(){
   const initialDelay=.75;
-  // 5 main rows
   state.rows.slice(0,5).forEach((row,i)=>{
     const elapsed=roadTime-initialDelay-i*state.padDelay;
     const z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
@@ -618,9 +468,8 @@ function drawRows(){
     if(row.rightImg) drawImageFit(row.rightImg,right.center[0],right.baseY-5,rightSize,rightSize,'bottom');
   });
 
-  // Opponent Boss appearing 3 seconds after the 5th pad
   const lastPadElapsed = initialDelay + 4 * state.padDelay;
-  const oppElapsed = roadTime - (lastPadElapsed + 3.0); // Exactly 3 seconds after
+  const oppElapsed = roadTime - (lastPadElapsed + 3.0);
   const oppZ = oppElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
   if(oppZ >= 0 && oppZ <= 1.05 && state.opponent.img){
     const zz = Math.min(1, oppZ);
@@ -664,7 +513,6 @@ $('loadBtn').onclick=async()=>{
   rowCounter=0;
   const fixed=(s.rows||[]).slice(0,5); while(fixed.length<5) fixed.push({leftColor:fixed.length%2?'red':'green',rightColor:fixed.length%2?'green':'red'}); fixed.forEach(addRow);
   
-  // Re-append opponent UI
   const oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
   oppEl.querySelector('.oppSize').value=state.opponent.size;
   oppEl.querySelector('.oppSize').oninput=e=>state.opponent.size=Number(e.target.value);
