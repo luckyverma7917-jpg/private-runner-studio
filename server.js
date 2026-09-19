@@ -107,7 +107,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
   </section>
   <section class="controls">
     <details open><summary>Moving Highway & Camera</summary><div class="grid two"><label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24"></label><label>Horizon Height <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46"></label><label>Top Width <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08"></label><label>Camera Height (Eye View) <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2"></label><label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label><label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label><label>Road style <select id="roadVariant"><option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option><option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option><option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option><option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option><option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option></select></label><label>Background <select id="bgMode"><option value="black" selected>Reference black</option><option value="green">Green</option></select></label><label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label><label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label></div></details>
-    <details open><summary>5 Fixed Rows + 3s Opponent Boss</summary><div class="rowbar"><span class="small">5 main rows + 1 Opponent appearing 3s after the last pad.</span></div><div id="rows" class="rows"></div></details>
+    <details open><summary>5 Fixed Rows + Opponent Boss</summary><div class="rowbar"><span class="small">5 main rows + Opponent previewing early & fixed on ground.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
 
@@ -135,7 +135,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
 <template id="opponentTemplate">
   <div class="row" style="border-color:#61f0a6">
-    <div class="rowhead"><strong style="color:#61f0a6">🔥 Opponent Boss (3s after pads)</strong><span class="small">Final Encounter</span></div>
+    <div class="rowhead"><strong style="color:#61f0a6">🔥 Opponent Boss</strong><span class="small">Visible early on road</span></div>
     <div class="side" style="grid-column:span 2">
       <b>OPPONENT CHARACTER</b>
       <label>PNG <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
@@ -600,15 +600,16 @@ function drawRows(){
     if(row.rightImg) drawImageFit(row.rightImg,right.center[0],right.baseY-5,rightSize,rightSize,'bottom');
   });
 
+  // Opponent previewing early starting near the last pads and standing firmly on the road ground
   const lastPadElapsed = initialDelay + 4 * state.padDelay;
-  const oppElapsed = roadTime - (lastPadElapsed + 3.0);
+  const oppElapsed = roadTime - (lastPadElapsed - 1.5); // Starts appearing slightly earlier to preview
   const oppZ = oppElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
   if(oppZ >= 0 && oppZ <= 1.05 && state.opponent.img){
     const zz = Math.min(1, oppZ);
     const p = roadBoundsAtZ(zz);
-    const pngScale = .2 + 1.2 * p.e;
+    const pngScale = .18 + 1.1 * p.e;
     const oppSize = state.opponent.size * pngScale;
-    drawImageFit(state.opponent.img, W/2, p.y, oppSize, oppSize, 'bottom');
+    drawImageFit(state.opponent.img, W/2, p.y + 4, oppSize, oppSize, 'bottom'); // Grounded correctly on road surface
   }
 }
 
