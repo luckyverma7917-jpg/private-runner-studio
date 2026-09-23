@@ -67,7 +67,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Dog-Eye 3D</title>
+<title>Private Runner Studio Lion-Style Highway</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -96,32 +96,33 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">DARK + LIGHT BACKGROUNDS</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">SHORTS-SAFE PERSPECTIVE</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">True ground-level first-person view. Flat horizon directly ahead, straight highway depth.</div>
+    <div class="note">Wide bottom highway designed specifically so YouTube Shorts title & buttons don't block action.</div>
   </section>
   <section class="controls">
     <details open><summary>Moving Highway & Camera</summary><div class="grid two">
       <label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24"></label>
       <label>Horizon Height <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46"></label>
       <label>Top Width <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08"></label>
+      <label>Bottom Width (Lion Style) <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.88"></label>
       <label>Camera Height (Eye View) <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2"></label>
       <label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label>
       <label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label>
       <label>Road style <select id="roadVariant">
-        <option value="classic">1. Classic V6</option><option value="neonPulse">2. Neon Pulse</option>
+        <option value="classic">1. Classic V6 (Lion Video)</option><option value="neonPulse">2. Neon Pulse</option>
         <option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option>
         <option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option>
         <option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option>
         <option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option>
       </select></label>
       <label>Background Theme <select id="bgMode">
-        <optgroup label="--- Light & Aesthetic (NEW) ---">
+        <optgroup label="--- Light & Aesthetic Themes ---">
           <option value="cleanWhite">☀️ 1. Clean Studio White</option>
           <option value="softSilver">☀️ 2. Soft Silver Mist</option>
           <option value="cloudGrey">☀️ 3. Cloud Grey</option>
@@ -138,7 +139,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           <option value="lilacMist">☀️ 14. Lilac Morning</option>
           <option value="goldenSand">☀️ 15. Warm Golden Glow</option>
         </optgroup>
-        <optgroup label="--- 50+ Dark & Cyber Themes ---">
+        <optgroup label="--- 50+ Dark Themes ---">
           <option value="black" selected>1. Pitch Black</option>
           <option value="midnight">2. Midnight Void</option>
           <option value="obsidian">3. Obsidian Matte</option>
@@ -246,6 +247,7 @@ const state={
   speed:0.24,
   horizon:0.46,
   topWidth:0.08,
+  bottomWidth:0.88, // Wide Lion Style Base
   camHeight:1.2,
   padDelay:1.75,
   padThickness:12,
@@ -258,7 +260,6 @@ const state={
 };
 
 const bgColors = {
-  // --- 15 New Light & Aesthetic Themes ---
   cleanWhite: ['#ffffff', '#f1f3f5'],
   softSilver: ['#f8f9fa', '#e9ecef'],
   cloudGrey: ['#edf2f7', '#cbd5e1'],
@@ -274,8 +275,6 @@ const bgColors = {
   cyberMintLight: ['#d1fae5', '#a7f3d0'],
   lilacMist: ['#f5f3ff', '#ddd6fe'],
   goldenSand: ['#fef3c7', '#fde68a'],
-
-  // --- Dark Themes ---
   black: ['#000000', '#050505'],
   midnight: ['#000000', '#05070c'],
   obsidian: ['#0a0a0f', '#12121a'],
@@ -364,7 +363,7 @@ function processImageDataUrl(dataUrl, removeBg){
 }
 async function dataToProcessedImage(src, removeBg){return dataToImage(await processImageDataUrl(src, removeBg))}
 function bindRange(id,key){$(id).addEventListener('input',e=>state[key]=Number(e.target.value))}
-['speed','horizon','topWidth','camHeight','padDelay','padThickness'].forEach(id=>bindRange(id,id));
+['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(id=>bindRange(id,id));
 $('roadVariant').onchange=e=>state.roadVariant=e.target.value;
 $('speedLines').onchange=e=>state.speedLines=e.target.checked;
 $('roadShine').onchange=e=>state.roadShine=e.target.checked;
@@ -419,12 +418,13 @@ function roadBoundsAtZ(z){
   const t=Math.max(0,Math.min(1,z));
   const HORIZON_Y=H*state.horizon;
   const TOP_HALF=W*state.topWidth;
-  const BOTTOM_HALF=W*0.62;
+  // Wide open base perspective matching the Lion video
+  const BOTTOM_HALF=W*(state.bottomWidth || 0.88);
 
-  const zWorld = (1.0 - t) * 12.0 + 0.9;
+  const zWorld = (1.0 - t) * 11.5 + 0.85;
   const scale = 1.0 / (zWorld * state.camHeight);
-  const minScale = 1.0 / (12.9 * state.camHeight);
-  const maxScale = 1.0 / (0.9 * state.camHeight);
+  const minScale = 1.0 / (12.35 * state.camHeight);
+  const maxScale = 1.0 / (0.85 * state.camHeight);
   const depth = (scale - minScale) / (maxScale - minScale);
 
   const y = HORIZON_Y + (H - HORIZON_Y) * depth;
@@ -561,9 +561,10 @@ function drawBackground(){
 }
 
 function drawRoadClassic(){
-  fillRoadBase('#455163','#1c232e');
-  drawRoadTexture(.032);
-  drawEdgeStripSeries(18,.85,4,22,'#ff1f32','#ffffff');
+  // Clean neutral grey road matching the Lion challenge video
+  fillRoadBase('#7c8591','#454c57');
+  drawRoadTexture(.028);
+  drawEdgeStripSeries(18,.85,5,28,'#ff1f32','#ffffff');
   if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.38)',1.0);
 }
 function drawRoadNeonPulse(){
@@ -765,7 +766,8 @@ function drawRows(){
   const secondPadFinishTime = initialDelay + 1 * state.padDelay;
 
   if(roadTime >= secondPadFinishTime && state.opponent.img){
-    const p = roadBoundsAtZ(0.76);
+    // Perfectly static position slightly behind the 5th pad area
+    const p = roadBoundsAtZ(0.72);
     const oppSize = state.opponent.size * 0.75;
     drawImageFit(state.opponent.img, W/2, p.y + 4, oppSize, oppSize, 'bottom');
   }
@@ -794,7 +796,9 @@ $('loadBtn').onclick=async()=>{
   if(!raw) return alert('No save found on this device');
   const s=JSON.parse(raw);
   Object.assign(state,s);
-  ['speed','horizon','topWidth','camHeight','padDelay','padThickness'].forEach(id=>$(id).value=state[id]);
+  ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(id=>{
+    if($(id) && state[id]!==undefined) $(id).value=state[id];
+  });
   $('roadVariant').value=state.roadVariant||'classic';
   $('speedLines').checked=state.speedLines;
   $('roadShine').checked=state.roadShine;
