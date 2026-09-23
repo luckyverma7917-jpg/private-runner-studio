@@ -96,7 +96,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">50+ DARK BACKGROUNDS</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">DARK + LIGHT BACKGROUNDS</span></div>
   <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -120,59 +120,78 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option>
         <option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option>
       </select></label>
-      <label>Background (50+ Dark Styles) <select id="bgMode">
-        <option value="black" selected>1. Pitch Black</option>
-        <option value="midnight">2. Midnight Void</option>
-        <option value="obsidian">3. Obsidian Matte</option>
-        <option value="deepSpace">4. Deep Space Abyss</option>
-        <option value="cyberDark">5. Cyber Dark</option>
-        <option value="matrixBlack">6. Matrix Black</option>
-        <option value="carbonDark">7. Carbon Fiber Dark</option>
-        <option value="charcoal">8. Charcoal Shadow</option>
-        <option value="gunmetal">9. Gunmetal Grey</option>
-        <option value="onyx">10. Onyx Night</option>
-        <option value="eclipse">11. Total Eclipse</option>
-        <option value="abyss">12. Ocean Abyss</option>
-        <option value="deepNavy">13. Deep Navy Dark</option>
-        <option value="midnightBlue">14. Midnight Blue</option>
-        <option value="slateDark">15. Slate Shadow</option>
-        <option value="asphalt">16. Wet Asphalt</option>
-        <option value="gravel">17. Dark Gravel</option>
-        <option value="steelDark">18. Dark Steel</option>
-        <option value="ironDark">19. Dark Iron</option>
-        <option value="phantom">20. Phantom Black</option>
-        <option value="shadow">21. Dark Shadow</option>
-        <option value="vampire">22. Vampire Red-Black</option>
-        <option value="crimsonDark">23. Dark Crimson</option>
-        <option value="bloodNight">24. Blood Night</option>
-        <option value="neonPurpleDark">25. Neon Purple Dark</option>
-        <option value="violetNight">26. Violet Abyss</option>
-        <option value="electricBlueDark">27. Electric Blue Dark</option>
-        <option value="cyanDark">28. Dark Cyan Void</option>
-        <option value="emeraldDark">29. Dark Emerald</option>
-        <option value="matrixGreen">30. Matrix Green Dark</option>
-        <option value="toxicGreen">31. Toxic Dark</option>
-        <option value="amberDark">32. Amber Shadow</option>
-        <option value="sunsetDark">33. Dark Sunset</option>
-        <option value="laserRed">34. Laser Red Dark</option>
-        <option value="plasmaDark">35. Plasma Dark</option>
-        <option value="reactor">36. Reactor Core</option>
-        <option value="synthwave">37. Synthwave Night</option>
-        <option value="retrowave">38. Retrowave Dark</option>
-        <option value="cyberpunkDark">39. Cyberpunk Night</option>
-        <option value="gotham">40. Gotham Alley</option>
-        <option value="underworld">41. Underworld</option>
-        <option value="infernoDark">42. Dark Inferno</option>
-        <option value="magmaDark">43. Dark Magma</option>
-        <option value="voidBlue">44. Void Blue</option>
-        <option value="voidPurple">45. Void Purple</option>
-        <option value="voidGreen">46. Void Green</option>
-        <option value="voidRed">47. Void Red</option>
-        <option value="voidGold">48. Void Gold</option>
-        <option value="cosmicDark">49. Cosmic Dark</option>
-        <option value="nebulaDark">50. Dark Nebula</option>
-        <option value="quantumVoid">51. Quantum Void</option>
-        <option value="ultimateDark">52. Ultimate Dark V2</option>
+      <label>Background Theme <select id="bgMode">
+        <optgroup label="--- Light & Aesthetic (NEW) ---">
+          <option value="cleanWhite">☀️ 1. Clean Studio White</option>
+          <option value="softSilver">☀️ 2. Soft Silver Mist</option>
+          <option value="cloudGrey">☀️ 3. Cloud Grey</option>
+          <option value="skyBlueLight">☀️ 4. Clear Sky Blue</option>
+          <option value="cyanBreeze">☀️ 5. Light Cyan Breeze</option>
+          <option value="mintFresh">☀️ 6. Fresh Mint Pastel</option>
+          <option value="warmVanilla">☀️ 7. Warm Vanilla</option>
+          <option value="peachDawn">☀️ 8. Peach Sunrise</option>
+          <option value="lavenderLight">☀️ 9. Soft Lavender</option>
+          <option value="rosePastel">☀️ 10. Rose Pastel Glow</option>
+          <option value="lemonDay">☀️ 11. Lemon Daylight</option>
+          <option value="iceWhite">☀️ 12. Arctic Ice White</option>
+          <option value="cyberMintLight">☀️ 13. Cyber Mint Light</option>
+          <option value="lilacMist">☀️ 14. Lilac Morning</option>
+          <option value="goldenSand">☀️ 15. Warm Golden Glow</option>
+        </optgroup>
+        <optgroup label="--- 50+ Dark & Cyber Themes ---">
+          <option value="black" selected>1. Pitch Black</option>
+          <option value="midnight">2. Midnight Void</option>
+          <option value="obsidian">3. Obsidian Matte</option>
+          <option value="deepSpace">4. Deep Space Abyss</option>
+          <option value="cyberDark">5. Cyber Dark</option>
+          <option value="matrixBlack">6. Matrix Black</option>
+          <option value="carbonDark">7. Carbon Fiber Dark</option>
+          <option value="charcoal">8. Charcoal Shadow</option>
+          <option value="gunmetal">9. Gunmetal Grey</option>
+          <option value="onyx">10. Onyx Night</option>
+          <option value="eclipse">11. Total Eclipse</option>
+          <option value="abyss">12. Ocean Abyss</option>
+          <option value="deepNavy">13. Deep Navy Dark</option>
+          <option value="midnightBlue">14. Midnight Blue</option>
+          <option value="slateDark">15. Slate Shadow</option>
+          <option value="asphalt">16. Wet Asphalt</option>
+          <option value="gravel">17. Dark Gravel</option>
+          <option value="steelDark">18. Dark Steel</option>
+          <option value="ironDark">19. Dark Iron</option>
+          <option value="phantom">20. Phantom Black</option>
+          <option value="shadow">21. Dark Shadow</option>
+          <option value="vampire">22. Vampire Red-Black</option>
+          <option value="crimsonDark">23. Dark Crimson</option>
+          <option value="bloodNight">24. Blood Night</option>
+          <option value="neonPurpleDark">25. Neon Purple Dark</option>
+          <option value="violetNight">26. Violet Abyss</option>
+          <option value="electricBlueDark">27. Electric Blue Dark</option>
+          <option value="cyanDark">28. Dark Cyan Void</option>
+          <option value="emeraldDark">29. Dark Emerald</option>
+          <option value="matrixGreen">30. Matrix Green Dark</option>
+          <option value="toxicGreen">31. Toxic Dark</option>
+          <option value="amberDark">32. Amber Shadow</option>
+          <option value="sunsetDark">33. Dark Sunset</option>
+          <option value="laserRed">34. Laser Red Dark</option>
+          <option value="plasmaDark">35. Plasma Dark</option>
+          <option value="reactor">36. Reactor Core</option>
+          <option value="synthwave">37. Synthwave Night</option>
+          <option value="retrowave">38. Retrowave Dark</option>
+          <option value="cyberpunkDark">39. Cyberpunk Night</option>
+          <option value="gotham">40. Gotham Alley</option>
+          <option value="underworld">41. Underworld</option>
+          <option value="infernoDark">42. Dark Inferno</option>
+          <option value="magmaDark">43. Dark Magma</option>
+          <option value="voidBlue">44. Void Blue</option>
+          <option value="voidPurple">45. Void Purple</option>
+          <option value="voidGreen">46. Void Green</option>
+          <option value="voidRed">47. Void Red</option>
+          <option value="voidGold">48. Void Gold</option>
+          <option value="cosmicDark">49. Cosmic Dark</option>
+          <option value="nebulaDark">50. Dark Nebula</option>
+          <option value="quantumVoid">51. Quantum Void</option>
+          <option value="ultimateDark">52. Ultimate Dark V2</option>
+        </optgroup>
       </select></label>
       <label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label>
       <label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label>
@@ -239,6 +258,24 @@ const state={
 };
 
 const bgColors = {
+  // --- 15 New Light & Aesthetic Themes ---
+  cleanWhite: ['#ffffff', '#f1f3f5'],
+  softSilver: ['#f8f9fa', '#e9ecef'],
+  cloudGrey: ['#edf2f7', '#cbd5e1'],
+  skyBlueLight: ['#e0f2fe', '#bae6fd'],
+  cyanBreeze: ['#ecfeff', '#cffafe'],
+  mintFresh: ['#f0fdf4', '#dcfce7'],
+  warmVanilla: ['#fefce8', '#fef08a'],
+  peachDawn: ['#fff7ed', '#fed7aa'],
+  lavenderLight: ['#faf5ff', '#e9d5ff'],
+  rosePastel: ['#fff1f2', '#fecdd3'],
+  lemonDay: ['#fef9c3', '#fde047'],
+  iceWhite: ['#f0f9ff', '#e0f2fe'],
+  cyberMintLight: ['#d1fae5', '#a7f3d0'],
+  lilacMist: ['#f5f3ff', '#ddd6fe'],
+  goldenSand: ['#fef3c7', '#fde68a'],
+
+  // --- Dark Themes ---
   black: ['#000000', '#050505'],
   midnight: ['#000000', '#05070c'],
   obsidian: ['#0a0a0f', '#12121a'],
@@ -580,7 +617,7 @@ function drawRoadTripleLane(){
   drawCenterDashed(.26,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
   if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.26)',.72);
 }
-function drawRoadDiamondFlow(){
+function drawDiamondFlow(){
   fillRoadBase('#414b59','#1c232c');
   drawRoadTexture(.020);
   drawEdgeStripSeries(18,.82,4,20,'#ff3347','#ffffff');
@@ -669,7 +706,7 @@ function drawRoad(){
     carbonTrack:drawRoadCarbonTrack,
     edgeGlow:drawRoadEdgeGlow,
     tripleLane:drawRoadTripleLane,
-    diamondFlow:drawRoadDiamondFlow,
+    diamondFlow:drawDiamondFlow,
     arcadeGrid:drawRoadArcadeGrid,
     railRunner:drawRoadRailRunner,
     chevronRush:drawRoadChevronRush
