@@ -67,7 +67,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Lion-Style Highway</title>
+<title>Private Runner Studio Auto-Save</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -96,14 +96,14 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">SHORTS-SAFE PERSPECTIVE</span></div>
-  <div class="top-actions"><button id="saveBtn">Save</button><button id="loadBtn">Load</button><button id="logoutBtn">Logout</button></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">AUTO-PRESERVED</span></div>
+  <div class="top-actions"><button id="saveBtn">Save State</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Wide bottom highway designed specifically so YouTube Shorts title & buttons don't block action.</div>
+    <div class="note">Settings auto-save automatically. Sliders and buttons stay exactly where you leave them on refresh.</div>
   </section>
   <section class="controls">
     <details open><summary>Moving Highway & Camera</summary><div class="grid two">
@@ -247,7 +247,7 @@ const state={
   speed:0.24,
   horizon:0.46,
   topWidth:0.08,
-  bottomWidth:0.88, // Wide Lion Style Base
+  bottomWidth:0.88,
   camHeight:1.2,
   padDelay:1.75,
   padThickness:12,
@@ -329,6 +329,45 @@ const bgColors = {
   ultimateDark: ['#050508', '#101017']
 };
 
+function autoSaveSliders(){
+  const s = {
+    speed: state.speed,
+    horizon: state.horizon,
+    topWidth: state.topWidth,
+    bottomWidth: state.bottomWidth,
+    camHeight: state.camHeight,
+    padDelay: state.padDelay,
+    padThickness: state.padThickness,
+    roadVariant: state.roadVariant,
+    bgMode: state.bgMode,
+    speedLines: state.speedLines,
+    roadShine: state.roadShine,
+    oppSize: state.opponent.size,
+    oppRemove: state.opponent.removeBg
+  };
+  localStorage.setItem('runner_auto_sliders_v1', JSON.stringify(s));
+}
+
+function restoreAutoSliders(){
+  try{
+    const raw = localStorage.getItem('runner_auto_sliders_v1');
+    if(!raw) return;
+    const s = JSON.parse(raw);
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(id=>{
+      if(s[id] !== undefined && $(id)){
+        state[id] = Number(s[id]);
+        $(id).value = s[id];
+      }
+    });
+    if(s.roadVariant && $('roadVariant')){ state.roadVariant = s.roadVariant; $('roadVariant').value = s.roadVariant; }
+    if(s.bgMode && $('bgMode')){ state.bgMode = s.bgMode; $('bgMode').value = s.bgMode; }
+    if(s.speedLines !== undefined && $('speedLines')){ state.speedLines = Boolean(s.speedLines); $('speedLines').checked = state.speedLines; }
+    if(s.roadShine !== undefined && $('roadShine')){ state.roadShine = Boolean(s.roadShine); $('roadShine').checked = state.roadShine; }
+    if(s.oppSize !== undefined){ state.opponent.size = Number(s.oppSize); }
+    if(s.oppRemove !== undefined){ state.opponent.removeBg = Boolean(s.oppRemove); }
+  }catch(e){}
+}
+
 function readFile(file){return new Promise((resolve,reject)=>{const fr=new FileReader();fr.onload=()=>resolve(fr.result);fr.onerror=reject;fr.readAsDataURL(file)})}
 function dataToImage(src){return new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src})}
 function processImageDataUrl(dataUrl, removeBg){
@@ -362,12 +401,18 @@ function processImageDataUrl(dataUrl, removeBg){
   });
 }
 async function dataToProcessedImage(src, removeBg){return dataToImage(await processImageDataUrl(src, removeBg))}
-function bindRange(id,key){$(id).addEventListener('input',e=>state[key]=Number(e.target.value))}
+
+function bindRange(id,key){
+  $(id).addEventListener('input', e=>{
+    state[key]=Number(e.target.value);
+    autoSaveSliders();
+  });
+}
 ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(id=>bindRange(id,id));
-$('roadVariant').onchange=e=>state.roadVariant=e.target.value;
-$('speedLines').onchange=e=>state.speedLines=e.target.checked;
-$('roadShine').onchange=e=>state.roadShine=e.target.checked;
-$('bgMode').onchange=e=>state.bgMode=e.target.value;
+$('roadVariant').onchange=e=>{state.roadVariant=e.target.value; autoSaveSliders();};
+$('speedLines').onchange=e=>{state.speedLines=e.target.checked; autoSaveSliders();};
+$('roadShine').onchange=e=>{state.roadShine=e.target.checked; autoSaveSliders();};
+$('bgMode').onchange=e=>{state.bgMode=e.target.value; autoSaveSliders();};
 
 function makeId(){return (crypto.randomUUID&&crypto.randomUUID()) || String(Date.now()+Math.random())}
 function addRow(saved={}){
@@ -405,10 +450,15 @@ for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green'
 
 const oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
 oppEl.querySelector('.oppSize').value=state.opponent.size;
-oppEl.querySelector('.oppSize').oninput=e=>state.opponent.size=Number(e.target.value);
-oppEl.querySelector('.oppRemove').onchange=async e=>{state.opponent.removeBg=e.target.checked;if(state.opponent.src)state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
+oppEl.querySelector('.oppSize').oninput=e=>{state.opponent.size=Number(e.target.value); autoSaveSliders();};
+oppEl.querySelector('.oppRemove').onchange=async e=>{state.opponent.removeBg=e.target.checked; autoSaveSliders(); if(state.opponent.src)state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
 oppEl.querySelector('.oppInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;state.opponent.src=await readFile(f);state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
 $('rows').appendChild(oppEl);
+
+// Automatically restore sliders immediately after building elements
+restoreAutoSliders();
+if(oppEl.querySelector('.oppSize')) oppEl.querySelector('.oppSize').value = state.opponent.size;
+if(oppEl.querySelector('.oppRemove')) oppEl.querySelector('.oppRemove').checked = state.opponent.removeBg;
 
 const TRACK_Z_LENGTH=220;
 const BASE_TRACK_Z_LENGTH=125;
@@ -418,7 +468,6 @@ function roadBoundsAtZ(z){
   const t=Math.max(0,Math.min(1,z));
   const HORIZON_Y=H*state.horizon;
   const TOP_HALF=W*state.topWidth;
-  // Wide open base perspective matching the Lion video
   const BOTTOM_HALF=W*(state.bottomWidth || 0.88);
 
   const zWorld = (1.0 - t) * 11.5 + 0.85;
@@ -561,7 +610,6 @@ function drawBackground(){
 }
 
 function drawRoadClassic(){
-  // Clean neutral grey road matching the Lion challenge video
   fillRoadBase('#7c8591','#454c57');
   drawRoadTexture(.028);
   drawEdgeStripSeries(18,.85,5,28,'#ff1f32','#ffffff');
@@ -766,7 +814,6 @@ function drawRows(){
   const secondPadFinishTime = initialDelay + 1 * state.padDelay;
 
   if(roadTime >= secondPadFinishTime && state.opponent.img){
-    // Perfectly static position slightly behind the 5th pad area
     const p = roadBoundsAtZ(0.72);
     const oppSize = state.opponent.size * 0.75;
     drawImageFit(state.opponent.img, W/2, p.y + 4, oppSize, oppSize, 'bottom');
@@ -787,36 +834,8 @@ requestAnimationFrame(frame);
 $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pause':'Play'};
 $('resetBtn').onclick=()=>roadTime=0;
 $('saveBtn').onclick=()=>{
-  const save={...state, rows:state.rows.map(r=>({...r,leftImg:null,rightImg:null})), opponent:{...state.opponent, img:null}};
-  localStorage.setItem('runnerStudioV6DogEye', JSON.stringify(save));
-  alert('Saved on this device');
-};
-$('loadBtn').onclick=async()=>{
-  const raw=localStorage.getItem('runnerStudioV6DogEye');
-  if(!raw) return alert('No save found on this device');
-  const s=JSON.parse(raw);
-  Object.assign(state,s);
-  ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(id=>{
-    if($(id) && state[id]!==undefined) $(id).value=state[id];
-  });
-  $('roadVariant').value=state.roadVariant||'classic';
-  $('speedLines').checked=state.speedLines;
-  $('roadShine').checked=state.roadShine;
-  $('bgMode').value=state.bgMode||'black';
-  $('rows').innerHTML='';
-  state.rows=[];
-  rowCounter=0;
-  const fixed=(s.rows||[]).slice(0,5); while(fixed.length<5) fixed.push({leftColor:fixed.length%2?'red':'green',rightColor:fixed.length%2?'green':'red'}); fixed.forEach(addRow);
-  
-  const oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
-  oppEl.querySelector('.oppSize').value=state.opponent.size;
-  oppEl.querySelector('.oppSize').oninput=e=>state.opponent.size=Number(e.target.value);
-  oppEl.querySelector('.oppRemove').onchange=async e=>{state.opponent.removeBg=e.target.checked;if(state.opponent.src)state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
-  oppEl.querySelector('.oppInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;state.opponent.src=await readFile(f);state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
-  $('rows').appendChild(oppEl);
-  if(state.opponent.src) dataToProcessedImage(state.opponent.src, state.opponent.removeBg).then(im=>state.opponent.img=im);
-
-  alert('Loaded');
+  autoSaveSliders();
+  alert('Settings saved successfully!');
 };
 $('logoutBtn').onclick=async()=>{await fetch('/api/logout',{method:'POST'});location.href='/'};
 
