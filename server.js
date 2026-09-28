@@ -7,60 +7,35 @@ const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toSt
 const SESSION_MS = 7 * 24 * 60 * 60 * 1000;
 
 function parseCookies(req){
-  const out={};
-  (req.headers.cookie||'').split(';').forEach(p=>{
-    const i=p.indexOf('=');
+  var out={};
+  (req.headers.cookie||'').split(';').forEach(function(p){
+    var i=p.indexOf('=');
     if(i>0) out[p.slice(0,i).trim()]=decodeURIComponent(p.slice(i+1).trim());
   });
   return out;
 }
 function safeEqual(a,b){
-  const aa=Buffer.from(String(a)), bb=Buffer.from(String(b));
+  var aa=Buffer.from(String(a)), bb=Buffer.from(String(b));
   return aa.length===bb.length && crypto.timingSafeEqual(aa,bb);
 }
 function verifySession(token){
   if(!token) return false;
-  const p=token.split('.');
+  var p=token.split('.');
   if(p.length!==3) return false;
-  const [exp,nonce,sig]=p;
-  const payload=exp + '.' + nonce;
-  const expected=crypto.createHmac('sha256',SESSION_SECRET).update(payload).digest('hex');
+  var exp=p[0], nonce=p[1], sig=p[2];
+  var payload=exp + '.' + nonce;
+  var expected=crypto.createHmac('sha256',SESSION_SECRET).update(payload).digest('hex');
   return safeEqual(sig,expected) && Number(exp)>Date.now();
 }
-function authed(req){return verifySession(parseCookies(req).runner_session)}
-function send(res,status,body,type='text/plain; charset=utf-8',headers={}){
-  res.writeHead(status,{'Content-Type':type,'Cache-Control':'no-store',...headers});
+function authed(req){return verifySession(parseCookies(req).runner_session);}
+function send(res,status,body,type,headers){
+  type = type || 'text/plain; charset=utf-8';
+  headers = headers || {};
+  res.writeHead(status, Object.assign({'Content-Type':type,'Cache-Control':'no-store'}, headers));
   res.end(body);
 }
 
-const LOGIN_HTML = `<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio</title>
-<style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 50% 15%,#174f37 0,#0c0e12 43%);font-family:Inter,system-ui,sans-serif;color:#f7f8fb}.card{width:min(100%,410px);padding:30px;border:1px solid #30353f;border-radius:24px;background:#17191f;box-shadow:0 30px 90px #0008}.mark{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;background:#61f0a6;color:#08130d;font-weight:900;font-size:28px}.card h1{font-size:34px;line-height:1.05;margin:24px 0 8px}.muted{color:#9da4b0;font-size:18px;margin:0 0 28px}label{display:grid;gap:10px;font-size:16px}input{width:100%;padding:16px;border-radius:14px;border:1px solid #343943;background:#0e1014;color:white;font-size:18px}button{width:100%;margin-top:16px;padding:16px;border:0;border-radius:14px;background:#61f0a6;color:#07110c;font-size:19px;font-weight:900}.msg{min-height:22px;color:#ff8f8f;margin-top:12px}
-</style>
-</head>
-<body>
-<main class="card">
-  <div class="mark">R</div>
-  <h1>Private Runner Studio</h1>
-  <p class="muted">Owner access only</p>
-  <form id="f">
-    <label>Password
-      <input id="p" type="password" autocomplete="current-password" placeholder="Enter your password">
-    </label>
-    <button>Unlock Studio</button>
-    <div class="msg" id="m"></div>
-  </form>
-</main>
-<script>
-f.onsubmit=async(e)=>{e.preventDefault();m.textContent='';const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:p.value})});if(r.ok)location.href='/app';else m.textContent='Wrong password';};
-</script>
-</body>
-</html>`;
+const LOGIN_HTML = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Private Runner Studio</title><style>*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 50% 15%,#174f37 0,#0c0e12 43%);font-family:Inter,system-ui,sans-serif;color:#f7f8fb}.card{width:min(100%,410px);padding:30px;border:1px solid #30353f;border-radius:24px;background:#17191f;box-shadow:0 30px 90px #0008}.mark{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;background:#61f0a6;color:#08130d;font-weight:900;font-size:28px}.card h1{font-size:34px;line-height:1.05;margin:24px 0 8px}.muted{color:#9da4b0;font-size:18px;margin:0 0 28px}label{display:grid;gap:10px;font-size:16px}input{width:100%;padding:16px;border-radius:14px;border:1px solid #343943;background:#0e1014;color:white;font-size:18px}button{width:100%;margin-top:16px;padding:16px;border:0;border-radius:14px;background:#61f0a6;color:#07110c;font-size:19px;font-weight:900}.msg{min-height:22px;color:#ff8f8f;margin-top:12px}</style></head><body><main class="card"><div class="mark">R</div><h1>Private Runner Studio</h1><p class="muted">Owner access only</p><form id="f"><label>Password<input id="p" type="password" autocomplete="current-password" placeholder="Enter your password"></label><button>Unlock Studio</button><div class="msg" id="m"></div></form></main><script>f.onsubmit=async function(e){e.preventDefault();m.textContent="";var r=await fetch("/api/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:p.value})});if(r.ok)location.href="/app";else m.textContent="Wrong password";};</script></body></html>';
 
 const APP_HTML = `<!doctype html>
 <html>
@@ -74,14 +49,14 @@ const APP_HTML = `<!doctype html>
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
 .top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 14px;background:#0b0d10ee;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
 .top strong{font-size:18px}.badge{font-size:11px;color:#07110c;background:var(--accent);border-radius:99px;padding:4px 7px;margin-left:6px}
-.top-actions{display:flex;gap:7px}.top button,.transport button,.rowbar button{border:1px solid var(--line);background:#222731;color:white;border-radius:11px;padding:9px 12px;font:inherit}
+.top-actions{display:flex;gap:7px}.top button,.transport button,.rowbar button{border:1px solid var(--line);background:#222731;color:white;border-radius:11px;padding:9px 12px;font:inherit;cursor:pointer}
 .top .primary,.transport .primary{background:var(--accent);color:#07110c;border-color:transparent;font-weight:800}
 .studio{max-width:1220px;margin:auto;padding:14px;display:grid;grid-template-columns:minmax(320px,660px) minmax(300px,1fr);gap:16px}
 .preview{min-width:0}.shell{background:#050607;border:1px solid var(--line);border-radius:18px;padding:7px;display:flex;justify-content:center;box-shadow:0 18px 60px #0007}
 .stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506}canvas{width:100%;height:100%;display:block}
 .transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}
 .note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}
-.controls{display:flex-direction:column;gap:10px}
+.controls{display:flex;flex-direction:column;gap:10px}
 details{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin-bottom:12px}summary{padding:13px 14px;background:var(--panel2);font-weight:800;cursor:pointer}
 .grid{padding:13px;display:grid;gap:11px}.grid.two{grid-template-columns:1fr 1fr}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px}
 input[type=file]{width:100%;font-size:12px}input[type=range]{width:100%}
@@ -99,12 +74,12 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 <body>
 <header class="top">
   <div><strong>Private Runner Studio</strong><span class="badge">35+ ROADS + CUSTOM PADS</span></div>
-  <div class="top-actions"><button id="saveBtn">Save State</button><button id="logoutBtn">Logout</button></div>
+  <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
-    <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
+    <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
     <div class="note">35+ aesthetic road styles and customizable glowing pad colors. Everything auto-saves across refreshes.</div>
   </section>
   <section class="controls">
@@ -116,7 +91,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       <label>Camera Height (Eye View) <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2"></label>
       <label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label>
       <label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label>
-      <label>Road style (35+ Aesthetic Roads) <select id="roadVariant">
+      <label>Road style (35+ Roads) <select id="roadVariant">
         <optgroup label="--- Classic & Highway ---">
           <option value="classic" selected>1. Classic V6 (Lion Challenge)</option>
           <option value="twinStripe">2. Twin Yellow Stripes</option>
@@ -275,7 +250,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
 <template id="opponentTemplate">
   <div class="row" style="border-color:#61f0a6">
-    <div class="rowhead"><strong style="color:#61f0a6">🔥 Opponent Boss</strong><span class="small">Static behind 5th pad (Appears after 2nd pad)</span></div>
+    <div class="rowhead"><strong style="color:#61f0a6">&#128293; Opponent Boss</strong><span class="small">Static behind 5th pad (Appears after 2nd pad)</span></div>
     <div class="side" style="grid-column:span 2">
       <b>OPPONENT CHARACTER</b>
       <label>PNG <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
@@ -286,14 +261,14 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </template>
 
 <script>
-(()=>{
-const canvas=document.getElementById('stage');
-const ctx=canvas.getContext('2d');
-const W=canvas.width,H=canvas.height;
-const $=id=>document.getElementById(id);
-let running=true,last=performance.now(),roadTime=0,recorder=null,rowCounter=0;
+(function(){
+var canvas=document.getElementById('stage');
+var ctx=canvas.getContext('2d');
+var W=canvas.width, H=canvas.height;
+var $=function(id){ return document.getElementById(id); };
+var running=true, last=performance.now(), roadTime=0, recorder=null, rowCounter=0;
 
-const state={
+var state={
   speed:0.24,
   horizon:0.46,
   topWidth:0.08,
@@ -309,7 +284,7 @@ const state={
   opponent:{src:null, img:null, removeBg:true, size:220}
 };
 
-const bgColors = {
+var bgColors = {
   cleanWhite: ['#ffffff', '#f1f3f5'],
   softSilver: ['#f8f9fa', '#e9ecef'],
   cloudGrey: ['#edf2f7', '#cbd5e1'],
@@ -380,9 +355,10 @@ const bgColors = {
 };
 
 function hexToRgb(hex){
-  var c = (hex || '#2aff84').replace('#','');
-  if(c.length===3) c = c.split('').map(function(x){return x+x;}).join('');
+  var c = String(hex || '#2aff84').replace('#','');
+  if(c.length===3) c = c.charAt(0)+c.charAt(0)+c.charAt(1)+c.charAt(1)+c.charAt(2)+c.charAt(2);
   var num = parseInt(c, 16);
+  if(isNaN(num)) return {r:42, g:255, b:132};
   return {
     r: (num >> 16) & 255,
     g: (num >> 8) & 255,
@@ -391,43 +367,59 @@ function hexToRgb(hex){
 }
 
 function autoSaveStudio(){
-  var s = {
-    speed: state.speed,
-    horizon: state.horizon,
-    topWidth: state.topWidth,
-    bottomWidth: state.bottomWidth,
-    camHeight: state.camHeight,
-    padDelay: state.padDelay,
-    padThickness: state.padThickness,
-    roadVariant: state.roadVariant,
-    bgMode: state.bgMode,
-    speedLines: state.speedLines,
-    roadShine: state.roadShine,
-    oppSize: state.opponent.size,
-    oppRemove: state.opponent.removeBg,
-    rows: state.rows.map(function(r){
-      return {
-        leftColor: r.leftColor,
-        rightColor: r.rightColor,
-        leftSize: r.leftSize,
-        rightSize: r.rightSize,
-        leftRemove: r.leftRemove,
-        rightRemove: r.rightRemove
-      };
-    })
-  };
-  localStorage.setItem('runner_studio_saved_v2', JSON.stringify(s));
+  try{
+    var s = {
+      speed: state.speed,
+      horizon: state.horizon,
+      topWidth: state.topWidth,
+      bottomWidth: state.bottomWidth,
+      camHeight: state.camHeight,
+      padDelay: state.padDelay,
+      padThickness: state.padThickness,
+      roadVariant: state.roadVariant,
+      bgMode: state.bgMode,
+      speedLines: state.speedLines,
+      roadShine: state.roadShine,
+      oppSize: state.opponent.size,
+      oppRemove: state.opponent.removeBg,
+      rows: state.rows.map(function(r){
+        return {
+          leftColor: r.leftColor,
+          rightColor: r.rightColor,
+          leftSize: r.leftSize,
+          rightSize: r.rightSize,
+          leftRemove: r.leftRemove,
+          rightRemove: r.rightRemove
+        };
+      })
+    };
+    localStorage.setItem('runner_studio_saved_v3', JSON.stringify(s));
+  }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v2');
+    var raw = localStorage.getItem('runner_studio_saved_v3');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
 
-function readFile(file){return new Promise(function(resolve,reject){var fr=new FileReader();fr.onload=function(){resolve(fr.result);};fr.onerror=reject;fr.readAsDataURL(file);});}
-function dataToImage(src){return new Promise(function(resolve,reject){var im=new Image();im.onload=function(){resolve(im);};im.onerror=reject;im.src=src);});}
+function readFile(file){
+  return new Promise(function(resolve,reject){
+    var fr=new FileReader();
+    fr.onload=function(){resolve(fr.result);};
+    fr.onerror=reject;
+    fr.readAsDataURL(file);
+  });
+}
+function dataToImage(src){
+  return new Promise(function(resolve,reject){
+    var im=new Image();
+    im.onload=function(){resolve(im);};
+    im.onerror=reject;
+    im.src=src;
+  });
+}
 function processImageDataUrl(dataUrl, removeBg){
   return new Promise(function(resolve,reject){
     var img=new Image();
@@ -463,28 +455,36 @@ function dataToProcessedImage(src, removeBg){
 }
 
 function bindRange(id,key){
-  $(id).addEventListener('input', function(e){
+  var el=$(id);
+  if(!el) return;
+  el.addEventListener('input', function(e){
     state[key]=Number(e.target.value);
     autoSaveStudio();
   });
 }
 ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(function(id){ bindRange(id,id); });
-$('roadVariant').onchange=function(e){state.roadVariant=e.target.value; autoSaveStudio();};
-$('speedLines').onchange=function(e){state.speedLines=e.target.checked; autoSaveStudio();};
-$('roadShine').onchange=function(e){state.roadShine=e.target.checked; autoSaveStudio();};
-$('bgMode').onchange=function(e){state.bgMode=e.target.value; autoSaveStudio();};
 
-function makeId(){return (crypto.randomUUID&&crypto.randomUUID()) || String(Date.now()+Math.random());}
+if($('roadVariant')) $('roadVariant').onchange=function(e){state.roadVariant=e.target.value; autoSaveStudio();};
+if($('speedLines')) $('speedLines').onchange=function(e){state.speedLines=e.target.checked; autoSaveStudio();};
+if($('roadShine')) $('roadShine').onchange=function(e){state.roadShine=e.target.checked; autoSaveStudio();};
+if($('bgMode')) $('bgMode').onchange=function(e){state.bgMode=e.target.value; autoSaveStudio();};
+
+function makeId(){ return String(Date.now()+Math.random()); }
+
 function addRow(saved){
   saved = saved || {};
   var row={
     id:makeId(),
-    leftColor:saved.leftColor||'#2aff84', 
-    rightColor:saved.rightColor||'#ff323a',
-    leftSize:saved.leftSize||95, rightSize:saved.rightSize||95,
-    leftSrc:saved.leftSrc||null, rightSrc:saved.rightSrc||null,
-    leftImg:null, rightImg:null,
-    leftRemove:saved.leftRemove!==false, rightRemove:saved.rightRemove!==false
+    leftColor: (saved.leftColor && saved.leftColor.charAt(0)==='#') ? saved.leftColor : '#2aff84', 
+    rightColor: (saved.rightColor && saved.rightColor.charAt(0)==='#') ? saved.rightColor : '#ff323a',
+    leftSize: Number(saved.leftSize) || 95, 
+    rightSize: Number(saved.rightSize) || 95,
+    leftSrc: saved.leftSrc || null, 
+    rightSrc: saved.rightSrc || null,
+    leftImg: null, 
+    rightImg: null,
+    leftRemove: saved.leftRemove!==false, 
+    rightRemove: saved.rightRemove!==false
   };
   state.rows.push(row);
   var el=$('rowTemplate').content.firstElementChild.cloneNode(true);
@@ -498,8 +498,8 @@ function addRow(saved){
 
   leftColorInput.value=row.leftColor;
   rightColorInput.value=row.rightColor;
-  leftColorVal.textContent=row.leftColor;
-  rightColorVal.textContent=row.rightColor;
+  if(leftColorVal) leftColorVal.textContent=row.leftColor;
+  if(rightColorVal) rightColorVal.textContent=row.rightColor;
 
   el.querySelector('.leftSize').value=row.leftSize;
   el.querySelector('.rightSize').value=row.rightSize;
@@ -508,16 +508,17 @@ function addRow(saved){
 
   leftColorInput.oninput=function(e){
     row.leftColor=e.target.value;
-    leftColorVal.textContent=e.target.value;
+    if(leftColorVal) leftColorVal.textContent=e.target.value;
     autoSaveStudio();
   };
   rightColorInput.oninput=function(e){
     row.rightColor=e.target.value;
-    rightColorVal.textContent=e.target.value;
+    if(rightColorVal) rightColorVal.textContent=e.target.value;
     autoSaveStudio();
   };
   el.querySelector('.leftSize').oninput=function(e){row.leftSize=Number(e.target.value); autoSaveStudio();};
   el.querySelector('.rightSize').oninput=function(e){row.rightSize=Number(e.target.value); autoSaveStudio();};
+  
   el.querySelector('.leftRemove').onchange=function(e){
     row.leftRemove=e.target.checked; 
     autoSaveStudio(); 
@@ -552,51 +553,60 @@ function addRow(saved){
   if(row.rightSrc) dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){row.rightImg=im;});
 }
 
-var savedData = getSavedSettings();
-if(savedData){
-  ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(function(id){
-    if(savedData[id] !== undefined && $(id)){
-      state[id] = Number(savedData[id]);
-      $(id).value = savedData[id];
+function initRows(){
+  $('rows').innerHTML='';
+  state.rows=[];
+  rowCounter=0;
+  
+  var savedData = getSavedSettings();
+  if(savedData && typeof savedData === 'object'){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(function(id){
+      if(savedData[id] !== undefined && $(id)){
+        state[id] = Number(savedData[id]);
+        $(id).value = savedData[id];
+      }
+    });
+    if(savedData.roadVariant && $('roadVariant')){ state.roadVariant = savedData.roadVariant; $('roadVariant').value = savedData.roadVariant; }
+    if(savedData.bgMode && $('bgMode')){ state.bgMode = savedData.bgMode; $('bgMode').value = savedData.bgMode; }
+    if(savedData.speedLines !== undefined && $('speedLines')){ state.speedLines = Boolean(savedData.speedLines); $('speedLines').checked = state.speedLines; }
+    if(savedData.roadShine !== undefined && $('roadShine')){ state.roadShine = Boolean(savedData.roadShine); $('roadShine').checked = state.roadShine; }
+    if(savedData.oppSize !== undefined){ state.opponent.size = Number(savedData.oppSize); }
+    if(savedData.oppRemove !== undefined){ state.opponent.removeBg = Boolean(savedData.oppRemove); }
+
+    var rowList = (Array.isArray(savedData.rows) && savedData.rows.length===5) ? savedData.rows : [
+      {leftColor:'#2aff84', rightColor:'#ff323a'},
+      {leftColor:'#ff323a', rightColor:'#2aff84'},
+      {leftColor:'#2aff84', rightColor:'#ff323a'},
+      {leftColor:'#ff323a', rightColor:'#2aff84'},
+      {leftColor:'#2aff84', rightColor:'#ff323a'}
+    ];
+    rowList.forEach(addRow);
+  } else {
+    for(var i=0;i<5;i++){
+      addRow({leftColor:i%2?'#ff323a':'#2aff84', rightColor:i%2?'#2aff84':'#ff323a'});
     }
-  });
-  if(savedData.roadVariant && $('roadVariant')){ state.roadVariant = savedData.roadVariant; $('roadVariant').value = savedData.roadVariant; }
-  if(savedData.bgMode && $('bgMode')){ state.bgMode = savedData.bgMode; $('bgMode').value = savedData.bgMode; }
-  if(savedData.speedLines !== undefined && $('speedLines')){ state.speedLines = Boolean(savedData.speedLines); $('speedLines').checked = state.speedLines; }
-  if(savedData.roadShine !== undefined && $('roadShine')){ state.roadShine = Boolean(savedData.roadShine); $('roadShine').checked = state.roadShine; }
-  if(savedData.oppSize !== undefined){ state.opponent.size = Number(savedData.oppSize); }
-  if(savedData.oppRemove !== undefined){ state.opponent.removeBg = Boolean(savedData.oppRemove); }
-
-  var rowList = (savedData.rows && savedData.rows.length===5) ? savedData.rows : [
-    {leftColor:'#2aff84', rightColor:'#ff323a'},
-    {leftColor:'#ff323a', rightColor:'#2aff84'},
-    {leftColor:'#2aff84', rightColor:'#ff323a'},
-    {leftColor:'#ff323a', rightColor:'#2aff84'},
-    {leftColor:'#2aff84', rightColor:'#ff323a'}
-  ];
-  rowList.forEach(addRow);
-} else {
-  for(var i=0;i<5;i++) addRow({leftColor:i%2?'#ff323a':'#2aff84', rightColor:i%2?'#2aff84':'#ff323a'});
-}
-
-var oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
-oppEl.querySelector('.oppSize').value=state.opponent.size;
-oppEl.querySelector('.oppSize').oninput=function(e){state.opponent.size=Number(e.target.value); autoSaveStudio();};
-oppEl.querySelector('.oppRemove').onchange=function(e){
-  state.opponent.removeBg=e.target.checked; 
-  autoSaveStudio(); 
-  if(state.opponent.src){
-    dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){state.opponent.img=im;});
   }
-};
-oppEl.querySelector('.oppInput').onchange=function(e){
-  var f=e.target.files[0];if(!f)return;
-  readFile(f).then(function(src){
-    state.opponent.src=src;
-    dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){state.opponent.img=im;});
-  });
-};
-$('rows').appendChild(oppEl);
+
+  var oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
+  oppEl.querySelector('.oppSize').value=state.opponent.size;
+  oppEl.querySelector('.oppSize').oninput=function(e){state.opponent.size=Number(e.target.value); autoSaveStudio();};
+  oppEl.querySelector('.oppRemove').onchange=function(e){
+    state.opponent.removeBg=e.target.checked; 
+    autoSaveStudio(); 
+    if(state.opponent.src){
+      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){state.opponent.img=im;});
+    }
+  };
+  oppEl.querySelector('.oppInput').onchange=function(e){
+    var f=e.target.files[0];if(!f)return;
+    readFile(f).then(function(src){
+      state.opponent.src=src;
+      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){state.opponent.img=im;});
+    });
+  };
+  $('rows').appendChild(oppEl);
+}
+initRows();
 
 var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
@@ -754,7 +764,7 @@ function drawBackground(){
   }
 }
 
-/* --- 35+ ROAD RENDERERS --- */
+/* --- 35 ROADS --- */
 function rClassic(){
   fillRoadBase('#7c8591','#454c57');
   drawRoadTexture(.028);
@@ -1059,7 +1069,7 @@ function drawRaisedPad(z, side, hexColor){
   var baseY=p.y-3;
   var topY=baseY-height;
   
-  var c = hexToRgb(hexColor || '#2aff84');
+  var c = hexToRgb(hexColor);
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
   var darkG = Math.max(0, Math.floor(c.g * 0.45));
@@ -1132,6 +1142,10 @@ $('saveBtn').onclick=function(){
   autoSaveStudio();
   alert('Settings saved successfully!');
 };
+$('resetStorageBtn').onclick=function(){
+  try{ localStorage.removeItem('runner_studio_saved_v3'); }catch(e){}
+  location.reload();
+};
 $('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'});location.href='/';};
 
 $('exportBtn').onclick = function(){
@@ -1166,21 +1180,21 @@ $('exportBtn').onclick = function(){
 </body>
 </html>`;
 
-const server = http.createServer(async (req, res) => {
-  const url = new URL(req.url, 'http://localhost');
+const server = http.createServer(async function(req, res){
+  var url = new URL(req.url, 'http://localhost');
   if(url.pathname === '/api/login'){
     if(req.method !== 'POST') return send(res, 405, 'Method not allowed');
-    let b = '';
-    req.on('data', chunk => b += chunk);
-    req.on('end', () => {
+    var b = '';
+    req.on('data', function(chunk){ b += chunk; });
+    req.on('end', function(){
       try {
-        const dat = JSON.parse(b);
+        var dat = JSON.parse(b);
         if(safeEqual(dat.password, APP_PASSWORD)){
-          const exp = Date.now() + SESSION_MS;
-          const nonce = crypto.randomBytes(12).toString('hex');
-          const payload = exp + '.' + nonce;
-          const sig = crypto.createHmac('sha256', SESSION_SECRET).update(payload).digest('hex');
-          const token = payload + '.' + sig;
+          var exp = Date.now() + SESSION_MS;
+          var nonce = crypto.randomBytes(12).toString('hex');
+          var payload = exp + '.' + nonce;
+          var sig = crypto.createHmac('sha256', SESSION_SECRET).update(payload).digest('hex');
+          var token = payload + '.' + sig;
           res.writeHead(200, {
             'Set-Cookie': 'runner_session=' + token + '; Path=/; HttpOnly; SameSite=Lax',
             'Content-Type': 'text/plain'
@@ -1208,4 +1222,4 @@ const server = http.createServer(async (req, res) => {
   send(res, 404, 'Not found');
 });
 
-server.listen(PORT, () => console.log('Server running on port ' + PORT));
+server.listen(PORT, function(){ console.log('Server running on port ' + PORT); });
