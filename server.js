@@ -67,7 +67,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Auto-Save</title>
+<title>Private Runner Studio Custom Colors</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -90,20 +90,22 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 .rowbar{padding:11px 13px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .rows{padding:11px;display:grid;gap:10px}.row{border:1px solid var(--line);border-radius:13px;padding:10px;background:#101318}.rowhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .sides{display:grid;grid-template-columns:1fr 1fr;gap:8px}.side{background:#191d24;border-radius:10px;padding:9px;display:grid;gap:8px}.side b{font-size:12px}
+.color-picker-wrap{display:flex;align-items:center;gap:10px}
+.color-picker-wrap input[type=color]{border:0;padding:0;width:38px;height:34px;border-radius:6px;background:none;cursor:pointer}
 .small{font-size:11px;color:var(--muted)}
 @media(max-width:820px){.studio{grid-template-columns:1fr;padding:8px}.top{padding:9px}.top strong{font-size:14px}.top button{padding:8px 9px;font-size:12px}.grid.two,.sides{grid-template-columns:1fr}.controls{padding-bottom:40px}}
 </style>
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">AUTO-PRESERVED</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">CUSTOM PAD COLORS</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Settings auto-save automatically. Sliders and buttons stay exactly where you leave them on refresh.</div>
+    <div class="note">Pick any custom color for each pad. Settings and colors auto-save on refresh.</div>
   </section>
   <section class="controls">
     <details open><summary>Moving Highway & Camera</summary><div class="grid two">
@@ -197,24 +199,34 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       <label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label>
       <label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label>
     </div></details>
-    <details open><summary>5 Fixed Rows + Opponent Boss</summary><div class="rowbar"><span class="small">5 main rows + Stationary Boss standing behind 5th pad.</span></div><div id="rows" class="rows"></div></details>
+    <details open><summary>5 Fixed Rows + Opponent Boss</summary><div class="rowbar"><span class="small">5 main rows with custom color pickers + Stationary Boss.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
 
 <template id="rowTemplate">
   <div class="row">
-    <div class="rowhead"><strong class="rowtitle">Row</strong><span class="small">fixed</span></div>
+    <div class="rowhead"><strong class="rowtitle">Row</strong><span class="small">custom colors</span></div>
     <div class="sides">
       <div class="side">
-        <b>LEFT</b>
-        <label>Pad <select class="leftColor"><option value="green">Green</option><option value="red">Red</option></select></label>
+        <b>LEFT PAD</b>
+        <label>Pad Color
+          <div class="color-picker-wrap">
+            <input class="leftColor" type="color" value="#2aff84">
+            <span class="colorVal small">#2aff84</span>
+          </div>
+        </label>
         <label>PNG <input class="leftInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label class="toggle"><input class="leftRemove" type="checkbox" checked> Auto remove bg</label>
         <label>Size <input class="leftSize" type="range" min="45" max="450" value="95"></label>
       </div>
       <div class="side">
-        <b>RIGHT</b>
-        <label>Pad <select class="rightColor"><option value="red">Red</option><option value="green">Green</option></select></label>
+        <b>RIGHT PAD</b>
+        <label>Pad Color
+          <div class="color-picker-wrap">
+            <input class="rightColor" type="color" value="#ff323a">
+            <span class="colorVal small">#ff323a</span>
+          </div>
+        </label>
         <label>PNG <input class="rightInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label class="toggle"><input class="rightRemove" type="checkbox" checked> Auto remove bg</label>
         <label>Size <input class="rightSize" type="range" min="45" max="450" value="95"></label>
@@ -329,7 +341,18 @@ const bgColors = {
   ultimateDark: ['#050508', '#101017']
 };
 
-function autoSaveSliders(){
+function hexToRgb(hex){
+  let c = hex.replace('#','');
+  if(c.length===3) c = c.split('').map(x=>x+x).join('');
+  const num = parseInt(c, 16);
+  return {
+    r: (num >> 16) & 255,
+    g: (num >> 8) & 255,
+    b: num & 255
+  };
+}
+
+function autoSaveStudio(){
   const s = {
     speed: state.speed,
     horizon: state.horizon,
@@ -343,29 +366,24 @@ function autoSaveSliders(){
     speedLines: state.speedLines,
     roadShine: state.roadShine,
     oppSize: state.opponent.size,
-    oppRemove: state.opponent.removeBg
+    oppRemove: state.opponent.removeBg,
+    rows: state.rows.map(r=>({
+      leftColor: r.leftColor,
+      rightColor: r.rightColor,
+      leftSize: r.leftSize,
+      rightSize: r.rightSize,
+      leftRemove: r.leftRemove,
+      rightRemove: r.rightRemove
+    }))
   };
-  localStorage.setItem('runner_auto_sliders_v1', JSON.stringify(s));
+  localStorage.setItem('runner_studio_saved_v2', JSON.stringify(s));
 }
 
-function restoreAutoSliders(){
+function getSavedSettings(){
   try{
-    const raw = localStorage.getItem('runner_auto_sliders_v1');
-    if(!raw) return;
-    const s = JSON.parse(raw);
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(id=>{
-      if(s[id] !== undefined && $(id)){
-        state[id] = Number(s[id]);
-        $(id).value = s[id];
-      }
-    });
-    if(s.roadVariant && $('roadVariant')){ state.roadVariant = s.roadVariant; $('roadVariant').value = s.roadVariant; }
-    if(s.bgMode && $('bgMode')){ state.bgMode = s.bgMode; $('bgMode').value = s.bgMode; }
-    if(s.speedLines !== undefined && $('speedLines')){ state.speedLines = Boolean(s.speedLines); $('speedLines').checked = state.speedLines; }
-    if(s.roadShine !== undefined && $('roadShine')){ state.roadShine = Boolean(s.roadShine); $('roadShine').checked = state.roadShine; }
-    if(s.oppSize !== undefined){ state.opponent.size = Number(s.oppSize); }
-    if(s.oppRemove !== undefined){ state.opponent.removeBg = Boolean(s.oppRemove); }
-  }catch(e){}
+    const raw = localStorage.getItem('runner_studio_saved_v2');
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
 }
 
 function readFile(file){return new Promise((resolve,reject)=>{const fr=new FileReader();fr.onload=()=>resolve(fr.result);fr.onerror=reject;fr.readAsDataURL(file)})}
@@ -405,20 +423,21 @@ async function dataToProcessedImage(src, removeBg){return dataToImage(await proc
 function bindRange(id,key){
   $(id).addEventListener('input', e=>{
     state[key]=Number(e.target.value);
-    autoSaveSliders();
+    autoSaveStudio();
   });
 }
 ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(id=>bindRange(id,id));
-$('roadVariant').onchange=e=>{state.roadVariant=e.target.value; autoSaveSliders();};
-$('speedLines').onchange=e=>{state.speedLines=e.target.checked; autoSaveSliders();};
-$('roadShine').onchange=e=>{state.roadShine=e.target.checked; autoSaveSliders();};
-$('bgMode').onchange=e=>{state.bgMode=e.target.value; autoSaveSliders();};
+$('roadVariant').onchange=e=>{state.roadVariant=e.target.value; autoSaveStudio();};
+$('speedLines').onchange=e=>{state.speedLines=e.target.checked; autoSaveStudio();};
+$('roadShine').onchange=e=>{state.roadShine=e.target.checked; autoSaveStudio();};
+$('bgMode').onchange=e=>{state.bgMode=e.target.value; autoSaveStudio();};
 
 function makeId(){return (crypto.randomUUID&&crypto.randomUUID()) || String(Date.now()+Math.random())}
 function addRow(saved={}){
   const row={
     id:makeId(),
-    leftColor:saved.leftColor||'green', rightColor:saved.rightColor||'red',
+    leftColor:saved.leftColor||'#2aff84', 
+    rightColor:saved.rightColor||'#ff323a',
     leftSize:saved.leftSize||95, rightSize:saved.rightSize||95,
     leftSrc:saved.leftSrc||null, rightSrc:saved.rightSrc||null,
     leftImg:null, rightImg:null,
@@ -428,37 +447,78 @@ function addRow(saved={}){
   const el=$('rowTemplate').content.firstElementChild.cloneNode(true);
   el.dataset.id=row.id;
   el.querySelector('.rowtitle').textContent='Row '+(++rowCounter);
-  el.querySelector('.leftColor').value=row.leftColor;
-  el.querySelector('.rightColor').value=row.rightColor;
+  
+  const leftColorInput = el.querySelector('.leftColor');
+  const rightColorInput = el.querySelector('.rightColor');
+  const leftColorVal = el.querySelectorAll('.colorVal')[0];
+  const rightColorVal = el.querySelectorAll('.colorVal')[1];
+
+  leftColorInput.value=row.leftColor;
+  rightColorInput.value=row.rightColor;
+  leftColorVal.textContent=row.leftColor;
+  rightColorVal.textContent=row.rightColor;
+
   el.querySelector('.leftSize').value=row.leftSize;
   el.querySelector('.rightSize').value=row.rightSize;
   el.querySelector('.leftRemove').checked=row.leftRemove;
   el.querySelector('.rightRemove').checked=row.rightRemove;
-  el.querySelector('.leftColor').onchange=e=>row.leftColor=e.target.value;
-  el.querySelector('.rightColor').onchange=e=>row.rightColor=e.target.value;
-  el.querySelector('.leftSize').oninput=e=>row.leftSize=Number(e.target.value);
-  el.querySelector('.rightSize').oninput=e=>row.rightSize=Number(e.target.value);
-  el.querySelector('.leftRemove').onchange=async e=>{row.leftRemove=e.target.checked;if(row.leftSrc)row.leftImg=await dataToProcessedImage(row.leftSrc,row.leftRemove)};
-  el.querySelector('.rightRemove').onchange=async e=>{row.rightRemove=e.target.checked;if(row.rightSrc)row.rightImg=await dataToProcessedImage(row.rightSrc,row.rightRemove)};
+
+  leftColorInput.oninput=e=>{
+    row.leftColor=e.target.value;
+    leftColorVal.textContent=e.target.value;
+    autoSaveStudio();
+  };
+  rightColorInput.oninput=e=>{
+    row.rightColor=e.target.value;
+    rightColorVal.textContent=e.target.value;
+    autoSaveStudio();
+  };
+  el.querySelector('.leftSize').oninput=e=>{row.leftSize=Number(e.target.value); autoSaveStudio();};
+  el.querySelector('.rightSize').oninput=e=>{row.rightSize=Number(e.target.value); autoSaveStudio();};
+  el.querySelector('.leftRemove').onchange=async e=>{row.leftRemove=e.target.checked; autoSaveStudio(); if(row.leftSrc)row.leftImg=await dataToProcessedImage(row.leftSrc,row.leftRemove)};
+  el.querySelector('.rightRemove').onchange=async e=>{row.rightRemove=e.target.checked; autoSaveStudio(); if(row.rightSrc)row.rightImg=await dataToProcessedImage(row.rightSrc,row.rightRemove)};
   el.querySelector('.leftInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;row.leftSrc=await readFile(f);row.leftImg=await dataToProcessedImage(row.leftSrc,row.leftRemove)};
   el.querySelector('.rightInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;row.rightSrc=await readFile(f);row.rightImg=await dataToProcessedImage(row.rightSrc,row.rightRemove)};
+  
   $('rows').appendChild(el);
   if(row.leftSrc)dataToProcessedImage(row.leftSrc,row.leftRemove).then(im=>row.leftImg=im);
   if(row.rightSrc)dataToProcessedImage(row.rightSrc,row.rightRemove).then(im=>row.rightImg=im);
 }
-for(let i=0;i<5;i++) addRow({leftColor:i%2?'red':'green', rightColor:i%2?'green':'red'});
+
+// Initial setup from local storage if available
+const savedData = getSavedSettings();
+if(savedData){
+  ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(id=>{
+    if(savedData[id] !== undefined && $(id)){
+      state[id] = Number(savedData[id]);
+      $(id).value = savedData[id];
+    }
+  });
+  if(savedData.roadVariant && $('roadVariant')){ state.roadVariant = savedData.roadVariant; $('roadVariant').value = savedData.roadVariant; }
+  if(savedData.bgMode && $('bgMode')){ state.bgMode = savedData.bgMode; $('bgMode').value = savedData.bgMode; }
+  if(savedData.speedLines !== undefined && $('speedLines')){ state.speedLines = Boolean(savedData.speedLines); $('speedLines').checked = state.speedLines; }
+  if(savedData.roadShine !== undefined && $('roadShine')){ state.roadShine = Boolean(savedData.roadShine); $('roadShine').checked = state.roadShine; }
+  if(savedData.oppSize !== undefined){ state.opponent.size = Number(savedData.oppSize); }
+  if(savedData.oppRemove !== undefined){ state.opponent.removeBg = Boolean(savedData.oppRemove); }
+
+  const rowList = (savedData.rows && savedData.rows.length===5) ? savedData.rows : [
+    {leftColor:'#2aff84', rightColor:'#ff323a'},
+    {leftColor:'#ff323a', rightColor:'#2aff84'},
+    {leftColor:'#2aff84', rightColor:'#ff323a'},
+    {leftColor:'#ff323a', rightColor:'#2aff84'},
+    {leftColor:'#2aff84', rightColor:'#ff323a'}
+  ];
+  rowList.forEach(addRow);
+} else {
+  for(let i=0;i<5;i++) addRow({leftColor:i%2?'#ff323a':'#2aff84', rightColor:i%2?'#2aff84':'#ff323a'});
+}
 
 const oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
 oppEl.querySelector('.oppSize').value=state.opponent.size;
-oppEl.querySelector('.oppSize').oninput=e=>{state.opponent.size=Number(e.target.value); autoSaveSliders();};
-oppEl.querySelector('.oppRemove').onchange=async e=>{state.opponent.removeBg=e.target.checked; autoSaveSliders(); if(state.opponent.src)state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
+oppEl.querySelector('.oppSize').oninput=e=>{state.opponent.size=Number(e.target.value); autoSaveStudio();};
+oppEl.querySelector('.oppRemove').onchange=async e=>{state.opponent.removeBg=e.target.checked; autoSaveStudio(); if(state.opponent.src)state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
 oppEl.querySelector('.oppInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;state.opponent.src=await readFile(f);state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
 $('rows').appendChild(oppEl);
-
-// Automatically restore sliders immediately after building elements
-restoreAutoSliders();
-if(oppEl.querySelector('.oppSize')) oppEl.querySelector('.oppSize').value = state.opponent.size;
-if(oppEl.querySelector('.oppRemove')) oppEl.querySelector('.oppRemove').checked = state.opponent.removeBg;
 
 const TRACK_Z_LENGTH=220;
 const BASE_TRACK_Z_LENGTH=125;
@@ -763,15 +823,21 @@ function drawRoad(){
   fn();
 }
 
-function drawRaisedPad(z, side, color){
+function drawRaisedPad(z, side, hexColor){
   const p=roadBoundsAtZ(z), e=p.e;
   const laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
   const width=Math.max(16,p.half*.82);
   const height=Math.max(6,width*.32);
   const baseY=p.y-3;
   const topY=baseY-height;
-  const rgb=color==='red'?'255,50,58':'42,255,132';
-  const dark=color==='red'?'118,23,28':'15,104,54';
+  
+  const c = hexToRgb(hexColor || '#2aff84');
+  const rgb = `${c.r},${c.g},${c.b}`;
+  const darkR = Math.max(0, Math.floor(c.r * 0.45));
+  const darkG = Math.max(0, Math.floor(c.g * 0.45));
+  const darkB = Math.max(0, Math.floor(c.b * 0.45));
+  const dark = `${darkR},${darkG},${darkB}`;
+
   ctx.save();ctx.fillStyle='rgba(0,0,0,.22)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+5,width*.44,5+8*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
   ctx.save();ctx.fillStyle='rgba('+dark+',.76)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-state.padThickness*.45,width,state.padThickness,5);ctx.fill();ctx.restore();
   const g=ctx.createLinearGradient(0,baseY,0,topY);
@@ -834,7 +900,7 @@ requestAnimationFrame(frame);
 $('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pause':'Play'};
 $('resetBtn').onclick=()=>roadTime=0;
 $('saveBtn').onclick=()=>{
-  autoSaveSliders();
+  autoSaveStudio();
   alert('Settings saved successfully!');
 };
 $('logoutBtn').onclick=async()=>{await fetch('/api/logout',{method:'POST'});location.href='/'};
