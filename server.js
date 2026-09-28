@@ -23,7 +23,7 @@ function verifySession(token){
   const p=token.split('.');
   if(p.length!==3) return false;
   const [exp,nonce,sig]=p;
-  const payload=`${exp}.${nonce}`;
+  const payload=exp + '.' + nonce;
   const expected=crypto.createHmac('sha256',SESSION_SECRET).update(payload).digest('hex');
   return safeEqual(sig,expected) && Number(exp)>Date.now();
 }
@@ -67,7 +67,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Custom Colors</title>
+<title>Private Runner Studio 35+ Roads & Custom Pads</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -98,14 +98,14 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">CUSTOM PAD COLORS</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">35+ ROADS + CUSTOM PADS</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Pick any custom color for each pad. Settings and colors auto-save on refresh.</div>
+    <div class="note">35+ aesthetic road styles and customizable glowing pad colors. Everything auto-saves across refreshes.</div>
   </section>
   <section class="controls">
     <details open><summary>Moving Highway & Camera</summary><div class="grid two">
@@ -116,12 +116,50 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       <label>Camera Height (Eye View) <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2"></label>
       <label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label>
       <label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label>
-      <label>Road style <select id="roadVariant">
-        <option value="classic">1. Classic V6 (Lion Video)</option><option value="neonPulse">2. Neon Pulse</option>
-        <option value="twinStripe">3. Twin Stripe</option><option value="carbonTrack">4. Carbon Track</option>
-        <option value="edgeGlow">5. Edge Glow</option><option value="tripleLane">6. Triple Lane</option>
-        <option value="diamondFlow">7. Diamond Flow</option><option value="arcadeGrid">8. Arcade Grid</option>
-        <option value="railRunner">9. Rail Runner</option><option value="chevronRush">10. Chevron Rush</option>
+      <label>Road style (35+ Aesthetic Roads) <select id="roadVariant">
+        <optgroup label="--- Classic & Highway ---">
+          <option value="classic" selected>1. Classic V6 (Lion Challenge)</option>
+          <option value="twinStripe">2. Twin Yellow Stripes</option>
+          <option value="tripleLane">3. Triple Fast Lane</option>
+          <option value="asphaltSpeed">4. Speed Asphalt Pro</option>
+          <option value="midnightHighway">5. Midnight Highway</option>
+        </optgroup>
+        <optgroup label="--- Neon & Cyberpunk ---">
+          <option value="neonPulse">6. Neon Pulse Glow</option>
+          <option value="edgeGlow">7. Emerald Edge Glow</option>
+          <option value="arcadeGrid">8. Tron Arcade Grid</option>
+          <option value="railRunner">9. Rail Runner Lightbeam</option>
+          <option value="chevronRush">10. Chevron Rush Neon</option>
+          <option value="cyberViolet">11. Cyber Violet Drift</option>
+          <option value="laserCyan">12. Laser Cyan Circuit</option>
+          <option value="matrixCode">13. Matrix Green Codeflow</option>
+          <option value="plasmaPink">14. Plasma Pink Horizon</option>
+          <option value="overdriveNeon">15. Overdrive Synthwave</option>
+        </optgroup>
+        <optgroup label="--- Elemental & Fantasy ---">
+          <option value="lavaCrack">16. Molten Lava Magma</option>
+          <option value="iceCrystal">17. Frozen Crystal Ice</option>
+          <option value="goldenPath">18. Royal Golden Highway</option>
+          <option value="toxicHazard">19. Toxic Biohazard</option>
+          <option value="cosmicVoid">20. Cosmic Star Dust</option>
+          <option value="amethystPath">21. Crystal Amethyst</option>
+          <option value="infernoFire">22. Blazing Inferno Track</option>
+          <option value="electricThunder">23. Electric Thunder Blue</option>
+        </optgroup>
+        <optgroup label="--- Modern & Aesthetic ---">
+          <option value="carbonTrack">24. Carbon Fiber Sport</option>
+          <option value="diamondFlow">25. Diamond Glow Flow</option>
+          <option value="minimalGrey">26. Studio Minimalist Mono</option>
+          <option value="pastelDream">27. Pastel Dreamway</option>
+          <option value="sunsetBoulevard">28. Sunset Boulevard</option>
+          <option value="rainbowPrism">29. Rainbow Prism Edge</option>
+          <option value="retroSun">30. 80s Retro Sun Track</option>
+          <option value="darkObsidian">31. Matte Dark Obsidian</option>
+          <option value="hyperSpace">32. Hyper Space Warp</option>
+          <option value="cleanWhiteTrack">33. Pure Ceramic White</option>
+          <option value="emeraldCity">34. Radiant Emerald Run</option>
+          <option value="rubyRoyale">35. Ruby Royale Luxury</option>
+        </optgroup>
       </select></label>
       <label>Background Theme <select id="bgMode">
         <optgroup label="--- Light & Aesthetic Themes ---">
@@ -205,14 +243,14 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
 <template id="rowTemplate">
   <div class="row">
-    <div class="rowhead"><strong class="rowtitle">Row</strong><span class="small">custom colors</span></div>
+    <div class="rowhead"><strong class="rowtitle">Row</strong><span class="small">custom color pads</span></div>
     <div class="sides">
       <div class="side">
         <b>LEFT PAD</b>
         <label>Pad Color
           <div class="color-picker-wrap">
             <input class="leftColor" type="color" value="#2aff84">
-            <span class="colorVal small">#2aff84</span>
+            <span class="leftColorVal small">#2aff84</span>
           </div>
         </label>
         <label>PNG <input class="leftInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
@@ -224,7 +262,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <label>Pad Color
           <div class="color-picker-wrap">
             <input class="rightColor" type="color" value="#ff323a">
-            <span class="colorVal small">#ff323a</span>
+            <span class="rightColorVal small">#ff323a</span>
           </div>
         </label>
         <label>PNG <input class="rightInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
@@ -342,9 +380,9 @@ const bgColors = {
 };
 
 function hexToRgb(hex){
-  let c = hex.replace('#','');
-  if(c.length===3) c = c.split('').map(x=>x+x).join('');
-  const num = parseInt(c, 16);
+  var c = (hex || '#2aff84').replace('#','');
+  if(c.length===3) c = c.split('').map(function(x){return x+x;}).join('');
+  var num = parseInt(c, 16);
   return {
     r: (num >> 16) & 255,
     g: (num >> 8) & 255,
@@ -353,7 +391,7 @@ function hexToRgb(hex){
 }
 
 function autoSaveStudio(){
-  const s = {
+  var s = {
     speed: state.speed,
     horizon: state.horizon,
     topWidth: state.topWidth,
@@ -367,47 +405,49 @@ function autoSaveStudio(){
     roadShine: state.roadShine,
     oppSize: state.opponent.size,
     oppRemove: state.opponent.removeBg,
-    rows: state.rows.map(r=>({
-      leftColor: r.leftColor,
-      rightColor: r.rightColor,
-      leftSize: r.leftSize,
-      rightSize: r.rightSize,
-      leftRemove: r.leftRemove,
-      rightRemove: r.rightRemove
-    }))
+    rows: state.rows.map(function(r){
+      return {
+        leftColor: r.leftColor,
+        rightColor: r.rightColor,
+        leftSize: r.leftSize,
+        rightSize: r.rightSize,
+        leftRemove: r.leftRemove,
+        rightRemove: r.rightRemove
+      };
+    })
   };
   localStorage.setItem('runner_studio_saved_v2', JSON.stringify(s));
 }
 
 function getSavedSettings(){
   try{
-    const raw = localStorage.getItem('runner_studio_saved_v2');
+    var raw = localStorage.getItem('runner_studio_saved_v2');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
 
-function readFile(file){return new Promise((resolve,reject)=>{const fr=new FileReader();fr.onload=()=>resolve(fr.result);fr.onerror=reject;fr.readAsDataURL(file)})}
-function dataToImage(src){return new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src})}
+function readFile(file){return new Promise(function(resolve,reject){var fr=new FileReader();fr.onload=function(){resolve(fr.result);};fr.onerror=reject;fr.readAsDataURL(file);});}
+function dataToImage(src){return new Promise(function(resolve,reject){var im=new Image();im.onload=function(){resolve(im);};im.onerror=reject;im.src=src);});}
 function processImageDataUrl(dataUrl, removeBg){
-  return new Promise((resolve,reject)=>{
-    const img=new Image();
-    img.onload=()=>{
-      if(!removeBg){resolve(dataUrl);return}
-      const c=document.createElement('canvas');
+  return new Promise(function(resolve,reject){
+    var img=new Image();
+    img.onload=function(){
+      if(!removeBg){resolve(dataUrl);return;}
+      var c=document.createElement('canvas');
       c.width=img.width; c.height=img.height;
-      const cx=c.getContext('2d',{willReadFrequently:true});
+      var cx=c.getContext('2d',{willReadFrequently:true});
       cx.drawImage(img,0,0);
-      const id=cx.getImageData(0,0,c.width,c.height);
-      const d=id.data;
-      const sample=(x,y)=>{const i=(y*c.width+x)*4;return[d[i],d[i+1],d[i+2]]};
-      const pts=[[0,0],[c.width-1,0],[0,c.height-1],[c.width-1,c.height-1],[Math.floor(c.width/2),0],[0,Math.floor(c.height/2)],[c.width-1,Math.floor(c.height/2)],[Math.floor(c.width/2),c.height-1]];
-      let sr=0,sg=0,sb=0;
-      pts.forEach(([x,y])=>{const [r,g,b]=sample(x,y);sr+=r;sg+=g;sb+=b;});
-      const br=sr/pts.length,bg=sg/pts.length,bb=sb/pts.length;
-      for(let i=0;i<d.length;i+=4){
-        const dr=d[i]-br,dg=d[i+1]-bg,db=d[i+2]-bb;
-        const dist=Math.sqrt(dr*dr+dg*dg+db*db);
-        const bright=(d[i]+d[i+1]+d[i+2])/3;
+      var id=cx.getImageData(0,0,c.width,c.height);
+      var d=id.data;
+      var sample=function(x,y){var i=(y*c.width+x)*4;return[d[i],d[i+1],d[i+2]];};
+      var pts=[[0,0],[c.width-1,0],[0,c.height-1],[c.width-1,c.height-1],[Math.floor(c.width/2),0],[0,Math.floor(c.height/2)],[c.width-1,Math.floor(c.height/2)],[Math.floor(c.width/2),c.height-1]];
+      var sr=0,sg=0,sb=0;
+      pts.forEach(function(pt){var rgb=sample(pt[0],pt[1]);sr+=rgb[0];sg+=rgb[1];sb+=rgb[2];});
+      var br=sr/pts.length,bg=sg/pts.length,bb=sb/pts.length;
+      for(var i=0;i<d.length;i+=4){
+        var dr=d[i]-br,dg=d[i+1]-bg,db=d[i+2]-bb;
+        var dist=Math.sqrt(dr*dr+dg*dg+db*db);
+        var bright=(d[i]+d[i+1]+d[i+2])/3;
         if(dist<28 || bright>248){d[i+3]=0;}
         else if(dist<42){d[i+3]=Math.min(d[i+3],110);}
       }
@@ -418,23 +458,26 @@ function processImageDataUrl(dataUrl, removeBg){
     img.src=dataUrl;
   });
 }
-async function dataToProcessedImage(src, removeBg){return dataToImage(await processImageDataUrl(src, removeBg))}
+function dataToProcessedImage(src, removeBg){
+  return processImageDataUrl(src, removeBg).then(function(cleanSrc){ return dataToImage(cleanSrc); });
+}
 
 function bindRange(id,key){
-  $(id).addEventListener('input', e=>{
+  $(id).addEventListener('input', function(e){
     state[key]=Number(e.target.value);
     autoSaveStudio();
   });
 }
-['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(id=>bindRange(id,id));
-$('roadVariant').onchange=e=>{state.roadVariant=e.target.value; autoSaveStudio();};
-$('speedLines').onchange=e=>{state.speedLines=e.target.checked; autoSaveStudio();};
-$('roadShine').onchange=e=>{state.roadShine=e.target.checked; autoSaveStudio();};
-$('bgMode').onchange=e=>{state.bgMode=e.target.value; autoSaveStudio();};
+['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(function(id){ bindRange(id,id); });
+$('roadVariant').onchange=function(e){state.roadVariant=e.target.value; autoSaveStudio();};
+$('speedLines').onchange=function(e){state.speedLines=e.target.checked; autoSaveStudio();};
+$('roadShine').onchange=function(e){state.roadShine=e.target.checked; autoSaveStudio();};
+$('bgMode').onchange=function(e){state.bgMode=e.target.value; autoSaveStudio();};
 
-function makeId(){return (crypto.randomUUID&&crypto.randomUUID()) || String(Date.now()+Math.random())}
-function addRow(saved={}){
-  const row={
+function makeId(){return (crypto.randomUUID&&crypto.randomUUID()) || String(Date.now()+Math.random());}
+function addRow(saved){
+  saved = saved || {};
+  var row={
     id:makeId(),
     leftColor:saved.leftColor||'#2aff84', 
     rightColor:saved.rightColor||'#ff323a',
@@ -444,14 +487,14 @@ function addRow(saved={}){
     leftRemove:saved.leftRemove!==false, rightRemove:saved.rightRemove!==false
   };
   state.rows.push(row);
-  const el=$('rowTemplate').content.firstElementChild.cloneNode(true);
+  var el=$('rowTemplate').content.firstElementChild.cloneNode(true);
   el.dataset.id=row.id;
   el.querySelector('.rowtitle').textContent='Row '+(++rowCounter);
   
-  const leftColorInput = el.querySelector('.leftColor');
-  const rightColorInput = el.querySelector('.rightColor');
-  const leftColorVal = el.querySelectorAll('.colorVal')[0];
-  const rightColorVal = el.querySelectorAll('.colorVal')[1];
+  var leftColorInput = el.querySelector('.leftColor');
+  var rightColorInput = el.querySelector('.rightColor');
+  var leftColorVal = el.querySelector('.leftColorVal');
+  var rightColorVal = el.querySelector('.rightColorVal');
 
   leftColorInput.value=row.leftColor;
   rightColorInput.value=row.rightColor;
@@ -463,32 +506,55 @@ function addRow(saved={}){
   el.querySelector('.leftRemove').checked=row.leftRemove;
   el.querySelector('.rightRemove').checked=row.rightRemove;
 
-  leftColorInput.oninput=e=>{
+  leftColorInput.oninput=function(e){
     row.leftColor=e.target.value;
     leftColorVal.textContent=e.target.value;
     autoSaveStudio();
   };
-  rightColorInput.oninput=e=>{
+  rightColorInput.oninput=function(e){
     row.rightColor=e.target.value;
     rightColorVal.textContent=e.target.value;
     autoSaveStudio();
   };
-  el.querySelector('.leftSize').oninput=e=>{row.leftSize=Number(e.target.value); autoSaveStudio();};
-  el.querySelector('.rightSize').oninput=e=>{row.rightSize=Number(e.target.value); autoSaveStudio();};
-  el.querySelector('.leftRemove').onchange=async e=>{row.leftRemove=e.target.checked; autoSaveStudio(); if(row.leftSrc)row.leftImg=await dataToProcessedImage(row.leftSrc,row.leftRemove)};
-  el.querySelector('.rightRemove').onchange=async e=>{row.rightRemove=e.target.checked; autoSaveStudio(); if(row.rightSrc)row.rightImg=await dataToProcessedImage(row.rightSrc,row.rightRemove)};
-  el.querySelector('.leftInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;row.leftSrc=await readFile(f);row.leftImg=await dataToProcessedImage(row.leftSrc,row.leftRemove)};
-  el.querySelector('.rightInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;row.rightSrc=await readFile(f);row.rightImg=await dataToProcessedImage(row.rightSrc,row.rightRemove)};
+  el.querySelector('.leftSize').oninput=function(e){row.leftSize=Number(e.target.value); autoSaveStudio();};
+  el.querySelector('.rightSize').oninput=function(e){row.rightSize=Number(e.target.value); autoSaveStudio();};
+  el.querySelector('.leftRemove').onchange=function(e){
+    row.leftRemove=e.target.checked; 
+    autoSaveStudio(); 
+    if(row.leftSrc){
+      dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){row.leftImg=im;});
+    }
+  };
+  el.querySelector('.rightRemove').onchange=function(e){
+    row.rightRemove=e.target.checked; 
+    autoSaveStudio(); 
+    if(row.rightSrc){
+      dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){row.rightImg=im;});
+    }
+  };
+  el.querySelector('.leftInput').onchange=function(e){
+    var f=e.target.files[0];if(!f)return;
+    readFile(f).then(function(src){
+      row.leftSrc=src;
+      dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){row.leftImg=im;});
+    });
+  };
+  el.querySelector('.rightInput').onchange=function(e){
+    var f=e.target.files[0];if(!f)return;
+    readFile(f).then(function(src){
+      row.rightSrc=src;
+      dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){row.rightImg=im;});
+    });
+  };
   
   $('rows').appendChild(el);
-  if(row.leftSrc)dataToProcessedImage(row.leftSrc,row.leftRemove).then(im=>row.leftImg=im);
-  if(row.rightSrc)dataToProcessedImage(row.rightSrc,row.rightRemove).then(im=>row.rightImg=im);
+  if(row.leftSrc) dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){row.leftImg=im;});
+  if(row.rightSrc) dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){row.rightImg=im;});
 }
 
-// Initial setup from local storage if available
-const savedData = getSavedSettings();
+var savedData = getSavedSettings();
 if(savedData){
-  ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(id=>{
+  ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(function(id){
     if(savedData[id] !== undefined && $(id)){
       state[id] = Number(savedData[id]);
       $(id).value = savedData[id];
@@ -501,7 +567,7 @@ if(savedData){
   if(savedData.oppSize !== undefined){ state.opponent.size = Number(savedData.oppSize); }
   if(savedData.oppRemove !== undefined){ state.opponent.removeBg = Boolean(savedData.oppRemove); }
 
-  const rowList = (savedData.rows && savedData.rows.length===5) ? savedData.rows : [
+  var rowList = (savedData.rows && savedData.rows.length===5) ? savedData.rows : [
     {leftColor:'#2aff84', rightColor:'#ff323a'},
     {leftColor:'#ff323a', rightColor:'#2aff84'},
     {leftColor:'#2aff84', rightColor:'#ff323a'},
@@ -510,68 +576,87 @@ if(savedData){
   ];
   rowList.forEach(addRow);
 } else {
-  for(let i=0;i<5;i++) addRow({leftColor:i%2?'#ff323a':'#2aff84', rightColor:i%2?'#2aff84':'#ff323a'});
+  for(var i=0;i<5;i++) addRow({leftColor:i%2?'#ff323a':'#2aff84', rightColor:i%2?'#2aff84':'#ff323a'});
 }
 
-const oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
+var oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
 oppEl.querySelector('.oppSize').value=state.opponent.size;
-oppEl.querySelector('.oppSize').oninput=e=>{state.opponent.size=Number(e.target.value); autoSaveStudio();};
-oppEl.querySelector('.oppRemove').onchange=async e=>{state.opponent.removeBg=e.target.checked; autoSaveStudio(); if(state.opponent.src)state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
-oppEl.querySelector('.oppInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;state.opponent.src=await readFile(f);state.opponent.img=await dataToProcessedImage(state.opponent.src,state.opponent.removeBg)};
+oppEl.querySelector('.oppSize').oninput=function(e){state.opponent.size=Number(e.target.value); autoSaveStudio();};
+oppEl.querySelector('.oppRemove').onchange=function(e){
+  state.opponent.removeBg=e.target.checked; 
+  autoSaveStudio(); 
+  if(state.opponent.src){
+    dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){state.opponent.img=im;});
+  }
+};
+oppEl.querySelector('.oppInput').onchange=function(e){
+  var f=e.target.files[0];if(!f)return;
+  readFile(f).then(function(src){
+    state.opponent.src=src;
+    dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){state.opponent.img=im;});
+  });
+};
 $('rows').appendChild(oppEl);
 
-const TRACK_Z_LENGTH=220;
-const BASE_TRACK_Z_LENGTH=125;
-const TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
+var TRACK_Z_LENGTH=220;
+var BASE_TRACK_Z_LENGTH=125;
+var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
 function roadBoundsAtZ(z){
-  const t=Math.max(0,Math.min(1,z));
-  const HORIZON_Y=H*state.horizon;
-  const TOP_HALF=W*state.topWidth;
-  const BOTTOM_HALF=W*(state.bottomWidth || 0.88);
+  var t=Math.max(0,Math.min(1,z));
+  var HORIZON_Y=H*state.horizon;
+  var TOP_HALF=W*state.topWidth;
+  var BOTTOM_HALF=W*(state.bottomWidth || 0.88);
 
-  const zWorld = (1.0 - t) * 11.5 + 0.85;
-  const scale = 1.0 / (zWorld * state.camHeight);
-  const minScale = 1.0 / (12.35 * state.camHeight);
-  const maxScale = 1.0 / (0.85 * state.camHeight);
-  const depth = (scale - minScale) / (maxScale - minScale);
+  var zWorld = (1.0 - t) * 11.5 + 0.85;
+  var scale = 1.0 / (zWorld * state.camHeight);
+  var minScale = 1.0 / (12.35 * state.camHeight);
+  var maxScale = 1.0 / (0.85 * state.camHeight);
+  var depth = (scale - minScale) / (maxScale - minScale);
 
-  const y = HORIZON_Y + (H - HORIZON_Y) * depth;
-  const half = TOP_HALF + (BOTTOM_HALF - TOP_HALF) * depth;
+  var y = HORIZON_Y + (H - HORIZON_Y) * depth;
+  var half = TOP_HALF + (BOTTOM_HALF - TOP_HALF) * depth;
 
-  return {e:depth, y, l:W/2-half, r:W/2+half, half};
+  return {e:depth, y:y, l:W/2-half, r:W/2+half, half:half};
 }
-function lerp(a,b,t){return a+(b-a)*t}
-function drawPoly(pts, fill){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
-function quad(a,b){return [[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]]}
+function lerp(a,b,t){return a+(b-a)*t;}
+function drawPoly(pts, fill){
+  ctx.beginPath();
+  ctx.moveTo(pts[0][0],pts[0][1]);
+  for(var i=1;i<pts.length;i++) ctx.lineTo(pts[i][0],pts[i][1]);
+  ctx.closePath();
+  ctx.fillStyle=fill;
+  ctx.fill();
+}
+function quad(a,b){return [[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]];}
 function fillRoadBase(topColor,bottomColor){
-  const top=roadBoundsAtZ(0), bottom=roadBoundsAtZ(1);
-  const g=ctx.createLinearGradient(0,top.y,0,H);
+  var top=roadBoundsAtZ(0), bottom=roadBoundsAtZ(1);
+  var g=ctx.createLinearGradient(0,top.y,0,H);
   g.addColorStop(0,topColor);
   g.addColorStop(1,bottomColor);
   drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]],g);
-  return {top,bottom};
+  return {top:top,bottom:bottom};
 }
 function drawEdgeStripSeries(count,speedFactor,widthA,widthB,colorA,colorB){
-  for(let i=0;i<count;i++){
-    const z0=(i/count + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1;
-    const z1=z0+.065;
+  for(var i=0;i<count;i++){
+    var z0=(i/count + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1;
+    var z1=z0+.065;
     if(z1>1) continue;
-    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    const wa=widthA+widthB*a.e, wb=widthA+widthB*b.e;
-    const c=i%2===0?colorA:colorB;
+    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    var wa=widthA+widthB*a.e, wb=widthA+widthB*b.e;
+    var c=i%2===0?colorA:colorB;
     drawPoly([[a.l,a.y],[a.l+wa,a.y],[b.l+wb,b.y],[b.l,b.y]],c);
     drawPoly([[a.r-wa,a.y],[a.r,a.y],[b.r,b.y],[b.r-wb,b.y]],c);
   }
 }
 function drawCenterDashed(offsetRatio,color,widthBase,widthGrow,len,density,speedFactor,minZ){
-  for(let i=0;i<density;i++){
-    const z0=(i/density + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1;
-    const z1=z0+len;
+  for(var i=0;i<density;i++){
+    var z0=(i/density + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1;
+    var z1=z0+len;
     if(z1>1 || z0<minZ) continue;
-    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    const x0=W/2+a.half*offsetRatio;
-    const x1=W/2+b.half*offsetRatio;
+    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    var x0=W/2+a.half*offsetRatio;
+    var x1=W/2+b.half*offsetRatio;
     ctx.save();
     ctx.strokeStyle=color;
     ctx.lineCap='round';
@@ -584,11 +669,11 @@ function drawCenterDashed(offsetRatio,color,widthBase,widthGrow,len,density,spee
   }
 }
 function drawCenterPulseDots(offsetRatio,color,sizeBase,sizeGrow,count,speedFactor,minZ){
-  for(let i=0;i<count;i++){
-    const z=(i/count + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1;
+  for(var i=0;i<count;i++){
+    var z=(i/count + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1;
     if(z<minZ) continue;
-    const p=roadBoundsAtZ(z);
-    const x=W/2+p.half*offsetRatio;
+    var p=roadBoundsAtZ(z);
+    var x=W/2+p.half*offsetRatio;
     ctx.save();
     ctx.fillStyle=color;
     ctx.shadowColor=color;
@@ -601,23 +686,23 @@ function drawCenterPulseDots(offsetRatio,color,sizeBase,sizeGrow,count,speedFact
 }
 function drawRoadTexture(strength){
   ctx.save();
-  for(let i=0;i<9;i++){
-    const z=(i*.13 + roadTime*state.speed*TRACK_MOTION_SCALE*1.08)%1;
+  for(var i=0;i<9;i++){
+    var z=(i*.13 + roadTime*state.speed*TRACK_MOTION_SCALE*1.08)%1;
     if(z<.15) continue;
-    const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
-    const alpha=.012+strength*a.e;
+    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
+    var alpha=.012+strength*a.e;
     drawPoly(quad(a,b),'rgba(255,255,255,'+alpha+')');
   }
   ctx.restore();
 }
 function drawRoadShineSeries(color,alphaMul){
   ctx.save();ctx.strokeStyle=color;ctx.lineCap='round';
-  for(let i=0;i<7;i++){
-    const z=(i*.16 + roadTime*state.speed*TRACK_MOTION_SCALE*1.2)%1;
+  for(var i=0;i<7;i++){
+    var z=(i*.16 + roadTime*state.speed*TRACK_MOTION_SCALE*1.2)%1;
     if(z<.22) continue;
-    const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.09));
-    const xA=W/2 + (i%2?-1:1)*a.half*(.32+.18*(i%3));
-    const xB=W/2 + (i%2?-1:1)*b.half*(.32+.18*(i%3));
+    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.09));
+    var xA=W/2 + (i%2?-1:1)*a.half*(.32+.18*(i%3));
+    var xB=W/2 + (i%2?-1:1)*b.half*(.32+.18*(i%3));
     ctx.globalAlpha=(.16+.45*z)*alphaMul;ctx.lineWidth=2+5*z;
     ctx.beginPath();ctx.moveTo(xA,a.y);ctx.lineTo(xB,b.y);ctx.stroke();
   }
@@ -627,11 +712,11 @@ function drawSideRails(color){
   ctx.save();
   ctx.strokeStyle=color;
   ctx.lineCap='round';
-  for(let i=0;i<10;i++){
-    const z0=(i/10 + roadTime*state.speed*TRACK_MOTION_SCALE*.84)%1;
-    const z1=z0+.075;
+  for(var i=0;i<10;i++){
+    var z0=(i/10 + roadTime*state.speed*TRACK_MOTION_SCALE*.84)%1;
+    var z1=z0+.075;
     if(z1>1 || z0<.06) continue;
-    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
     ctx.globalAlpha=.14+.42*a.e;
     ctx.lineWidth=2+6*a.e;
     ctx.beginPath();
@@ -647,8 +732,8 @@ function drawSideRails(color){
 }
 
 function drawBackground(){
-  const pair = bgColors[state.bgMode] || ['#000000', '#050505'];
-  const g = ctx.createLinearGradient(0, 0, 0, H);
+  var pair = bgColors[state.bgMode] || ['#000000', '#050505'];
+  var g = ctx.createLinearGradient(0, 0, 0, H);
   g.addColorStop(0, pair[0]);
   g.addColorStop(1, pair[1]);
   ctx.fillStyle = g;
@@ -656,12 +741,12 @@ function drawBackground(){
 
   if(state.speedLines){
     ctx.save();ctx.strokeStyle='rgba(255,255,255,.38)';ctx.lineCap='round';
-    for(let i=0;i<12;i++){
-      const sideDir=i%2===0?-1:1;
-      const phase=(i*.11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
-      const y=(H*state.horizon)-250 + phase*350;
-      const x=sideDir<0 ? 40+phase*80 : W-40-phase*80;
-      const len=24+phase*80;
+    for(var i=0;i<12;i++){
+      var sideDir=i%2===0?-1:1;
+      var phase=(i*.11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
+      var y=(H*state.horizon)-250 + phase*350;
+      var x=sideDir<0 ? 40+phase*80 : W-40-phase*80;
+      var len=24+phase*80;
       ctx.globalAlpha=.08+.34*phase;ctx.lineWidth=2+3*phase;
       ctx.beginPath();ctx.moveTo(x,y-len*.55);ctx.lineTo(x+sideDir*14*phase,y+len*.45);ctx.stroke();
     }
@@ -669,55 +754,22 @@ function drawBackground(){
   }
 }
 
-function drawRoadClassic(){
+/* --- 35+ ROAD RENDERERS --- */
+function rClassic(){
   fillRoadBase('#7c8591','#454c57');
   drawRoadTexture(.028);
   drawEdgeStripSeries(18,.85,5,28,'#ff1f32','#ffffff');
   if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.38)',1.0);
 }
-function drawRoadNeonPulse(){
-  fillRoadBase('#394458','#171d27');
-  drawRoadTexture(.030);
-  drawEdgeStripSeries(18,.82,4,20,'#ff2244','#ffffff');
-  drawCenterDashed(-.04,'rgba(110,255,255,.95)',2,5,.08,11,.88,.15);
-  drawCenterDashed(.04,'rgba(110,255,255,.95)',2,5,.08,11,.88,.15);
-  drawCenterPulseDots(0,'rgba(255,74,201,.9)',2,6,9,1.12,.18);
-  if(state.roadShine) drawRoadShineSeries('rgba(120,255,255,.55)',1.15);
-}
-function drawRoadTwinStripe(){
+function rTwinStripe(){
   fillRoadBase('#4a5665','#202731');
   drawRoadTexture(.026);
   drawEdgeStripSeries(18,.82,4,20,'#ffffff','#b6bcc6');
   drawCenterDashed(-.04,'rgba(255,216,82,.98)',2,5,.10,10,.84,.14);
   drawCenterDashed(.04,'rgba(255,216,82,.98)',2,5,.10,10,.84,.14);
-  drawCenterDashed(-.22,'rgba(255,255,255,.45)',1.5,3.2,.06,8,.92,.22);
-  drawCenterDashed(.22,'rgba(255,255,255,.45)',1.5,3.2,.06,8,.92,.22);
   if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.28)',.85);
 }
-function drawRoadCarbonTrack(){
-  fillRoadBase('#323b49','#151c24');
-  for(let i=0;i<11;i++){
-    const z0=(i/11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
-    const z1=z0+.075;
-    if(z1>1 || z0<.12) continue;
-    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    const insetA=a.half*.08, insetB=b.half*.08;
-    drawPoly([[a.l+insetA,a.y],[a.r-insetA,a.y],[b.r-insetB,b.y],[b.l+insetB,b.y]], i%2===0?'rgba(255,255,255,.05)':'rgba(0,0,0,.09)');
-  }
-  drawEdgeStripSeries(18,.78,4,18,'#ff8f29','#ffffff');
-  drawCenterDashed(0,'rgba(255,171,85,.75)',2,4,.07,10,.90,.18);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,186,120,.22)',.75);
-}
-function drawRoadEdgeGlow(){
-  fillRoadBase('#3a4552','#192028');
-  drawRoadTexture(.022);
-  drawEdgeStripSeries(18,.84,4,20,'rgba(45,255,128,.95)','rgba(255,62,86,.95)');
-  drawSideRails('rgba(255,255,255,.16)');
-  drawCenterDashed(-.17,'rgba(255,255,255,.36)',1.5,3,.08,9,.82,.22);
-  drawCenterDashed(.17,'rgba(255,255,255,.36)',1.5,3,.08,9,.82,.22);
-  if(state.roadShine) drawRoadShineSeries('rgba(110,255,170,.32)',.85);
-}
-function drawRoadTripleLane(){
+function rTripleLane(){
   fillRoadBase('#46505c','#1f262f');
   drawRoadTexture(.024);
   drawEdgeStripSeries(18,.82,4,20,'#ff2333','#ffffff');
@@ -726,121 +778,297 @@ function drawRoadTripleLane(){
   drawCenterDashed(.26,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
   if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.26)',.72);
 }
-function drawDiamondFlow(){
+function rAsphaltSpeed(){
+  fillRoadBase('#2b2e34','#14161a');
+  drawRoadTexture(.045);
+  drawEdgeStripSeries(20,.95,4,24,'#ffd000','#111111');
+  drawCenterDashed(0,'rgba(255,255,255,.9)',3,6,.14,12,.95,.10);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.45)',1.1);
+}
+function rMidnightHighway(){
+  fillRoadBase('#1a1e28','#0c0e14');
+  drawRoadTexture(.02);
+  drawEdgeStripSeries(18,.8,3,18,'#3b82f6','#ffffff');
+  drawCenterDashed(0,'rgba(96,165,250,.9)',2,5,.09,9,.82,.15);
+  drawSideRails('rgba(59,130,246,.4)');
+}
+function rNeonPulse(){
+  fillRoadBase('#29193d','#12071f');
+  drawRoadTexture(.030);
+  drawEdgeStripSeries(18,.82,4,20,'#ff0055','#00ffff');
+  drawCenterDashed(-.04,'rgba(0,255,255,.95)',2,5,.08,11,.88,.15);
+  drawCenterDashed(.04,'rgba(0,255,255,.95)',2,5,.08,11,.88,.15);
+  drawCenterPulseDots(0,'rgba(255,0,128,.95)',2,6,9,1.12,.18);
+  if(state.roadShine) drawRoadShineSeries('rgba(0,255,255,.55)',1.15);
+}
+function rEdgeGlow(){
+  fillRoadBase('#1a2c26','#0c1813');
+  drawRoadTexture(.022);
+  drawEdgeStripSeries(18,.84,4,20,'#00ff66','#003314');
+  drawSideRails('rgba(0,255,102,.6)');
+  drawCenterDashed(0,'rgba(0,255,102,.5)',1.5,3.5,.08,9,.82,.2);
+}
+function rArcadeGrid(){
+  fillRoadBase('#151b30','#080a14');
+  for(var i=0;i<12;i++){
+    var z0=(i/12 + roadTime*state.speed*TRACK_MOTION_SCALE*.78)%1;
+    var z1=z0+.065;
+    if(z1>1 || z0<.15) continue;
+    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    drawPoly(quad(a,b),'rgba(0,255,255,'+(.02+.06*a.e)+')');
+    for(var j=1;j<4;j++){
+      var x0=lerp(a.l,a.r,j/4), x1=lerp(b.l,b.r,j/4);
+      ctx.save();ctx.strokeStyle='rgba(0,255,255,'+(.08+.2*a.e)+')';ctx.lineWidth=1.2+2.4*a.e;
+      ctx.beginPath();ctx.moveTo(x0,a.y);ctx.lineTo(x1,b.y);ctx.stroke();ctx.restore();
+    }
+  }
+  drawEdgeStripSeries(18,.80,4,20,'#ff007f','#00ffff');
+}
+function rRailRunner(){
+  fillRoadBase('#222630','#0e1015');
+  drawSideRails('rgba(0,229,255,.8)');
+  drawCenterDashed(-.12,'rgba(0,229,255,.9)',2,4,.07,10,.95,.16);
+  drawCenterDashed(.12,'rgba(0,229,255,.9)',2,4,.07,10,.95,.16);
+  drawCenterPulseDots(0,'#ffffff',1.8,4.5,10,1.04,.18);
+}
+function rChevronRush(){
+  fillRoadBase('#2a2a38','#12121a');
+  drawEdgeStripSeries(18,.82,4,20,'#ff3366','#ffffff');
+  for(var i=0;i<10;i++){
+    var z=(i/10 + roadTime*state.speed*TRACK_MOTION_SCALE*.92)%1;
+    if(z<.15 || z>.96) continue;
+    var p=roadBoundsAtZ(z);
+    var span=20+p.e*95, lift=10+p.e*44;
+    ctx.save();ctx.strokeStyle='rgba(255,51,102,'+(.25+.5*p.e)+')';ctx.lineWidth=2+5*p.e;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(W/2-span,p.y-lift);ctx.lineTo(W/2,p.y);ctx.lineTo(W/2+span,p.y-lift);ctx.stroke();ctx.restore();
+  }
+}
+function rCyberViolet(){
+  fillRoadBase('#30123f','#14041c');
+  drawEdgeStripSeries(18,.85,4,22,'#c026d3','#a855f7');
+  drawCenterDashed(0,'rgba(232,121,249,.95)',3,6,.12,11,.9,.12);
+  drawSideRails('rgba(192,38,211,.6)');
+}
+function rLaserCyan(){
+  fillRoadBase('#082f49','#02131f');
+  drawEdgeStripSeries(18,.85,5,25,'#06b6d4','#38bdf8');
+  drawCenterDashed(-.08,'#38bdf8',2,5,.1,10,.88,.15);
+  drawCenterDashed(.08,'#38bdf8',2,5,.1,10,.88,.15);
+}
+function rMatrixCode(){
+  fillRoadBase('#052e16','#021409');
+  drawRoadTexture(.05);
+  drawEdgeStripSeries(18,.8,4,20,'#22c55e','#14532d');
+  drawCenterDashed(0,'rgba(34,197,94,.9)',2.5,5,.07,14,1.1,.1);
+}
+function rPlasmaPink(){
+  fillRoadBase('#4a044e','#1f0122');
+  drawEdgeStripSeries(18,.85,5,24,'#f43f5e','#fda4af');
+  drawCenterDashed(0,'rgba(244,63,94,.9)',3,6,.1,10,.85,.15);
+}
+function rOverdriveSynth(){
+  fillRoadBase('#3b0764','#18022b');
+  drawEdgeStripSeries(18,.85,5,26,'#ec4899','#8b5cf6');
+  drawCenterPulseDots(0,'#f43f5e',2,6,11,1.05,.15);
+  drawSideRails('rgba(236,72,153,.7)');
+}
+function rLavaCrack(){
+  fillRoadBase('#450a0a','#1f0404');
+  drawEdgeStripSeries(16,.75,5,28,'#ea580c','#7f1d1d');
+  drawCenterDashed(0,'rgba(251,146,60,.95)',4,8,.15,8,.75,.15);
+  drawRoadTexture(.06);
+}
+function rIceCrystal(){
+  fillRoadBase('#083344','#03151d');
+  drawEdgeStripSeries(18,.82,4,24,'#e0f2fe','#38bdf8');
+  drawCenterDashed(-.05,'#bae6fd',2,5,.08,10,.85,.15);
+  drawCenterDashed(.05,'#bae6fd',2,5,.08,10,.85,.15);
+  drawSideRails('rgba(224,242,254,.7)');
+}
+function rGoldenPath(){
+  fillRoadBase('#422006','#1a0c02');
+  drawEdgeStripSeries(18,.82,5,25,'#eab308','#fef08a');
+  drawCenterDashed(0,'rgba(234,179,8,.95)',3,7,.11,10,.84,.14);
+}
+function rToxicHazard(){
+  fillRoadBase('#1a2e05','#0a1401');
+  drawEdgeStripSeries(18,.88,5,25,'#84cc16','#000000');
+  drawCenterDashed(0,'rgba(132,204,22,.95)',3,6,.1,10,.88,.12);
+}
+function rCosmicVoid(){
+  fillRoadBase('#180d2e','#080313');
+  drawCenterPulseDots(-.15,'#a855f7',1.5,4,12,.95,.1);
+  drawCenterPulseDots(.15,'#38bdf8',1.5,4,12,.95,.1);
+  drawEdgeStripSeries(18,.8,4,22,'#c084fc','#38bdf8');
+}
+function rAmethystPath(){
+  fillRoadBase('#3b0764','#150125');
+  drawEdgeStripSeries(18,.85,4,24,'#a855f7','#f3e8ff');
+  drawCenterDashed(0,'#d8b4fe',2,5,.1,10,.82,.14);
+}
+function rInfernoFire(){
+  fillRoadBase('#500724','#20010d');
+  drawEdgeStripSeries(18,.85,5,26,'#ef4444','#fb923c');
+  drawCenterDashed(0,'#f97316',3,7,.12,9,.82,.15);
+}
+function rElectricThunder(){
+  fillRoadBase('#0c4a6e','#041c2c');
+  drawEdgeStripSeries(18,.9,5,26,'#38bdf8','#ffffff');
+  drawSideRails('rgba(56,189,248,.8)');
+  drawCenterDashed(0,'#7dd3fc',2.5,5.5,.08,12,.95,.12);
+}
+function rCarbonTrack(){
+  fillRoadBase('#323b49','#151c24');
+  for(var i=0;i<11;i++){
+    var z0=(i/11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
+    var z1=z0+.075;
+    if(z1>1 || z0<.12) continue;
+    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    var insetA=a.half*.08, insetB=b.half*.08;
+    drawPoly([[a.l+insetA,a.y],[a.r-insetA,a.y],[b.r-insetB,b.y],[b.l+insetB,b.y]], i%2===0?'rgba(255,255,255,.05)':'rgba(0,0,0,.09)');
+  }
+  drawEdgeStripSeries(18,.78,4,18,'#ff8f29','#ffffff');
+  drawCenterDashed(0,'rgba(255,171,85,.75)',2,4,.07,10,.90,.18);
+}
+function rDiamondFlow(){
   fillRoadBase('#414b59','#1c232c');
   drawRoadTexture(.020);
   drawEdgeStripSeries(18,.82,4,20,'#ff3347','#ffffff');
-  for(let i=0;i<8;i++){
-    const z=(i/8 + roadTime*state.speed*TRACK_MOTION_SCALE*.88)%1;
+  for(var i=0;i<8;i++){
+    var z=(i/8 + roadTime*state.speed*TRACK_MOTION_SCALE*.88)%1;
     if(z<.15 || z>.94) continue;
-    const a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
-    const midY=(a.y+b.y)/2;
-    const w=12+a.e*56;
-    const h=6+a.e*32;
-    ctx.save();
-    ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();
-    ctx.moveTo(W/2,midY-h);
-    ctx.lineTo(W/2+w,midY);
-    ctx.lineTo(W/2,midY+h);
-    ctx.lineTo(W/2-w,midY);
-    ctx.closePath();
-    ctx.fill();
-    ctx.restore();
+    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
+    var midY=(a.y+b.y)/2;
+    var w=12+a.e*56, h=6+a.e*32;
+    ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
+    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2,midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
   }
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.24)',.76);
 }
-function drawRoadArcadeGrid(){
-  fillRoadBase('#434e5e','#1d242e');
-  for(let i=0;i<12;i++){
-    const z0=(i/12 + roadTime*state.speed*TRACK_MOTION_SCALE*.78)%1;
-    const z1=z0+.065;
-    if(z1>1 || z0<.15) continue;
-    const a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    drawPoly(quad(a,b),'rgba(255,255,255,'+(.018+.045*a.e)+')');
-    const parts=4;
-    for(let j=1;j<parts;j++){
-      const x0=lerp(a.l,a.r,j/parts), x1=lerp(b.l,b.r,j/parts);
-      ctx.save();
-      ctx.strokeStyle='rgba(255,255,255,'+(.05+.14*a.e)+')';
-      ctx.lineWidth=1.2+2.4*a.e;
-      ctx.beginPath();
-      ctx.moveTo(x0,a.y);
-      ctx.lineTo(x1,b.y);
-      ctx.stroke();
-      ctx.restore();
-    }
+function rMinimalGrey(){
+  fillRoadBase('#475569','#1e293b');
+  drawEdgeStripSeries(18,.8,4,20,'#ffffff','#64748b');
+  drawCenterDashed(0,'rgba(255,255,255,.7)',2,4,.1,10,.8,.15);
+}
+function rPastelDream(){
+  fillRoadBase('#701a75','#3b0764');
+  drawEdgeStripSeries(18,.8,5,22,'#f472b6','#38bdf8');
+  drawCenterDashed(0,'#fbcfe8',2,5,.09,10,.82,.14);
+}
+function rSunsetBoulevard(){
+  fillRoadBase('#7c2d12','#361005');
+  drawEdgeStripSeries(18,.82,5,24,'#f97316','#fde047');
+  drawCenterDashed(-.05,'#fed7aa',2,4.5,.08,10,.85,.15);
+  drawCenterDashed(.05,'#fed7aa',2,4.5,.08,10,.85,.15);
+}
+function rRainbowPrism(){
+  fillRoadBase('#18181b','#09090b');
+  var colors=['#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#8b5cf6'];
+  for(var i=0;i<18;i++){
+    var z0=(i/18 + roadTime*state.speed*TRACK_MOTION_SCALE*.85)%1;
+    var z1=z0+.055;
+    if(z1>1) continue;
+    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    var col=colors[i%colors.length];
+    drawPoly([[a.l,a.y],[a.l+8+a.e*18,a.y],[b.l+8+b.e*18,b.y],[b.l,b.y]],col);
+    drawPoly([[a.r-8-a.e*18,a.y],[a.r,a.y],[b.r,b.y],[b.r-8-b.e*18,b.y]],col);
   }
-  drawEdgeStripSeries(18,.80,4,20,'#ffffff','#7af5ff');
-  if(state.roadShine) drawRoadShineSeries('rgba(170,245,255,.30)',.80);
+  drawCenterDashed(0,'#ffffff',2,5,.09,10,.85,.15);
 }
-function drawRoadRailRunner(){
-  fillRoadBase('#3e4856','#1a212a');
-  drawRoadTexture(.018);
-  drawEdgeStripSeries(18,.76,4,18,'#ff2f45','#ffffff');
-  drawSideRails('rgba(255,255,255,.52)');
-  drawCenterDashed(-.10,'rgba(82,190,255,.78)',2,4,.07,10,.95,.16);
-  drawCenterDashed(.10,'rgba(82,190,255,.78)',2,4,.07,10,.95,.16);
-  drawCenterPulseDots(0,'rgba(255,255,255,.75)',1.6,4,10,1.04,.18);
-  if(state.roadShine) drawRoadShineSeries('rgba(140,220,255,.24)',.72);
+function rRetroSun(){
+  fillRoadBase('#4a044e','#1c021f');
+  drawEdgeStripSeries(18,.85,4,22,'#facc15','#ec4899');
+  drawSideRails('#ec4899');
+  drawCenterDashed(0,'#fde047',3,6,.12,9,.84,.15);
 }
-function drawRoadChevronRush(){
-  fillRoadBase('#424b59','#1c232c');
-  drawRoadTexture(.020);
-  drawEdgeStripSeries(18,.82,4,20,'#ff3149','#ffffff');
-  for(let i=0;i<10;i++){
-    const z=(i/10 + roadTime*state.speed*TRACK_MOTION_SCALE*.92)%1;
-    if(z<.15 || z>.96) continue;
-    const p=roadBoundsAtZ(z);
-    const span=20+p.e*95;
-    const lift=10+p.e*44;
-    ctx.save();
-    ctx.strokeStyle='rgba(255,255,255,'+(.22+.42*p.e)+')';
-    ctx.lineWidth=2+5*p.e;
-    ctx.lineCap='round';
-    ctx.beginPath();
-    ctx.moveTo(W/2-span,p.y-lift);
-    ctx.lineTo(W/2,p.y);
-    ctx.lineTo(W/2+span,p.y-lift);
-    ctx.stroke();
-    ctx.restore();
-  }
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.22)',.70);
+function rDarkObsidian(){
+  fillRoadBase('#0f172a','#020617');
+  drawRoadTexture(.035);
+  drawEdgeStripSeries(18,.75,3,16,'#334155','#0f172a');
+  drawCenterDashed(0,'rgba(148,163,184,.6)',1.5,3.5,.08,9,.8,.2);
 }
+function rHyperSpace(){
+  fillRoadBase('#0f0728','#03010a');
+  drawSideRails('rgba(168,85,247,.9)');
+  drawCenterDashed(-.15,'#38bdf8',2,5,.15,14,1.2,.1);
+  drawCenterDashed(.15,'#38bdf8',2,5,.15,14,1.2,.1);
+  drawCenterPulseDots(0,'#ffffff',2,7,12,1.3,.1);
+}
+function rCleanWhiteTrack(){
+  fillRoadBase('#cbd5e1','#94a3b8');
+  drawEdgeStripSeries(18,.82,4,22,'#0f172a','#ffffff');
+  drawCenterDashed(0,'#0f172a',2.5,5,.1,10,.85,.14);
+}
+function rEmeraldCity(){
+  fillRoadBase('#064e3b','#022c22');
+  drawEdgeStripSeries(18,.85,5,25,'#34d399','#a7f3d0');
+  drawCenterDashed(0,'#6ee7b7',3,6,.1,10,.85,.15);
+}
+function rRubyRoyale(){
+  fillRoadBase('#881337','#4c0519');
+  drawEdgeStripSeries(18,.85,5,26,'#fb7185','#ffe4e6');
+  drawCenterDashed(0,'#fda4af',3,6.5,.11,10,.85,.15);
+}
+
 function drawRoad(){
-  const fn={
-    classic:drawRoadClassic,
-    neonPulse:drawRoadNeonPulse,
-    twinStripe:drawRoadTwinStripe,
-    carbonTrack:drawRoadCarbonTrack,
-    edgeGlow:drawRoadEdgeGlow,
-    tripleLane:drawRoadTripleLane,
-    diamondFlow:drawDiamondFlow,
-    arcadeGrid:drawRoadArcadeGrid,
-    railRunner:drawRoadRailRunner,
-    chevronRush:drawRoadChevronRush
-  }[state.roadVariant] || drawRoadClassic;
+  var dict={
+    classic: rClassic,
+    twinStripe: rTwinStripe,
+    tripleLane: rTripleLane,
+    asphaltSpeed: rAsphaltSpeed,
+    midnightHighway: rMidnightHighway,
+    neonPulse: rNeonPulse,
+    edgeGlow: rEdgeGlow,
+    arcadeGrid: rArcadeGrid,
+    railRunner: rRailRunner,
+    chevronRush: rChevronRush,
+    cyberViolet: rCyberViolet,
+    laserCyan: rLaserCyan,
+    matrixCode: rMatrixCode,
+    plasmaPink: rPlasmaPink,
+    overdriveNeon: rOverdriveSynth,
+    lavaCrack: rLavaCrack,
+    iceCrystal: rIceCrystal,
+    goldenPath: rGoldenPath,
+    toxicHazard: rToxicHazard,
+    cosmicVoid: rCosmicVoid,
+    amethystPath: rAmethystPath,
+    infernoFire: rInfernoFire,
+    electricThunder: rElectricThunder,
+    carbonTrack: rCarbonTrack,
+    diamondFlow: rDiamondFlow,
+    minimalGrey: rMinimalGrey,
+    pastelDream: rPastelDream,
+    sunsetBoulevard: rSunsetBoulevard,
+    rainbowPrism: rRainbowPrism,
+    retroSun: rRetroSun,
+    darkObsidian: rDarkObsidian,
+    hyperSpace: rHyperSpace,
+    cleanWhiteTrack: rCleanWhiteTrack,
+    emeraldCity: rEmeraldCity,
+    rubyRoyale: rRubyRoyale
+  };
+  var fn = dict[state.roadVariant] || rClassic;
   fn();
 }
 
 function drawRaisedPad(z, side, hexColor){
-  const p=roadBoundsAtZ(z), e=p.e;
-  const laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
-  const width=Math.max(16,p.half*.82);
-  const height=Math.max(6,width*.32);
-  const baseY=p.y-3;
-  const topY=baseY-height;
+  var p=roadBoundsAtZ(z), e=p.e;
+  var laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
+  var width=Math.max(16,p.half*.82);
+  var height=Math.max(6,width*.32);
+  var baseY=p.y-3;
+  var topY=baseY-height;
   
-  const c = hexToRgb(hexColor || '#2aff84');
-  const rgb = `${c.r},${c.g},${c.b}`;
-  const darkR = Math.max(0, Math.floor(c.r * 0.45));
-  const darkG = Math.max(0, Math.floor(c.g * 0.45));
-  const darkB = Math.max(0, Math.floor(c.b * 0.45));
-  const dark = `${darkR},${darkG},${darkB}`;
+  var c = hexToRgb(hexColor || '#2aff84');
+  var rgb = c.r + ',' + c.g + ',' + c.b;
+  var darkR = Math.max(0, Math.floor(c.r * 0.45));
+  var darkG = Math.max(0, Math.floor(c.g * 0.45));
+  var darkB = Math.max(0, Math.floor(c.b * 0.45));
+  var dark = darkR + ',' + darkG + ',' + darkB;
 
   ctx.save();ctx.fillStyle='rgba(0,0,0,.22)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+5,width*.44,5+8*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
   ctx.save();ctx.fillStyle='rgba('+dark+',.76)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-state.padThickness*.45,width,state.padThickness,5);ctx.fill();ctx.restore();
-  const g=ctx.createLinearGradient(0,baseY,0,topY);
+  var g=ctx.createLinearGradient(0,baseY,0,topY);
   g.addColorStop(0,'rgba('+rgb+',.96)');
   g.addColorStop(.38,'rgba('+rgb+',.78)');
   g.addColorStop(.76,'rgba('+rgb+',.30)');
@@ -848,46 +1076,47 @@ function drawRaisedPad(z, side, hexColor){
   ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=14+22*e;ctx.fillStyle=g;
   ctx.beginPath();ctx.roundRect(laneCenter-width/2,topY,width,height,7);ctx.fill();ctx.restore();
   ctx.save();ctx.strokeStyle='rgba('+rgb+',.96)';ctx.lineWidth=2+1.5*e;ctx.beginPath();ctx.moveTo(laneCenter-width*.47,baseY-1);ctx.lineTo(laneCenter+width*.47,baseY-1);ctx.stroke();ctx.restore();
-  return {center:[laneCenter,baseY-height*.43],baseY,width,height,e};
+  return {center:[laneCenter,baseY-height*.43],baseY:baseY,width:width,height:height,e:e};
 }
 
-function drawImageFit(im, x, y, boxW, boxH, anchor='bottom'){
+function drawImageFit(im, x, y, boxW, boxH, anchor){
+  anchor = anchor || 'bottom';
   if(!im) return;
-  const iw=im.naturalWidth||im.width, ih=im.naturalHeight||im.height;
-  const scale=Math.min(boxW/iw, boxH/ih);
-  const dw=iw*scale, dh=ih*scale;
-  const dx=x-dw/2;
-  const dy=anchor==='center' ? y-dh/2 : y-dh;
+  var iw=im.naturalWidth||im.width, ih=im.naturalHeight||im.height;
+  var scale=Math.min(boxW/iw, boxH/ih);
+  var dw=iw*scale, dh=ih*scale;
+  var dx=x-dw/2;
+  var dy=anchor==='center' ? y-dh/2 : y-dh;
   ctx.drawImage(im,dx,dy,dw,dh);
 }
 
 function drawRows(){
-  const initialDelay=.75;
-  state.rows.slice(0,5).forEach((row,i)=>{
-    const elapsed=roadTime-initialDelay-i*state.padDelay;
-    const z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
+  var initialDelay=.75;
+  state.rows.slice(0,5).forEach(function(row,i){
+    var elapsed=roadTime-initialDelay-i*state.padDelay;
+    var z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
     if(z<0 || z>1.03) return;
-    const zz=Math.min(1,z);
-    const left=drawRaisedPad(zz,'left',row.leftColor);
-    const right=drawRaisedPad(zz,'right',row.rightColor);
-    const pngScale=.18+0.95*left.e;
-    const leftSize=Math.min(row.leftSize*pngScale,left.width*.92);
-    const rightSize=Math.min(row.rightSize*pngScale,right.width*.92);
+    var zz=Math.min(1,z);
+    var left=drawRaisedPad(zz,'left',row.leftColor);
+    var right=drawRaisedPad(zz,'right',row.rightColor);
+    var pngScale=.18+0.95*left.e;
+    var leftSize=Math.min(row.leftSize*pngScale,left.width*.92);
+    var rightSize=Math.min(row.rightSize*pngScale,right.width*.92);
     if(row.leftImg) drawImageFit(row.leftImg,left.center[0],left.baseY-5,leftSize,leftSize,'bottom');
     if(row.rightImg) drawImageFit(row.rightImg,right.center[0],right.baseY-5,rightSize,rightSize,'bottom');
   });
 
-  const secondPadFinishTime = initialDelay + 1 * state.padDelay;
+  var secondPadFinishTime = initialDelay + 1 * state.padDelay;
 
   if(roadTime >= secondPadFinishTime && state.opponent.img){
-    const p = roadBoundsAtZ(0.72);
-    const oppSize = state.opponent.size * 0.75;
+    var p = roadBoundsAtZ(0.72);
+    var oppSize = state.opponent.size * 0.75;
     drawImageFit(state.opponent.img, W/2, p.y + 4, oppSize, oppSize, 'bottom');
   }
 }
 
 function frame(now){
-  const dt=Math.min(0.05,(now-last)/1000);
+  var dt=Math.min(0.05,(now-last)/1000);
   last=now;
   if(running) roadTime+=dt;
   drawBackground();
@@ -897,40 +1126,40 @@ function frame(now){
 }
 requestAnimationFrame(frame);
 
-$('playBtn').onclick=()=>{running=!running;$('playBtn').textContent=running?'Pause':'Play'};
-$('resetBtn').onclick=()=>roadTime=0;
-$('saveBtn').onclick=()=>{
+$('playBtn').onclick=function(){running=!running;$('playBtn').textContent=running?'Pause':'Play';};
+$('resetBtn').onclick=function(){roadTime=0;};
+$('saveBtn').onclick=function(){
   autoSaveStudio();
   alert('Settings saved successfully!');
 };
-$('logoutBtn').onclick=async()=>{await fetch('/api/logout',{method:'POST'});location.href='/'};
+$('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'});location.href='/';};
 
-$('exportBtn').onclick = () => {
+$('exportBtn').onclick = function(){
   if (recorder) return;
-  const sec = Math.max(2, Math.min(60, +$('recordSec').value || 15));
-  const stream = canvas.captureStream(60);
-  let mime = 'video/webm;codecs=vp9';
+  var sec = Math.max(2, Math.min(60, +$('recordSec').value || 15));
+  var stream = canvas.captureStream(60);
+  var mime = 'video/webm;codecs=vp9';
   if (!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm;codecs=vp8';
   if (!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm';
-  const chunks = [];
+  var chunks = [];
   recorder = new MediaRecorder(stream, { 
     mimeType: mime, 
     videoBitsPerSecond: 20000000 
   });
-  recorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data) };
-  recorder.onstop = () => {
-    const blob = new Blob(chunks, { type: mime });
-    const a = document.createElement('a');
+  recorder.ondataavailable = function(e){ if (e.data.size) chunks.push(e.data); };
+  recorder.onstop = function(){
+    var blob = new Blob(chunks, { type: mime });
+    var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'runner-hd-video.webm';
     a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 5000);
     recorder = null;
     $('exportBtn').textContent = 'Export Video';
   };
   recorder.start();
   $('exportBtn').textContent = 'Recording HD...';
-  setTimeout(() => { if (recorder && recorder.state !== 'inactive') recorder.stop(); }, sec * 1000);
+  setTimeout(function(){ if (recorder && recorder.state !== 'inactive') recorder.stop(); }, sec * 1000);
 };
 })();
 </script>
@@ -949,11 +1178,11 @@ const server = http.createServer(async (req, res) => {
         if(safeEqual(dat.password, APP_PASSWORD)){
           const exp = Date.now() + SESSION_MS;
           const nonce = crypto.randomBytes(12).toString('hex');
-          const payload = `${exp}.${nonce}`;
+          const payload = exp + '.' + nonce;
           const sig = crypto.createHmac('sha256', SESSION_SECRET).update(payload).digest('hex');
-          const token = `${payload}.${sig}`;
+          const token = payload + '.' + sig;
           res.writeHead(200, {
-            'Set-Cookie': `runner_session=${token}; Path=/; HttpOnly; SameSite=Lax`,
+            'Set-Cookie': 'runner_session=' + token + '; Path=/; HttpOnly; SameSite=Lax',
             'Content-Type': 'text/plain'
           });
           res.end('OK');
