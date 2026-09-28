@@ -42,7 +42,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio 35+ Roads & Custom Pads</title>
+<title>Private Runner Studio 35+ Roads & Live Values</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
 *{box-sizing:border-box}
@@ -59,6 +59,8 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 .controls{display:flex;flex-direction:column;gap:10px}
 details{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin-bottom:12px}summary{padding:13px 14px;background:var(--panel2);font-weight:800;cursor:pointer}
 .grid{padding:13px;display:grid;gap:11px}.grid.two{grid-template-columns:1fr 1fr}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px}
+.label-head{display:flex;justify-content:space-between;align-items:center}
+.val-badge{font-size:11px;background:#242a35;color:var(--accent);padding:2px 7px;border-radius:6px;font-family:monospace;font-weight:700}
 input[type=file]{width:100%;font-size:12px}input[type=range]{width:100%}
 select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px}
 .toggle{display:flex!important;align-items:center;gap:8px!important}
@@ -73,24 +75,45 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">35+ ROADS + CUSTOM PADS</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">LIVE VALUES</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">35+ aesthetic road styles and customizable glowing pad colors. Everything auto-saves across refreshes.</div>
+    <div class="note">All sliders show live value numbers right next to their labels. Settings auto-save continuously.</div>
   </section>
   <section class="controls">
     <details open><summary>Moving Highway & Camera</summary><div class="grid two">
-      <label>Forward speed <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24"></label>
-      <label>Horizon Height <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46"></label>
-      <label>Top Width <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08"></label>
-      <label>Bottom Width (Lion Style) <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.88"></label>
-      <label>Camera Height (Eye View) <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2"></label>
-      <label>Pad delay <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75"></label>
-      <label>Pad glow base <input id="padThickness" type="range" min="6" max="28" value="12"></label>
+      <label>
+        <span class="label-head"><span>Forward speed</span><span class="val-badge" id="v_speed">0.24</span></span>
+        <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24">
+      </label>
+      <label>
+        <span class="label-head"><span>Horizon Height</span><span class="val-badge" id="v_horizon">0.46</span></span>
+        <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46">
+      </label>
+      <label>
+        <span class="label-head"><span>Top Width</span><span class="val-badge" id="v_topWidth">0.08</span></span>
+        <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08">
+      </label>
+      <label>
+        <span class="label-head"><span>Bottom Width (Lion Style)</span><span class="val-badge" id="v_bottomWidth">0.88</span></span>
+        <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.88">
+      </label>
+      <label>
+        <span class="label-head"><span>Camera Height (Eye View)</span><span class="val-badge" id="v_camHeight">1.2</span></span>
+        <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2">
+      </label>
+      <label>
+        <span class="label-head"><span>Pad delay</span><span class="val-badge" id="v_padDelay">1.75</span></span>
+        <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75">
+      </label>
+      <label>
+        <span class="label-head"><span>Pad glow base</span><span class="val-badge" id="v_padThickness">12</span></span>
+        <input id="padThickness" type="range" min="6" max="28" value="12">
+      </label>
       <label>Road style (35+ Roads) <select id="roadVariant">
         <optgroup label="--- Classic & Highway ---">
           <option value="classic" selected>1. Classic V6 (Lion Challenge)</option>
@@ -212,7 +235,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       <label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label>
       <label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label>
     </div></details>
-    <details open><summary>5 Fixed Rows + Opponent Boss</summary><div class="rowbar"><span class="small">5 main rows with custom color pickers + Stationary Boss.</span></div><div id="rows" class="rows"></div></details>
+    <details open><summary>5 Fixed Rows + Opponent Boss</summary><div class="rowbar"><span class="small">5 main rows with custom color pickers & live size values + Stationary Boss.</span></div><div id="rows" class="rows"></div></details>
   </section>
 </main>
 
@@ -230,7 +253,10 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
         <label>PNG <input class="leftInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label class="toggle"><input class="leftRemove" type="checkbox" checked> Auto remove bg</label>
-        <label>Size <input class="leftSize" type="range" min="45" max="450" value="95"></label>
+        <label>
+          <span class="label-head"><span>Size</span><span class="val-badge leftSizeVal">95</span></span>
+          <input class="leftSize" type="range" min="45" max="450" value="95">
+        </label>
       </div>
       <div class="side">
         <b>RIGHT PAD</b>
@@ -242,7 +268,10 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
         <label>PNG <input class="rightInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label class="toggle"><input class="rightRemove" type="checkbox" checked> Auto remove bg</label>
-        <label>Size <input class="rightSize" type="range" min="45" max="450" value="95"></label>
+        <label>
+          <span class="label-head"><span>Size</span><span class="val-badge rightSizeVal">95</span></span>
+          <input class="rightSize" type="range" min="45" max="450" value="95">
+        </label>
       </div>
     </div>
   </div>
@@ -255,7 +284,10 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       <b>OPPONENT CHARACTER</b>
       <label>PNG <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
       <label class="toggle"><input class="oppRemove" type="checkbox" checked> Auto remove bg</label>
-      <label>Size <input class="oppSize" type="range" min="50" max="600" value="220"></label>
+      <label>
+        <span class="label-head"><span>Size</span><span class="val-badge oppSizeVal">220</span></span>
+        <input class="oppSize" type="range" min="50" max="600" value="220">
+      </label>
     </div>
   </div>
 </template>
@@ -366,6 +398,11 @@ function hexToRgb(hex){
   };
 }
 
+function updateBadge(key, val){
+  var el = $('v_' + key);
+  if(el) el.textContent = val;
+}
+
 function autoSaveStudio(){
   try{
     var s = {
@@ -393,13 +430,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v3', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v4', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v3');
+    var raw = localStorage.getItem('runner_studio_saved_v4');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -459,6 +496,7 @@ function bindRange(id,key){
   if(!el) return;
   el.addEventListener('input', function(e){
     state[key]=Number(e.target.value);
+    updateBadge(key, e.target.value);
     autoSaveStudio();
   });
 }
@@ -495,14 +533,21 @@ function addRow(saved){
   var rightColorInput = el.querySelector('.rightColor');
   var leftColorVal = el.querySelector('.leftColorVal');
   var rightColorVal = el.querySelector('.rightColorVal');
+  var leftSizeInput = el.querySelector('.leftSize');
+  var rightSizeInput = el.querySelector('.rightSize');
+  var leftSizeVal = el.querySelector('.leftSizeVal');
+  var rightSizeVal = el.querySelector('.rightSizeVal');
 
   leftColorInput.value=row.leftColor;
   rightColorInput.value=row.rightColor;
   if(leftColorVal) leftColorVal.textContent=row.leftColor;
   if(rightColorVal) rightColorVal.textContent=row.rightColor;
 
-  el.querySelector('.leftSize').value=row.leftSize;
-  el.querySelector('.rightSize').value=row.rightSize;
+  leftSizeInput.value=row.leftSize;
+  rightSizeInput.value=row.rightSize;
+  if(leftSizeVal) leftSizeVal.textContent=row.leftSize;
+  if(rightSizeVal) rightSizeVal.textContent=row.rightSize;
+
   el.querySelector('.leftRemove').checked=row.leftRemove;
   el.querySelector('.rightRemove').checked=row.rightRemove;
 
@@ -516,8 +561,16 @@ function addRow(saved){
     if(rightColorVal) rightColorVal.textContent=e.target.value;
     autoSaveStudio();
   };
-  el.querySelector('.leftSize').oninput=function(e){row.leftSize=Number(e.target.value); autoSaveStudio();};
-  el.querySelector('.rightSize').oninput=function(e){row.rightSize=Number(e.target.value); autoSaveStudio();};
+  leftSizeInput.oninput=function(e){
+    row.leftSize=Number(e.target.value); 
+    if(leftSizeVal) leftSizeVal.textContent=e.target.value;
+    autoSaveStudio();
+  };
+  rightSizeInput.oninput=function(e){
+    row.rightSize=Number(e.target.value); 
+    if(rightSizeVal) rightSizeVal.textContent=e.target.value;
+    autoSaveStudio();
+  };
   
   el.querySelector('.leftRemove').onchange=function(e){
     row.leftRemove=e.target.checked; 
@@ -564,6 +617,7 @@ function initRows(){
       if(savedData[id] !== undefined && $(id)){
         state[id] = Number(savedData[id]);
         $(id).value = savedData[id];
+        updateBadge(id, savedData[id]);
       }
     });
     if(savedData.roadVariant && $('roadVariant')){ state.roadVariant = savedData.roadVariant; $('roadVariant').value = savedData.roadVariant; }
@@ -582,14 +636,26 @@ function initRows(){
     ];
     rowList.forEach(addRow);
   } else {
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness'].forEach(function(id){
+      updateBadge(id, state[id]);
+    });
     for(var i=0;i<5;i++){
       addRow({leftColor:i%2?'#ff323a':'#2aff84', rightColor:i%2?'#2aff84':'#ff323a'});
     }
   }
 
   var oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
-  oppEl.querySelector('.oppSize').value=state.opponent.size;
-  oppEl.querySelector('.oppSize').oninput=function(e){state.opponent.size=Number(e.target.value); autoSaveStudio();};
+  var oppSizeInput = oppEl.querySelector('.oppSize');
+  var oppSizeVal = oppEl.querySelector('.oppSizeVal');
+
+  oppSizeInput.value=state.opponent.size;
+  if(oppSizeVal) oppSizeVal.textContent=state.opponent.size;
+
+  oppSizeInput.oninput=function(e){
+    state.opponent.size=Number(e.target.value); 
+    if(oppSizeVal) oppSizeVal.textContent=e.target.value;
+    autoSaveStudio();
+  };
   oppEl.querySelector('.oppRemove').onchange=function(e){
     state.opponent.removeBg=e.target.checked; 
     autoSaveStudio(); 
@@ -1143,7 +1209,7 @@ $('saveBtn').onclick=function(){
   alert('Settings saved successfully!');
 };
 $('resetStorageBtn').onclick=function(){
-  try{ localStorage.removeItem('runner_studio_saved_v3'); }catch(e){}
+  try{ localStorage.removeItem('runner_studio_saved_v4'); }catch(e){}
   location.reload();
 };
 $('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'});location.href='/';};
