@@ -132,8 +132,8 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75">
       </label>
       <label>
-        <span class="label-head"><span>Pad glow base</span><span class="val-badge" id="v_padThickness">12</span></span>
-        <input id="padThickness" type="range" min="6" max="28" value="12">
+        <span class="label-head"><span>Pad glow base</span><span class="val-badge" id="v_padThickness">14</span></span>
+        <input id="padThickness" type="range" min="6" max="28" value="14">
       </label>
       <label>Road style (35+ Road Styles) <select id="roadVariant">
         <optgroup label="--- Classic & Highway ---">
@@ -328,7 +328,7 @@ var state={
   bottomWidth:0.88,
   camHeight:1.2,
   padDelay:1.75,
-  padThickness:12,
+  padThickness:14,
   roadVariant:'classic',
   bgMode:'black',
   speedLines:false,
@@ -403,134 +403,161 @@ function drawImageFit(img, cx, baseBottomY, w, h){
   ctx.drawImage(img, cx - dw / 2, baseBottomY - dh, dw, dh);
 }
 
+// 52 THEMES ENGINE
 function drawBackground(){
   var hy = H * state.horizon;
   var bg = state.bgMode;
-  if(bg==='cleanWhite'){ ctx.fillStyle='#f5f6f8'; ctx.fillRect(0,0,W,H); return; }
-  if(bg==='softSilver'){ ctx.fillStyle='#e3e7ec'; ctx.fillRect(0,0,W,H); return; }
-  if(bg==='cloudGrey'){ ctx.fillStyle='#cfd4dc'; ctx.fillRect(0,0,W,H); return; }
-  if(bg==='skyBlueLight'){ ctx.fillStyle='#bfe4fc'; ctx.fillRect(0,0,W,H); return; }
-  if(bg==='mintFresh'){ ctx.fillStyle='#c8f5e2'; ctx.fillRect(0,0,W,H); return; }
-  if(bg==='deepSpace'){
-    var g=ctx.createLinearGradient(0,0,0,hy);
-    g.addColorStop(0,'#030511'); g.addColorStop(1,'#0d1430');
-    ctx.fillStyle=g; ctx.fillRect(0,0,W,H); return;
-  }
-  ctx.fillStyle='#050608'; ctx.fillRect(0,0,W,H);
+  var themeColors = {
+    cleanWhite:'#f5f6f8', softSilver:'#e3e7ec', cloudGrey:'#cfd4dc', skyBlueLight:'#bfe4fc',
+    cyanBreeze:'#d0f5f7', mintFresh:'#c8f5e2', warmVanilla:'#faf4e6', peachDawn:'#fde5d9',
+    lavenderLight:'#ede2f7', rosePastel:'#fcdde5', lemonDay:'#fdf7d5', iceWhite:'#eaf4fc',
+    cyberMintLight:'#dcfbf1', lilacMist:'#f2e8fa', goldenSand:'#faeed7',
+    black:'#050608', midnight:'#030407', obsidian:'#080a0d', deepSpace:'#020512',
+    cyberDark:'#050a12', matrixBlack:'#020d06', carbonDark:'#0a0b0d', charcoal:'#0c0d10',
+    gunmetal:'#0d0f14', onyx:'#090b0e', eclipse:'#040405', abyss:'#020813',
+    deepNavy:'#030a17', midnightBlue:'#040d1c', slateDark:'#0a0d13', asphalt:'#0e1015',
+    gravel:'#111317', steelDark:'#0d1015', ironDark:'#0b0d11', phantom:'#06070a',
+    shadow:'#050609', vampire:'#140306', crimsonDark:'#160408', bloodNight:'#180305',
+    neonPurpleDark:'#10041a', violetNight:'#0d0317', electricBlueDark:'#030e21', cyanDark:'#02141a',
+    emeraldDark:'#03160c', matrixGreen:'#031a0b', toxicGreen:'#041c09', amberDark:'#170e03',
+    sunsetDark:'#1a090a', laserRed:'#1c0307', plasmaDark:'#13031a', reactor:'#031919',
+    synthwave:'#130722', retrowave:'#170624', cyberpunkDark:'#04121a', gotham:'#090a0d',
+    underworld:'#0d0407', infernoDark:'#1c0502', magmaDark:'#1f0601', voidBlue:'#010411',
+    voidPurple:'#070112', voidGreen:'#011105', voidRed:'#120104', voidGold:'#120e01',
+    cosmicDark:'#080214', nebulaDark:'#0b0317', quantumVoid:'#020712', ultimateDark:'#000000'
+  };
+
+  ctx.fillStyle = themeColors[bg] || '#050608';
+  ctx.fillRect(0, 0, W, H);
 }
 
-function drawRoadDecorations(hy, pTop, pBot, speedOffset){
-  var rv = state.roadVariant;
-  var eBot = pBot.e;
-
-  if(rv === 'neonPulse'){
-    ctx.strokeStyle = '#00ffcc';
-    ctx.lineWidth = 6 + 12 * eBot;
-    ctx.shadowColor = '#00ffcc';
-    ctx.shadowBlur = 24;
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-  } else if(rv === 'lavaCrack'){
-    var lg = ctx.createLinearGradient(0, hy, 0, H);
-    lg.addColorStop(0, '#ff3300');
-    lg.addColorStop(1, '#ff9900');
-    ctx.strokeStyle = lg;
-    ctx.lineWidth = 5 + 8 * eBot;
-    ctx.stroke();
-  } else if(rv === 'iceCrystal'){
-    ctx.strokeStyle = '#a6f7ff';
-    ctx.lineWidth = 4 + 8 * eBot;
-    ctx.shadowColor = '#00e1ff';
-    ctx.shadowBlur = 20;
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-  } else if(rv === 'goldenPath'){
-    ctx.strokeStyle = '#ffd700';
-    ctx.lineWidth = 5 + 9 * eBot;
-    ctx.shadowColor = '#ffaa00';
-    ctx.shadowBlur = 20;
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-  } else if(rv === 'cyberViolet'){
-    ctx.strokeStyle = '#d500f9';
-    ctx.lineWidth = 5 + 10 * eBot;
-    ctx.shadowColor = '#d500f9';
-    ctx.shadowBlur = 22;
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-  } else {
-    ctx.strokeStyle = '#22ff88';
-    ctx.lineWidth = 4 + 6 * eBot;
-    ctx.stroke();
-  }
-
-  // Moving Highway Center Stripes
-  for(var i=0; i<14; i++){
-    var z1 = (i + speedOffset) / 14;
-    var z2 = (i + 0.45 + speedOffset) / 14;
-    if(z1 >= 0 && z2 <= 1){
-      var r1 = roadBoundsAtZ(z1);
-      var r2 = roadBoundsAtZ(z2);
-      ctx.beginPath();
-      ctx.moveTo(W/2, r1.y);
-      ctx.lineTo(W/2, r2.y);
-      ctx.strokeStyle = (rv === 'twinStripe' || rv === 'goldenPath') ? '#ffea00' : 'rgba(255,255,255,0.75)';
-      ctx.lineWidth = 2 + 7 * r1.e;
-      ctx.stroke();
-    }
-  }
-}
-
+// 35 ROAD VARIANTS ENGINE
 function drawRoad(){
   var hy = H * state.horizon;
   var pTop = roadBoundsAtZ(0);
   var pBot = roadBoundsAtZ(1);
+  var rv = state.roadVariant;
 
   ctx.save();
+
+  // 1. Road Surface Base (Custom per variant)
   ctx.beginPath();
   ctx.moveTo(W/2 - pTop.half, hy);
   ctx.lineTo(W/2 + pTop.half, hy);
   ctx.lineTo(W/2 + pBot.half, H);
   ctx.lineTo(W/2 - pBot.half, H);
   ctx.closePath();
-  ctx.fillStyle = '#11141b';
+
+  if(rv === 'cleanWhiteTrack') ctx.fillStyle = '#f0f3f6';
+  else if(rv === 'lavaCrack' || rv === 'infernoFire') ctx.fillStyle = '#140303';
+  else if(rv === 'iceCrystal') ctx.fillStyle = '#061524';
+  else if(rv === 'goldenPath') ctx.fillStyle = '#1c1503';
+  else if(rv === 'cyberViolet') ctx.fillStyle = '#12031a';
+  else if(rv === 'carbonTrack') ctx.fillStyle = '#0a0b0e';
+  else ctx.fillStyle = '#0b0d12';
   ctx.fill();
 
-  var speedOffset = (roadTime * state.speed * 4) % 1;
-  drawRoadDecorations(hy, pTop, pBot, speedOffset);
+  // 2. Road Borders / Side Rails (All 35 Styles Responding)
+  var borderCol = '#2aff84';
+  var glowCol = '#2aff84';
+  var glowBlur = 18;
+  var stripeCol = 'rgba(255, 255, 255, 0.85)';
+
+  if(rv === 'neonPulse'){ borderCol = '#00ffcc'; glowCol = '#00ffcc'; glowBlur = 25; }
+  else if(rv === 'edgeGlow'){ borderCol = '#00ff66'; glowCol = '#00ff66'; glowBlur = 24; }
+  else if(rv === 'arcadeGrid'){ borderCol = '#ff0055'; glowCol = '#ff0055'; glowBlur = 20; stripeCol = '#00f0ff'; }
+  else if(rv === 'railRunner'){ borderCol = '#00e5ff'; glowCol = '#00e5ff'; glowBlur = 28; }
+  else if(rv === 'chevronRush'){ borderCol = '#ffbb00'; glowCol = '#ff7700'; glowBlur = 22; }
+  else if(rv === 'cyberViolet'){ borderCol = '#d500f9'; glowCol = '#d500f9'; glowBlur = 24; stripeCol = '#ff4081'; }
+  else if(rv === 'laserCyan'){ borderCol = '#00ffff'; glowCol = '#00ffff'; glowBlur = 25; stripeCol = '#00e5ff'; }
+  else if(rv === 'matrixCode'){ borderCol = '#00ff44'; glowCol = '#00ff44'; glowBlur = 26; stripeCol = '#39ff14'; }
+  else if(rv === 'plasmaPink'){ borderCol = '#ff007f'; glowCol = '#ff007f'; glowBlur = 26; stripeCol = '#ff80bf'; }
+  else if(rv === 'overdriveNeon'){ borderCol = '#ff0055'; glowCol = '#7928ca'; glowBlur = 24; stripeCol = '#00dfd8'; }
+  else if(rv === 'lavaCrack'){ borderCol = '#ff3300'; glowCol = '#ff9900'; glowBlur = 24; stripeCol = '#ff5500'; }
+  else if(rv === 'iceCrystal'){ borderCol = '#a6f7ff'; glowCol = '#00e1ff'; glowBlur = 24; stripeCol = '#e0f7fa'; }
+  else if(rv === 'goldenPath'){ borderCol = '#ffd700'; glowCol = '#ffaa00'; glowBlur = 24; stripeCol = '#ffe066'; }
+  else if(rv === 'toxicHazard'){ borderCol = '#a6ff00'; glowCol = '#73ff00'; glowBlur = 25; stripeCol = '#ccff00'; }
+  else if(rv === 'cosmicVoid'){ borderCol = '#9d4edd'; glowCol = '#7b2cbf'; glowBlur = 25; stripeCol = '#e0aaff'; }
+  else if(rv === 'amethystPath'){ borderCol = '#c77dff'; glowCol = '#9d4edd'; glowBlur = 24; }
+  else if(rv === 'infernoFire'){ borderCol = '#ff2200'; glowCol = '#ff6600'; glowBlur = 26; stripeCol = '#ffaa00'; }
+  else if(rv === 'electricThunder'){ borderCol = '#00d4ff'; glowCol = '#0066ff'; glowBlur = 26; stripeCol = '#ffffff'; }
+  else if(rv === 'twinStripe'){ borderCol = '#ffffff'; glowCol = '#ffffff'; glowBlur = 10; stripeCol = '#ffd700'; }
+  else if(rv === 'rubyRoyale'){ borderCol = '#ff1744'; glowCol = '#d50000'; glowBlur = 24; stripeCol = '#ff5252'; }
+  else if(rv === 'emeraldCity'){ borderCol = '#00e676'; glowCol = '#00c853'; glowBlur = 24; stripeCol = '#69f0ae'; }
+  else if(rv === 'sunsetBoulevard'){ borderCol = '#ff5e3a'; glowCol = '#ff2a6d'; glowBlur = 22; stripeCol = '#ffc371'; }
+  else if(rv === 'cleanWhiteTrack'){ borderCol = '#111317'; glowCol = 'transparent'; glowBlur = 0; stripeCol = '#333742'; }
+
+  ctx.save();
+  ctx.strokeStyle = borderCol;
+  ctx.lineWidth = 6 + 14 * pBot.e;
+  if(glowBlur > 0){
+    ctx.shadowColor = glowCol;
+    ctx.shadowBlur = glowBlur;
+  }
+  ctx.beginPath();
+  ctx.moveTo(W/2 - pTop.half, hy);
+  ctx.lineTo(W/2 - pBot.half, H);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(W/2 + pTop.half, hy);
+  ctx.lineTo(W/2 + pBot.half, H);
+  ctx.stroke();
+  ctx.restore();
+
+  // 3. Moving Highway Center Stripes (Twin or Single Center)
+  var speedOffset = (roadTime * state.speed * 3.5) % 1;
+  for(var i=0; i<16; i++){
+    var z1 = (i + speedOffset) / 16;
+    var z2 = (i + 0.5 + speedOffset) / 16;
+    if(z1 >= 0 && z2 <= 1){
+      var r1 = roadBoundsAtZ(z1);
+      var r2 = roadBoundsAtZ(z2);
+
+      if(rv === 'twinStripe'){
+        var off = r1.half * 0.12;
+        ctx.beginPath();
+        ctx.moveTo(W/2 - off, r1.y); ctx.lineTo(W/2 - off, r2.y);
+        ctx.moveTo(W/2 + off, r1.y); ctx.lineTo(W/2 + off, r2.y);
+        ctx.strokeStyle = stripeCol;
+        ctx.lineWidth = 2 + 6 * r1.e;
+        ctx.stroke();
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(W/2, r1.y);
+        ctx.lineTo(W/2, r2.y);
+        ctx.strokeStyle = stripeCol;
+        ctx.lineWidth = 3 + 9 * r1.e;
+        ctx.shadowColor = stripeCol;
+        ctx.shadowBlur = 6;
+        ctx.stroke();
+      }
+    }
+  }
+
   ctx.restore();
 }
 
-function drawRunnerBehind(){
-  if(!state.playerImg) return;
-  var p = roadBoundsAtZ(state.playerZ || 0.84);
-  var pSize = (state.playerSize || 120) * (0.3 + 0.7 * p.e);
-
-  var targetLane = state.playerLane;
-  if(targetLane === 'auto'){
-    targetLane = state.currentLane || 'left';
-  }
-  var targetX = targetLane === 'right' ? (W/2 + p.half * 0.48) : (W/2 - p.half * 0.48);
-  state.playerX = state.playerX || (W/2);
-  state.playerX += (targetX - state.playerX) * 0.15;
-
-  drawImageFit(state.playerImg, state.playerX, p.y + 4, pSize, pSize);
-}
-
+// PAD GATES WITH INCREASED HEIGHT
 function drawPadArch(x, y, w, h, col){
   ctx.save();
   ctx.beginPath();
   ctx.rect(x - w/2, y - h, w, h);
-  ctx.fillStyle = col + '25';
+  ctx.fillStyle = col + '22';
   ctx.fill();
-  ctx.lineWidth = state.padThickness || 12;
+
+  ctx.lineWidth = state.padThickness || 14;
   ctx.strokeStyle = col;
   ctx.shadowColor = col;
-  ctx.shadowBlur = 18;
+  ctx.shadowBlur = 24;
   ctx.stroke();
+
+  ctx.fillStyle = col;
+  ctx.fillRect(x - w/2, y - h, w, Math.max(6, 10 * (h / 160)));
   ctx.restore();
 }
 
+// 5 ROWS ENGINE + OPPONENT BOSS
 function drawRows(){
   var delay = state.padDelay;
   var closestActiveRow = -1;
@@ -548,26 +575,26 @@ function drawRows(){
     }
 
     var p = roadBoundsAtZ(loopZ);
-    var padW = p.half * 0.85;
-    var padH = 115 * (0.2 + 0.8 * p.e);
+    var padW = p.half * 0.88;
+    var padH = 160 * (0.25 + 0.75 * p.e); // Tall Pad Gates
 
     var lx = W/2 - p.half * 0.5;
     var rx = W/2 + p.half * 0.5;
 
-    // LEFT PAD
+    // LEFT PAD GATE
     var leftData = state.rows[r].left;
     drawPadArch(lx, p.y, padW, padH, leftData.color);
     if(leftData.img){
-      var lSize = (leftData.size || 95) * (0.2 + 0.8 * p.e);
-      drawImageFit(leftData.img, lx, p.y - 10, lSize, lSize);
+      var lSize = (leftData.size || 95) * (0.25 + 0.75 * p.e);
+      drawImageFit(leftData.img, lx, p.y - 12, lSize, lSize);
     }
 
-    // RIGHT PAD
+    // RIGHT PAD GATE
     var rightData = state.rows[r].right;
     drawPadArch(rx, p.y, padW, padH, rightData.color);
     if(rightData.img){
-      var rSize = (rightData.size || 95) * (0.2 + 0.8 * p.e);
-      drawImageFit(rightData.img, rx, p.y - 10, rSize, rSize);
+      var rSize = (rightData.size || 95) * (0.25 + 0.75 * p.e);
+      drawImageFit(rightData.img, rx, p.y - 12, rSize, rSize);
     }
   }
 
@@ -576,14 +603,32 @@ function drawRows(){
     state.currentLane = (activeLeft.color.indexOf('2a') !== -1 || activeLeft.color.indexOf('green') !== -1 || activeLeft.color.indexOf('00') !== -1) ? 'left' : 'right';
   }
 
-  // Stationary Opponent Boss behind pad 5
-  if(state.opponent.img){
+  // Stationary Opponent Boss behind 5th pad
+  if(state.opponent && state.opponent.img){
     var op = roadBoundsAtZ(0.28);
     var opSize = (state.opponent.size || 220) * (0.25 + 0.75 * op.e);
     drawImageFit(state.opponent.img, W/2, op.y, opSize, opSize);
   }
 }
 
+// RUNNER BEHIND PADS
+function drawRunnerBehind(){
+  if(!state.playerImg) return;
+  var p = roadBoundsAtZ(state.playerZ || 0.84);
+  var pSize = (state.playerSize || 120) * (0.3 + 0.7 * p.e);
+
+  var targetLane = state.playerLane;
+  if(targetLane === 'auto'){
+    targetLane = state.currentLane || 'left';
+  }
+  var targetX = targetLane === 'right' ? (W/2 + p.half * 0.48) : (W/2 - p.half * 0.48);
+  state.playerX = state.playerX || (W/2);
+  state.playerX += (targetX - state.playerX) * 0.15;
+
+  drawImageFit(state.playerImg, state.playerX, p.y + 4, pSize, pSize);
+}
+
+// MAIN 60FPS LOOP
 function frame(now){
   var dt = Math.min(0.05, (now - last) / 1000);
   last = now;
@@ -597,6 +642,7 @@ function frame(now){
   requestAnimationFrame(frame);
 }
 
+// CONTROLS INITIALIZATION
 function initRowsUI(){
   var container = $('rows');
   var tpl = $('rowTemplate');
