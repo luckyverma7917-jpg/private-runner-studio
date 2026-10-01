@@ -2,8 +2,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.send(`<!DOCTYPE html>
+const htmlContent = `<!DOCTYPE html>
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
@@ -13,9 +12,8 @@ app.get('/', (req, res) => {
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
     body { background: #0d1117; color: #c9d1d9; display: flex; height: 100vh; overflow: hidden; }
     
-    /* SIDEBAR CONTROLS */
     #sidebar {
-      width: 420px;
+      width: 440px;
       background: #161b22;
       border-right: 1px solid #30363d;
       padding: 16px;
@@ -53,7 +51,6 @@ app.get('/', (req, res) => {
     .btn-export { background: #1f6feb; margin-top: 10px; }
     .btn-export:hover { background: #388bfd; }
 
-    /* ROW BOX */
     .row-card {
       background: #161b22;
       border: 1px solid #30363d;
@@ -63,7 +60,6 @@ app.get('/', (req, res) => {
     }
     .row-title { font-size: 0.82rem; font-weight: bold; color: #f0883e; margin-bottom: 4px; }
 
-    /* VIEWPORT */
     #viewport-container {
       flex: 1;
       display: flex;
@@ -97,11 +93,23 @@ app.get('/', (req, res) => {
 </head>
 <body>
 
-  <!-- CONTROLS SIDEBAR -->
   <div id="sidebar">
     <h2>🎮 Private Runner Pro Studio</h2>
 
-    <!-- SPEED CONTROLS -->
+    <div class="group">
+      <div class="row-title">🛣️ Highway & Road Settings</div>
+      <label>Road Style:</label>
+      <select id="roadStyle">
+        <option value="classic">1. Classic V6 (Lion Challenge)</option>
+        <option value="matrix">2. Matrix Green Codeflow</option>
+        <option value="neon">3. Neon Blue Speedway</option>
+        <option value="magma">4. Molten Lava Magma</option>
+      </select>
+
+      <label>Bottom Width (Lion Style): <span id="val-botw">0.88</span></label>
+      <input type="range" id="botWidthSlider" min="0.4" max="1.0" step="0.02" value="0.88">
+    </div>
+
     <div class="group">
       <div class="row-title">⚡ Speed & Motion Controllers</div>
       <label>Run Speed (दौड़ने की स्पीड): <span id="val-speed">1.0x</span></label>
@@ -111,32 +119,27 @@ app.get('/', (req, res) => {
       <input type="range" id="switchSpeed" min="1" max="5" step="1" value="3">
     </div>
 
-    <!-- INITIAL CHARACTER -->
     <div class="group">
       <div class="row-title">👤 Starting Runner Character</div>
       <label>Initial PNG (शुरुआती रूप - जैसे Skinny):</label>
       <input type="file" id="startCharFile" accept="image/png, image/jpeg, image/webp">
     </div>
 
-    <!-- 5 ROWS CONFIGURATION WITH LAYER & EVOLUTION -->
     <div class="group">
       <div class="row-title">🛣️ 5 Rows: Lane Path & Evolution PNGs</div>
       <div id="rows-wrapper"></div>
     </div>
 
-    <!-- OPPONENT / BOSS -->
     <div class="group">
-      <div class="row-title">🥊 Final Boss Setup</div>
+      <div class="row-title">🥊 Stationary Boss Setup</div>
       <label>Boss PNG (जैसे Cactus Boxer):</label>
       <input type="file" id="bossCharFile" accept="image/png, image/jpeg, image/webp">
     </div>
 
-    <!-- ACTION BUTTONS -->
     <button class="btn" id="btnPlayPause">▶ Play / Pause Animation</button>
     <button class="btn btn-export" id="btnExportVideo">🔴 Export 60FPS HD Video</button>
   </div>
 
-  <!-- CANVAS DISPLAY -->
   <div id="viewport-container">
     <div id="status-bar">Studio Ready</div>
     <div id="canvas-wrap">
@@ -149,27 +152,23 @@ app.get('/', (req, res) => {
     const ctx = canvas.getContext('2d');
     const statusBar = document.getElementById('status-bar');
 
-    // CONFIG STATE
     let runSpeed = 1.0;
     let switchSpeed = 3;
     let isPlaying = true;
-    let trackProgress = 0; // 0 to 1
+    let trackProgress = 0;
     
-    // Character images storage
     let startCharImg = null;
     let bossCharImg = null;
     const rowCharImgs = [null, null, null, null, null];
 
-    // Rows Data (Target Lane: -1 for Left, 1 for Right)
     const rowConfigs = [
-      { lane: -1, z: 0.20, colorL: '#39ff14', colorR: '#ff0033' },
-      { lane: 1,  z: 0.38, colorL: '#ff0033', colorR: '#39ff14' },
-      { lane: 1,  z: 0.56, colorL: '#00e5ff', colorR: '#ff9900' },
-      { lane: -1, z: 0.74, colorL: '#39ff14', colorR: '#ff0033' },
-      { lane: 1,  z: 0.90, colorL: '#ff0033', colorR: '#39ff14' }
+      { lane: -1, z: 0.20, colorL: '#2aff84', colorR: '#ff323a' },
+      { lane: 1,  z: 0.38, colorL: '#ff323a', colorR: '#2aff84' },
+      { lane: 1,  z: 0.56, colorL: '#2aff84', colorR: '#ff323a' },
+      { lane: -1, z: 0.74, colorL: '#ff323a', colorR: '#2aff84' },
+      { lane: 1,  z: 0.90, colorL: '#2aff84', colorR: '#ff323a' }
     ];
 
-    // BUILD UI FOR ROWS
     const rowsWrapper = document.getElementById('rows-wrapper');
     rowConfigs.forEach((row, i) => {
       const card = document.createElement('div');
@@ -182,7 +181,7 @@ app.get('/', (req, res) => {
             <option value="1" \${row.lane === 1 ? 'selected' : ''}>Slide RIGHT ➡</option>
           </select>
         </div>
-        <label>Next Evolution PNG (पैड पार करते ही नया रूप):</label>
+        <label>Evolution PNG (पैड पार करते ही नया रूप):</label>
         <input type="file" id="rowFile_\${i}" accept="image/png, image/jpeg, image/webp">
       \`;
       rowsWrapper.appendChild(card);
@@ -201,7 +200,6 @@ app.get('/', (req, res) => {
       });
     });
 
-    // FILE INPUT LISTENERS
     document.getElementById('startCharFile').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -220,7 +218,6 @@ app.get('/', (req, res) => {
       }
     });
 
-    // SPEED SLIDERS
     document.getElementById('runSpeed').addEventListener('input', (e) => {
       runSpeed = parseFloat(e.target.value);
       document.getElementById('val-speed').innerText = runSpeed.toFixed(1) + 'x';
@@ -231,44 +228,38 @@ app.get('/', (req, res) => {
       document.getElementById('val-switch').innerText = labels[switchSpeed - 1];
     });
 
-    // ROAD PERSPECTIVE PROJECTION
-    const horizonY = 320;
-    const bottomY = 1220;
-    const roadTopW = 120;
-    const roadBotW = 600;
+    let botWidthRatio = 0.88;
+    document.getElementById('botWidthSlider').addEventListener('input', (e) => {
+      botWidthRatio = parseFloat(e.target.value);
+      document.getElementById('val-botw').innerText = botWidthRatio.toFixed(2);
+    });
+
+    const horizonY = 340;
+    const bottomY = 1240;
     const centerX = 360;
 
     function getPerspective(z) {
-      // z is 0 (far horizon) to 1 (near bottom)
       const y = horizonY + (bottomY - horizonY) * z;
+      const roadBotW = canvas.width * botWidthRatio;
+      const roadTopW = 60;
       const roadW = roadTopW + (roadBotW - roadTopW) * z;
-      const scale = 0.2 + 0.8 * z;
+      const scale = 0.18 + 0.82 * z;
       return { y, roadW, scale };
     }
 
-    // INTERPOLATED CHARACTER POSITION
     let currentCharX = centerX;
     let targetCharX = centerX;
 
     function renderFrame() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 1. SKY / BACKGROUND
-      const skyGrad = ctx.createLinearGradient(0, 0, 0, horizonY);
-      skyGrad.addColorStop(0, '#000814');
-      skyGrad.addColorStop(1, '#001d3d');
-      ctx.fillStyle = skyGrad;
+      // Sky Background
+      ctx.fillStyle = '#05070f';
       ctx.fillRect(0, 0, canvas.width, horizonY);
 
-      // Speed lines / star effect
-      ctx.fillStyle = 'rgba(255,255,255,0.15)';
-      for(let i=0; i<15; i++) {
-        let lx = (Math.sin(i*99 + trackProgress*10) * 0.5 + 0.5) * canvas.width;
-        let ly = (Math.cos(i*33) * 0.5 + 0.5) * horizonY;
-        ctx.fillRect(lx, ly, 2, 8);
-      }
-
-      // 2. ROAD BASE
+      // Road Body
+      const roadBotW = canvas.width * botWidthRatio;
+      const roadTopW = 60;
       ctx.beginPath();
       ctx.moveTo(centerX - roadTopW/2, horizonY);
       ctx.lineTo(centerX + roadTopW/2, horizonY);
@@ -276,36 +267,34 @@ app.get('/', (req, res) => {
       ctx.lineTo(centerX - roadBotW/2, bottomY);
       ctx.closePath();
       
-      const roadGrad = ctx.createLinearGradient(0, horizonY, 0, bottomY);
-      roadGrad.addColorStop(0, '#001e3d');
-      roadGrad.addColorStop(1, '#003566');
-      ctx.fillStyle = roadGrad;
+      const grad = ctx.createLinearGradient(0, horizonY, 0, bottomY);
+      grad.addColorStop(0, '#02182b');
+      grad.addColorStop(1, '#082f49');
+      ctx.fillStyle = grad;
       ctx.fill();
 
-      // Glowing Neon Borders
-      ctx.strokeStyle = '#00f0ff';
+      // Road Glow Borders
+      ctx.strokeStyle = '#38bdf8';
       ctx.lineWidth = 6;
       ctx.stroke();
 
-      // Center Divider Neon Line
+      // Center Divider
       ctx.beginPath();
       ctx.moveTo(centerX, horizonY);
       ctx.lineTo(centerX, bottomY);
-      ctx.strokeStyle = '#00f0ff';
-      ctx.lineWidth = 3;
-      ctx.setLineDash([20, 20]);
-      ctx.lineDashOffset = -trackProgress * 300;
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 4;
+      ctx.setLineDash([24, 24]);
+      ctx.lineDashOffset = -trackProgress * 400;
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // 3. DETERMINE CURRENT ACTIVE EVOLUTION & LANE SHIFT
+      // Evolution State & Lane Shift
       let activeCharacterImg = startCharImg;
       let targetLaneDir = rowConfigs[0].lane;
 
-      // Check which row has passed
       for (let i = 0; i < rowConfigs.length; i++) {
         const rowRelativeZ = (rowConfigs[i].z - trackProgress + 1.0) % 1.0;
-        // When pad passes player (near Z ~ 0.85)
         if (rowRelativeZ < 0.25 && rowCharImgs[i]) {
           activeCharacterImg = rowCharImgs[i];
         }
@@ -314,30 +303,25 @@ app.get('/', (req, res) => {
         }
       }
 
-      // Smooth Lane Transition (Lerp based on switchSpeed)
+      // Smooth Lane Interpolation
       const pPlayer = getPerspective(0.85);
       const laneOffset = (pPlayer.roadW * 0.25) * targetLaneDir;
       targetCharX = centerX + laneOffset;
 
       const lerpRates = [0.03, 0.06, 0.12, 0.25, 0.95];
-      const currentLerp = lerpRates[switchSpeed - 1];
-      currentCharX += (targetCharX - currentCharX) * currentLerp;
+      currentCharX += (targetCharX - currentCharX) * lerpRates[switchSpeed - 1];
 
-      // 4. DRAW BOSS AT FAR END
+      // Boss Rendering
       const pBoss = getPerspective(0.18);
       if (bossCharImg) {
         const bw = 160 * pBoss.scale;
         const bh = 220 * pBoss.scale;
         ctx.drawImage(bossCharImg, centerX - bw/2, pBoss.y - bh, bw, bh);
-      } else {
-        // Fallback Boss Placeholder
-        ctx.fillStyle = '#ff9900';
-        ctx.fillRect(centerX - 30, pBoss.y - 60, 60, 60);
       }
 
-      // ==============================================================
-      // 5. DEPTH FIX: DRAW RUNNER CHARACTER (BEHIND PADS)
-      // ==============================================================
+      // -------------------------------------------------------------
+      // 1. CHARACTER DRAWN FIRST (BEHIND PADS)
+      // -------------------------------------------------------------
       const runnerY = pPlayer.y;
       const runnerScale = pPlayer.scale;
       const charWidth = 140 * runnerScale;
@@ -353,41 +337,36 @@ app.get('/', (req, res) => {
           charHeight
         );
       } else {
-        // Default Clean Runner Dummy
-        ctx.fillStyle = '#38bdf8';
+        ctx.fillStyle = '#0ea5e9';
         ctx.beginPath();
-        ctx.roundRect(currentCharX - charWidth/2, runnerY - charHeight, charWidth, charHeight, 16);
+        ctx.roundRect(currentCharX - charWidth/2, runnerY - charHeight, charWidth, charHeight, 14);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 22px Segoe UI';
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 20px sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText('RUNNER', currentCharX, runnerY - charHeight/2);
       }
       ctx.restore();
 
-      // ==============================================================
-      // 6. DEPTH FIX: DRAW GLOWING PADS OVER THE CHARACTER
-      // ==============================================================
+      // -------------------------------------------------------------
+      // 2. PADS DRAWN SECOND (OVER THE CHARACTER)
+      // -------------------------------------------------------------
       rowConfigs.forEach((row, i) => {
-        // Move pads toward camera
         let rZ = (row.z - trackProgress + 1.0) % 1.0;
         if (rZ > 0.05 && rZ < 0.98) {
           const p = getPerspective(rZ);
-          const padWidth = p.roadW * 0.42;
-          const padHeight = 28 * p.scale;
+          const padWidth = p.roadW * 0.44;
+          const padHeight = 32 * p.scale;
           const padY = p.y;
 
-          // LEFT PAD
           const leftX = centerX - (p.roadW * 0.25) - padWidth/2;
-          drawGlowingGate(leftX, padY, padWidth, padHeight, row.colorL, 'LEFT');
+          drawGlowingGate(leftX, padY, padWidth, padHeight, row.colorL);
 
-          // RIGHT PAD
           const rightX = centerX + (p.roadW * 0.25) - padWidth/2;
-          drawGlowingGate(rightX, padY, padWidth, padHeight, row.colorR, 'RIGHT');
+          drawGlowingGate(rightX, padY, padWidth, padHeight, row.colorR);
         }
       });
 
-      // UPDATE PROGRESS
       if (isPlaying) {
         trackProgress += 0.0018 * runSpeed;
         if (trackProgress >= 1.0) trackProgress = 0;
@@ -396,42 +375,33 @@ app.get('/', (req, res) => {
       requestAnimationFrame(renderFrame);
     }
 
-    // HELPER: GLOWING 3D GLASS PAD/GATE
-    function drawGlowingGate(x, y, w, h, color, text) {
+    function drawGlowingGate(x, y, w, h, color) {
       ctx.save();
-      // Outer Glow
       ctx.shadowColor = color;
-      ctx.shadowBlur = 20;
-
-      // Base Pad Body
+      ctx.shadowBlur = 18;
       ctx.fillStyle = color;
-      ctx.globalAlpha = 0.85;
+      ctx.globalAlpha = 0.88;
       ctx.beginPath();
       ctx.roundRect(x, y - h, w, h, 8);
       ctx.fill();
 
-      // Top Glass Highlight
       ctx.fillStyle = '#ffffff';
-      ctx.globalAlpha = 0.5;
+      ctx.globalAlpha = 0.55;
       ctx.fillRect(x + 4, y - h + 2, w - 8, h * 0.35);
 
-      // Pad Border
       ctx.strokeStyle = '#ffffff';
       ctx.lineWidth = 2;
       ctx.globalAlpha = 1.0;
       ctx.stroke();
-
       ctx.restore();
     }
 
-    // PLAY/PAUSE
     const btnPlayPause = document.getElementById('btnPlayPause');
     btnPlayPause.addEventListener('click', () => {
       isPlaying = !isPlaying;
       btnPlayPause.innerText = isPlaying ? '⏸ Pause Animation' : '▶ Play Animation';
     });
 
-    // 60FPS WEBM / MP4 RECORDER
     const btnExport = document.getElementById('btnExportVideo');
     let mediaRecorder = null;
     let recordedChunks = [];
@@ -443,7 +413,7 @@ app.get('/', (req, res) => {
       isPlaying = true;
       recordedChunks = [];
 
-      const stream = canvas.captureStream(60); // Clean 60 FPS
+      const stream = canvas.captureStream(60);
       mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' });
 
       mediaRecorder.ondataavailable = (e) => {
@@ -455,7 +425,7 @@ app.get('/', (req, res) => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'Runner_Depth_Evolution_Video.webm';
+        a.download = 'Runner_Studio_Clip.webm';
         a.click();
         statusBar.innerText = '✅ Export Complete!';
         statusBar.style.color = '#3fb950';
@@ -465,19 +435,20 @@ app.get('/', (req, res) => {
       statusBar.innerText = '🔴 Recording 60FPS Video...';
       statusBar.style.color = '#f85149';
 
-      // Record for 1 full clean loop (~12 to 15 seconds)
       const recordDuration = (1.0 / (0.0018 * runSpeed)) * 16.6;
       setTimeout(() => {
         mediaRecorder.stop();
       }, Math.min(recordDuration, 25000));
     });
 
-    // START ENGINE
     requestAnimationFrame(renderFrame);
   </script>
 </body>
-</html>`);
-});
+</html>`;
+
+// BOTH PATHS HANDLED SAFELY
+app.get('/', (req, res) => res.send(htmlContent));
+app.get('/app', (req, res) => res.send(htmlContent));
 
 app.listen(port, () => {
   console.log('Server is running on port ' + port);
