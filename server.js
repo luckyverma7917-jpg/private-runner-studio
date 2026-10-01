@@ -1204,7 +1204,6 @@ function drawRunnerBehind(){
   var p = roadBoundsAtZ(0.84);
   var pSize = (state.playerSize || 120) * (0.3 + 0.7 * p.e);
   var targetX = state.currentLane === 'right' ? (W/2 + p.half * 0.48) : (W/2 - p.half * 0.48);
-  
   state.playerX = state.playerX || (W/2);
   state.playerX += (targetX - state.playerX) * 0.12;
   drawImageFit(state.playerImg, state.playerX, p.y + 4, pSize, pSize, 'bottom');
