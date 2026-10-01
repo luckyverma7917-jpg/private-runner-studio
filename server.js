@@ -291,6 +291,15 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
   </div>
 </template>
+<details open><summary>🏃 Runner Player Control</summary>
+  <div class="grid two">
+    <label>Runner PNG <input id="playerInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
+    <label>
+      <span class="label-head"><span>Player Size</span><span class="val-badge" id="v_playerSize">120</span></span>
+      <input id="playerSize" type="range" min="40" max="300" value="120">
+    </label>
+  </div>
+</details>
 
 <script>
 (function(){
@@ -1190,6 +1199,15 @@ function drawRows(){
     drawImageFit(state.opponent.img, W/2, p.y + 4, oppSize, oppSize, 'bottom');
   }
 }
+function drawRunnerBehind(){
+  if(!state.playerImg) return;
+  var p = roadBoundsAtZ(0.84);
+  var pSize = (state.playerSize || 120) * (0.3 + 0.7 * p.e);
+  var targetX = state.currentLane === 'right' ? (W/2 + p.half * 0.48) : (W/2 - p.half * 0.48);
+  state.playerX = state.playerX || (W/2);
+  state.playerX += (targetX - state.playerX) * 0.12;
+  drawImageFit(state.playerImg, state.playerX, p.y + 4, pSize, pSize, 'bottom');
+}
 
 function frame(now){
   var dt=Math.min(0.05,(now-last)/1000);
@@ -1197,10 +1215,20 @@ function frame(now){
   if(running) roadTime+=dt;
   drawBackground();
   drawRoad();
+  drawRunnerBehind();
+  
   drawRows();
   requestAnimationFrame(frame);
 }
-requestAnimationFrame(frame);
+
+if($('playerInput')) $('playerInput').onchange=function(e){
+  var f=e.target.files[0]; if(!f) return;
+  readFile(f).then(function(src){ dataToProcessedImage(src,true).then(function(im){ state.playerImg=im; }); });
+};
+if($('playerSize')) $('playerSize').oninput=function(e){
+  state.playerSize=Number(e.target.value);
+  if($('v_playerSize')) $('v_playerSize').textContent=e.target.value;
+};
 
 $('playBtn').onclick=function(){running=!running;$('playBtn').textContent=running?'Pause':'Play';};
 $('resetBtn').onclick=function(){roadTime=0;};
