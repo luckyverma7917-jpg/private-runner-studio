@@ -75,22 +75,38 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">LIVE VALUES</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V8 AUTO EVOLVE</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">All sliders show live value numbers right next to their labels. Settings auto-save continuously.</div>
+    <div class="note">All sliders update canvas live. Characters evolve automatically as they touch chosen pad rows.</div>
   </section>
   <section class="controls">
-    <details open><summary>🏃 Runner Behind Pads Setup</summary>
+    <details open><summary>🏃 Runner Characters & Auto Transform</summary>
       <div class="grid two">
-        <label>Runner Character PNG <input id="playerInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Runner 1 (Initial PNG) <input id="playerInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label>
-          <span class="label-head"><span>Runner Size</span><span class="val-badge" id="v_playerSize">160</span></span>
+          <span class="label-head"><span>Runner 1 Size</span><span class="val-badge" id="v_playerSize">160</span></span>
           <input id="playerSize" type="range" min="40" max="800" value="160">
+        </label>
+        
+        <label>Runner 2 (Transformed PNG) <input id="playerInput2" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>
+          <span class="label-head"><span>Runner 2 Size</span><span class="val-badge" id="v_playerSize2">180</span></span>
+          <input id="playerSize2" type="range" min="40" max="800" value="180">
+        </label>
+
+        <label>Change Character After:
+          <select id="transformRow">
+            <option value="1" selected>After Row 1 Pad Touch</option>
+            <option value="2">After Row 2 Pad Touch</option>
+            <option value="3">After Row 3 Pad Touch</option>
+            <option value="4">After Row 4 Pad Touch</option>
+            <option value="never">Never (Stay as Runner 1)</option>
+          </select>
         </label>
         <label>Runner Lane
           <select id="playerLane">
@@ -196,7 +212,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           <option value="iceWhite">☀️ 12. Arctic Ice White</option>
           <option value="cyberMintLight">☀️ 13. Cyber Mint Light</option>
           <option value="lilacMist">☀️ 14. Lilac Morning</option>
-          <option value="goldenSand">☀️ 15. Warm Golden Glow</option>
+          <option value="goldenSand">☀️️ 15. Warm Golden Glow</option>
         </optgroup>
         <optgroup label="--- 50+ Dark Themes ---">
           <option value="black" selected>1. Pitch Black</option>
@@ -335,6 +351,9 @@ var state={
   roadShine:true,
   playerImg:null,
   playerSize:160,
+  playerImg2:null,
+  playerSize2:180,
+  transformRow:'1',
   playerZ:0.84,
   playerLane:'auto',
   playerX:W/2,
@@ -445,6 +464,8 @@ function autoSaveStudio(){
       speedLines: state.speedLines,
       roadShine: state.roadShine,
       playerSize: state.playerSize,
+      playerSize2: state.playerSize2,
+      transformRow: state.transformRow,
       playerZ: state.playerZ,
       playerLane: state.playerLane,
       oppSize: state.opponent.size,
@@ -530,19 +551,29 @@ function bindRange(id,key){
     autoSaveStudio();
   });
 }
-['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerSize','playerZ'].forEach(function(id){ bindRange(id,id); });
+['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerSize','playerSize2','playerZ'].forEach(function(id){ bindRange(id,id); });
 
 if($('roadVariant')) $('roadVariant').onchange=function(e){state.roadVariant=e.target.value; autoSaveStudio();};
 if($('speedLines')) $('speedLines').onchange=function(e){state.speedLines=e.target.checked; autoSaveStudio();};
 if($('roadShine')) $('roadShine').onchange=function(e){state.roadShine=e.target.checked; autoSaveStudio();};
 if($('bgMode')) $('bgMode').onchange=function(e){state.bgMode=e.target.value; autoSaveStudio();};
 if($('playerLane')) $('playerLane').onchange=function(e){state.playerLane=e.target.value; autoSaveStudio();};
+if($('transformRow')) $('transformRow').onchange=function(e){state.transformRow=e.target.value; autoSaveStudio();};
 
 if($('playerInput')) $('playerInput').onchange=function(e){
   var f=e.target.files[0];if(!f)return;
   readFile(f).then(function(src){
     dataToProcessedImage(src, true).then(function(im){
       state.playerImg=im;
+    });
+  });
+};
+
+if($('playerInput2')) $('playerInput2').onchange=function(e){
+  var f=e.target.files[0];if(!f)return;
+  readFile(f).then(function(src){
+    dataToProcessedImage(src, true).then(function(im){
+      state.playerImg2=im;
     });
   });
 };
@@ -653,7 +684,7 @@ function initRows(){
   
   var savedData = getSavedSettings();
   if(savedData && typeof savedData === 'object'){
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerSize','playerZ'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerSize','playerSize2','playerZ'].forEach(function(id){
       if(savedData[id] !== undefined && $(id)){
         state[id] = Number(savedData[id]);
         $(id).value = savedData[id];
@@ -663,6 +694,7 @@ function initRows(){
     if(savedData.roadVariant && $('roadVariant')){ state.roadVariant = savedData.roadVariant; $('roadVariant').value = savedData.roadVariant; }
     if(savedData.bgMode && $('bgMode')){ state.bgMode = savedData.bgMode; $('bgMode').value = savedData.bgMode; }
     if(savedData.playerLane && $('playerLane')){ state.playerLane = savedData.playerLane; $('playerLane').value = savedData.playerLane; }
+    if(savedData.transformRow && $('transformRow')){ state.transformRow = savedData.transformRow; $('transformRow').value = savedData.transformRow; }
     if(savedData.speedLines !== undefined && $('speedLines')){ state.speedLines = Boolean(savedData.speedLines); $('speedLines').checked = state.speedLines; }
     if(savedData.roadShine !== undefined && $('roadShine')){ state.roadShine = Boolean(savedData.roadShine); $('roadShine').checked = state.roadShine; }
     if(savedData.oppSize !== undefined){ state.opponent.size = Number(savedData.oppSize); }
@@ -677,7 +709,7 @@ function initRows(){
     ];
     rowList.forEach(addRow);
   } else {
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerSize','playerZ'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerSize','playerSize2','playerZ'].forEach(function(id){
       updateBadge(id, state[id]);
     });
     for(var i=0;i<5;i++){
@@ -1168,51 +1200,42 @@ function drawRoad(){
   fn();
 }
 
-// 🦁 LION STYLE TALL GATE ARCH (Transparent Hologram Portal)
+// 🦁 ORIGINAL 3D GLASS NEON PAD WITH INCREASED HEIGHT (PERFECT LOOK)
 function drawRaisedPad(z, side, hexColor){
   var p=roadBoundsAtZ(z), e=p.e;
   var laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
-  var width=Math.max(20, p.half*.84);
-  var height=Math.max(45, width * 1.35); // ऊँचा गेट ताकि कैरेक्टर इसके अंदर से निकले
-  var baseY=p.y + 4;
+  var width=Math.max(16, p.half*.84);
+  var height=Math.max(22, width * 0.78); // परफेक्ट ऊँचाई ताकि कैरेक्टर न दबे
+  var baseY=p.y - 3;
   var topY=baseY - height;
   
   var c = hexToRgb(hexColor);
   var rgb = c.r + ',' + c.g + ',' + c.b;
+  var darkR = Math.max(0, Math.floor(c.r * 0.45));
+  var darkG = Math.max(0, Math.floor(c.g * 0.45));
+  var darkB = Math.max(0, Math.floor(c.b * 0.45));
+  var dark = darkR + ',' + darkG + ',' + darkB;
 
-  // Ground Contact Glow
-  ctx.save();
-  ctx.fillStyle='rgba(0,0,0,.25)';
-  ctx.beginPath();
-  ctx.ellipse(laneCenter, baseY, width*.46, 5+9*e, 0, 0, Math.PI*2);
-  ctx.fill();
-  ctx.restore();
-
-  // Translucent Hologram Glass (पारदर्शी ताकि कैरेक्टर साफ दिखे)
-  var g=ctx.createLinearGradient(0, topY, 0, baseY);
-  g.addColorStop(0, 'rgba('+rgb+',.32)');
-  g.addColorStop(0.5, 'rgba('+rgb+',.18)');
-  g.addColorStop(1, 'rgba('+rgb+',.26)');
+  // Ground shadow
+  ctx.save();ctx.fillStyle='rgba(0,0,0,.24)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+5,width*.46,5+8*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
   
-  ctx.save();
-  ctx.shadowColor='rgb('+rgb+')';
-  ctx.shadowBlur=18+24*e;
-  ctx.fillStyle=g;
-  ctx.beginPath();
-  ctx.roundRect(laneCenter-width/2, topY, width, height, 10);
-  ctx.fill();
-
-  // Vibrant Neon Gate Frame / Pillars
-  ctx.strokeStyle='rgba('+rgb+',.96)';
-  ctx.lineWidth=Math.max(3, (state.padThickness || 14) * (0.35 + 0.65 * e));
-  ctx.stroke();
-
-  // Top Accent Header
-  ctx.fillStyle='rgb('+rgb+')';
-  ctx.fillRect(laneCenter-width/2, topY, width, Math.max(6, 12 * e));
-  ctx.restore();
-
-  return {center:[laneCenter, baseY-height*.43], baseY:baseY, topY:topY, width:width, height:height, e:e};
+  // Base neon plate
+  ctx.save();ctx.fillStyle='rgba('+dark+',.78)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-(state.padThickness||14)*.45,width,state.padThickness||14,5);ctx.fill();ctx.restore();
+  
+  // Translucent 3D Rising Glass Body
+  var g=ctx.createLinearGradient(0,baseY,0,topY);
+  g.addColorStop(0,'rgba('+rgb+',.88)');
+  g.addColorStop(.35,'rgba('+rgb+',.55)');
+  g.addColorStop(.75,'rgba('+rgb+',.22)');
+  g.addColorStop(1,'rgba('+rgb+',0)');
+  
+  ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=16+24*e;ctx.fillStyle=g;
+  ctx.beginPath();ctx.roundRect(laneCenter-width/2,topY,width,height,8);ctx.fill();ctx.restore();
+  
+  // Glowing border line
+  ctx.save();ctx.strokeStyle='rgba('+rgb+',.96)';ctx.lineWidth=2+2*e;ctx.beginPath();ctx.moveTo(laneCenter-width*.48,baseY-1);ctx.lineTo(laneCenter+width*.48,baseY-1);ctx.stroke();ctx.restore();
+  
+  return {center:[laneCenter,baseY-height*.43], baseY:baseY, topY:topY, width:width, height:height, e:e};
 }
 
 function drawImageFit(im, x, y, boxW, boxH, anchor){
@@ -1226,10 +1249,19 @@ function drawImageFit(im, x, y, boxW, boxH, anchor){
   ctx.drawImage(im,dx,dy,dw,dh);
 }
 
-function drawRunnerBehind(){
-  if(!state.playerImg) return;
+function drawRunnerBehind(passedRowsCount){
+  var currentImg = state.playerImg;
+  var currentSize = state.playerSize || 160;
+
+  var targetChange = state.transformRow === 'never' ? 999 : Number(state.transformRow);
+  if(passedRowsCount >= targetChange && state.playerImg2){
+    currentImg = state.playerImg2;
+    currentSize = state.playerSize2 || 180;
+  }
+
+  if(!currentImg) return;
   var p = roadBoundsAtZ(state.playerZ || 0.84);
-  var pSize = (state.playerSize || 160) * (0.3 + 0.7 * p.e);
+  var pSize = currentSize * (0.3 + 0.7 * p.e);
 
   var targetLane = state.playerLane;
   if(targetLane === 'auto'){
@@ -1239,7 +1271,7 @@ function drawRunnerBehind(){
   state.playerX = state.playerX || (W/2);
   state.playerX += (targetX - state.playerX) * 0.15;
 
-  drawImageFit(state.playerImg, state.playerX, p.y + 4, pSize, pSize, 'bottom');
+  drawImageFit(currentImg, state.playerX, p.y + 4, pSize, pSize, 'bottom');
 }
 
 function drawRows(){
@@ -1247,6 +1279,7 @@ function drawRows(){
   var closestActiveZ = -1;
   var activeLaneColor = '#2aff84';
   var pZ = state.playerZ || 0.84;
+  var passedCount = 0;
 
   var activePads = [];
 
@@ -1256,6 +1289,11 @@ function drawRows(){
     if(z<0 || z>1.05) return;
     var zz=Math.min(1,z);
     
+    // पैड टच/क्रॉस काउंट
+    if(zz >= pZ){
+      passedCount = Math.max(passedCount, i + 1);
+    }
+
     if(zz > closestActiveZ && zz < pZ + 0.15){
       closestActiveZ = zz;
       activeLaneColor = row.leftColor;
@@ -1269,7 +1307,7 @@ function drawRows(){
     state.currentLane = isGreen ? 'left' : 'right';
   }
 
-  // 1. दूर वाले पैड्स जो कैरेक्टर के पीछे हैं
+  // 1. दूर वाले पैड्स (कैरेक्टर के पीछे)
   activePads.forEach(function(item){
     if(item.zz < pZ){
       var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
@@ -1277,12 +1315,12 @@ function drawRows(){
       var pngScale=.18+0.95*left.e;
       var leftSize=Math.min(item.row.leftSize*pngScale,left.width*.92);
       var rightSize=Math.min(item.row.rightSize*pngScale,right.width*.92);
-      if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-8,leftSize,leftSize,'bottom');
-      if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-8,rightSize,rightSize,'bottom');
+      if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-6,leftSize,leftSize,'bottom');
+      if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-6,rightSize,rightSize,'bottom');
     }
   });
 
-  // Stationary Opponent Boss
+  // Stationary Boss
   var secondPadFinishTime = initialDelay + 1 * state.padDelay;
   if(roadTime >= secondPadFinishTime && state.opponent.img){
     var op = roadBoundsAtZ(0.72);
@@ -1290,10 +1328,10 @@ function drawRows(){
     drawImageFit(state.opponent.img, W/2, op.y + 4, oppSize, oppSize, 'bottom');
   }
 
-  // 2. रनर कैरेक्टर ठीक अपने Z-लेवल पर
-  drawRunnerBehind();
+  // 2. रनर कैरेक्टर (ऑटो चेंज के साथ)
+  drawRunnerBehind(passedCount);
 
-  // 3. पास आने वाले पैड्स जो कैरेक्टर के ऊपर से होकर गुजरते हैं (अंदर से गुजरने का इफ़ेक्ट)
+  // 3. पास वाले पैड्स (ताकि कैरेक्टर अंदर से गुजरता दिखे)
   activePads.forEach(function(item){
     if(item.zz >= pZ){
       var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
@@ -1301,8 +1339,8 @@ function drawRows(){
       var pngScale=.18+0.95*left.e;
       var leftSize=Math.min(item.row.leftSize*pngScale,left.width*.92);
       var rightSize=Math.min(item.row.rightSize*pngScale,right.width*.92);
-      if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-8,leftSize,leftSize,'bottom');
-      if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-8,rightSize,rightSize,'bottom');
+      if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-6,leftSize,leftSize,'bottom');
+      if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-6,rightSize,rightSize,'bottom');
     }
   });
 }
