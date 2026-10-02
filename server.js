@@ -42,7 +42,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio 35+ Roads & Green/Red Dual Evolution</title>
+<title>Private Runner Studio 35+ Roads & Live Values</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d}
 *{box-sizing:border-box}
@@ -77,14 +77,14 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V10 DUAL EVOLUTION</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V11 PRECISION PADS</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Passing GREEN pads triggers Level-Up (Muscle). Passing RED pads triggers Downgrade (Weak/Thin)!</div>
+    <div class="note">Pads height lowered slightly for perfect alignment. Characters evolve on Green and downgrade on Red!</div>
   </section>
   <section class="controls">
     <details open><summary>🏃 Runner Evolution Settings (Green Buff vs Red Nerf)</summary>
@@ -247,7 +247,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       </select></label>
       <label>Background Theme <select id="bgMode">
         <optgroup label="--- Light & Aesthetic Themes ---">
-          <option value="cleanWhite">☀️️ 1. Clean Studio White</option>
+          <option value="cleanWhite">☀️ 1. Clean Studio White</option>
           <option value="softSilver">☀️ 2. Soft Silver Mist</option>
           <option value="cloudGrey">☀️ 3. Cloud Grey</option>
           <option value="skyBlueLight">☀️ 4. Clear Sky Blue</option>
@@ -386,9 +386,9 @@ var W=canvas.width, H=canvas.height;
 var $=function(id){ return document.getElementById(id); };
 var running=true, last=performance.now(), roadTime=0, recorder=null, rowCounter=0;
 
-// Dual Progression Memory (Green Buff Count & Red Nerf Count)
-var currentPath = 'base'; // 'base', 'green', 'red'
-var currentStageLevel = 0; // 0 to 5
+// Dual Progression Memory
+var currentPath = 'base';
+var currentStageLevel = 0;
 var processedPads = {};
 
 var state={
@@ -637,7 +637,6 @@ if($('pImg_0')){
 // 5 Green & 5 Red stages setup
 for(var k=1; k<=5; k++){
   (function(idx){
-    // Green
     if($('gSize_' + idx)){
       $('gSize_' + idx).oninput = function(e){
         state.greenStages[idx].size = Number(e.target.value);
@@ -651,7 +650,6 @@ for(var k=1; k<=5; k++){
         readFile(f).then(function(src){ dataToProcessedImage(src, true).then(function(im){ state.greenStages[idx].img = im; }); });
       };
     }
-    // Red
     if($('rSize_' + idx)){
       $('rSize_' + idx).oninput = function(e){
         state.redStages[idx].size = Number(e.target.value);
@@ -1211,7 +1209,7 @@ function rDiamondFlow(){
     var midY=(a.y+b.y)/2;
     var w=12+a.e*56, h=6+a.e*32;
     ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2,midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
   }
 }
 function rMinimalGrey(){
@@ -1321,13 +1319,13 @@ function drawRoad(){
   fn();
 }
 
-// 🦁 ORIGINAL 3D NEON GLASS PAD WITH TALL EXTENDED HEIGHT
+// 🦁 ORIGINAL 3D NEON GLASS PAD - HEIGHT PERFECTLY BALANCED
 function drawRaisedPad(z, side, hexColor){
   var p=roadBoundsAtZ(z), e=p.e;
   var laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
   var width=Math.max(16, p.half*.84);
-  var height=Math.max(24, width * 0.82);
-  var baseY=p.y - 3;
+  var height=Math.max(18, width * 0.65); // ऊपर से थोड़ा सा नीचे किया गया
+  var baseY=p.y + 1;
   var topY=baseY - height;
   
   var c = hexToRgb(hexColor);
@@ -1337,7 +1335,7 @@ function drawRaisedPad(z, side, hexColor){
   var darkB = Math.max(0, Math.floor(c.b * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
-  ctx.save();ctx.fillStyle='rgba(0,0,0,.24)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+5,width*.46,5+8*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
+  ctx.save();ctx.fillStyle='rgba(0,0,0,.24)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+4,width*.46,4+7*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
   ctx.save();ctx.fillStyle='rgba('+dark+',.78)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-(state.padThickness||14)*.45,width,state.padThickness||14,5);ctx.fill();ctx.restore();
   
   var g=ctx.createLinearGradient(0,baseY,0,topY);
@@ -1387,7 +1385,6 @@ function drawRunnerBehind(){
     }
   }
 
-  // Base fallback
   if(!curImg){
     curImg = state.baseStage.img;
     curSize = state.baseStage.size || 160;
@@ -1423,7 +1420,7 @@ function drawRows(){
     if(z<0 || z>1.05) return;
     var zz=Math.min(1,z);
 
-    // Collision Check: Check exact lane the player is currently on
+    // Collision Check with precise lane detection
     if(zz >= pZ - 0.02 && !processedPads[i]){
       processedPads[i] = true;
       var currentSide = (state.playerLane === 'right' || (state.playerLane === 'auto' && state.currentLane === 'right')) ? 'right' : 'left';
@@ -1435,7 +1432,7 @@ function drawRows(){
       } else {
         currentPath = 'red';
       }
-      currentStageLevel = i + 1; // Progress to stage 1, 2, 3, 4, 5
+      currentStageLevel = i + 1;
     }
 
     if(zz > closestActiveZ && zz < pZ + 0.15){
