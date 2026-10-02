@@ -89,8 +89,8 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       <div class="grid two">
         <label>Runner Character PNG <input id="playerInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label>
-          <span class="label-head"><span>Runner Size</span><span class="val-badge" id="v_playerSize">120</span></span>
-          <input id="playerSize" type="range" min="40" max="400" value="120">
+          <span class="label-head"><span>Runner Size</span><span class="val-badge" id="v_playerSize">160</span></span>
+          <input id="playerSize" type="range" min="40" max="800" value="160">
         </label>
         <label>Runner Lane
           <select id="playerLane">
@@ -132,8 +132,8 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75">
       </label>
       <label>
-        <span class="label-head"><span>Pad glow base</span><span class="val-badge" id="v_padThickness">12</span></span>
-        <input id="padThickness" type="range" min="6" max="28" value="12">
+        <span class="label-head"><span>Pad glow base</span><span class="val-badge" id="v_padThickness">14</span></span>
+        <input id="padThickness" type="range" min="6" max="28" value="14">
       </label>
       <label>Road style (35+ Roads) <select id="roadVariant">
         <optgroup label="--- Classic & Highway ---">
@@ -328,13 +328,13 @@ var state={
   bottomWidth:0.88,
   camHeight:1.2,
   padDelay:1.75,
-  padThickness:12,
+  padThickness:14,
   roadVariant:'classic',
   bgMode:'black',
   speedLines:false,
   roadShine:true,
   playerImg:null,
-  playerSize:120,
+  playerSize:160,
   playerZ:0.84,
   playerLane:'auto',
   playerX:W/2,
@@ -1058,7 +1058,7 @@ function rDiamondFlow(){
     var midY=(a.y+b.y)/2;
     var w=12+a.e*56, h=6+a.e*32;
     ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2,midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
   }
 }
 function rMinimalGrey(){
@@ -1168,32 +1168,51 @@ function drawRoad(){
   fn();
 }
 
+// 🦁 LION STYLE TALL GATE ARCH (Transparent Hologram Portal)
 function drawRaisedPad(z, side, hexColor){
   var p=roadBoundsAtZ(z), e=p.e;
   var laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
-  var width=Math.max(16,p.half*.82);
-  var height=Math.max(14,width*.62); // Tall Pad Gate Height
-  var baseY=p.y-3;
-  var topY=baseY-height;
+  var width=Math.max(20, p.half*.84);
+  var height=Math.max(45, width * 1.35); // ऊँचा गेट ताकि कैरेक्टर इसके अंदर से निकले
+  var baseY=p.y + 4;
+  var topY=baseY - height;
   
   var c = hexToRgb(hexColor);
   var rgb = c.r + ',' + c.g + ',' + c.b;
-  var darkR = Math.max(0, Math.floor(c.r * 0.45));
-  var darkG = Math.max(0, Math.floor(c.g * 0.45));
-  var darkB = Math.max(0, Math.floor(c.b * 0.45));
-  var dark = darkR + ',' + darkG + ',' + darkB;
 
-  ctx.save();ctx.fillStyle='rgba(0,0,0,.22)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+5,width*.44,5+8*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
-  ctx.save();ctx.fillStyle='rgba('+dark+',.76)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-state.padThickness*.45,width,state.padThickness,5);ctx.fill();ctx.restore();
-  var g=ctx.createLinearGradient(0,baseY,0,topY);
-  g.addColorStop(0,'rgba('+rgb+',.96)');
-  g.addColorStop(.38,'rgba('+rgb+',.78)');
-  g.addColorStop(.76,'rgba('+rgb+',.30)');
-  g.addColorStop(1,'rgba('+rgb+',0)');
-  ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=14+22*e;ctx.fillStyle=g;
-  ctx.beginPath();ctx.roundRect(laneCenter-width/2,topY,width,height,7);ctx.fill();ctx.restore();
-  ctx.save();ctx.strokeStyle='rgba('+rgb+',.96)';ctx.lineWidth=2+1.5*e;ctx.beginPath();ctx.moveTo(laneCenter-width*.47,baseY-1);ctx.lineTo(laneCenter+width*.47,baseY-1);ctx.stroke();ctx.restore();
-  return {center:[laneCenter,baseY-height*.43],baseY:baseY,width:width,height:height,e:e};
+  // Ground Contact Glow
+  ctx.save();
+  ctx.fillStyle='rgba(0,0,0,.25)';
+  ctx.beginPath();
+  ctx.ellipse(laneCenter, baseY, width*.46, 5+9*e, 0, 0, Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+
+  // Translucent Hologram Glass (पारदर्शी ताकि कैरेक्टर साफ दिखे)
+  var g=ctx.createLinearGradient(0, topY, 0, baseY);
+  g.addColorStop(0, 'rgba('+rgb+',.32)');
+  g.addColorStop(0.5, 'rgba('+rgb+',.18)');
+  g.addColorStop(1, 'rgba('+rgb+',.26)');
+  
+  ctx.save();
+  ctx.shadowColor='rgb('+rgb+')';
+  ctx.shadowBlur=18+24*e;
+  ctx.fillStyle=g;
+  ctx.beginPath();
+  ctx.roundRect(laneCenter-width/2, topY, width, height, 10);
+  ctx.fill();
+
+  // Vibrant Neon Gate Frame / Pillars
+  ctx.strokeStyle='rgba('+rgb+',.96)';
+  ctx.lineWidth=Math.max(3, (state.padThickness || 14) * (0.35 + 0.65 * e));
+  ctx.stroke();
+
+  // Top Accent Header
+  ctx.fillStyle='rgb('+rgb+')';
+  ctx.fillRect(laneCenter-width/2, topY, width, Math.max(6, 12 * e));
+  ctx.restore();
+
+  return {center:[laneCenter, baseY-height*.43], baseY:baseY, topY:topY, width:width, height:height, e:e};
 }
 
 function drawImageFit(im, x, y, boxW, boxH, anchor){
@@ -1210,7 +1229,7 @@ function drawImageFit(im, x, y, boxW, boxH, anchor){
 function drawRunnerBehind(){
   if(!state.playerImg) return;
   var p = roadBoundsAtZ(state.playerZ || 0.84);
-  var pSize = (state.playerSize || 120) * (0.3 + 0.7 * p.e);
+  var pSize = (state.playerSize || 160) * (0.3 + 0.7 * p.e);
 
   var targetLane = state.playerLane;
   if(targetLane === 'auto'){
@@ -1227,25 +1246,22 @@ function drawRows(){
   var initialDelay=.75;
   var closestActiveZ = -1;
   var activeLaneColor = '#2aff84';
+  var pZ = state.playerZ || 0.84;
+
+  var activePads = [];
 
   state.rows.slice(0,5).forEach(function(row,i){
     var elapsed=roadTime-initialDelay-i*state.padDelay;
     var z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
-    if(z<0 || z>1.03) return;
+    if(z<0 || z>1.05) return;
     var zz=Math.min(1,z);
     
-    if(zz > closestActiveZ && zz < (state.playerZ || 0.84) + 0.15){
+    if(zz > closestActiveZ && zz < pZ + 0.15){
       closestActiveZ = zz;
       activeLaneColor = row.leftColor;
     }
 
-    var left=drawRaisedPad(zz,'left',row.leftColor);
-    var right=drawRaisedPad(zz,'right',row.rightColor);
-    var pngScale=.18+0.95*left.e;
-    var leftSize=Math.min(row.leftSize*pngScale,left.width*.92);
-    var rightSize=Math.min(row.rightSize*pngScale,right.width*.92);
-    if(row.leftImg) drawImageFit(row.leftImg,left.center[0],left.baseY-5,leftSize,leftSize,'bottom');
-    if(row.rightImg) drawImageFit(row.rightImg,right.center[0],right.baseY-5,rightSize,rightSize,'bottom');
+    activePads.push({row: row, zz: zz});
   });
 
   if(closestActiveZ !== -1){
@@ -1253,13 +1269,42 @@ function drawRows(){
     state.currentLane = isGreen ? 'left' : 'right';
   }
 
-  var secondPadFinishTime = initialDelay + 1 * state.padDelay;
+  // 1. दूर वाले पैड्स जो कैरेक्टर के पीछे हैं
+  activePads.forEach(function(item){
+    if(item.zz < pZ){
+      var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
+      var right=drawRaisedPad(item.zz,'right',item.row.rightColor);
+      var pngScale=.18+0.95*left.e;
+      var leftSize=Math.min(item.row.leftSize*pngScale,left.width*.92);
+      var rightSize=Math.min(item.row.rightSize*pngScale,right.width*.92);
+      if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-8,leftSize,leftSize,'bottom');
+      if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-8,rightSize,rightSize,'bottom');
+    }
+  });
 
+  // Stationary Opponent Boss
+  var secondPadFinishTime = initialDelay + 1 * state.padDelay;
   if(roadTime >= secondPadFinishTime && state.opponent.img){
-    var p = roadBoundsAtZ(0.72);
+    var op = roadBoundsAtZ(0.72);
     var oppSize = state.opponent.size * 0.75;
-    drawImageFit(state.opponent.img, W/2, p.y + 4, oppSize, oppSize, 'bottom');
+    drawImageFit(state.opponent.img, W/2, op.y + 4, oppSize, oppSize, 'bottom');
   }
+
+  // 2. रनर कैरेक्टर ठीक अपने Z-लेवल पर
+  drawRunnerBehind();
+
+  // 3. पास आने वाले पैड्स जो कैरेक्टर के ऊपर से होकर गुजरते हैं (अंदर से गुजरने का इफ़ेक्ट)
+  activePads.forEach(function(item){
+    if(item.zz >= pZ){
+      var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
+      var right=drawRaisedPad(item.zz,'right',item.row.rightColor);
+      var pngScale=.18+0.95*left.e;
+      var leftSize=Math.min(item.row.leftSize*pngScale,left.width*.92);
+      var rightSize=Math.min(item.row.rightSize*pngScale,right.width*.92);
+      if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-8,leftSize,leftSize,'bottom');
+      if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-8,rightSize,rightSize,'bottom');
+    }
+  });
 }
 
 function frame(now){
@@ -1268,7 +1313,6 @@ function frame(now){
   if(running) roadTime+=dt;
   drawBackground();
   drawRoad();
-  drawRunnerBehind();
   drawRows();
   requestAnimationFrame(frame);
 }
