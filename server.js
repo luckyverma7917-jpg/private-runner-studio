@@ -42,7 +42,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio 35+ Roads & Live Values</title>
+<title>Private Runner Studio 35+ Roads & Instant Lane Steer</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d}
 *{box-sizing:border-box}
@@ -54,6 +54,15 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 .studio{max-width:1220px;margin:auto;padding:14px;display:grid;grid-template-columns:minmax(320px,660px) minmax(300px,1fr);gap:16px}
 .preview{min-width:0}.shell{background:#050607;border:1px solid var(--line);border-radius:18px;padding:7px;display:flex;justify-content:center;box-shadow:0 18px 60px #0007}
 .stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506}canvas{width:100%;height:100%;display:block}
+
+/* QUICK CONTROLS BAR UNDER CANVAS */
+.steer-box{margin-top:10px;padding:12px;background:#15181e;border:1px solid var(--line);border-radius:14px;display:grid;gap:8px}
+.steer-header{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
+.steer-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.steer-btn{padding:10px;border-radius:9px;border:1px solid #333a46;background:#1e242d;color:white;font-weight:800;font-size:13px;cursor:pointer}
+.steer-btn.left{border-color:#2aff84;color:#2aff84}
+.steer-btn.right{border-color:#ff4d4d;color:#ff4d4d}
+
 .transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}
 .note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}
 .controls{display:flex;flex-direction:column;gap:10px}
@@ -77,14 +86,28 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V11 PRECISION PADS</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V12 INSTANT SLIDER</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
+
+    <!-- QUICK 1-MILLISECOND LANE CONTROLS -->
+    <div class="steer-box">
+      <div class="steer-header">
+        <span>⚡ Instant Runner Steer (इधर-उधर स्लाइडर)</span>
+        <span class="val-badge" id="v_laneSteer">0.0 (Left)</span>
+      </div>
+      <input id="laneSteer" type="range" min="-1.0" max="1.0" step="0.05" value="-1.0">
+      <div class="steer-btns">
+        <button class="steer-btn left" id="quickLeftBtn">⬅️ SNAP LEFT LANE</button>
+        <button class="steer-btn right" id="quickRightBtn">SNAP RIGHT LANE ➡️</button>
+      </div>
+    </div>
+
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Pads height lowered slightly for perfect alignment. Characters evolve on Green and downgrade on Red!</div>
+    <div class="note">Slider shifts runner immediately without touching menus. Green upgrades runner, Red downgrades!</div>
   </section>
   <section class="controls">
     <details open><summary>🏃 Runner Evolution Settings (Green Buff vs Red Nerf)</summary>
@@ -95,11 +118,12 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           <input id="pSize_0" type="range" min="40" max="800" value="160">
         </label>
 
-        <label>Runner Lane Control
+        <label>Runner Lane Mode
           <select id="playerLane">
+            <option value="slider" selected>Manual Live Slider (Fastest)</option>
             <option value="auto">Auto Follow Green Lane</option>
-            <option value="left">Follow Left Lane</option>
-            <option value="right">Follow Right Lane</option>
+            <option value="left">Lock Left Lane</option>
+            <option value="right">Lock Right Lane</option>
           </select>
         </label>
         <label>
@@ -403,6 +427,7 @@ var state={
   bgMode:'black',
   speedLines:false,
   roadShine:true,
+  steerOffset:-1.0, // -1.0 is Left, +1.0 is Right
   baseStage: {img:null, size:160},
   greenStages:[
     null,
@@ -421,7 +446,7 @@ var state={
     {img:null, size:80}
   ],
   playerZ:0.84,
-  playerLane:'auto',
+  playerLane:'slider',
   playerX:W/2,
   currentLane:'left',
   rows:[],
@@ -531,6 +556,7 @@ function autoSaveStudio(){
       roadShine: state.roadShine,
       playerZ: state.playerZ,
       playerLane: state.playerLane,
+      steerOffset: state.steerOffset,
       baseSize: state.baseStage.size,
       gSizes: [0, state.greenStages[1].size, state.greenStages[2].size, state.greenStages[3].size, state.greenStages[4].size, state.greenStages[5].size],
       rSizes: [0, state.redStages[1].size, state.redStages[2].size, state.redStages[3].size, state.redStages[4].size, state.redStages[5].size],
@@ -547,13 +573,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v6', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v7', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v6');
+    var raw = localStorage.getItem('runner_studio_saved_v7');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -618,6 +644,35 @@ function bindRange(id,key){
   });
 }
 ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ'].forEach(function(id){ bindRange(id,id); });
+
+// Steer slider instant response
+var steerInput = $('laneSteer');
+if(steerInput){
+  steerInput.oninput = function(e){
+    state.steerOffset = Number(e.target.value);
+    state.playerLane = 'slider';
+    if($('playerLane')) $('playerLane').value = 'slider';
+    var textVal = state.steerOffset <= -0.2 ? (state.steerOffset + ' (Left)') : (state.steerOffset >= 0.2 ? (state.steerOffset + ' (Right)') : '0.0 (Center)');
+    updateBadge('laneSteer', textVal);
+    autoSaveStudio();
+  };
+}
+$('quickLeftBtn').onclick = function(){
+  state.steerOffset = -1.0;
+  if(steerInput) steerInput.value = -1.0;
+  state.playerLane = 'slider';
+  if($('playerLane')) $('playerLane').value = 'slider';
+  updateBadge('laneSteer', '-1.0 (Left)');
+  autoSaveStudio();
+};
+$('quickRightBtn').onclick = function(){
+  state.steerOffset = 1.0;
+  if(steerInput) steerInput.value = 1.0;
+  state.playerLane = 'slider';
+  if($('playerLane')) $('playerLane').value = 'slider';
+  updateBadge('laneSteer', '1.0 (Right)');
+  autoSaveStudio();
+};
 
 // Stage 0 Base setup
 if($('pSize_0')){
@@ -785,6 +840,14 @@ function initRows(){
         updateBadge(id, savedData[id]);
       }
     });
+    if(savedData.steerOffset !== undefined){
+      state.steerOffset = Number(savedData.steerOffset);
+      if($('laneSteer')){
+        $('laneSteer').value = state.steerOffset;
+        var textVal = state.steerOffset <= -0.2 ? (state.steerOffset + ' (Left)') : (state.steerOffset >= 0.2 ? (state.steerOffset + ' (Right)') : '0.0 (Center)');
+        updateBadge('laneSteer', textVal);
+      }
+    }
     if(savedData.baseSize && $('pSize_0')){
       state.baseStage.size = Number(savedData.baseSize);
       $('pSize_0').value = savedData.baseSize;
@@ -1319,12 +1382,12 @@ function drawRoad(){
   fn();
 }
 
-// 🦁 ORIGINAL 3D NEON GLASS PAD - HEIGHT PERFECTLY BALANCED
+// 🦁 ORIGINAL 3D NEON GLASS PAD - HEIGHT BALANCED
 function drawRaisedPad(z, side, hexColor){
   var p=roadBoundsAtZ(z), e=p.e;
   var laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
   var width=Math.max(16, p.half*.84);
-  var height=Math.max(18, width * 0.65); // ऊपर से थोड़ा सा नीचे किया गया
+  var height=Math.max(18, width * 0.65);
   var baseY=p.y + 1;
   var topY=baseY - height;
   
@@ -1395,13 +1458,21 @@ function drawRunnerBehind(){
   var p = roadBoundsAtZ(state.playerZ || 0.84);
   var pSize = curSize * (0.3 + 0.7 * p.e);
 
-  var targetLane = state.playerLane;
-  if(targetLane === 'auto'){
-    targetLane = state.currentLane || 'left';
+  // Instant steer slider positioning or auto follow
+  var targetX = W/2;
+  if(state.playerLane === 'slider'){
+    targetX = W/2 + (p.half * 0.48 * state.steerOffset);
+  } else if(state.playerLane === 'right'){
+    targetX = W/2 + p.half * 0.48;
+  } else if(state.playerLane === 'left'){
+    targetX = W/2 - p.half * 0.48;
+  } else {
+    targetX = state.currentLane === 'right' ? (W/2 + p.half * 0.48) : (W/2 - p.half * 0.48);
   }
-  var targetX = targetLane === 'right' ? (W/2 + p.half * 0.48) : (W/2 - p.half * 0.48);
+
   state.playerX = state.playerX || (W/2);
-  state.playerX += (targetX - state.playerX) * 0.15;
+  // Fast 1-millisecond smooth snappy follow
+  state.playerX += (targetX - state.playerX) * 0.35;
 
   drawImageFit(curImg, state.playerX, p.y + 4, pSize, pSize, 'bottom');
 }
@@ -1420,11 +1491,11 @@ function drawRows(){
     if(z<0 || z>1.05) return;
     var zz=Math.min(1,z);
 
-    // Collision Check with precise lane detection
+    // Live collision check against actual player X position
     if(zz >= pZ - 0.02 && !processedPads[i]){
       processedPads[i] = true;
-      var currentSide = (state.playerLane === 'right' || (state.playerLane === 'auto' && state.currentLane === 'right')) ? 'right' : 'left';
-      var padHex = (currentSide === 'right') ? row.rightColor : row.leftColor;
+      var isPlayerOnRight = (state.playerX >= W/2);
+      var padHex = isPlayerOnRight ? row.rightColor : row.leftColor;
       
       var isGreen = (padHex.indexOf('2a') !== -1 || padHex.indexOf('00') !== -1 || padHex.indexOf('green') !== -1);
       if(isGreen){
@@ -1509,7 +1580,7 @@ $('saveBtn').onclick=function(){
   alert('Settings saved successfully!');
 };
 $('resetStorageBtn').onclick=function(){
-  try{ localStorage.removeItem('runner_studio_saved_v6'); }catch(e){}
+  try{ localStorage.removeItem('runner_studio_saved_v7'); }catch(e){}
   location.reload();
 };
 $('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'});location.href='/';};
