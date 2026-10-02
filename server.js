@@ -42,9 +42,9 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio 35+ Roads & Live Values</title>
+<title>Private Runner Studio 35+ Roads & Green/Red Dual Evolution</title>
 <style>
-:root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6}
+:root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
 .top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 14px;background:#0b0d10ee;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
@@ -61,6 +61,7 @@ details{border:1px solid var(--line);border-radius:14px;overflow:hidden;backgrou
 .grid{padding:13px;display:grid;gap:11px}.grid.two{grid-template-columns:1fr 1fr}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px}
 .label-head{display:flex;justify-content:space-between;align-items:center}
 .val-badge{font-size:11px;background:#242a35;color:var(--accent);padding:2px 7px;border-radius:6px;font-family:monospace;font-weight:700}
+.val-badge.red{color:var(--red)}
 input[type=file]{width:100%;font-size:12px}input[type=range]{width:100%}
 select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px}
 .toggle{display:flex!important;align-items:center;gap:8px!important}
@@ -70,60 +71,31 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 .color-picker-wrap{display:flex;align-items:center;gap:10px}
 .color-picker-wrap input[type=color]{border:0;padding:0;width:38px;height:34px;border-radius:6px;background:none;cursor:pointer}
 .small{font-size:11px;color:var(--muted)}
+.sub-title{grid-column:span 2;padding:6px 0;font-weight:bold;font-size:13px;border-bottom:1px solid var(--line);margin-top:6px}
 @media(max-width:820px){.studio{grid-template-columns:1fr;padding:8px}.top{padding:9px}.top strong{font-size:14px}.top button{padding:8px 9px;font-size:12px}.grid.two,.sides{grid-template-columns:1fr}.controls{padding-bottom:40px}}
 </style>
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V9 5-STAGE EVOLVE</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V10 DUAL EVOLUTION</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Characters never reverse back. They progress forward continuously stage by stage!</div>
+    <div class="note">Passing GREEN pads triggers Level-Up (Muscle). Passing RED pads triggers Downgrade (Weak/Thin)!</div>
   </section>
   <section class="controls">
-    <details open><summary>🏃 Runner Evolution (Stages 0 to 5)</summary>
+    <details open><summary>🏃 Runner Evolution Settings (Green Buff vs Red Nerf)</summary>
       <div class="grid two">
-        <label>Stage 0: Start PNG <input id="pImg_0" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Base Start PNG (Stage 0) <input id="pImg_0" type="file" accept="image/png,image/webp,image/jpeg"></label>
         <label>
-          <span class="label-head"><span>Stage 0 Size</span><span class="val-badge" id="v_pSize_0">160</span></span>
+          <span class="label-head"><span>Stage 0 Base Size</span><span class="val-badge" id="v_pSize_0">160</span></span>
           <input id="pSize_0" type="range" min="40" max="800" value="160">
         </label>
 
-        <label>Stage 1: After Pad 1 PNG <input id="pImg_1" type="file" accept="image/png,image/webp,image/jpeg"></label>
-        <label>
-          <span class="label-head"><span>Stage 1 Size</span><span class="val-badge" id="v_pSize_1">180</span></span>
-          <input id="pSize_1" type="range" min="40" max="800" value="180">
-        </label>
-
-        <label>Stage 2: After Pad 2 PNG <input id="pImg_2" type="file" accept="image/png,image/webp,image/jpeg"></label>
-        <label>
-          <span class="label-head"><span>Stage 2 Size</span><span class="val-badge" id="v_pSize_2">210</span></span>
-          <input id="pSize_2" type="range" min="40" max="800" value="210">
-        </label>
-
-        <label>Stage 3: After Pad 3 PNG <input id="pImg_3" type="file" accept="image/png,image/webp,image/jpeg"></label>
-        <label>
-          <span class="label-head"><span>Stage 3 Size</span><span class="val-badge" id="v_pSize_3">240</span></span>
-          <input id="pSize_3" type="range" min="40" max="800" value="240">
-        </label>
-
-        <label>Stage 4: After Pad 4 PNG <input id="pImg_4" type="file" accept="image/png,image/webp,image/jpeg"></label>
-        <label>
-          <span class="label-head"><span>Stage 4 Size</span><span class="val-badge" id="v_pSize_4">270</span></span>
-          <input id="pSize_4" type="range" min="40" max="800" value="270">
-        </label>
-
-        <label>Stage 5: Final Boss/Pad 5 PNG <input id="pImg_5" type="file" accept="image/png,image/webp,image/jpeg"></label>
-        <label>
-          <span class="label-head"><span>Stage 5 Size</span><span class="val-badge" id="v_pSize_5">310</span></span>
-          <input id="pSize_5" type="range" min="40" max="800" value="310">
-        </label>
-
-        <label>Runner Lane
+        <label>Runner Lane Control
           <select id="playerLane">
             <option value="auto">Auto Follow Green Lane</option>
             <option value="left">Follow Left Lane</option>
@@ -133,6 +105,68 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <label>
           <span class="label-head"><span>Depth (Z-Position)</span><span class="val-badge" id="v_playerZ">0.84</span></span>
           <input id="playerZ" type="range" min="0.50" max="0.95" step="0.01" value="0.84">
+        </label>
+
+        <div class="sub-title" style="color:#61f0a6">&#128170; GREEN PAD UPGRADES (STRONG / GROW)</div>
+        <label>Green Stage 1 PNG <input id="gImg_1" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>
+          <span class="label-head"><span>Green 1 Size</span><span class="val-badge" id="v_gSize_1">180</span></span>
+          <input id="gSize_1" type="range" min="40" max="800" value="180">
+        </label>
+
+        <label>Green Stage 2 PNG <input id="gImg_2" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>
+          <span class="label-head"><span>Green 2 Size</span><span class="val-badge" id="v_gSize_2">210</span></span>
+          <input id="gSize_2" type="range" min="40" max="800" value="210">
+        </label>
+
+        <label>Green Stage 3 PNG <input id="gImg_3" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>
+          <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">240</span></span>
+          <input id="gSize_3" type="range" min="40" max="800" value="240">
+        </label>
+
+        <label>Green Stage 4 PNG <input id="gImg_4" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>
+          <span class="label-head"><span>Green 4 Size</span><span class="val-badge" id="v_gSize_4">270</span></span>
+          <input id="gSize_4" type="range" min="40" max="800" value="270">
+        </label>
+
+        <label>Green Stage 5 PNG (Final) <input id="gImg_5" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>
+          <span class="label-head"><span>Green 5 Size</span><span class="val-badge" id="v_gSize_5">310</span></span>
+          <input id="gSize_5" type="range" min="40" max="800" value="310">
+        </label>
+
+        <div class="sub-title" style="color:#ff6b6b">&#128128; RED PAD DOWNGRADES (WEAK / THIN)</div>
+        <label>Red Stage 1 PNG (Weak 1) <input id="rImg_1" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>
+          <span class="label-head"><span>Red 1 Size</span><span class="val-badge red" id="v_rSize_1">140</span></span>
+          <input id="rSize_1" type="range" min="40" max="800" value="140">
+        </label>
+
+        <label>Red Stage 2 PNG (Weak 2) <input id="rImg_2" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>
+          <span class="label-head"><span>Red 2 Size</span><span class="val-badge red" id="v_rSize_2">120</span></span>
+          <input id="rSize_2" type="range" min="40" max="800" value="120">
+        </label>
+
+        <label>Red Stage 3 PNG (Weak 3) <input id="rImg_3" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>
+          <span class="label-head"><span>Red 3 Size</span><span class="val-badge red" id="v_rSize_3">105</span></span>
+          <input id="rSize_3" type="range" min="40" max="800" value="105">
+        </label>
+
+        <label>Red Stage 4 PNG (Weak 4) <input id="rImg_4" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>
+          <span class="label-head"><span>Red 4 Size</span><span class="val-badge red" id="v_rSize_4">90</span></span>
+          <input id="rSize_4" type="range" min="40" max="800" value="90">
+        </label>
+
+        <label>Red Stage 5 PNG (Weakest) <input id="rImg_5" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>
+          <span class="label-head"><span>Red 5 Size</span><span class="val-badge red" id="v_rSize_5">80</span></span>
+          <input id="rSize_5" type="range" min="40" max="800" value="80">
         </label>
       </div>
     </details>
@@ -213,7 +247,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       </select></label>
       <label>Background Theme <select id="bgMode">
         <optgroup label="--- Light & Aesthetic Themes ---">
-          <option value="cleanWhite">☀️ 1. Clean Studio White</option>
+          <option value="cleanWhite">☀️️ 1. Clean Studio White</option>
           <option value="softSilver">☀️ 2. Soft Silver Mist</option>
           <option value="cloudGrey">☀️ 3. Cloud Grey</option>
           <option value="skyBlueLight">☀️ 4. Clear Sky Blue</option>
@@ -352,8 +386,10 @@ var W=canvas.width, H=canvas.height;
 var $=function(id){ return document.getElementById(id); };
 var running=true, last=performance.now(), roadTime=0, recorder=null, rowCounter=0;
 
-// Maximum reached stage (Never decreases during animation!)
-var maxReachedStage = 0;
+// Dual Progression Memory (Green Buff Count & Red Nerf Count)
+var currentPath = 'base'; // 'base', 'green', 'red'
+var currentStageLevel = 0; // 0 to 5
+var processedPads = {};
 
 var state={
   speed:0.24,
@@ -367,13 +403,22 @@ var state={
   bgMode:'black',
   speedLines:false,
   roadShine:true,
-  stages:[
-    {img:null, size:160}, // 0: Start
-    {img:null, size:180}, // 1: After Pad 1
-    {img:null, size:210}, // 2: After Pad 2
-    {img:null, size:240}, // 3: After Pad 3
-    {img:null, size:270}, // 4: After Pad 4
-    {img:null, size:310}  // 5: After Pad 5
+  baseStage: {img:null, size:160},
+  greenStages:[
+    null,
+    {img:null, size:180},
+    {img:null, size:210},
+    {img:null, size:240},
+    {img:null, size:270},
+    {img:null, size:310}
+  ],
+  redStages:[
+    null,
+    {img:null, size:140},
+    {img:null, size:120},
+    {img:null, size:105},
+    {img:null, size:90},
+    {img:null, size:80}
   ],
   playerZ:0.84,
   playerLane:'auto',
@@ -486,7 +531,9 @@ function autoSaveStudio(){
       roadShine: state.roadShine,
       playerZ: state.playerZ,
       playerLane: state.playerLane,
-      sizes: state.stages.map(function(s){ return s.size; }),
+      baseSize: state.baseStage.size,
+      gSizes: [0, state.greenStages[1].size, state.greenStages[2].size, state.greenStages[3].size, state.greenStages[4].size, state.greenStages[5].size],
+      rSizes: [0, state.redStages[1].size, state.redStages[2].size, state.redStages[3].size, state.redStages[4].size, state.redStages[5].size],
       oppSize: state.opponent.size,
       oppRemove: state.opponent.removeBg,
       rows: state.rows.map(function(r){
@@ -500,13 +547,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v5', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v6', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v5');
+    var raw = localStorage.getItem('runner_studio_saved_v6');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -572,29 +619,53 @@ function bindRange(id,key){
 }
 ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ'].forEach(function(id){ bindRange(id,id); });
 
-// 6 Evolution Stages Setup (Inputs & Sizes)
-for(var sIdx=0; sIdx<=5; sIdx++){
+// Stage 0 Base setup
+if($('pSize_0')){
+  $('pSize_0').oninput = function(e){
+    state.baseStage.size = Number(e.target.value);
+    updateBadge('pSize_0', e.target.value);
+    autoSaveStudio();
+  };
+}
+if($('pImg_0')){
+  $('pImg_0').onchange = function(e){
+    var f=e.target.files[0]; if(!f) return;
+    readFile(f).then(function(src){ dataToProcessedImage(src, true).then(function(im){ state.baseStage.img = im; }); });
+  };
+}
+
+// 5 Green & 5 Red stages setup
+for(var k=1; k<=5; k++){
   (function(idx){
-    var sizeInput = $('pSize_' + idx);
-    if(sizeInput){
-      sizeInput.addEventListener('input', function(e){
-        state.stages[idx].size = Number(e.target.value);
-        updateBadge('pSize_' + idx, e.target.value);
+    // Green
+    if($('gSize_' + idx)){
+      $('gSize_' + idx).oninput = function(e){
+        state.greenStages[idx].size = Number(e.target.value);
+        updateBadge('gSize_' + idx, e.target.value);
         autoSaveStudio();
-      });
-    }
-    var imgInput = $('pImg_' + idx);
-    if(imgInput){
-      imgInput.onchange = function(e){
-        var f = e.target.files[0]; if(!f) return;
-        readFile(f).then(function(src){
-          dataToProcessedImage(src, true).then(function(im){
-            state.stages[idx].img = im;
-          });
-        });
       };
     }
-  })(sIdx);
+    if($('gImg_' + idx)){
+      $('gImg_' + idx).onchange = function(e){
+        var f=e.target.files[0]; if(!f) return;
+        readFile(f).then(function(src){ dataToProcessedImage(src, true).then(function(im){ state.greenStages[idx].img = im; }); });
+      };
+    }
+    // Red
+    if($('rSize_' + idx)){
+      $('rSize_' + idx).oninput = function(e){
+        state.redStages[idx].size = Number(e.target.value);
+        updateBadge('rSize_' + idx, e.target.value);
+        autoSaveStudio();
+      };
+    }
+    if($('rImg_' + idx)){
+      $('rImg_' + idx).onchange = function(e){
+        var f=e.target.files[0]; if(!f) return;
+        readFile(f).then(function(src){ dataToProcessedImage(src, true).then(function(im){ state.redStages[idx].img = im; }); });
+      };
+    }
+  })(k);
 }
 
 if($('roadVariant')) $('roadVariant').onchange=function(e){state.roadVariant=e.target.value; autoSaveStudio();};
@@ -716,11 +787,24 @@ function initRows(){
         updateBadge(id, savedData[id]);
       }
     });
-    if(Array.isArray(savedData.sizes)){
-      savedData.sizes.forEach(function(sz, i){
-        if(state.stages[i]){
-          state.stages[i].size = Number(sz);
-          if($('pSize_' + i)){ $('pSize_' + i).value = sz; updateBadge('pSize_' + i, sz); }
+    if(savedData.baseSize && $('pSize_0')){
+      state.baseStage.size = Number(savedData.baseSize);
+      $('pSize_0').value = savedData.baseSize;
+      updateBadge('pSize_0', savedData.baseSize);
+    }
+    if(Array.isArray(savedData.gSizes)){
+      savedData.gSizes.forEach(function(sz, i){
+        if(i > 0 && state.greenStages[i]){
+          state.greenStages[i].size = Number(sz);
+          if($('gSize_' + i)){ $('gSize_' + i).value = sz; updateBadge('gSize_' + i, sz); }
+        }
+      });
+    }
+    if(Array.isArray(savedData.rSizes)){
+      savedData.rSizes.forEach(function(sz, i){
+        if(i > 0 && state.redStages[i]){
+          state.redStages[i].size = Number(sz);
+          if($('rSize_' + i)){ $('rSize_' + i).value = sz; updateBadge('rSize_' + i, sz); }
         }
       });
     }
@@ -744,7 +828,11 @@ function initRows(){
     ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ'].forEach(function(id){
       updateBadge(id, state[id]);
     });
-    for(var i=0;i<6;i++){ updateBadge('pSize_' + i, state.stages[i].size); }
+    updateBadge('pSize_0', state.baseStage.size);
+    for(var i=1;i<=5;i++){
+      updateBadge('gSize_' + i, state.greenStages[i].size);
+      updateBadge('rSize_' + i, state.redStages[i].size);
+    }
     for(var i=0;i<5;i++){
       addRow({leftColor:i%2?'#ff323a':'#2aff84', rightColor:i%2?'#2aff84':'#ff323a'});
     }
@@ -1123,7 +1211,7 @@ function rDiamondFlow(){
     var midY=(a.y+b.y)/2;
     var w=12+a.e*56, h=6+a.e*32;
     ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2,midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
   }
 }
 function rMinimalGrey(){
@@ -1278,21 +1366,31 @@ function drawImageFit(im, x, y, boxW, boxH, anchor){
 }
 
 function drawRunnerBehind(){
-  // Determine current active stage image & size (Progressive Forward Fallback)
   var curImg = null;
   var curSize = 160;
 
-  for(var s = maxReachedStage; s >= 0; s--){
-    if(state.stages[s] && state.stages[s].img){
-      curImg = state.stages[s].img;
-      curSize = state.stages[s].size || 160;
-      break;
+  if(currentPath === 'green' && currentStageLevel > 0){
+    for(var g = currentStageLevel; g >= 1; g--){
+      if(state.greenStages[g] && state.greenStages[g].img){
+        curImg = state.greenStages[g].img;
+        curSize = state.greenStages[g].size || 180;
+        break;
+      }
+    }
+  } else if(currentPath === 'red' && currentStageLevel > 0){
+    for(var r = currentStageLevel; r >= 1; r--){
+      if(state.redStages[r] && state.redStages[r].img){
+        curImg = state.redStages[r].img;
+        curSize = state.redStages[r].size || 140;
+        break;
+      }
     }
   }
 
-  // If no images at all in current or earlier stages, use stage 0 size
-  if(state.stages[maxReachedStage] && state.stages[maxReachedStage].size){
-    curSize = state.stages[maxReachedStage].size;
+  // Base fallback
+  if(!curImg){
+    curImg = state.baseStage.img;
+    curSize = state.baseStage.size || 160;
   }
 
   if(!curImg) return;
@@ -1324,12 +1422,20 @@ function drawRows(){
     var z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
     if(z<0 || z>1.05) return;
     var zz=Math.min(1,z);
-    
-    // Once passed playerZ, permanent stage upgrade!
-    if(zz >= pZ - 0.02){
-      if(i + 1 > maxReachedStage){
-        maxReachedStage = i + 1;
+
+    // Collision Check: Check exact lane the player is currently on
+    if(zz >= pZ - 0.02 && !processedPads[i]){
+      processedPads[i] = true;
+      var currentSide = (state.playerLane === 'right' || (state.playerLane === 'auto' && state.currentLane === 'right')) ? 'right' : 'left';
+      var padHex = (currentSide === 'right') ? row.rightColor : row.leftColor;
+      
+      var isGreen = (padHex.indexOf('2a') !== -1 || padHex.indexOf('00') !== -1 || padHex.indexOf('green') !== -1);
+      if(isGreen){
+        currentPath = 'green';
+      } else {
+        currentPath = 'red';
       }
+      currentStageLevel = i + 1; // Progress to stage 1, 2, 3, 4, 5
     }
 
     if(zz > closestActiveZ && zz < pZ + 0.15){
@@ -1341,8 +1447,8 @@ function drawRows(){
   });
 
   if(closestActiveZ !== -1){
-    var isGreen = (activeLaneColor.indexOf('2a') !== -1 || activeLaneColor.indexOf('00') !== -1 || activeLaneColor.indexOf('green') !== -1);
-    state.currentLane = isGreen ? 'left' : 'right';
+    var isGreenLane = (activeLaneColor.indexOf('2a') !== -1 || activeLaneColor.indexOf('00') !== -1 || activeLaneColor.indexOf('green') !== -1);
+    state.currentLane = isGreenLane ? 'left' : 'right';
   }
 
   // 1. Pads behind player
@@ -1366,7 +1472,7 @@ function drawRows(){
     drawImageFit(state.opponent.img, W/2, op.y + 4, oppSize, oppSize, 'bottom');
   }
 
-  // 2. Runner Character (Always at latest unlocked evolution stage)
+  // 2. Runner Character
   drawRunnerBehind();
 
   // 3. Pads in front/above player
@@ -1397,14 +1503,16 @@ requestAnimationFrame(frame);
 $('playBtn').onclick=function(){running=!running;$('playBtn').textContent=running?'Pause':'Play';};
 $('resetBtn').onclick=function(){
   roadTime=0;
-  maxReachedStage=0; // Reset progression only on explicit Reset Time click
+  currentPath='base';
+  currentStageLevel=0;
+  processedPads={};
 };
 $('saveBtn').onclick=function(){
   autoSaveStudio();
   alert('Settings saved successfully!');
 };
 $('resetStorageBtn').onclick=function(){
-  try{ localStorage.removeItem('runner_studio_saved_v5'); }catch(e){}
+  try{ localStorage.removeItem('runner_studio_saved_v6'); }catch(e){}
   location.reload();
 };
 $('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'});location.href='/';};
