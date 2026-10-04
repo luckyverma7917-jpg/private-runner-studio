@@ -270,9 +270,9 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       </select></label>
       <label>Background Theme <select id="bgMode">
         <optgroup label="--- Light & Aesthetic Themes ---">
-          <option value="cleanWhite">☀️ 1. Clean Studio White</option>
+          <option value="cleanWhite">☀️️ 1. Clean Studio White</option>
           <option value="softSilver">☀️ 2. Soft Silver Mist</option>
-          <option value="cloudGrey">☀️️ 3. Cloud Grey</option>
+          <option value="cloudGrey">☀️ 3. Cloud Grey</option>
           <option value="skyBlueLight">☀️ 4. Clear Sky Blue</option>
           <option value="cyanBreeze">☀️ 5. Light Cyan Breeze</option>
           <option value="mintFresh">☀️ 6. Fresh Mint Pastel</option>
