@@ -42,9 +42,9 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio 35+ Roads & Instant Lane Steer</title>
+<title>Private Runner Studio 35+ Roads & Mystery HUD Studio</title>
 <style>
-:root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d}
+:root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
 .top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 14px;background:#0b0d10ee;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
@@ -71,6 +71,7 @@ details{border:1px solid var(--line);border-radius:14px;overflow:hidden;backgrou
 .label-head{display:flex;justify-content:space-between;align-items:center}
 .val-badge{font-size:11px;background:#242a35;color:var(--accent);padding:2px 7px;border-radius:6px;font-family:monospace;font-weight:700}
 .val-badge.red{color:var(--red)}
+.val-badge.gold{color:var(--gold)}
 input[type=file]{width:100%;font-size:12px}input[type=range]{width:100%}
 select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px}
 .toggle{display:flex!important;align-items:center;gap:8px!important}
@@ -86,7 +87,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V12 INSTANT SLIDER</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V16 HUD CONTROLLER</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -101,15 +102,91 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
       <input id="laneSteer" type="range" min="-1.0" max="1.0" step="0.05" value="-1.0">
       <div class="steer-btns">
-        <button class="steer-btn left" id="quickLeftBtn">⬅️️ SNAP LEFT LANE</button>
+        <button class="steer-btn left" id="quickLeftBtn">⬅ SNAP LEFT LANE</button>
         <button class="steer-btn right" id="quickRightBtn">SNAP RIGHT LANE ➡️</button>
       </div>
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Slider shifts runner immediately without touching menus. Green upgrades runner, Red downgrades!</div>
+    <div class="note">5 Mystery Question Boxes on top. Change themes, colors, or manually assign PNGs!</div>
   </section>
   <section class="controls">
+    <!-- 🎁 FULL CONTROLLER FOR MYSTERY HUD BOXES -->
+    <details open><summary>🎁 5 Mystery Question Boxes HUD Controller</summary>
+      <div class="grid two">
+        <label class="toggle"><input id="showHud" type="checkbox" checked> Show 5 Mystery Boxes</label>
+        <label class="toggle"><input id="autoCollectHud" type="checkbox" checked> Auto Collect PNG from Pads</label>
+
+        <label>Box Style (35+ Theme Styles)
+          <select id="hudStyle">
+            <optgroup label="--- Classic & Gold ---">
+              <option value="classicGold" selected>1. Classic Mario Gold (?)</option>
+              <option value="royalGold">2. Royal Amber Gold</option>
+              <option value="arcadeYellow">3. 80s Arcade Bright Yellow</option>
+              <option value="bronzeVintage">4. Vintage Bronze Box</option>
+              <option value="pureWhiteBox">5. Clean Minimal White</option>
+            </optgroup>
+            <optgroup label="--- Neon & Cyberpunk ---">
+              <option value="neonGreen">6. Emerald Neon Pulse</option>
+              <option value="cyberCyan">7. Cyber Cyan Circuit</option>
+              <option value="laserRed">8. Laser Crimson Red</option>
+              <option value="plasmaPink">9. Hot Plasma Pink</option>
+              <option value="electricBlue">10. Electric Blue Thunder</option>
+              <option value="violetNight">11. Synthwave Violet</option>
+              <option value="toxicLime">12. Toxic Biohazard Lime</option>
+              <option value="matrixGreen">13. Matrix Green Flow</option>
+              <option value="overdriveOrange">14. Overdrive Neon Orange</option>
+              <option value="whiteGlow">15. Radiant White Neon</option>
+            </optgroup>
+            <optgroup label="--- Elemental & Gems ---">
+              <option value="rubyRoyale">16. Royal Ruby Red</option>
+              <option value="sapphireBlue">17. Deep Sapphire Blue</option>
+              <option value="amethystPurple">18. Amethyst Crystal Gem</option>
+              <option value="moltenLava">19. Molten Magma Lava</option>
+              <option value="iceGlacier">20. Frozen Arctic Glacier</option>
+              <option value="goldenCrown">21. Sovereign Golden Crown</option>
+              <option value="darkObsidian">22. Dark Matte Obsidian</option>
+              <option value="shadowCarbon">23. Carbon Fiber Stealth</option>
+              <option value="cleanSilver">24. Metallic Polished Silver</option>
+              <option value="cosmicPurple">25. Cosmic Galaxy Nebula</option>
+            </optgroup>
+            <optgroup label="--- Modern & Pastel ---">
+              <option value="pastelMint">26. Pastel Fresh Mint</option>
+              <option value="pastelPeach">27. Pastel Peach Dawn</option>
+              <option value="pastelLavender">28. Pastel Soft Lavender</option>
+              <option value="sunsetBoulevard">29. Sunset Twilight Duo</option>
+              <option value="cleanDarkGlass">30. Frosted Dark Glass</option>
+              <option value="cleanLightGlass">31. Frosted White Glass</option>
+              <option value="aquaMarine">32. Radiant Aquamarine</option>
+              <option value="roseGold">33. Luxury Rose Gold</option>
+              <option value="hyperNeon">34. Hyper Rainbow Spectrum</option>
+              <option value="ultimateBlackGold">35. Ultimate Black & Gold</option>
+            </optgroup>
+          </select>
+        </label>
+
+        <label>
+          <span class="label-head"><span>HUD Y-Position (ऊपर से दूरी)</span><span class="val-badge gold" id="v_hudY">75</span></span>
+          <input id="hudY" type="range" min="30" max="300" value="75">
+        </label>
+        <label>
+          <span class="label-head"><span>Box Size (बक्से का साइज़)</span><span class="val-badge gold" id="v_hudBoxSize">80</span></span>
+          <input id="hudBoxSize" type="range" min="45" max="140" value="80">
+        </label>
+        <label>
+          <span class="label-head"><span>Box Spacing (बक्सों के बीच दूरी)</span><span class="val-badge gold" id="v_hudSpacing">14</span></span>
+          <input id="hudSpacing" type="range" min="6" max="40" value="14">
+        </label>
+
+        <div class="sub-title" style="color:var(--gold)">📁 Optional: Manual PNG Override for Boxes (अगर खुद PNG लगानी हो)</div>
+        <label>Box 1 PNG (First Pad) <input id="hudImg_0" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Box 2 PNG (Second Pad) <input id="hudImg_1" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Box 3 PNG (Third Pad) <input id="hudImg_2" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Box 4 PNG (Fourth Pad) <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label style="grid-column:span 2">Box 5 PNG (Fifth Pad) <input id="hudImg_4" type="file" accept="image/png,image/webp,image/jpeg"></label>
+      </div>
+    </details>
+
     <details open><summary>🏃 Runner Evolution Settings (Green Buff vs Red Nerf)</summary>
       <div class="grid two">
         <label>Base Start PNG (Stage 0) <input id="pImg_0" type="file" accept="image/png,image/webp,image/jpeg"></label>
@@ -275,7 +352,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           <option value="softSilver">☀️ 2. Soft Silver Mist</option>
           <option value="cloudGrey">☀️ 3. Cloud Grey</option>
           <option value="skyBlueLight">☀️ 4. Clear Sky Blue</option>
-          <option value="cyanBreeze">☀️ 5. Light Cyan Breeze</option>
+          <option value="cyanBreeze">☀️️ 5. Light Cyan Breeze</option>
           <option value="mintFresh">☀️ 6. Fresh Mint Pastel</option>
           <option value="warmVanilla">☀️ 7. Warm Vanilla</option>
           <option value="peachDawn">☀️ 8. Peach Sunrise</option>
@@ -417,6 +494,7 @@ var processedPads = {};
 
 // 🎁 5 Mystery Boxes HUD Memory
 var collectedHud = [null, null, null, null, null];
+var manualHudImgs = [null, null, null, null, null];
 
 var state={
   speed:0.24,
@@ -430,6 +508,12 @@ var state={
   bgMode:'black',
   speedLines:false,
   roadShine:true,
+  showHud:true,
+  autoCollectHud:true,
+  hudStyle:'classicGold',
+  hudY:75,
+  hudBoxSize:80,
+  hudSpacing:14,
   steerOffset:-1.0,
   baseStage: {img:null, size:160},
   greenStages:[
@@ -454,6 +538,45 @@ var state={
   currentLane:'left',
   rows:[],
   opponent:{src:null, img:null, removeBg:true, size:220}
+};
+
+// 🎨 35+ HUD COLOR THEMES (BORDER, FACE, TEXT, GLOW)
+var hudThemes = {
+  classicGold:     { border:'#ff9900', face:'#ffbe1a', stroke:'#221100', text:'#110800', glow:'rgba(255,190,26,0.5)' },
+  royalGold:       { border:'#d97706', face:'#fbbf24', stroke:'#451a03', text:'#451a03', glow:'rgba(251,191,36,0.6)' },
+  arcadeYellow:    { border:'#eab308', face:'#fef08a', stroke:'#000000', text:'#000000', glow:'rgba(234,179,8,0.7)' },
+  bronzeVintage:   { border:'#78350f', face:'#b45309', stroke:'#1c0b02', text:'#fef3c7', glow:'rgba(180,83,9,0.5)' },
+  pureWhiteBox:    { border:'#94a3b8', face:'#f8fafc', stroke:'#0f172a', text:'#0f172a', glow:'rgba(248,250,252,0.6)' },
+  neonGreen:       { border:'#15803d', face:'#22c55e', stroke:'#052e16', text:'#021f0e', glow:'rgba(34,197,94,0.8)' },
+  cyberCyan:       { border:'#0284c7', face:'#00f5ff', stroke:'#082f49', text:'#041f30', glow:'rgba(0,245,255,0.8)' },
+  laserRed:        { border:'#b91c1c', face:'#ef4444', stroke:'#450a0a', text:'#240202', glow:'rgba(239,68,68,0.8)' },
+  plasmaPink:      { border:'#be185d', face:'#f43f5e', stroke:'#4c0519', text:'#26020c', glow:'rgba(244,63,94,0.8)' },
+  electricBlue:    { border:'#1d4ed8', face:'#3b82f6', stroke:'#0f172a', text:'#06142e', glow:'rgba(59,130,246,0.8)' },
+  violetNight:     { border:'#6d28d9', face:'#8b5cf6', stroke:'#2e1065', text:'#1a043d', glow:'rgba(139,92,246,0.8)' },
+  toxicLime:       { border:'#4d7c0f', face:'#84cc16', stroke:'#1a2e05', text:'#102002', glow:'rgba(132,204,22,0.8)' },
+  matrixGreen:     { border:'#047857', face:'#10b981', stroke:'#022c22', text:'#021c15', glow:'rgba(16,185,129,0.8)' },
+  overdriveOrange: { border:'#c2410c', face:'#f97316', stroke:'#431407', text:'#290a03', glow:'rgba(249,115,22,0.8)' },
+  whiteGlow:       { border:'#64748b', face:'#ffffff', stroke:'#1e293b', text:'#0f172a', glow:'rgba(255,255,255,0.9)' },
+  rubyRoyale:      { border:'#9f1239', face:'#e11d48', stroke:'#4c0519', text:'#fecdd3', glow:'rgba(225,29,72,0.8)' },
+  sapphireBlue:    { border:'#1e40af', face:'#2563eb', stroke:'#172554', text:'#bfdbfe', glow:'rgba(37,99,235,0.8)' },
+  amethystPurple:  { border:'#7e22ce', face:'#a855f7', stroke:'#3b0764', text:'#f3e8ff', glow:'rgba(168,85,247,0.8)' },
+  moltenLava:      { border:'#9a3412', face:'#ea580c', stroke:'#431407', text:'#ffedd5', glow:'rgba(234,88,12,0.8)' },
+  iceGlacier:      { border:'#0e7490', face:'#38bdf8', stroke:'#083344', text:'#e0f2fe', glow:'rgba(56,189,248,0.8)' },
+  goldenCrown:     { border:'#a16207', face:'#facc15', stroke:'#422006', text:'#422006', glow:'rgba(250,204,21,0.8)' },
+  darkObsidian:    { border:'#334155', face:'#1e293b', stroke:'#020617', text:'#cbd5e1', glow:'rgba(51,65,85,0.6)' },
+  shadowCarbon:    { border:'#27272a', face:'#18181b', stroke:'#09090b', text:'#a1a1aa', glow:'rgba(39,39,42,0.6)' },
+  cleanSilver:     { border:'#94a3b8', face:'#cbd5e1', stroke:'#334155', text:'#0f172a', glow:'rgba(203,213,225,0.7)' },
+  cosmicPurple:    { border:'#581c87', face:'#9333ea', stroke:'#2e1065', text:'#f3e8ff', glow:'rgba(147,51,234,0.8)' },
+  pastelMint:      { border:'#059669', face:'#6ee7b7', stroke:'#064e3b', text:'#022c22', glow:'rgba(110,231,183,0.7)' },
+  pastelPeach:     { border:'#ea580c', face:'#fdba74', stroke:'#431407', text:'#431407', glow:'rgba(253,186,116,0.7)' },
+  pastelLavender:  { border:'#7c3aed', face:'#c4b5fd', stroke:'#2e1065', text:'#2e1065', glow:'rgba(196,181,253,0.7)' },
+  sunsetBoulevard: { border:'#b91c1c', face:'#fb923c', stroke:'#450a0a', text:'#450a0a', glow:'rgba(251,146,60,0.8)' },
+  cleanDarkGlass:  { border:'#475569', face:'#0f172a', stroke:'#020617', text:'#38bdf8', glow:'rgba(15,23,42,0.8)' },
+  cleanLightGlass: { border:'#cbd5e1', face:'#ffffff', stroke:'#94a3b8', text:'#0284c7', glow:'rgba(255,255,255,0.8)' },
+  aquaMarine:      { border:'#0d9488', face:'#2dd4bf', stroke:'#134e4a', text:'#042f2e', glow:'rgba(45,212,191,0.8)' },
+  roseGold:        { border:'#be123c', face:'#fda4af', stroke:'#4c0519', text:'#4c0519', glow:'rgba(253,164,175,0.7)' },
+  hyperNeon:       { border:'#ec4899', face:'#00ffff', stroke:'#111111', text:'#111111', glow:'rgba(0,255,255,0.9)' },
+  ultimateBlackGold:{ border:'#ca8a04', face:'#09090b', stroke:'#ca8a04', text:'#eab308', glow:'rgba(202,138,4,0.8)' }
 };
 
 var bgColors = {
@@ -557,6 +680,12 @@ function autoSaveStudio(){
       bgMode: state.bgMode,
       speedLines: state.speedLines,
       roadShine: state.roadShine,
+      showHud: state.showHud,
+      autoCollectHud: state.autoCollectHud,
+      hudStyle: state.hudStyle,
+      hudY: state.hudY,
+      hudBoxSize: state.hudBoxSize,
+      hudSpacing: state.hudSpacing,
       playerZ: state.playerZ,
       playerLane: state.playerLane,
       steerOffset: state.steerOffset,
@@ -576,13 +705,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v7', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v10', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v7');
+    var raw = localStorage.getItem('runner_studio_saved_v10');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -646,7 +775,29 @@ function bindRange(id,key){
     autoSaveStudio();
   });
 }
-['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ'].forEach(function(id){ bindRange(id,id); });
+['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
+
+// HUD Controller Listeners
+if($('showHud')){ $('showHud').onchange = function(e){ state.showHud = e.target.checked; autoSaveStudio(); }; }
+if($('autoCollectHud')){ $('autoCollectHud').onchange = function(e){ state.autoCollectHud = e.target.checked; autoSaveStudio(); }; }
+if($('hudStyle')){ $('hudStyle').onchange = function(e){ state.hudStyle = e.target.value; autoSaveStudio(); }; }
+
+// Manual file uploaders for all 5 boxes
+for(var h=0; h<5; h++){
+  (function(bIdx){
+    var inp = $('hudImg_' + bIdx);
+    if(inp){
+      inp.onchange = function(e){
+        var f = e.target.files[0]; if(!f) return;
+        readFile(f).then(function(src){
+          dataToProcessedImage(src, true).then(function(im){
+            manualHudImgs[bIdx] = im;
+          });
+        });
+      };
+    }
+  })(h);
+}
 
 // Steer slider instant response
 var steerInput = $('laneSteer');
@@ -836,13 +987,25 @@ function initRows(){
   
   var savedData = getSavedSettings();
   if(savedData && typeof savedData === 'object'){
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       if(savedData[id] !== undefined && $(id)){
         state[id] = Number(savedData[id]);
         $(id).value = savedData[id];
         updateBadge(id, savedData[id]);
       }
     });
+    if(savedData.showHud !== undefined && $('showHud')){
+      state.showHud = Boolean(savedData.showHud);
+      $('showHud').checked = state.showHud;
+    }
+    if(savedData.autoCollectHud !== undefined && $('autoCollectHud')){
+      state.autoCollectHud = Boolean(savedData.autoCollectHud);
+      $('autoCollectHud').checked = state.autoCollectHud;
+    }
+    if(savedData.hudStyle && $('hudStyle')){
+      state.hudStyle = savedData.hudStyle;
+      $('hudStyle').value = savedData.hudStyle;
+    }
     if(savedData.steerOffset !== undefined){
       state.steerOffset = Number(savedData.steerOffset);
       if($('laneSteer')){
@@ -889,7 +1052,7 @@ function initRows(){
     ];
     rowList.forEach(addRow);
   } else {
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       updateBadge(id, state[id]);
     });
     updateBadge('pSize_0', state.baseStage.size);
@@ -1275,7 +1438,7 @@ function rDiamondFlow(){
     var midY=(a.y+b.y)/2;
     var w=12+a.e*56, h=6+a.e*32;
     ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2,midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
   }
 }
 function rMinimalGrey(){
@@ -1397,7 +1560,7 @@ function drawRaisedPad(z, side, hexColor){
   var c = hexToRgb(hexColor);
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
-  var darkG = Math.max(0, Math.floor(c.g * 0.45));
+  var darkG = Math.max(0, Math.floor(c.r * 0.45));
   var darkB = Math.max(0, Math.floor(c.b * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
@@ -1429,29 +1592,47 @@ function drawImageFit(im, x, y, boxW, boxH, anchor){
   ctx.drawImage(im,dx,dy,dw,dh);
 }
 
-// 🎁 5 MYSTERY BOXES HUD (SCREEN TOP)
+// 🎁 5 MYSTERY BOXES HUD (SCREEN TOP WITH 35+ THEMES)
 function drawMysteryHUD(){
-  var count = 5, boxS = 80, gap = 14;
+  if(!state.showHud) return;
+
+  var count = 5;
+  var boxS = state.hudBoxSize || 80;
+  var gap = state.hudSpacing || 14;
   var totalW = count * boxS + (count - 1) * gap;
-  var startX = (W - totalW) / 2, hudY = 75;
+  var startX = (W - totalW) / 2;
+  var hudY = state.hudY || 75;
+
+  var th = hudThemes[state.hudStyle] || hudThemes.classicGold;
 
   for(var b = 0; b < count; b++){
     var bx = startX + b * (boxS + gap);
-    if(collectedHud[b]){
+    var activeImg = manualHudImgs[b] || collectedHud[b];
+
+    if(activeImg){
       ctx.save();
-      ctx.shadowColor = 'rgba(255, 215, 0, 0.45)';
-      ctx.shadowBlur = 12;
-      drawImageFit(collectedHud[b], bx + boxS/2, hudY + boxS - 4, boxS * 0.9, boxS * 0.9, 'bottom');
+      ctx.shadowColor = th.glow;
+      ctx.shadowBlur = 14;
+      drawImageFit(activeImg, bx + boxS/2, hudY + boxS - 4, boxS * 0.9, boxS * 0.9, 'bottom');
       ctx.restore();
     } else {
       ctx.save();
-      ctx.fillStyle = '#ff9900';
+      ctx.shadowColor = th.glow;
+      ctx.shadowBlur = 8;
+      // Outer 3D Bevel Box
+      ctx.fillStyle = th.border;
       ctx.beginPath(); ctx.roundRect(bx, hudY, boxS, boxS, 10); ctx.fill();
-      ctx.fillStyle = '#ffbe1a';
+
+      // Inner Face
+      ctx.fillStyle = th.face;
       ctx.beginPath(); ctx.roundRect(bx + 4, hudY + 4, boxS - 8, boxS - 8, 8); ctx.fill();
-      ctx.strokeStyle = '#221100'; ctx.lineWidth = 3;
+
+      // Border Outline
+      ctx.strokeStyle = th.stroke; ctx.lineWidth = 3;
       ctx.strokeRect(bx + 4, hudY + 4, boxS - 8, boxS - 8);
-      ctx.fillStyle = '#110800';
+
+      // Question Mark "?"
+      ctx.fillStyle = th.text;
       ctx.font = '900 ' + Math.floor(boxS * 0.65) + 'px Impact, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText('?', bx + boxS/2, hudY + boxS/2 + 2);
@@ -1532,8 +1713,8 @@ function drawRows(){
       var padHex = isPlayerOnRight ? row.rightColor : row.leftColor;
       var itemImg = isPlayerOnRight ? row.rightImg : row.leftImg;
 
-      // 🎁 टच होते ही बॉक्स में आइटम फिट हो जाएगा
-      if(itemImg){
+      // 🎁 ऑटोमैटिक पीएनजी कलेक्शन: छूते ही बॉक्स भर जाएगा
+      if(state.autoCollectHud && itemImg){
         collectedHud[i] = itemImg;
       }
       
@@ -1604,7 +1785,7 @@ function frame(now){
   drawBackground();
   drawRoad();
   drawRows();
-  drawMysteryHUD();
+  drawMysteryHUD(); // Draw 5 HUD Boxes with live theme
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
@@ -1622,7 +1803,7 @@ $('saveBtn').onclick=function(){
   alert('Settings saved successfully!');
 };
 $('resetStorageBtn').onclick=function(){
-  try{ localStorage.removeItem('runner_studio_saved_v7'); }catch(e){}
+  try{ localStorage.removeItem('runner_studio_saved_v10'); }catch(e){}
   location.reload();
 };
 $('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'});location.href='/';};
