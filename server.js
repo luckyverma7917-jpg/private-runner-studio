@@ -42,7 +42,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio 35+ Roads & Instant Lane Steer</title>
+<title>Private Runner Studio 35+ Roads & Straight Road Track</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d}
 *{box-sizing:border-box}
@@ -55,7 +55,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 .preview{min-width:0}.shell{background:#050607;border:1px solid var(--line);border-radius:18px;padding:7px;display:flex;justify-content:center;box-shadow:0 18px 60px #0007}
 .stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506}canvas{width:100%;height:100%;display:block}
 
-/* QUICK CONTROLS BAR UNDER CANVAS */
+/* QUICK 1-MILLISECOND LANE CONTROLS */
 .steer-box{margin-top:10px;padding:12px;background:#15181e;border:1px solid var(--line);border-radius:14px;display:grid;gap:8px}
 .steer-header{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
 .steer-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -86,18 +86,17 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V12 INSTANT SLIDER</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V13 STRAIGHT ROAD</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
 
-    <!-- QUICK 1-MILLISECOND LANE CONTROLS -->
     <div class="steer-box">
       <div class="steer-header">
         <span>⚡ Instant Runner Steer (इधर-उधर स्लाइडर)</span>
-        <span class="val-badge" id="v_laneSteer">0.0 (Left)</span>
+        <span class="val-badge" id="v_laneSteer">-1.0 (Left)</span>
       </div>
       <input id="laneSteer" type="range" min="-1.0" max="1.0" step="0.05" value="-1.0">
       <div class="steer-btns">
@@ -107,7 +106,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Slider shifts runner immediately without touching menus. Green upgrades runner, Red downgrades!</div>
+    <div class="note">Adjust Top Width without triangle pinch. All 35 roads render smooth and parallel!</div>
   </section>
   <section class="controls">
     <details open><summary>🏃 Runner Evolution Settings (Green Buff vs Red Nerf)</summary>
@@ -205,12 +204,12 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46">
       </label>
       <label>
-        <span class="label-head"><span>Top Width</span><span class="val-badge" id="v_topWidth">0.08</span></span>
-        <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08">
+        <span class="label-head"><span>Top Width (सीधा चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.28</span></span>
+        <input id="topWidth" type="range" min="0.05" max="0.95" step="0.01" value="0.28">
       </label>
       <label>
-        <span class="label-head"><span>Bottom Width (Lion Style)</span><span class="val-badge" id="v_bottomWidth">0.88</span></span>
-        <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.88">
+        <span class="label-head"><span>Bottom Width (निचली चौड़ाई)</span><span class="val-badge" id="v_bottomWidth">0.88</span></span>
+        <input id="bottomWidth" type="range" min="0.40" max="1.10" step="0.02" value="0.88">
       </label>
       <label>
         <span class="label-head"><span>Camera Height (Eye View)</span><span class="val-badge" id="v_camHeight">1.2</span></span>
@@ -273,7 +272,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <optgroup label="--- Light & Aesthetic Themes ---">
           <option value="cleanWhite">☀️ 1. Clean Studio White</option>
           <option value="softSilver">☀️ 2. Soft Silver Mist</option>
-          <option value="cloudGrey">☀️ 3. Cloud Grey</option>
+          <option value="cloudGrey">☀️️ 3. Cloud Grey</option>
           <option value="skyBlueLight">☀️ 4. Clear Sky Blue</option>
           <option value="cyanBreeze">☀️ 5. Light Cyan Breeze</option>
           <option value="mintFresh">☀️ 6. Fresh Mint Pastel</option>
@@ -410,7 +409,6 @@ var W=canvas.width, H=canvas.height;
 var $=function(id){ return document.getElementById(id); };
 var running=true, last=performance.now(), roadTime=0, recorder=null, rowCounter=0;
 
-// Dual Progression Memory
 var currentPath = 'base';
 var currentStageLevel = 0;
 var processedPads = {};
@@ -418,7 +416,7 @@ var processedPads = {};
 var state={
   speed:0.24,
   horizon:0.46,
-  topWidth:0.08,
+  topWidth:0.28,
   bottomWidth:0.88,
   camHeight:1.2,
   padDelay:1.75,
@@ -427,7 +425,7 @@ var state={
   bgMode:'black',
   speedLines:false,
   roadShine:true,
-  steerOffset:-1.0, // -1.0 is Left, +1.0 is Right
+  steerOffset:-1.0,
   baseStage: {img:null, size:160},
   greenStages:[
     null,
@@ -573,13 +571,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v7', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v8', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v7');
+    var raw = localStorage.getItem('runner_studio_saved_v8');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -645,7 +643,6 @@ function bindRange(id,key){
 }
 ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ'].forEach(function(id){ bindRange(id,id); });
 
-// Steer slider instant response
 var steerInput = $('laneSteer');
 if(steerInput){
   steerInput.oninput = function(e){
@@ -674,7 +671,6 @@ $('quickRightBtn').onclick = function(){
   autoSaveStudio();
 };
 
-// Stage 0 Base setup
 if($('pSize_0')){
   $('pSize_0').oninput = function(e){
     state.baseStage.size = Number(e.target.value);
@@ -689,7 +685,6 @@ if($('pImg_0')){
   };
 }
 
-// 5 Green & 5 Red stages setup
 for(var k=1; k<=5; k++){
   (function(idx){
     if($('gSize_' + idx)){
@@ -933,11 +928,12 @@ var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
 var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
+// 🛣️ STRAIGHT HIGHWAY BOUNDS ENGINE (NO PINCH TRIANGLE)
 function roadBoundsAtZ(z){
-  var t=Math.max(0,Math.min(1,z));
-  var HORIZON_Y=H*state.horizon;
-  var TOP_HALF=W*state.topWidth;
-  var BOTTOM_HALF=W*(state.bottomWidth || 0.88);
+  var t = Math.max(0, Math.min(1, z));
+  var HORIZON_Y = H * state.horizon;
+  var TOP_HALF = W * (state.topWidth || 0.28);
+  var BOTTOM_HALF = W * (state.bottomWidth || 0.88);
 
   var zWorld = (1.0 - t) * 11.5 + 0.85;
   var scale = 1.0 / (zWorld * state.camHeight);
@@ -946,10 +942,12 @@ function roadBoundsAtZ(z){
   var depth = (scale - minScale) / (maxScale - minScale);
 
   var y = HORIZON_Y + (H - HORIZON_Y) * depth;
-  var half = TOP_HALF + (BOTTOM_HALF - TOP_HALF) * depth;
+  // सीधी रोड: आगे से ट्रायंगल को काटकर टॉप विड्थ को बराबर सीधा रखता है
+  var half = TOP_HALF + (BOTTOM_HALF - TOP_HALF) * Math.pow(depth, 1.4);
 
-  return {e:depth, y:y, l:W/2-half, r:W/2+half, half:half};
+  return {e: depth, y: y, l: W/2 - half, r: W/2 + half, half: half};
 }
+
 function lerp(a,b,t){return a+(b-a)*t;}
 function drawPoly(pts, fill){
   ctx.beginPath();
@@ -960,6 +958,7 @@ function drawPoly(pts, fill){
   ctx.fill();
 }
 function quad(a,b){return [[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]];}
+
 function fillRoadBase(topColor,bottomColor){
   var top=roadBoundsAtZ(0), bottom=roadBoundsAtZ(1);
   var g=ctx.createLinearGradient(0,top.y,0,H);
@@ -1382,7 +1381,6 @@ function drawRoad(){
   fn();
 }
 
-// 🦁 ORIGINAL 3D NEON GLASS PAD - HEIGHT BALANCED
 function drawRaisedPad(z, side, hexColor){
   var p=roadBoundsAtZ(z), e=p.e;
   var laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
@@ -1458,7 +1456,6 @@ function drawRunnerBehind(){
   var p = roadBoundsAtZ(state.playerZ || 0.84);
   var pSize = curSize * (0.3 + 0.7 * p.e);
 
-  // Instant steer slider positioning or auto follow
   var targetX = W/2;
   if(state.playerLane === 'slider'){
     targetX = W/2 + (p.half * 0.48 * state.steerOffset);
@@ -1471,7 +1468,6 @@ function drawRunnerBehind(){
   }
 
   state.playerX = state.playerX || (W/2);
-  // Fast 1-millisecond smooth snappy follow
   state.playerX += (targetX - state.playerX) * 0.35;
 
   drawImageFit(curImg, state.playerX, p.y + 4, pSize, pSize, 'bottom');
@@ -1491,7 +1487,6 @@ function drawRows(){
     if(z<0 || z>1.05) return;
     var zz=Math.min(1,z);
 
-    // Live collision check against actual player X position
     if(zz >= pZ - 0.02 && !processedPads[i]){
       processedPads[i] = true;
       var isPlayerOnRight = (state.playerX >= W/2);
@@ -1580,7 +1575,7 @@ $('saveBtn').onclick=function(){
   alert('Settings saved successfully!');
 };
 $('resetStorageBtn').onclick=function(){
-  try{ localStorage.removeItem('runner_studio_saved_v7'); }catch(e){}
+  try{ localStorage.removeItem('runner_studio_saved_v8'); }catch(e){}
   location.reload();
 };
 $('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'});location.href='/';};
