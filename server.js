@@ -97,11 +97,11 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     <div class="steer-box">
       <div class="steer-header">
         <span>⚡ Instant Runner Steer (इधर-उधर स्लाइडर)</span>
-        <span class="val-badge" id="v_laneSteer">0.0 (Left)</span>
+        <span class="val-badge" id="v_laneSteer">-1.0 (Left)</span>
       </div>
       <input id="laneSteer" type="range" min="-1.0" max="1.0" step="0.05" value="-1.0">
       <div class="steer-btns">
-        <button class="steer-btn left" id="quickLeftBtn">⬅️ SNAP LEFT LANE</button>
+        <button class="steer-btn left" id="quickLeftBtn">⬅️️ SNAP LEFT LANE</button>
         <button class="steer-btn right" id="quickRightBtn">SNAP RIGHT LANE ➡️</button>
       </div>
     </div>
@@ -415,6 +415,9 @@ var currentPath = 'base';
 var currentStageLevel = 0;
 var processedPads = {};
 
+// 🎁 5 Mystery Boxes HUD Memory
+var collectedHud = [null, null, null, null, null];
+
 var state={
   speed:0.24,
   horizon:0.46,
@@ -427,7 +430,7 @@ var state={
   bgMode:'black',
   speedLines:false,
   roadShine:true,
-  steerOffset:-1.0, // -1.0 is Left, +1.0 is Right
+  steerOffset:-1.0,
   baseStage: {img:null, size:160},
   greenStages:[
     null,
@@ -1272,7 +1275,7 @@ function rDiamondFlow(){
     var midY=(a.y+b.y)/2;
     var w=12+a.e*56, h=6+a.e*32;
     ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2,midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
   }
 }
 function rMinimalGrey(){
@@ -1426,6 +1429,37 @@ function drawImageFit(im, x, y, boxW, boxH, anchor){
   ctx.drawImage(im,dx,dy,dw,dh);
 }
 
+// 🎁 5 MYSTERY BOXES HUD (SCREEN TOP)
+function drawMysteryHUD(){
+  var count = 5, boxS = 80, gap = 14;
+  var totalW = count * boxS + (count - 1) * gap;
+  var startX = (W - totalW) / 2, hudY = 75;
+
+  for(var b = 0; b < count; b++){
+    var bx = startX + b * (boxS + gap);
+    if(collectedHud[b]){
+      ctx.save();
+      ctx.shadowColor = 'rgba(255, 215, 0, 0.45)';
+      ctx.shadowBlur = 12;
+      drawImageFit(collectedHud[b], bx + boxS/2, hudY + boxS - 4, boxS * 0.9, boxS * 0.9, 'bottom');
+      ctx.restore();
+    } else {
+      ctx.save();
+      ctx.fillStyle = '#ff9900';
+      ctx.beginPath(); ctx.roundRect(bx, hudY, boxS, boxS, 10); ctx.fill();
+      ctx.fillStyle = '#ffbe1a';
+      ctx.beginPath(); ctx.roundRect(bx + 4, hudY + 4, boxS - 8, boxS - 8, 8); ctx.fill();
+      ctx.strokeStyle = '#221100'; ctx.lineWidth = 3;
+      ctx.strokeRect(bx + 4, hudY + 4, boxS - 8, boxS - 8);
+      ctx.fillStyle = '#110800';
+      ctx.font = '900 ' + Math.floor(boxS * 0.65) + 'px Impact, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('?', bx + boxS/2, hudY + boxS/2 + 2);
+      ctx.restore();
+    }
+  }
+}
+
 function drawRunnerBehind(){
   var curImg = null;
   var curSize = 160;
@@ -1496,6 +1530,12 @@ function drawRows(){
       processedPads[i] = true;
       var isPlayerOnRight = (state.playerX >= W/2);
       var padHex = isPlayerOnRight ? row.rightColor : row.leftColor;
+      var itemImg = isPlayerOnRight ? row.rightImg : row.leftImg;
+
+      // 🎁 टच होते ही बॉक्स में आइटम फिट हो जाएगा
+      if(itemImg){
+        collectedHud[i] = itemImg;
+      }
       
       var isGreen = (padHex.indexOf('2a') !== -1 || padHex.indexOf('00') !== -1 || padHex.indexOf('green') !== -1);
       if(isGreen){
@@ -1564,6 +1604,7 @@ function frame(now){
   drawBackground();
   drawRoad();
   drawRows();
+  drawMysteryHUD();
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
@@ -1574,6 +1615,7 @@ $('resetBtn').onclick=function(){
   currentPath='base';
   currentStageLevel=0;
   processedPads={};
+  collectedHud=[null, null, null, null, null];
 };
 $('saveBtn').onclick=function(){
   autoSaveStudio();
