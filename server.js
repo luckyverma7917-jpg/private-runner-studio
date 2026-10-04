@@ -42,7 +42,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio 35+ Roads & Mystery Box HUD</title>
+<title>Private Runner Studio 35+ Roads & Instant Lane Steer</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d}
 *{box-sizing:border-box}
@@ -55,6 +55,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 .preview{min-width:0}.shell{background:#050607;border:1px solid var(--line);border-radius:18px;padding:7px;display:flex;justify-content:center;box-shadow:0 18px 60px #0007}
 .stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506}canvas{width:100%;height:100%;display:block}
 
+/* QUICK CONTROLS BAR UNDER CANVAS */
 .steer-box{margin-top:10px;padding:12px;background:#15181e;border:1px solid var(--line);border-radius:14px;display:grid;gap:8px}
 .steer-header{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
 .steer-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -64,7 +65,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 
 .transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}
 .note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}
-.controls{display:flex-direction:column;gap:10px}
+.controls{display:flex;flex-direction:column;gap:10px}
 details{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin-bottom:12px}summary{padding:13px 14px;background:var(--panel2);font-weight:800;cursor:pointer}
 .grid{padding:13px;display:grid;gap:11px}.grid.two{grid-template-columns:1fr 1fr}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px}
 .label-head{display:flex;justify-content:space-between;align-items:center}
@@ -92,6 +93,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
 
+    <!-- QUICK 1-MILLISECOND LANE CONTROLS -->
     <div class="steer-box">
       <div class="steer-header">
         <span>⚡ Instant Runner Steer (इधर-उधर स्लाइडर)</span>
@@ -105,7 +107,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">5 Mystery Question Boxes on top automatically fill with collected item PNG when pad is touched!</div>
+    <div class="note">Slider shifts runner immediately. 5 Mystery Boxes on top fill dynamically when pad is touched!</div>
   </section>
   <section class="controls">
     <details open><summary>🎁 Top Mystery Question Boxes HUD Settings</summary>
@@ -301,7 +303,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           <option value="iceWhite">☀️ 12. Arctic Ice White</option>
           <option value="cyberMintLight">☀️ 13. Cyber Mint Light</option>
           <option value="lilacMist">☀️ 14. Lilac Morning</option>
-          <option value="goldenSand">☀️ 15. Warm Golden Glow</option>
+          <option value="goldenSand">☀️️ 15. Warm Golden Glow</option>
         </optgroup>
         <optgroup label="--- 50+ Dark Themes ---">
           <option value="black" selected>1. Pitch Black</option>
@@ -964,7 +966,7 @@ var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
 var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
-// 🛣️ 100% PERFECT LINEAR STRAIGHT TRACK (NO PINCH, NO CURVE, PARALLEL)
+// 🛣️ 100% PERFECT LINEAR STRAIGHT TRACK (PARALLEL HIGHWAY)
 function roadBoundsAtZ(z){
   var t = Math.max(0, Math.min(1, z));
   var HORIZON_Y = H * state.horizon;
@@ -1453,7 +1455,7 @@ function drawImageFit(im, x, y, boxW, boxH, anchor){
   ctx.drawImage(im,dx,dy,dw,dh);
 }
 
-// 🎁 DRAW 5 MYSTERY QUESTION BOXES HUD ON TOP
+// 🎁 5 MYSTERY BOXES HUD ON TOP
 function drawMysteryHUD(){
   if(!state.showHud) return;
 
@@ -1471,14 +1473,12 @@ function drawMysteryHUD(){
     var collectedImg = collectedHud[i];
 
     if(collectedImg){
-      // 1. COLLECTED ITEM STATE (Item appears immediately)
       ctx.save();
       ctx.shadowColor = 'rgba(255, 215, 0, 0.4)';
       ctx.shadowBlur = 12;
       drawImageFit(collectedImg, bx + boxS/2, by + boxS - 6, boxS * 0.9, boxS * 0.9, 'bottom');
       ctx.restore();
     } else {
-      // 2. CLASSIC MARIO MYSTERY BOX (?)
       ctx.save();
       // Outer 3D Bevel Box
       ctx.fillStyle = '#ff9900';
@@ -1586,7 +1586,6 @@ function drawRows(){
       var padHex = isPlayerOnRight ? row.rightColor : row.leftColor;
       var itemImg = isPlayerOnRight ? row.rightImg : row.leftImg;
 
-      // Fill that exact mystery box immediately with collected PNG
       if(itemImg){
         collectedHud[i] = itemImg;
       }
@@ -1658,7 +1657,7 @@ function frame(now){
   drawBackground();
   drawRoad();
   drawRows();
-  drawMysteryHUD(); // Draw 5 Boxes on top
+  drawMysteryHUD();
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
@@ -1669,7 +1668,7 @@ $('resetBtn').onclick=function(){
   currentPath='base';
   currentStageLevel=0;
   processedPads={};
-  collectedHud=[null, null, null, null, null]; // Reset all 5 boxes to "?"
+  collectedHud=[null, null, null, null, null];
 };
 $('saveBtn').onclick=function(){
   autoSaveStudio();
