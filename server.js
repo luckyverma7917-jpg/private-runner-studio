@@ -42,7 +42,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio 35+ Roads & 100% Straight Line</title>
+<title>Private Runner Studio 35+ Roads & Instant Lane Steer</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d}
 *{box-sizing:border-box}
@@ -55,6 +55,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 .preview{min-width:0}.shell{background:#050607;border:1px solid var(--line);border-radius:18px;padding:7px;display:flex;justify-content:center;box-shadow:0 18px 60px #0007}
 .stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506}canvas{width:100%;height:100%;display:block}
 
+/* QUICK CONTROLS BAR UNDER CANVAS */
 .steer-box{margin-top:10px;padding:12px;background:#15181e;border:1px solid var(--line);border-radius:14px;display:grid;gap:8px}
 .steer-header{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
 .steer-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -64,7 +65,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 
 .transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}
 .note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}
-.controls{display:flex-direction:column;gap:10px}
+.controls{display:flex;flex-direction:column;gap:10px}
 details{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin-bottom:12px}summary{padding:13px 14px;background:var(--panel2);font-weight:800;cursor:pointer}
 .grid{padding:13px;display:grid;gap:11px}.grid.two{grid-template-columns:1fr 1fr}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px}
 .label-head{display:flex;justify-content:space-between;align-items:center}
@@ -85,17 +86,18 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V14 100% PARALLEL</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V12 INSTANT SLIDER</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
 
+    <!-- QUICK 1-MILLISECOND LANE CONTROLS -->
     <div class="steer-box">
       <div class="steer-header">
         <span>⚡ Instant Runner Steer (इधर-उधर स्लाइडर)</span>
-        <span class="val-badge" id="v_laneSteer">-1.0 (Left)</span>
+        <span class="val-badge" id="v_laneSteer">0.0 (Left)</span>
       </div>
       <input id="laneSteer" type="range" min="-1.0" max="1.0" step="0.05" value="-1.0">
       <div class="steer-btns">
@@ -105,7 +107,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Both boundaries and road are 100% straight parallel lines without curves or pinch.</div>
+    <div class="note">Slider shifts runner immediately without touching menus. Green upgrades runner, Red downgrades!</div>
   </section>
   <section class="controls">
     <details open><summary>🏃 Runner Evolution Settings (Green Buff vs Red Nerf)</summary>
@@ -203,12 +205,12 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46">
       </label>
       <label>
-        <span class="label-head"><span>Top Width (सीधी ऊपरी चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.40</span></span>
-        <input id="topWidth" type="range" min="0.05" max="1.10" step="0.01" value="0.40">
+        <span class="label-head"><span>Top Width</span><span class="val-badge" id="v_topWidth">0.08</span></span>
+        <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08">
       </label>
       <label>
-        <span class="label-head"><span>Bottom Width (निचली चौड़ाई)</span><span class="val-badge" id="v_bottomWidth">0.88</span></span>
-        <input id="bottomWidth" type="range" min="0.40" max="1.10" step="0.02" value="0.88">
+        <span class="label-head"><span>Bottom Width (Lion Style)</span><span class="val-badge" id="v_bottomWidth">0.88</span></span>
+        <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.88">
       </label>
       <label>
         <span class="label-head"><span>Camera Height (Eye View)</span><span class="val-badge" id="v_camHeight">1.2</span></span>
@@ -277,13 +279,13 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           <option value="mintFresh">☀️ 6. Fresh Mint Pastel</option>
           <option value="warmVanilla">☀️ 7. Warm Vanilla</option>
           <option value="peachDawn">☀️ 8. Peach Sunrise</option>
-          <option value="lavenderLight">☀️️ 9. Soft Lavender</option>
+          <option value="lavenderLight">☀️ 9. Soft Lavender</option>
           <option value="rosePastel">☀️ 10. Rose Pastel Glow</option>
           <option value="lemonDay">☀️ 11. Lemon Daylight</option>
           <option value="iceWhite">☀️ 12. Arctic Ice White</option>
           <option value="cyberMintLight">☀️ 13. Cyber Mint Light</option>
           <option value="lilacMist">☀️ 14. Lilac Morning</option>
-          <option value="goldenSand">☀️️ 15. Warm Golden Glow</option>
+          <option value="goldenSand">☀️ 15. Warm Golden Glow</option>
         </optgroup>
         <optgroup label="--- 50+ Dark Themes ---">
           <option value="black" selected>1. Pitch Black</option>
@@ -408,6 +410,7 @@ var W=canvas.width, H=canvas.height;
 var $=function(id){ return document.getElementById(id); };
 var running=true, last=performance.now(), roadTime=0, recorder=null, rowCounter=0;
 
+// Dual Progression Memory
 var currentPath = 'base';
 var currentStageLevel = 0;
 var processedPads = {};
@@ -415,7 +418,7 @@ var processedPads = {};
 var state={
   speed:0.24,
   horizon:0.46,
-  topWidth:0.40,
+  topWidth:0.08,
   bottomWidth:0.88,
   camHeight:1.2,
   padDelay:1.75,
@@ -424,7 +427,7 @@ var state={
   bgMode:'black',
   speedLines:false,
   roadShine:true,
-  steerOffset:-1.0,
+  steerOffset:-1.0, // -1.0 is Left, +1.0 is Right
   baseStage: {img:null, size:160},
   greenStages:[
     null,
@@ -570,13 +573,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v8', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v7', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v8');
+    var raw = localStorage.getItem('runner_studio_saved_v7');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -642,6 +645,7 @@ function bindRange(id,key){
 }
 ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ'].forEach(function(id){ bindRange(id,id); });
 
+// Steer slider instant response
 var steerInput = $('laneSteer');
 if(steerInput){
   steerInput.oninput = function(e){
@@ -670,6 +674,7 @@ $('quickRightBtn').onclick = function(){
   autoSaveStudio();
 };
 
+// Stage 0 Base setup
 if($('pSize_0')){
   $('pSize_0').oninput = function(e){
     state.baseStage.size = Number(e.target.value);
@@ -684,6 +689,7 @@ if($('pImg_0')){
   };
 }
 
+// 5 Green & 5 Red stages setup
 for(var k=1; k<=5; k++){
   (function(idx){
     if($('gSize_' + idx)){
@@ -927,20 +933,23 @@ var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
 var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
-// 🛣️ 100% PERFECT LINEAR STRAIGHT TRACK (NO PINCH, NO CURVE, PARALLEL)
 function roadBoundsAtZ(z){
-  var t = Math.max(0, Math.min(1, z));
-  var HORIZON_Y = H * state.horizon;
-  var TOP_HALF = W * (state.topWidth || 0.40);
-  var BOTTOM_HALF = W * (state.bottomWidth || 0.88);
+  var t=Math.max(0,Math.min(1,z));
+  var HORIZON_Y=H*state.horizon;
+  var TOP_HALF=W*state.topWidth;
+  var BOTTOM_HALF=W*(state.bottomWidth || 0.88);
 
-  // बिल्कुल सीधी रेखा (Linear Proportion - दोनों किनारे 100% सीधे)
-  var y = HORIZON_Y + (H - HORIZON_Y) * t;
-  var half = TOP_HALF + (BOTTOM_HALF - TOP_HALF) * t;
+  var zWorld = (1.0 - t) * 11.5 + 0.85;
+  var scale = 1.0 / (zWorld * state.camHeight);
+  var minScale = 1.0 / (12.35 * state.camHeight);
+  var maxScale = 1.0 / (0.85 * state.camHeight);
+  var depth = (scale - minScale) / (maxScale - minScale);
 
-  return {e: t, y: y, l: W/2 - half, r: W/2 + half, half: half};
+  var y = HORIZON_Y + (H - HORIZON_Y) * depth;
+  var half = TOP_HALF + (BOTTOM_HALF - TOP_HALF) * depth;
+
+  return {e:depth, y:y, l:W/2-half, r:W/2+half, half:half};
 }
-
 function lerp(a,b,t){return a+(b-a)*t;}
 function drawPoly(pts, fill){
   ctx.beginPath();
@@ -951,7 +960,6 @@ function drawPoly(pts, fill){
   ctx.fill();
 }
 function quad(a,b){return [[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]];}
-
 function fillRoadBase(topColor,bottomColor){
   var top=roadBoundsAtZ(0), bottom=roadBoundsAtZ(1);
   var g=ctx.createLinearGradient(0,top.y,0,H);
@@ -1264,7 +1272,7 @@ function rDiamondFlow(){
     var midY=(a.y+b.y)/2;
     var w=12+a.e*56, h=6+a.e*32;
     ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2,midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
   }
 }
 function rMinimalGrey(){
@@ -1374,6 +1382,7 @@ function drawRoad(){
   fn();
 }
 
+// 🦁 ORIGINAL 3D NEON GLASS PAD - HEIGHT BALANCED
 function drawRaisedPad(z, side, hexColor){
   var p=roadBoundsAtZ(z), e=p.e;
   var laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
@@ -1449,6 +1458,7 @@ function drawRunnerBehind(){
   var p = roadBoundsAtZ(state.playerZ || 0.84);
   var pSize = curSize * (0.3 + 0.7 * p.e);
 
+  // Instant steer slider positioning or auto follow
   var targetX = W/2;
   if(state.playerLane === 'slider'){
     targetX = W/2 + (p.half * 0.48 * state.steerOffset);
@@ -1461,6 +1471,7 @@ function drawRunnerBehind(){
   }
 
   state.playerX = state.playerX || (W/2);
+  // Fast 1-millisecond smooth snappy follow
   state.playerX += (targetX - state.playerX) * 0.35;
 
   drawImageFit(curImg, state.playerX, p.y + 4, pSize, pSize, 'bottom');
@@ -1480,6 +1491,7 @@ function drawRows(){
     if(z<0 || z>1.05) return;
     var zz=Math.min(1,z);
 
+    // Live collision check against actual player X position
     if(zz >= pZ - 0.02 && !processedPads[i]){
       processedPads[i] = true;
       var isPlayerOnRight = (state.playerX >= W/2);
@@ -1568,7 +1580,7 @@ $('saveBtn').onclick=function(){
   alert('Settings saved successfully!');
 };
 $('resetStorageBtn').onclick=function(){
-  try{ localStorage.removeItem('runner_studio_saved_v8'); }catch(e){}
+  try{ localStorage.removeItem('runner_studio_saved_v7'); }catch(e){}
   location.reload();
 };
 $('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'});location.href='/';};
