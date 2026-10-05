@@ -55,7 +55,6 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 .preview{min-width:0}.shell{background:#050607;border:1px solid var(--line);border-radius:18px;padding:7px;display:flex;justify-content:center;box-shadow:0 18px 60px #0007}
 .stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506}canvas{width:100%;height:100%;display:block}
 
-/* QUICK CONTROLS BAR UNDER CANVAS */
 .steer-box{margin-top:10px;padding:12px;background:#15181e;border:1px solid var(--line);border-radius:14px;display:grid;gap:8px}
 .steer-header{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
 .steer-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -72,7 +71,19 @@ details{border:1px solid var(--line);border-radius:14px;overflow:hidden;backgrou
 .val-badge{font-size:11px;background:#242a35;color:var(--accent);padding:2px 7px;border-radius:6px;font-family:monospace;font-weight:700}
 .val-badge.red{color:var(--red)}
 .val-badge.gold{color:var(--gold)}
-input[type=file]{width:100%;font-size:12px}input[type=range]{width:100%}
+
+/* SLIDER FINE-TUNE ROW */
+.range-wrap{display:flex;align-items:center;gap:6px}
+.range-wrap input[type=range]{flex:1}
+.step-btn{border:1px solid var(--line);background:#1e232d;color:#f6f8fb;border-radius:7px;width:30px;height:30px;display:grid;place-items:center;cursor:pointer;font-size:12px;font-weight:bold;user-select:none;flex-shrink:0}
+.step-btn:hover{background:#2a313f;color:var(--accent)}
+
+/* FILE PICKER + CLEAR BUTTON ROW */
+.file-wrap{display:flex;align-items:center;gap:6px}
+.file-wrap input[type=file]{flex:1;font-size:12px}
+.clear-btn{border:1px solid #ff4d4d55;background:#2b1216;color:#ff8585;border-radius:7px;padding:6px 10px;font-size:11px;font-weight:bold;cursor:pointer;flex-shrink:0}
+.clear-btn:hover{background:#45141c;color:#fff}
+
 select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px}
 .toggle{display:flex!important;align-items:center;gap:8px!important}
 .rowbar{padding:11px 13px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -87,20 +98,23 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V16 HUD CONTROLLER</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V17 FINE-TUNE HUD</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
 
-    <!-- QUICK 1-MILLISECOND LANE CONTROLS -->
     <div class="steer-box">
       <div class="steer-header">
         <span>⚡ Instant Runner Steer (इधर-उधर स्लाइडर)</span>
         <span class="val-badge" id="v_laneSteer">-1.0 (Left)</span>
       </div>
-      <input id="laneSteer" type="range" min="-1.0" max="1.0" step="0.05" value="-1.0">
+      <div class="range-wrap">
+        <button type="button" class="step-btn" data-step-for="laneSteer" data-dir="-1">◀</button>
+        <input id="laneSteer" type="range" min="-1.0" max="1.0" step="0.05" value="-1.0">
+        <button type="button" class="step-btn" data-step-for="laneSteer" data-dir="1">▶</button>
+      </div>
       <div class="steer-btns">
         <button class="steer-btn left" id="quickLeftBtn">⬅ SNAP LEFT LANE</button>
         <button class="steer-btn right" id="quickRightBtn">SNAP RIGHT LANE ➡️</button>
@@ -108,10 +122,9 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">5 Mystery Question Boxes on top. Change themes, colors, or manually assign PNGs!</div>
+    <div class="note">Fine-tuning side arrows active on all sliders. Individual ✕ Clear buttons added to every PNG.</div>
   </section>
   <section class="controls">
-    <!-- 🎁 FULL CONTROLLER FOR MYSTERY HUD BOXES -->
     <details open><summary>🎁 5 Mystery Question Boxes HUD Controller</summary>
       <div class="grid two">
         <label class="toggle"><input id="showHud" type="checkbox" checked> Show 5 Mystery Boxes</label>
@@ -167,32 +180,78 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
         <label>
           <span class="label-head"><span>HUD Y-Position (ऊपर से दूरी)</span><span class="val-badge gold" id="v_hudY">75</span></span>
-          <input id="hudY" type="range" min="30" max="300" value="75">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="hudY" data-dir="-1">◀</button>
+            <input id="hudY" type="range" min="30" max="300" value="75">
+            <button type="button" class="step-btn" data-step-for="hudY" data-dir="1">▶</button>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Box Size (बक्से का साइज़)</span><span class="val-badge gold" id="v_hudBoxSize">80</span></span>
-          <input id="hudBoxSize" type="range" min="45" max="140" value="80">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="hudBoxSize" data-dir="-1">◀</button>
+            <input id="hudBoxSize" type="range" min="45" max="140" value="80">
+            <button type="button" class="step-btn" data-step-for="hudBoxSize" data-dir="1">▶</button>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Box Spacing (बक्सों के बीच दूरी)</span><span class="val-badge gold" id="v_hudSpacing">14</span></span>
-          <input id="hudSpacing" type="range" min="6" max="40" value="14">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="hudSpacing" data-dir="-1">◀</button>
+            <input id="hudSpacing" type="range" min="6" max="40" value="14">
+            <button type="button" class="step-btn" data-step-for="hudSpacing" data-dir="1">▶</button>
+          </div>
         </label>
 
-        <div class="sub-title" style="color:var(--gold)">📁 Optional: Manual PNG Override for Boxes (अगर खुद PNG लगानी हो)</div>
-        <label>Box 1 PNG (First Pad) <input id="hudImg_0" type="file" accept="image/png,image/webp,image/jpeg"></label>
-        <label>Box 2 PNG (Second Pad) <input id="hudImg_1" type="file" accept="image/png,image/webp,image/jpeg"></label>
-        <label>Box 3 PNG (Third Pad) <input id="hudImg_2" type="file" accept="image/png,image/webp,image/jpeg"></label>
-        <label>Box 4 PNG (Fourth Pad) <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg"></label>
-        <label style="grid-column:span 2">Box 5 PNG (Fifth Pad) <input id="hudImg_4" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <div class="sub-title" style="color:var(--gold)">📁 Manual PNG Override for Boxes (Clear बटन के साथ)</div>
+        <label>Box 1 PNG
+          <div class="file-wrap">
+            <input id="hudImg_0" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_hud_0">✕ Clear</button>
+          </div>
+        </label>
+        <label>Box 2 PNG
+          <div class="file-wrap">
+            <input id="hudImg_1" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_hud_1">✕ Clear</button>
+          </div>
+        </label>
+        <label>Box 3 PNG
+          <div class="file-wrap">
+            <input id="hudImg_2" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_hud_2">✕ Clear</button>
+          </div>
+        </label>
+        <label>Box 4 PNG
+          <div class="file-wrap">
+            <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_hud_3">✕ Clear</button>
+          </div>
+        </label>
+        <label style="grid-column:span 2">Box 5 PNG
+          <div class="file-wrap">
+            <input id="hudImg_4" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_hud_4">✕ Clear</button>
+          </div>
+        </label>
       </div>
     </details>
 
     <details open><summary>🏃 Runner Evolution Settings (Green Buff vs Red Nerf)</summary>
       <div class="grid two">
-        <label>Base Start PNG (Stage 0) <input id="pImg_0" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Base Start PNG (Stage 0)
+          <div class="file-wrap">
+            <input id="pImg_0" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_pImg_0">✕ Clear</button>
+          </div>
+        </label>
         <label>
           <span class="label-head"><span>Stage 0 Base Size</span><span class="val-badge" id="v_pSize_0">160</span></span>
-          <input id="pSize_0" type="range" min="40" max="800" value="160">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="pSize_0" data-dir="-1">◀</button>
+            <input id="pSize_0" type="range" min="40" max="800" value="160">
+            <button type="button" class="step-btn" data-step-for="pSize_0" data-dir="1">▶</button>
+          </div>
         </label>
 
         <label>Runner Lane Mode
@@ -205,69 +264,163 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
         <label>
           <span class="label-head"><span>Depth (Z-Position)</span><span class="val-badge" id="v_playerZ">0.84</span></span>
-          <input id="playerZ" type="range" min="0.50" max="0.95" step="0.01" value="0.84">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="playerZ" data-dir="-1">◀</button>
+            <input id="playerZ" type="range" min="0.50" max="0.95" step="0.01" value="0.84">
+            <button type="button" class="step-btn" data-step-for="playerZ" data-dir="1">▶</button>
+          </div>
         </label>
 
         <div class="sub-title" style="color:#61f0a6">&#128170; GREEN PAD UPGRADES (STRONG / GROW)</div>
-        <label>Green Stage 1 PNG <input id="gImg_1" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Green Stage 1 PNG
+          <div class="file-wrap">
+            <input id="gImg_1" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_gImg_1">✕ Clear</button>
+          </div>
+        </label>
         <label>
           <span class="label-head"><span>Green 1 Size</span><span class="val-badge" id="v_gSize_1">180</span></span>
-          <input id="gSize_1" type="range" min="40" max="800" value="180">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="gSize_1" data-dir="-1">◀</button>
+            <input id="gSize_1" type="range" min="40" max="800" value="180">
+            <button type="button" class="step-btn" data-step-for="gSize_1" data-dir="1">▶</button>
+          </div>
         </label>
 
-        <label>Green Stage 2 PNG <input id="gImg_2" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Green Stage 2 PNG
+          <div class="file-wrap">
+            <input id="gImg_2" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_gImg_2">✕ Clear</button>
+          </div>
+        </label>
         <label>
           <span class="label-head"><span>Green 2 Size</span><span class="val-badge" id="v_gSize_2">210</span></span>
-          <input id="gSize_2" type="range" min="40" max="800" value="210">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="gSize_2" data-dir="-1">◀</button>
+            <input id="gSize_2" type="range" min="40" max="800" value="210">
+            <button type="button" class="step-btn" data-step-for="gSize_2" data-dir="1">▶</button>
+          </div>
         </label>
 
-        <label>Green Stage 3 PNG <input id="gImg_3" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Green Stage 3 PNG
+          <div class="file-wrap">
+            <input id="gImg_3" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_gImg_3">✕ Clear</button>
+          </div>
+        </label>
         <label>
           <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">240</span></span>
-          <input id="gSize_3" type="range" min="40" max="800" value="240">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="gSize_3" data-dir="-1">◀</button>
+            <input id="gSize_3" type="range" min="40" max="800" value="240">
+            <button type="button" class="step-btn" data-step-for="gSize_3" data-dir="1">▶</button>
+          </div>
         </label>
 
-        <label>Green Stage 4 PNG <input id="gImg_4" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Green Stage 4 PNG
+          <div class="file-wrap">
+            <input id="gImg_4" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_gImg_4">✕ Clear</button>
+          </div>
+        </label>
         <label>
           <span class="label-head"><span>Green 4 Size</span><span class="val-badge" id="v_gSize_4">270</span></span>
-          <input id="gSize_4" type="range" min="40" max="800" value="270">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="gSize_4" data-dir="-1">◀</button>
+            <input id="gSize_4" type="range" min="40" max="800" value="270">
+            <button type="button" class="step-btn" data-step-for="gSize_4" data-dir="1">▶</button>
+          </div>
         </label>
 
-        <label>Green Stage 5 PNG (Final) <input id="gImg_5" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Green Stage 5 PNG (Final)
+          <div class="file-wrap">
+            <input id="gImg_5" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_gImg_5">✕ Clear</button>
+          </div>
+        </label>
         <label>
           <span class="label-head"><span>Green 5 Size</span><span class="val-badge" id="v_gSize_5">310</span></span>
-          <input id="gSize_5" type="range" min="40" max="800" value="310">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="gSize_5" data-dir="-1">◀</button>
+            <input id="gSize_5" type="range" min="40" max="800" value="310">
+            <button type="button" class="step-btn" data-step-for="gSize_5" data-dir="1">▶</button>
+          </div>
         </label>
 
         <div class="sub-title" style="color:#ff6b6b">&#128128; RED PAD DOWNGRADES (WEAK / THIN)</div>
-        <label>Red Stage 1 PNG (Weak 1) <input id="rImg_1" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Red Stage 1 PNG (Weak 1)
+          <div class="file-wrap">
+            <input id="rImg_1" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_rImg_1">✕ Clear</button>
+          </div>
+        </label>
         <label>
           <span class="label-head"><span>Red 1 Size</span><span class="val-badge red" id="v_rSize_1">140</span></span>
-          <input id="rSize_1" type="range" min="40" max="800" value="140">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="rSize_1" data-dir="-1">◀</button>
+            <input id="rSize_1" type="range" min="40" max="800" value="140">
+            <button type="button" class="step-btn" data-step-for="rSize_1" data-dir="1">▶</button>
+          </div>
         </label>
 
-        <label>Red Stage 2 PNG (Weak 2) <input id="rImg_2" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Red Stage 2 PNG (Weak 2)
+          <div class="file-wrap">
+            <input id="rImg_2" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_rImg_2">✕ Clear</button>
+          </div>
+        </label>
         <label>
           <span class="label-head"><span>Red 2 Size</span><span class="val-badge red" id="v_rSize_2">120</span></span>
-          <input id="rSize_2" type="range" min="40" max="800" value="120">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="rSize_2" data-dir="-1">◀</button>
+            <input id="rSize_2" type="range" min="40" max="800" value="120">
+            <button type="button" class="step-btn" data-step-for="rSize_2" data-dir="1">▶</button>
+          </div>
         </label>
 
-        <label>Red Stage 3 PNG (Weak 3) <input id="rImg_3" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Red Stage 3 PNG (Weak 3)
+          <div class="file-wrap">
+            <input id="rImg_3" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_rImg_3">✕ Clear</button>
+          </div>
+        </label>
         <label>
           <span class="label-head"><span>Red 3 Size</span><span class="val-badge red" id="v_rSize_3">105</span></span>
-          <input id="rSize_3" type="range" min="40" max="800" value="105">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="rSize_3" data-dir="-1">◀</button>
+            <input id="rSize_3" type="range" min="40" max="800" value="105">
+            <button type="button" class="step-btn" data-step-for="rSize_3" data-dir="1">▶</button>
+          </div>
         </label>
 
-        <label>Red Stage 4 PNG (Weak 4) <input id="rImg_4" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Red Stage 4 PNG (Weak 4)
+          <div class="file-wrap">
+            <input id="rImg_4" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_rImg_4">✕ Clear</button>
+          </div>
+        </label>
         <label>
           <span class="label-head"><span>Red 4 Size</span><span class="val-badge red" id="v_rSize_4">90</span></span>
-          <input id="rSize_4" type="range" min="40" max="800" value="90">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="rSize_4" data-dir="-1">◀</button>
+            <input id="rSize_4" type="range" min="40" max="800" value="90">
+            <button type="button" class="step-btn" data-step-for="rSize_4" data-dir="1">▶</button>
+          </div>
         </label>
 
-        <label>Red Stage 5 PNG (Weakest) <input id="rImg_5" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>Red Stage 5 PNG (Weakest)
+          <div class="file-wrap">
+            <input id="rImg_5" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_rImg_5">✕ Clear</button>
+          </div>
+        </label>
         <label>
           <span class="label-head"><span>Red 5 Size</span><span class="val-badge red" id="v_rSize_5">80</span></span>
-          <input id="rSize_5" type="range" min="40" max="800" value="80">
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="rSize_5" data-dir="-1">◀</button>
+            <input id="rSize_5" type="range" min="40" max="800" value="80">
+            <button type="button" class="step-btn" data-step-for="rSize_5" data-dir="1">▶</button>
+          </div>
         </label>
       </div>
     </details>
@@ -275,31 +428,59 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     <details open><summary>Moving Highway & Camera</summary><div class="grid two">
       <label>
         <span class="label-head"><span>Forward speed</span><span class="val-badge" id="v_speed">0.24</span></span>
-        <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24">
+        <div class="range-wrap">
+          <button type="button" class="step-btn" data-step-for="speed" data-dir="-1">◀</button>
+          <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24">
+          <button type="button" class="step-btn" data-step-for="speed" data-dir="1">▶</button>
+        </div>
       </label>
       <label>
         <span class="label-head"><span>Horizon Height</span><span class="val-badge" id="v_horizon">0.46</span></span>
-        <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46">
+        <div class="range-wrap">
+          <button type="button" class="step-btn" data-step-for="horizon" data-dir="-1">◀</button>
+          <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46">
+          <button type="button" class="step-btn" data-step-for="horizon" data-dir="1">▶</button>
+        </div>
       </label>
       <label>
         <span class="label-head"><span>Top Width</span><span class="val-badge" id="v_topWidth">0.08</span></span>
-        <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08">
+        <div class="range-wrap">
+          <button type="button" class="step-btn" data-step-for="topWidth" data-dir="-1">◀</button>
+          <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08">
+          <button type="button" class="step-btn" data-step-for="topWidth" data-dir="1">▶</button>
+        </div>
       </label>
       <label>
         <span class="label-head"><span>Bottom Width (Lion Style)</span><span class="val-badge" id="v_bottomWidth">0.88</span></span>
-        <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.88">
+        <div class="range-wrap">
+          <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="-1">◀</button>
+          <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.88">
+          <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="1">▶</button>
+        </div>
       </label>
       <label>
         <span class="label-head"><span>Camera Height (Eye View)</span><span class="val-badge" id="v_camHeight">1.2</span></span>
-        <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2">
+        <div class="range-wrap">
+          <button type="button" class="step-btn" data-step-for="camHeight" data-dir="-1">◀</button>
+          <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2">
+          <button type="button" class="step-btn" data-step-for="camHeight" data-dir="1">▶</button>
+        </div>
       </label>
       <label>
         <span class="label-head"><span>Pad delay</span><span class="val-badge" id="v_padDelay">1.75</span></span>
-        <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75">
+        <div class="range-wrap">
+          <button type="button" class="step-btn" data-step-for="padDelay" data-dir="-1">◀</button>
+          <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75">
+          <button type="button" class="step-btn" data-step-for="padDelay" data-dir="1">▶</button>
+        </div>
       </label>
       <label>
         <span class="label-head"><span>Pad glow base</span><span class="val-badge" id="v_padThickness">14</span></span>
-        <input id="padThickness" type="range" min="6" max="28" value="14">
+        <div class="range-wrap">
+          <button type="button" class="step-btn" data-step-for="padThickness" data-dir="-1">◀</button>
+          <input id="padThickness" type="range" min="6" max="28" value="14">
+          <button type="button" class="step-btn" data-step-for="padThickness" data-dir="1">▶</button>
+        </div>
       </label>
       <label>Road style (35+ Roads) <select id="roadVariant">
         <optgroup label="--- Classic & Highway ---">
@@ -352,13 +533,13 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           <option value="softSilver">☀️ 2. Soft Silver Mist</option>
           <option value="cloudGrey">☀️ 3. Cloud Grey</option>
           <option value="skyBlueLight">☀️ 4. Clear Sky Blue</option>
-          <option value="cyanBreeze">☀️️ 5. Light Cyan Breeze</option>
+          <option value="cyanBreeze">☀️ 5. Light Cyan Breeze</option>
           <option value="mintFresh">☀️ 6. Fresh Mint Pastel</option>
           <option value="warmVanilla">☀️ 7. Warm Vanilla</option>
           <option value="peachDawn">☀️ 8. Peach Sunrise</option>
           <option value="lavenderLight">☀️ 9. Soft Lavender</option>
           <option value="rosePastel">☀️ 10. Rose Pastel Glow</option>
-          <option value="lemonDay">☀️ 11. Lemon Daylight</option>
+          <option value="lemonDay">☀️️ 11. Lemon Daylight</option>
           <option value="iceWhite">☀️ 12. Arctic Ice White</option>
           <option value="cyberMintLight">☀️ 13. Cyber Mint Light</option>
           <option value="lilacMist">☀️ 14. Lilac Morning</option>
@@ -422,7 +603,23 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       <label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label>
       <label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label>
     </div></details>
-    <details open><summary>5 Fixed Rows + Opponent Boss</summary><div class="rowbar"><span class="small">5 main rows with custom color pickers & live size values + Stationary Boss.</span></div><div id="rows" class="rows"></div></details>
+
+    <!-- 5 ROWS + MASTER PNG SIZE -->
+    <details open><summary>5 Fixed Rows + Opponent Boss</summary>
+      <div class="rowbar">
+        <span class="small">5 main rows with custom color pickers & live size values + Stationary Boss.</span>
+        <div style="width:100%;margin-top:6px;display:flex;align-items:center;gap:10px">
+          <span style="font-weight:bold;font-size:12px;color:var(--accent)">⚡ Master All Pads PNG Size:</span>
+          <div class="range-wrap" style="flex:1">
+            <button type="button" class="step-btn" data-step-for="masterPadPngSize" data-dir="-1">◀</button>
+            <input id="masterPadPngSize" type="range" min="45" max="450" value="95">
+            <button type="button" class="step-btn" data-step-for="masterPadPngSize" data-dir="1">▶</button>
+          </div>
+          <span class="val-badge" id="v_masterPadPngSize">95</span>
+        </div>
+      </div>
+      <div id="rows" class="rows"></div>
+    </details>
   </section>
 </main>
 
@@ -438,11 +635,20 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
             <span class="leftColorVal small">#2aff84</span>
           </div>
         </label>
-        <label>PNG <input class="leftInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>PNG
+          <div class="file-wrap">
+            <input class="leftInput" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn clear-left">✕ Clear</button>
+          </div>
+        </label>
         <label class="toggle"><input class="leftRemove" type="checkbox" checked> Auto remove bg</label>
         <label>
           <span class="label-head"><span>Size</span><span class="val-badge leftSizeVal">95</span></span>
-          <input class="leftSize" type="range" min="45" max="450" value="95">
+          <div class="range-wrap">
+            <button type="button" class="step-btn step-left-minus">◀</button>
+            <input class="leftSize" type="range" min="45" max="450" value="95">
+            <button type="button" class="step-btn step-left-plus">▶</button>
+          </div>
         </label>
       </div>
       <div class="side">
@@ -453,11 +659,20 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
             <span class="rightColorVal small">#ff323a</span>
           </div>
         </label>
-        <label>PNG <input class="rightInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
+        <label>PNG
+          <div class="file-wrap">
+            <input class="rightInput" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn clear-right">✕ Clear</button>
+          </div>
+        </label>
         <label class="toggle"><input class="rightRemove" type="checkbox" checked> Auto remove bg</label>
         <label>
           <span class="label-head"><span>Size</span><span class="val-badge rightSizeVal">95</span></span>
-          <input class="rightSize" type="range" min="45" max="450" value="95">
+          <div class="range-wrap">
+            <button type="button" class="step-btn step-right-minus">◀</button>
+            <input class="rightSize" type="range" min="45" max="450" value="95">
+            <button type="button" class="step-btn step-right-plus">▶</button>
+          </div>
         </label>
       </div>
     </div>
@@ -469,11 +684,20 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     <div class="rowhead"><strong style="color:#61f0a6">&#128293; Opponent Boss</strong><span class="small">Static behind 5th pad (Appears after 2nd pad)</span></div>
     <div class="side" style="grid-column:span 2">
       <b>OPPONENT CHARACTER</b>
-      <label>PNG <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg"></label>
+      <label>PNG
+        <div class="file-wrap">
+          <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg">
+          <button type="button" class="clear-btn" id="clear_oppImg">✕ Clear</button>
+        </div>
+      </label>
       <label class="toggle"><input class="oppRemove" type="checkbox" checked> Auto remove bg</label>
       <label>
         <span class="label-head"><span>Size</span><span class="val-badge oppSizeVal">220</span></span>
-        <input class="oppSize" type="range" min="50" max="600" value="220">
+        <div class="range-wrap">
+          <button type="button" class="step-btn" data-step-for="oppSize" data-dir="-1">◀</button>
+          <input class="oppSize" type="range" min="50" max="600" value="220">
+          <button type="button" class="step-btn" data-step-for="oppSize" data-dir="1">▶</button>
+        </div>
       </label>
     </div>
   </div>
@@ -540,7 +764,7 @@ var state={
   opponent:{src:null, img:null, removeBg:true, size:220}
 };
 
-// 🎨 35+ HUD COLOR THEMES (BORDER, FACE, TEXT, GLOW)
+// 🎨 35+ HUD COLOR THEMES
 var hudThemes = {
   classicGold:     { border:'#ff9900', face:'#ffbe1a', stroke:'#221100', text:'#110800', glow:'rgba(255,190,26,0.5)' },
   royalGold:       { border:'#d97706', face:'#fbbf24', stroke:'#451a03', text:'#451a03', glow:'rgba(251,191,36,0.6)' },
@@ -666,6 +890,32 @@ function updateBadge(key, val){
   if(el) el.textContent = val;
 }
 
+// ◀ ▶ STEP BUTTONS HANDLER (FINE-TUNE ADJUSTMENT)
+function stepSlider(inp, dir){
+  if(!inp) return;
+  var step = parseFloat(inp.step) || 1;
+  var min = parseFloat(inp.min) !== undefined ? parseFloat(inp.min) : -Infinity;
+  var max = parseFloat(inp.max) !== undefined ? parseFloat(inp.max) : Infinity;
+  var cur = parseFloat(inp.value) || 0;
+  var next = cur + dir * step;
+  if(next < min) next = min;
+  if(next > max) next = max;
+  var decimals = (step.toString().split('.')[1] || '').length;
+  inp.value = Number(next.toFixed(decimals));
+  inp.dispatchEvent(new Event('input', {bubbles:true}));
+}
+
+document.addEventListener('click', function(e){
+  var btn = e.target.closest('.step-btn');
+  if(!btn) return;
+  var stepFor = btn.getAttribute('data-step-for');
+  var dir = parseInt(btn.getAttribute('data-dir'), 10) || 1;
+  if(stepFor){
+    var targetInput = $(stepFor);
+    if(targetInput) stepSlider(targetInput, dir);
+  }
+});
+
 function autoSaveStudio(){
   try{
     var s = {
@@ -705,13 +955,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v10', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v11', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v10');
+    var raw = localStorage.getItem('runner_studio_saved_v11');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -782,10 +1032,11 @@ if($('showHud')){ $('showHud').onchange = function(e){ state.showHud = e.target.
 if($('autoCollectHud')){ $('autoCollectHud').onchange = function(e){ state.autoCollectHud = e.target.checked; autoSaveStudio(); }; }
 if($('hudStyle')){ $('hudStyle').onchange = function(e){ state.hudStyle = e.target.value; autoSaveStudio(); }; }
 
-// Manual file uploaders for all 5 boxes
+// Manual file uploaders & Clear buttons for all 5 boxes
 for(var h=0; h<5; h++){
   (function(bIdx){
     var inp = $('hudImg_' + bIdx);
+    var clr = $('clear_hud_' + bIdx);
     if(inp){
       inp.onchange = function(e){
         var f = e.target.files[0]; if(!f) return;
@@ -794,6 +1045,13 @@ for(var h=0; h<5; h++){
             manualHudImgs[bIdx] = im;
           });
         });
+      };
+    }
+    if(clr){
+      clr.onclick = function(){
+        if(inp) inp.value = '';
+        manualHudImgs[bIdx] = null;
+        collectedHud[bIdx] = null;
       };
     }
   })(h);
@@ -828,7 +1086,7 @@ $('quickRightBtn').onclick = function(){
   autoSaveStudio();
 };
 
-// Stage 0 Base setup
+// Stage 0 Base setup + Clear
 if($('pSize_0')){
   $('pSize_0').oninput = function(e){
     state.baseStage.size = Number(e.target.value);
@@ -842,8 +1100,14 @@ if($('pImg_0')){
     readFile(f).then(function(src){ dataToProcessedImage(src, true).then(function(im){ state.baseStage.img = im; }); });
   };
 }
+if($('clear_pImg_0')){
+  $('clear_pImg_0').onclick = function(){
+    if($('pImg_0')) $('pImg_0').value = '';
+    state.baseStage.img = null;
+  };
+}
 
-// 5 Green & 5 Red stages setup
+// 5 Green & 5 Red stages setup + Clear buttons
 for(var k=1; k<=5; k++){
   (function(idx){
     if($('gSize_' + idx)){
@@ -859,6 +1123,12 @@ for(var k=1; k<=5; k++){
         readFile(f).then(function(src){ dataToProcessedImage(src, true).then(function(im){ state.greenStages[idx].img = im; }); });
       };
     }
+    if($('clear_gImg_' + idx)){
+      $('clear_gImg_' + idx).onclick = function(){
+        if($('gImg_' + idx)) $('gImg_' + idx).value = '';
+        state.greenStages[idx].img = null;
+      };
+    }
     if($('rSize_' + idx)){
       $('rSize_' + idx).oninput = function(e){
         state.redStages[idx].size = Number(e.target.value);
@@ -872,7 +1142,30 @@ for(var k=1; k<=5; k++){
         readFile(f).then(function(src){ dataToProcessedImage(src, true).then(function(im){ state.redStages[idx].img = im; }); });
       };
     }
+    if($('clear_rImg_' + idx)){
+      $('clear_rImg_' + idx).onclick = function(){
+        if($('rImg_' + idx)) $('rImg_' + idx).value = '';
+        state.redStages[idx].img = null;
+      };
+    }
   })(k);
+}
+
+// ⚡ MASTER PAD PNG SIZE SLIDER HANDLER
+if($('masterPadPngSize')){
+  $('masterPadPngSize').oninput = function(e){
+    var val = Number(e.target.value);
+    updateBadge('masterPadPngSize', val);
+    state.rows.forEach(function(r){
+      r.leftSize = val;
+      r.rightSize = val;
+    });
+    document.querySelectorAll('.leftSize').forEach(function(inp){ inp.value = val; });
+    document.querySelectorAll('.rightSize').forEach(function(inp){ inp.value = val; });
+    document.querySelectorAll('.leftSizeVal').forEach(function(bdg){ bdg.textContent = val; });
+    document.querySelectorAll('.rightSizeVal').forEach(function(bdg){ bdg.textContent = val; });
+    autoSaveStudio();
+  };
 }
 
 if($('roadVariant')) $('roadVariant').onchange=function(e){state.roadVariant=e.target.value; autoSaveStudio();};
@@ -912,6 +1205,14 @@ function addRow(saved){
   var leftSizeVal = el.querySelector('.leftSizeVal');
   var rightSizeVal = el.querySelector('.rightSizeVal');
 
+  var stepLeftMinus = el.querySelector('.step-left-minus');
+  var stepLeftPlus = el.querySelector('.step-left-plus');
+  var stepRightMinus = el.querySelector('.step-right-minus');
+  var stepRightPlus = el.querySelector('.step-right-plus');
+
+  var clearLeft = el.querySelector('.clear-left');
+  var clearRight = el.querySelector('.clear-right');
+
   leftColorInput.value=row.leftColor;
   rightColorInput.value=row.rightColor;
   if(leftColorVal) leftColorVal.textContent=row.leftColor;
@@ -921,6 +1222,22 @@ function addRow(saved){
   rightSizeInput.value=row.rightSize;
   if(leftSizeVal) leftSizeVal.textContent=row.leftSize;
   if(rightSizeVal) rightSizeVal.textContent=row.rightSize;
+
+  stepLeftMinus.onclick = function(){ stepSlider(leftSizeInput, -1); };
+  stepLeftPlus.onclick = function(){ stepSlider(leftSizeInput, 1); };
+  stepRightMinus.onclick = function(){ stepSlider(rightSizeInput, -1); };
+  stepRightPlus.onclick = function(){ stepSlider(rightSizeInput, 1); };
+
+  clearLeft.onclick = function(){
+    el.querySelector('.leftInput').value = '';
+    row.leftSrc = null;
+    row.leftImg = null;
+  };
+  clearRight.onclick = function(){
+    el.querySelector('.rightInput').value = '';
+    row.rightSrc = null;
+    row.rightImg = null;
+  };
 
   el.querySelector('.leftRemove').checked=row.leftRemove;
   el.querySelector('.rightRemove').checked=row.rightRemove;
@@ -1091,6 +1408,14 @@ function initRows(){
       dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){state.opponent.img=im;});
     });
   };
+  var clearOpp = oppEl.querySelector('#clear_oppImg');
+  if(clearOpp){
+    clearOpp.onclick = function(){
+      oppEl.querySelector('.oppInput').value = '';
+      state.opponent.src = null;
+      state.opponent.img = null;
+    };
+  }
   $('rows').appendChild(oppEl);
 }
 initRows();
@@ -1438,7 +1763,7 @@ function rDiamondFlow(){
     var midY=(a.y+b.y)/2;
     var w=12+a.e*56, h=6+a.e*32;
     ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2,midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
   }
 }
 function rMinimalGrey(){
@@ -1560,7 +1885,7 @@ function drawRaisedPad(z, side, hexColor){
   var c = hexToRgb(hexColor);
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
-  var darkG = Math.max(0, Math.floor(c.r * 0.45));
+  var darkG = Math.max(0, Math.floor(c.g * 0.45));
   var darkB = Math.max(0, Math.floor(c.b * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
@@ -1785,7 +2110,7 @@ function frame(now){
   drawBackground();
   drawRoad();
   drawRows();
-  drawMysteryHUD(); // Draw 5 HUD Boxes with live theme
+  drawMysteryHUD();
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
@@ -1803,7 +2128,7 @@ $('saveBtn').onclick=function(){
   alert('Settings saved successfully!');
 };
 $('resetStorageBtn').onclick=function(){
-  try{ localStorage.removeItem('runner_studio_saved_v10'); }catch(e){}
+  try{ localStorage.removeItem('runner_studio_saved_v11'); }catch(e){}
   location.reload();
 };
 $('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'});location.href='/';};
