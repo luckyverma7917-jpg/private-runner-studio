@@ -46,12 +46,13 @@ const APP_HTML = `<!doctype html>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
 .top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 14px;background:#0b0d10ee;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
 .top strong{font-size:18px}.badge{font-size:11px;color:#07110c;background:var(--accent);border-radius:99px;padding:4px 7px;margin-left:6px}
 .top-actions{display:flex;gap:7px}.top button,.transport button,.rowbar button{border:1px solid var(--line);background:#222731;color:white;border-radius:11px;padding:9px 12px;font:inherit;cursor:pointer}
 .top .primary,.transport .primary{background:var(--accent);color:#07110c;border-color:transparent;font-weight:800}
-.studio{max-width:1220px;margin:auto;padding:14px;display:grid;grid-template-columns:minmax(320px,660px) minmax(300px,1fr);gap:16px}
+
+.studio{max-width:1380px;margin:auto;padding:14px;display:grid;grid-template-columns:minmax(320px,500px) minmax(340px,1fr);gap:16px}
 .preview{min-width:0}.shell{background:#050607;border:1px solid var(--line);border-radius:18px;padding:7px;display:flex;justify-content:center;box-shadow:0 18px 60px #0007}
 .stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506}canvas{width:100%;height:100%;display:block}
 
@@ -64,41 +65,56 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 
 .transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}
 .note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}
-.controls{display:flex;flex-direction:column;gap:10px}
-details{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin-bottom:12px}summary{padding:13px 14px;background:var(--panel2);font-weight:800;cursor:pointer}
-.grid{padding:13px;display:grid;gap:11px}.grid.two{grid-template-columns:1fr 1fr}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px}
+
+.controls{display:flex;flex-direction:column;gap:12px;min-width:0}
+
+/* DRAGGABLE CARDS */
+.drag-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);transition:transform 0.15s, opacity 0.15s}
+.drag-card.dragging{opacity:0.4;border-color:var(--accent)}
+.drag-card.drag-over{border-color:var(--accent);transform:translateY(4px)}
+
+summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}
+.drag-handle{cursor:grab;color:var(--muted);font-size:18px;padding:2px 8px;border-radius:4px;border:1px dashed #3a4250;margin-left:auto}
+.drag-handle:active{cursor:grabbing}
+
+.grid{padding:13px;display:grid;gap:11px}.grid.two{grid-template-columns:repeat(auto-fit, minmax(220px, 1fr))}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px;min-width:0}
 .label-head{display:flex;justify-content:space-between;align-items:center}
 .val-badge{font-size:11px;background:#242a35;color:var(--accent);padding:2px 7px;border-radius:6px;font-family:monospace;font-weight:700}
 .val-badge.red{color:var(--red)}
 .val-badge.gold{color:var(--gold)}
 
-/* SLIDER FINE-TUNE ROW */
-.range-wrap{display:flex;align-items:center;gap:6px}
-.range-wrap input[type=range]{flex:1}
-.step-btn{border:1px solid var(--line);background:#1e232d;color:#f6f8fb;border-radius:7px;width:30px;height:30px;display:grid;place-items:center;cursor:pointer;font-size:12px;font-weight:bold;user-select:none;flex-shrink:0}
+/* SLIDER FINE-TUNE ROW - AUTO FIT NO OVERFLOW */
+.range-wrap{display:flex;align-items:center;gap:5px;width:100%}
+.range-wrap input[type=range]{flex:1;min-width:60px}
+.step-btn{border:1px solid var(--line);background:#1e232d;color:#f6f8fb;border-radius:7px;width:28px;height:28px;display:grid;place-items:center;cursor:pointer;font-size:11px;font-weight:bold;user-select:none;flex-shrink:0}
 .step-btn:hover{background:#2a313f;color:var(--accent)}
 
 /* FILE PICKER + CLEAR BUTTON ROW */
-.file-wrap{display:flex;align-items:center;gap:6px}
-.file-wrap input[type=file]{flex:1;font-size:12px}
-.clear-btn{border:1px solid #ff4d4d55;background:#2b1216;color:#ff8585;border-radius:7px;padding:6px 10px;font-size:11px;font-weight:bold;cursor:pointer;flex-shrink:0}
+.file-wrap{display:flex;align-items:center;gap:6px;width:100%}
+.file-wrap input[type=file]{flex:1;min-width:0;font-size:11px}
+.clear-btn{border:1px solid #ff4d4d55;background:#2b1216;color:#ff8585;border-radius:7px;padding:5px 8px;font-size:11px;font-weight:bold;cursor:pointer;flex-shrink:0}
 .clear-btn:hover{background:#45141c;color:#fff}
 
-select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px}
+select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px;width:100%}
 .toggle{display:flex!important;align-items:center;gap:8px!important}
 .rowbar{padding:11px 13px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .rows{padding:11px;display:grid;gap:10px}.row{border:1px solid var(--line);border-radius:13px;padding:10px;background:#101318}.rowhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.sides{display:grid;grid-template-columns:1fr 1fr;gap:8px}.side{background:#191d24;border-radius:10px;padding:9px;display:grid;gap:8px}.side b{font-size:12px}
+.sides{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:8px}.side{background:#191d24;border-radius:10px;padding:9px;display:grid;gap:8px;min-width:0}.side b{font-size:12px}
 .color-picker-wrap{display:flex;align-items:center;gap:10px}
 .color-picker-wrap input[type=color]{border:0;padding:0;width:38px;height:34px;border-radius:6px;background:none;cursor:pointer}
 .small{font-size:11px;color:var(--muted)}
-.sub-title{grid-column:span 2;padding:6px 0;font-weight:bold;font-size:13px;border-bottom:1px solid var(--line);margin-top:6px}
-@media(max-width:820px){.studio{grid-template-columns:1fr;padding:8px}.top{padding:9px}.top strong{font-size:14px}.top button{padding:8px 9px;font-size:12px}.grid.two,.sides{grid-template-columns:1fr}.controls{padding-bottom:40px}}
+.sub-title{grid-column:1/-1;padding:6px 0;font-weight:bold;font-size:13px;border-bottom:1px solid var(--line);margin-top:6px}
+
+@media(max-width:860px){
+  .studio{grid-template-columns:1fr;padding:8px}
+  .top{padding:9px}
+  .controls{padding-bottom:40px}
+}
 </style>
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V17 FINE-TUNE HUD</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V18 DRAG HUD</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -122,15 +138,23 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Fine-tuning side arrows active on all sliders. Individual ✕ Clear buttons added to every PNG.</div>
+    <div class="note">किसी भी पैनल को ⠿ से पकड़ कर ऊपर-नीचे अपनी पसंद से सेट कर सकते हो!</div>
   </section>
-  <section class="controls">
-    <details open><summary>🎁 5 Mystery Question Boxes HUD Controller</summary>
+
+  <!-- DRAGGABLE SECTIONS CONTAINER -->
+  <section class="controls" id="panelsContainer">
+
+    <!-- CARD 1: MYSTERY HUD -->
+    <details class="drag-card" draggable="true" id="card_hud" open>
+      <summary>
+        <span>🎁 5 Mystery Question Boxes HUD Controller</span>
+        <span class="drag-handle" title="Hold & Drag to reorder">⠿ Move</span>
+      </summary>
       <div class="grid two">
         <label class="toggle"><input id="showHud" type="checkbox" checked> Show 5 Mystery Boxes</label>
         <label class="toggle"><input id="autoCollectHud" type="checkbox" checked> Auto Collect PNG from Pads</label>
 
-        <label>Box Style (35+ Theme Styles)
+        <label style="grid-column:1/-1">Box Style (35+ Theme Styles)
           <select id="hudStyle">
             <optgroup label="--- Classic & Gold ---">
               <option value="classicGold" selected>1. Classic Mario Gold (?)</option>
@@ -179,7 +203,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
 
         <label>
-          <span class="label-head"><span>HUD Y-Position (ऊपर से दूरी)</span><span class="val-badge gold" id="v_hudY">75</span></span>
+          <span class="label-head"><span>HUD Y-Position</span><span class="val-badge gold" id="v_hudY">75</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="hudY" data-dir="-1">◀</button>
             <input id="hudY" type="range" min="30" max="300" value="75">
@@ -187,15 +211,15 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Box Size (बक्से का साइज़)</span><span class="val-badge gold" id="v_hudBoxSize">80</span></span>
+          <span class="label-head"><span>Box Size</span><span class="val-badge gold" id="v_hudBoxSize">80</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="hudBoxSize" data-dir="-1">◀</button>
             <input id="hudBoxSize" type="range" min="45" max="140" value="80">
             <button type="button" class="step-btn" data-step-for="hudBoxSize" data-dir="1">▶</button>
           </div>
         </label>
-        <label>
-          <span class="label-head"><span>Box Spacing (बक्सों के बीच दूरी)</span><span class="val-badge gold" id="v_hudSpacing">14</span></span>
+        <label style="grid-column:1/-1">
+          <span class="label-head"><span>Box Spacing</span><span class="val-badge gold" id="v_hudSpacing">14</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="hudSpacing" data-dir="-1">◀</button>
             <input id="hudSpacing" type="range" min="6" max="40" value="14">
@@ -203,7 +227,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <div class="sub-title" style="color:var(--gold)">📁 Manual PNG Override for Boxes (Clear बटन के साथ)</div>
+        <div class="sub-title" style="color:var(--gold)">📁 Manual PNG Override for Boxes</div>
         <label>Box 1 PNG
           <div class="file-wrap">
             <input id="hudImg_0" type="file" accept="image/png,image/webp,image/jpeg">
@@ -228,7 +252,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
             <button type="button" class="clear-btn" id="clear_hud_3">✕ Clear</button>
           </div>
         </label>
-        <label style="grid-column:span 2">Box 5 PNG
+        <label style="grid-column:1/-1">Box 5 PNG
           <div class="file-wrap">
             <input id="hudImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_4">✕ Clear</button>
@@ -237,7 +261,12 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </details>
 
-    <details open><summary>🏃 Runner Evolution Settings (Green Buff vs Red Nerf)</summary>
+    <!-- CARD 2: RUNNER EVOLUTION -->
+    <details class="drag-card" draggable="true" id="card_runner" open>
+      <summary>
+        <span>🏃 Runner Evolution Settings (Green Buff vs Red Nerf)</span>
+        <span class="drag-handle" title="Hold & Drag to reorder">⠿ Move</span>
+      </summary>
       <div class="grid two">
         <label>Base Start PNG (Stage 0)
           <div class="file-wrap">
@@ -348,7 +377,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
 
         <div class="sub-title" style="color:#ff6b6b">&#128128; RED PAD DOWNGRADES (WEAK / THIN)</div>
-        <label>Red Stage 1 PNG (Weak 1)
+        <label>Red Stage 1 PNG
           <div class="file-wrap">
             <input id="rImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_1">✕ Clear</button>
@@ -363,7 +392,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <label>Red Stage 2 PNG (Weak 2)
+        <label>Red Stage 2 PNG
           <div class="file-wrap">
             <input id="rImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_2">✕ Clear</button>
@@ -378,7 +407,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <label>Red Stage 3 PNG (Weak 3)
+        <label>Red Stage 3 PNG
           <div class="file-wrap">
             <input id="rImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_3">✕ Clear</button>
@@ -393,7 +422,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <label>Red Stage 4 PNG (Weak 4)
+        <label>Red Stage 4 PNG
           <div class="file-wrap">
             <input id="rImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_4">✕ Clear</button>
@@ -408,7 +437,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <label>Red Stage 5 PNG (Weakest)
+        <label>Red Stage 5 PNG
           <div class="file-wrap">
             <input id="rImg_5" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_5">✕ Clear</button>
@@ -425,192 +454,203 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </details>
 
-    <details open><summary>Moving Highway & Camera</summary><div class="grid two">
-      <label>
-        <span class="label-head"><span>Forward speed</span><span class="val-badge" id="v_speed">0.24</span></span>
-        <div class="range-wrap">
-          <button type="button" class="step-btn" data-step-for="speed" data-dir="-1">◀</button>
-          <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24">
-          <button type="button" class="step-btn" data-step-for="speed" data-dir="1">▶</button>
-        </div>
-      </label>
-      <label>
-        <span class="label-head"><span>Horizon Height</span><span class="val-badge" id="v_horizon">0.46</span></span>
-        <div class="range-wrap">
-          <button type="button" class="step-btn" data-step-for="horizon" data-dir="-1">◀</button>
-          <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46">
-          <button type="button" class="step-btn" data-step-for="horizon" data-dir="1">▶</button>
-        </div>
-      </label>
-      <label>
-        <span class="label-head"><span>Top Width</span><span class="val-badge" id="v_topWidth">0.08</span></span>
-        <div class="range-wrap">
-          <button type="button" class="step-btn" data-step-for="topWidth" data-dir="-1">◀</button>
-          <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08">
-          <button type="button" class="step-btn" data-step-for="topWidth" data-dir="1">▶</button>
-        </div>
-      </label>
-      <label>
-        <span class="label-head"><span>Bottom Width (Lion Style)</span><span class="val-badge" id="v_bottomWidth">0.88</span></span>
-        <div class="range-wrap">
-          <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="-1">◀</button>
-          <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.88">
-          <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="1">▶</button>
-        </div>
-      </label>
-      <label>
-        <span class="label-head"><span>Camera Height (Eye View)</span><span class="val-badge" id="v_camHeight">1.2</span></span>
-        <div class="range-wrap">
-          <button type="button" class="step-btn" data-step-for="camHeight" data-dir="-1">◀</button>
-          <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2">
-          <button type="button" class="step-btn" data-step-for="camHeight" data-dir="1">▶</button>
-        </div>
-      </label>
-      <label>
-        <span class="label-head"><span>Pad delay</span><span class="val-badge" id="v_padDelay">1.75</span></span>
-        <div class="range-wrap">
-          <button type="button" class="step-btn" data-step-for="padDelay" data-dir="-1">◀</button>
-          <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75">
-          <button type="button" class="step-btn" data-step-for="padDelay" data-dir="1">▶</button>
-        </div>
-      </label>
-      <label>
-        <span class="label-head"><span>Pad glow base</span><span class="val-badge" id="v_padThickness">14</span></span>
-        <div class="range-wrap">
-          <button type="button" class="step-btn" data-step-for="padThickness" data-dir="-1">◀</button>
-          <input id="padThickness" type="range" min="6" max="28" value="14">
-          <button type="button" class="step-btn" data-step-for="padThickness" data-dir="1">▶</button>
-        </div>
-      </label>
-      <label>Road style (35+ Roads) <select id="roadVariant">
-        <optgroup label="--- Classic & Highway ---">
-          <option value="classic" selected>1. Classic V6 (Lion Challenge)</option>
-          <option value="twinStripe">2. Twin Yellow Stripes</option>
-          <option value="tripleLane">3. Triple Fast Lane</option>
-          <option value="asphaltSpeed">4. Speed Asphalt Pro</option>
-          <option value="midnightHighway">5. Midnight Highway</option>
-        </optgroup>
-        <optgroup label="--- Neon & Cyberpunk ---">
-          <option value="neonPulse">6. Neon Pulse Glow</option>
-          <option value="edgeGlow">7. Emerald Edge Glow</option>
-          <option value="arcadeGrid">8. Tron Arcade Grid</option>
-          <option value="railRunner">9. Rail Runner Lightbeam</option>
-          <option value="chevronRush">10. Chevron Rush Neon</option>
-          <option value="cyberViolet">11. Cyber Violet Drift</option>
-          <option value="laserCyan">12. Laser Cyan Circuit</option>
-          <option value="matrixCode">13. Matrix Green Codeflow</option>
-          <option value="plasmaPink">14. Plasma Pink Horizon</option>
-          <option value="overdriveNeon">15. Overdrive Synthwave</option>
-        </optgroup>
-        <optgroup label="--- Elemental & Fantasy ---">
-          <option value="lavaCrack">16. Molten Lava Magma</option>
-          <option value="iceCrystal">17. Frozen Crystal Ice</option>
-          <option value="goldenPath">18. Royal Golden Highway</option>
-          <option value="toxicHazard">19. Toxic Biohazard</option>
-          <option value="cosmicVoid">20. Cosmic Star Dust</option>
-          <option value="amethystPath">21. Crystal Amethyst</option>
-          <option value="infernoFire">22. Blazing Inferno Track</option>
-          <option value="electricThunder">23. Electric Thunder Blue</option>
-        </optgroup>
-        <optgroup label="--- Modern & Aesthetic ---">
-          <option value="carbonTrack">24. Carbon Fiber Sport</option>
-          <option value="diamondFlow">25. Diamond Glow Flow</option>
-          <option value="minimalGrey">26. Studio Minimalist Mono</option>
-          <option value="pastelDream">27. Pastel Dreamway</option>
-          <option value="sunsetBoulevard">28. Sunset Boulevard</option>
-          <option value="rainbowPrism">29. Rainbow Prism Edge</option>
-          <option value="retroSun">30. 80s Retro Sun Track</option>
-          <option value="darkObsidian">31. Matte Dark Obsidian</option>
-          <option value="hyperSpace">32. Hyper Space Warp</option>
-          <option value="cleanWhiteTrack">33. Pure Ceramic White</option>
-          <option value="emeraldCity">34. Radiant Emerald Run</option>
-          <option value="rubyRoyale">35. Ruby Royale Luxury</option>
-        </optgroup>
-      </select></label>
-      <label>Background Theme <select id="bgMode">
-        <optgroup label="--- Light & Aesthetic Themes ---">
-          <option value="cleanWhite">☀️ 1. Clean Studio White</option>
-          <option value="softSilver">☀️ 2. Soft Silver Mist</option>
-          <option value="cloudGrey">☀️ 3. Cloud Grey</option>
-          <option value="skyBlueLight">☀️ 4. Clear Sky Blue</option>
-          <option value="cyanBreeze">☀️ 5. Light Cyan Breeze</option>
-          <option value="mintFresh">☀️ 6. Fresh Mint Pastel</option>
-          <option value="warmVanilla">☀️ 7. Warm Vanilla</option>
-          <option value="peachDawn">☀️ 8. Peach Sunrise</option>
-          <option value="lavenderLight">☀️ 9. Soft Lavender</option>
-          <option value="rosePastel">☀️ 10. Rose Pastel Glow</option>
-          <option value="lemonDay">☀️️ 11. Lemon Daylight</option>
-          <option value="iceWhite">☀️ 12. Arctic Ice White</option>
-          <option value="cyberMintLight">☀️ 13. Cyber Mint Light</option>
-          <option value="lilacMist">☀️ 14. Lilac Morning</option>
-          <option value="goldenSand">☀️ 15. Warm Golden Glow</option>
-        </optgroup>
-        <optgroup label="--- 50+ Dark Themes ---">
-          <option value="black" selected>1. Pitch Black</option>
-          <option value="midnight">2. Midnight Void</option>
-          <option value="obsidian">3. Obsidian Matte</option>
-          <option value="deepSpace">4. Deep Space Abyss</option>
-          <option value="cyberDark">5. Cyber Dark</option>
-          <option value="matrixBlack">6. Matrix Black</option>
-          <option value="carbonDark">7. Carbon Fiber Dark</option>
-          <option value="charcoal">8. Charcoal Shadow</option>
-          <option value="gunmetal">9. Gunmetal Grey</option>
-          <option value="onyx">10. Onyx Night</option>
-          <option value="eclipse">11. Total Eclipse</option>
-          <option value="abyss">12. Ocean Abyss</option>
-          <option value="deepNavy">13. Deep Navy Dark</option>
-          <option value="midnightBlue">14. Midnight Blue</option>
-          <option value="slateDark">15. Slate Shadow</option>
-          <option value="asphalt">16. Wet Asphalt</option>
-          <option value="gravel">17. Dark Gravel</option>
-          <option value="steelDark">18. Dark Steel</option>
-          <option value="ironDark">19. Dark Iron</option>
-          <option value="phantom">20. Phantom Black</option>
-          <option value="shadow">21. Dark Shadow</option>
-          <option value="vampire">22. Vampire Red-Black</option>
-          <option value="crimsonDark">23. Dark Crimson</option>
-          <option value="bloodNight">24. Blood Night</option>
-          <option value="neonPurpleDark">25. Neon Purple Dark</option>
-          <option value="violetNight">26. Violet Abyss</option>
-          <option value="electricBlueDark">27. Electric Blue Dark</option>
-          <option value="cyanDark">28. Dark Cyan Void</option>
-          <option value="emeraldDark">29. Dark Emerald</option>
-          <option value="matrixGreen">30. Matrix Green Dark</option>
-          <option value="toxicGreen">31. Toxic Dark</option>
-          <option value="amberDark">32. Amber Shadow</option>
-          <option value="sunsetDark">33. Dark Sunset</option>
-          <option value="laserRed">34. Laser Red Dark</option>
-          <option value="plasmaDark">35. Plasma Dark</option>
-          <option value="reactor">36. Reactor Core</option>
-          <option value="synthwave">37. Synthwave Night</option>
-          <option value="retrowave">38. Retrowave Dark</option>
-          <option value="cyberpunkDark">39. Cyberpunk Night</option>
-          <option value="gotham">40. Gotham Alley</option>
-          <option value="underworld">41. Underworld</option>
-          <option value="infernoDark">42. Dark Inferno</option>
-          <option value="magmaDark">43. Dark Magma</option>
-          <option value="voidBlue">44. Void Blue</option>
-          <option value="voidPurple">45. Void Purple</option>
-          <option value="voidGreen">46. Void Green</option>
-          <option value="voidRed">47. Void Red</option>
-          <option value="voidGold">48. Void Gold</option>
-          <option value="cosmicDark">49. Cosmic Dark</option>
-          <option value="nebulaDark">50. Dark Nebula</option>
-          <option value="quantumVoid">51. Quantum Void</option>
-          <option value="ultimateDark">52. Ultimate Dark V2</option>
-        </optgroup>
-      </select></label>
-      <label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label>
-      <label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label>
-    </div></details>
+    <!-- CARD 3: HIGHWAY & CAMERA -->
+    <details class="drag-card" draggable="true" id="card_highway" open>
+      <summary>
+        <span>🛣️ Moving Highway & Camera</span>
+        <span class="drag-handle" title="Hold & Drag to reorder">⠿ Move</span>
+      </summary>
+      <div class="grid two">
+        <label>
+          <span class="label-head"><span>Forward speed</span><span class="val-badge" id="v_speed">0.24</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="speed" data-dir="-1">◀</button>
+            <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24">
+            <button type="button" class="step-btn" data-step-for="speed" data-dir="1">▶</button>
+          </div>
+        </label>
+        <label>
+          <span class="label-head"><span>Horizon Height</span><span class="val-badge" id="v_horizon">0.46</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="horizon" data-dir="-1">◀</button>
+            <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46">
+            <button type="button" class="step-btn" data-step-for="horizon" data-dir="1">▶</button>
+          </div>
+        </label>
+        <label>
+          <span class="label-head"><span>Top Width</span><span class="val-badge" id="v_topWidth">0.08</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="topWidth" data-dir="-1">◀</button>
+            <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08">
+            <button type="button" class="step-btn" data-step-for="topWidth" data-dir="1">▶</button>
+          </div>
+        </label>
+        <label>
+          <span class="label-head"><span>Bottom Width</span><span class="val-badge" id="v_bottomWidth">0.88</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="-1">◀</button>
+            <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.88">
+            <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="1">▶</button>
+          </div>
+        </label>
+        <label>
+          <span class="label-head"><span>Camera Height</span><span class="val-badge" id="v_camHeight">1.2</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="camHeight" data-dir="-1">◀</button>
+            <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2">
+            <button type="button" class="step-btn" data-step-for="camHeight" data-dir="1">▶</button>
+          </div>
+        </label>
+        <label>
+          <span class="label-head"><span>Pad delay</span><span class="val-badge" id="v_padDelay">1.75</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="padDelay" data-dir="-1">◀</button>
+            <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75">
+            <button type="button" class="step-btn" data-step-for="padDelay" data-dir="1">▶</button>
+          </div>
+        </label>
+        <label>
+          <span class="label-head"><span>Pad glow base</span><span class="val-badge" id="v_padThickness">14</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="padThickness" data-dir="-1">◀</button>
+            <input id="padThickness" type="range" min="6" max="28" value="14">
+            <button type="button" class="step-btn" data-step-for="padThickness" data-dir="1">▶</button>
+          </div>
+        </label>
+        <label>Road style (35+ Roads) <select id="roadVariant">
+          <optgroup label="--- Classic & Highway ---">
+            <option value="classic" selected>1. Classic V6</option>
+            <option value="twinStripe">2. Twin Yellow Stripes</option>
+            <option value="tripleLane">3. Triple Fast Lane</option>
+            <option value="asphaltSpeed">4. Speed Asphalt Pro</option>
+            <option value="midnightHighway">5. Midnight Highway</option>
+          </optgroup>
+          <optgroup label="--- Neon & Cyberpunk ---">
+            <option value="neonPulse">6. Neon Pulse Glow</option>
+            <option value="edgeGlow">7. Emerald Edge Glow</option>
+            <option value="arcadeGrid">8. Tron Arcade Grid</option>
+            <option value="railRunner">9. Rail Runner Lightbeam</option>
+            <option value="chevronRush">10. Chevron Rush Neon</option>
+            <option value="cyberViolet">11. Cyber Violet Drift</option>
+            <option value="laserCyan">12. Laser Cyan Circuit</option>
+            <option value="matrixCode">13. Matrix Green Codeflow</option>
+            <option value="plasmaPink">14. Plasma Pink Horizon</option>
+            <option value="overdriveNeon">15. Overdrive Synthwave</option>
+          </optgroup>
+          <optgroup label="--- Elemental & Fantasy ---">
+            <option value="lavaCrack">16. Molten Lava Magma</option>
+            <option value="iceCrystal">17. Frozen Crystal Ice</option>
+            <option value="goldenPath">18. Royal Golden Highway</option>
+            <option value="toxicHazard">19. Toxic Biohazard</option>
+            <option value="cosmicVoid">20. Cosmic Star Dust</option>
+            <option value="amethystPath">21. Crystal Amethyst</option>
+            <option value="infernoFire">22. Blazing Inferno Track</option>
+            <option value="electricThunder">23. Electric Thunder Blue</option>
+          </optgroup>
+          <optgroup label="--- Modern & Aesthetic ---">
+            <option value="carbonTrack">24. Carbon Fiber Sport</option>
+            <option value="diamondFlow">25. Diamond Glow Flow</option>
+            <option value="minimalGrey">26. Studio Minimalist Mono</option>
+            <option value="pastelDream">27. Pastel Dreamway</option>
+            <option value="sunsetBoulevard">28. Sunset Boulevard</option>
+            <option value="rainbowPrism">29. Rainbow Prism Edge</option>
+            <option value="retroSun">30. 80s Retro Sun Track</option>
+            <option value="darkObsidian">31. Matte Dark Obsidian</option>
+            <option value="hyperSpace">32. Hyper Space Warp</option>
+            <option value="cleanWhiteTrack">33. Pure Ceramic White</option>
+            <option value="emeraldCity">34. Radiant Emerald Run</option>
+            <option value="rubyRoyale">35. Ruby Royale Luxury</option>
+          </optgroup>
+        </select></label>
+        <label style="grid-column:1/-1">Background Theme <select id="bgMode">
+          <optgroup label="--- Light & Aesthetic Themes ---">
+            <option value="cleanWhite">☀️ 1. Clean Studio White</option>
+            <option value="softSilver">☀️ 2. Soft Silver Mist</option>
+            <option value="cloudGrey">☀️ 3. Cloud Grey</option>
+            <option value="skyBlueLight">☀️ 4. Clear Sky Blue</option>
+            <option value="cyanBreeze">☀️ 5. Light Cyan Breeze</option>
+            <option value="mintFresh">☀️ 6. Fresh Mint Pastel</option>
+            <option value="warmVanilla">☀️ 7. Warm Vanilla</option>
+            <option value="peachDawn">☀️ 8. Peach Sunrise</option>
+            <option value="lavenderLight">☀️ 9. Soft Lavender</option>
+            <option value="rosePastel">☀️ 10. Rose Pastel Glow</option>
+            <option value="lemonDay">☀️ 11. Lemon Daylight</option>
+            <option value="iceWhite">☀️ 12. Arctic Ice White</option>
+            <option value="cyberMintLight">☀️ 13. Cyber Mint Light</option>
+            <option value="lilacMist">☀️ 14. Lilac Morning</option>
+            <option value="goldenSand">☀️ 15. Warm Golden Glow</option>
+          </optgroup>
+          <optgroup label="--- 50+ Dark Themes ---">
+            <option value="black" selected>1. Pitch Black</option>
+            <option value="midnight">2. Midnight Void</option>
+            <option value="obsidian">3. Obsidian Matte</option>
+            <option value="deepSpace">4. Deep Space Abyss</option>
+            <option value="cyberDark">5. Cyber Dark</option>
+            <option value="matrixBlack">6. Matrix Black</option>
+            <option value="carbonDark">7. Carbon Fiber Dark</option>
+            <option value="charcoal">8. Charcoal Shadow</option>
+            <option value="gunmetal">9. Gunmetal Grey</option>
+            <option value="onyx">10. Onyx Night</option>
+            <option value="eclipse">11. Total Eclipse</option>
+            <option value="abyss">12. Ocean Abyss</option>
+            <option value="deepNavy">13. Deep Navy Dark</option>
+            <option value="midnightBlue">14. Midnight Blue</option>
+            <option value="slateDark">15. Slate Shadow</option>
+            <option value="asphalt">16. Wet Asphalt</option>
+            <option value="gravel">17. Dark Gravel</option>
+            <option value="steelDark">18. Dark Steel</option>
+            <option value="ironDark">19. Dark Iron</option>
+            <option value="phantom">20. Phantom Black</option>
+            <option value="shadow">21. Dark Shadow</option>
+            <option value="vampire">22. Vampire Red-Black</option>
+            <option value="crimsonDark">23. Dark Crimson</option>
+            <option value="bloodNight">24. Blood Night</option>
+            <option value="neonPurpleDark">25. Neon Purple Dark</option>
+            <option value="violetNight">26. Violet Abyss</option>
+            <option value="electricBlueDark">27. Electric Blue Dark</option>
+            <option value="cyanDark">28. Dark Cyan Void</option>
+            <option value="emeraldDark">29. Dark Emerald</option>
+            <option value="matrixGreen">30. Matrix Green Dark</option>
+            <option value="toxicGreen">31. Toxic Dark</option>
+            <option value="amberDark">32. Amber Shadow</option>
+            <option value="sunsetDark">33. Dark Sunset</option>
+            <option value="laserRed">34. Laser Red Dark</option>
+            <option value="plasmaDark">35. Plasma Dark</option>
+            <option value="reactor">36. Reactor Core</option>
+            <option value="synthwave">37. Synthwave Night</option>
+            <option value="retrowave">38. Retrowave Dark</option>
+            <option value="cyberpunkDark">39. Cyberpunk Night</option>
+            <option value="gotham">40. Gotham Alley</option>
+            <option value="underworld">41. Underworld</option>
+            <option value="infernoDark">42. Dark Inferno</option>
+            <option value="magmaDark">43. Dark Magma</option>
+            <option value="voidBlue">44. Void Blue</option>
+            <option value="voidPurple">45. Void Purple</option>
+            <option value="voidGreen">46. Void Green</option>
+            <option value="voidRed">47. Void Red</option>
+            <option value="voidGold">48. Void Gold</option>
+            <option value="cosmicDark">49. Cosmic Dark</option>
+            <option value="nebulaDark">50. Dark Nebula</option>
+            <option value="quantumVoid">51. Quantum Void</option>
+            <option value="ultimateDark">52. Ultimate Dark V2</option>
+          </optgroup>
+        </select></label>
+        <label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label>
+        <label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label>
+      </div>
+    </details>
 
-    <!-- 5 ROWS + MASTER PNG SIZE -->
-    <details open><summary>5 Fixed Rows + Opponent Boss</summary>
+    <!-- CARD 4: 5 ROWS + BOSS -->
+    <details class="drag-card" draggable="true" id="card_rows" open>
+      <summary>
+        <span>🚦 5 Fixed Rows + Opponent Boss</span>
+        <span class="drag-handle" title="Hold & Drag to reorder">⠿ Move</span>
+      </summary>
       <div class="rowbar">
         <span class="small">5 main rows with custom color pickers & live size values + Stationary Boss.</span>
-        <div style="width:100%;margin-top:6px;display:flex;align-items:center;gap:10px">
+        <div style="width:100%;margin-top:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
           <span style="font-weight:bold;font-size:12px;color:var(--accent)">⚡ Master All Pads PNG Size:</span>
-          <div class="range-wrap" style="flex:1">
+          <div class="range-wrap" style="flex:1;min-width:140px">
             <button type="button" class="step-btn" data-step-for="masterPadPngSize" data-dir="-1">◀</button>
             <input id="masterPadPngSize" type="range" min="45" max="450" value="95">
             <button type="button" class="step-btn" data-step-for="masterPadPngSize" data-dir="1">▶</button>
@@ -620,6 +660,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
       <div id="rows" class="rows"></div>
     </details>
+
   </section>
 </main>
 
@@ -916,6 +957,75 @@ document.addEventListener('click', function(e){
   }
 });
 
+// ⠿ DRAG & DROP CARDS REORDER LOGIC
+function setupDragAndDrop(){
+  var container = $('panelsContainer');
+  if(!container) return;
+  var draggedCard = null;
+
+  var cards = container.querySelectorAll('.drag-card');
+  cards.forEach(function(card){
+    card.addEventListener('dragstart', function(e){
+      draggedCard = card;
+      card.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+
+    card.addEventListener('dragend', function(){
+      card.classList.remove('dragging');
+      cards.forEach(function(c){ c.classList.remove('drag-over'); });
+      saveCardOrder();
+    });
+
+    card.addEventListener('dragover', function(e){
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      if(draggedCard && draggedCard !== card){
+        card.classList.add('drag-over');
+      }
+    });
+
+    card.addEventListener('dragleave', function(){
+      card.classList.remove('drag-over');
+    });
+
+    card.addEventListener('drop', function(e){
+      e.preventDefault();
+      card.classList.remove('drag-over');
+      if(draggedCard && draggedCard !== card){
+        var rect = card.getBoundingClientRect();
+        var midY = rect.top + rect.height / 2;
+        if(e.clientY < midY){
+          container.insertBefore(draggedCard, card);
+        } else {
+          container.insertBefore(draggedCard, card.nextSibling);
+        }
+      }
+    });
+  });
+}
+
+function saveCardOrder(){
+  var container = $('panelsContainer');
+  if(!container) return;
+  var order = Array.from(container.querySelectorAll('.drag-card')).map(function(c){ return c.id; });
+  try{ localStorage.setItem('runner_studio_panel_order', JSON.stringify(order)); }catch(e){}
+}
+
+function restoreCardOrder(){
+  try{
+    var raw = localStorage.getItem('runner_studio_panel_order');
+    if(!raw) return;
+    var order = JSON.parse(raw);
+    var container = $('panelsContainer');
+    if(!container || !Array.isArray(order)) return;
+    order.forEach(function(id){
+      var el = $(id);
+      if(el) container.appendChild(el);
+    });
+  }catch(e){}
+}
+
 function autoSaveStudio(){
   try{
     var s = {
@@ -955,13 +1065,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v11', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v12', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v11');
+    var raw = localStorage.getItem('runner_studio_saved_v12');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1417,6 +1527,9 @@ function initRows(){
     };
   }
   $('rows').appendChild(oppEl);
+
+  restoreCardOrder();
+  setupDragAndDrop();
 }
 initRows();
 
@@ -2011,7 +2124,6 @@ function drawRunnerBehind(){
   }
 
   state.playerX = state.playerX || (W/2);
-  // Fast 1-millisecond smooth snappy follow
   state.playerX += (targetX - state.playerX) * 0.35;
 
   drawImageFit(curImg, state.playerX, p.y + 4, pSize, pSize, 'bottom');
@@ -2038,7 +2150,6 @@ function drawRows(){
       var padHex = isPlayerOnRight ? row.rightColor : row.leftColor;
       var itemImg = isPlayerOnRight ? row.rightImg : row.leftImg;
 
-      // 🎁 ऑटोमैटिक पीएनजी कलेक्शन: छूते ही बॉक्स भर जाएगा
       if(state.autoCollectHud && itemImg){
         collectedHud[i] = itemImg;
       }
@@ -2125,10 +2236,14 @@ $('resetBtn').onclick=function(){
 };
 $('saveBtn').onclick=function(){
   autoSaveStudio();
-  alert('Settings saved successfully!');
+  saveCardOrder();
+  alert('Settings and panel order saved successfully!');
 };
 $('resetStorageBtn').onclick=function(){
-  try{ localStorage.removeItem('runner_studio_saved_v11'); }catch(e){}
+  try{ 
+    localStorage.removeItem('runner_studio_saved_v12'); 
+    localStorage.removeItem('runner_studio_panel_order');
+  }catch(e){}
   location.reload();
 };
 $('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'});location.href='/';};
