@@ -68,13 +68,14 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 
 .controls{display:flex;flex-direction:column;gap:12px;min-width:0}
 
-/* DRAGGABLE CARDS */
+/* DRAGGABLE CARDS - NO CONFLICT WITH SLIDERS */
 .drag-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);transition:transform 0.15s, opacity 0.15s}
-.drag-card.dragging{opacity:0.4;border-color:var(--accent)}
-.drag-card.drag-over{border-color:var(--accent);transform:translateY(4px)}
+.drag-card.dragging{opacity:0.35;border-color:var(--accent)}
+.drag-card.drag-over{border-color:var(--accent);transform:translateY(5px)}
 
 summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}
-.drag-handle{cursor:grab;color:var(--muted);font-size:18px;padding:2px 8px;border-radius:4px;border:1px dashed #3a4250;margin-left:auto}
+.drag-handle{cursor:grab;color:#a2adc1;font-size:12px;font-weight:bold;padding:5px 10px;border-radius:7px;background:#242a35;border:1px solid #3c4454;margin-left:auto;user-select:none}
+.drag-handle:hover{background:#323b4a;color:var(--accent);border-color:var(--accent)}
 .drag-handle:active{cursor:grabbing}
 
 .grid{padding:13px;display:grid;gap:11px}.grid.two{grid-template-columns:repeat(auto-fit, minmax(220px, 1fr))}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px;min-width:0}
@@ -85,7 +86,7 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 
 /* SLIDER FINE-TUNE ROW - AUTO FIT NO OVERFLOW */
 .range-wrap{display:flex;align-items:center;gap:5px;width:100%}
-.range-wrap input[type=range]{flex:1;min-width:60px}
+.range-wrap input[type=range]{flex:1;min-width:60px;cursor:pointer}
 .step-btn{border:1px solid var(--line);background:#1e232d;color:#f6f8fb;border-radius:7px;width:28px;height:28px;display:grid;place-items:center;cursor:pointer;font-size:11px;font-weight:bold;user-select:none;flex-shrink:0}
 .step-btn:hover{background:#2a313f;color:var(--accent)}
 
@@ -114,7 +115,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V18 DRAG HUD</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V19 PRECISION HUD</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -138,17 +139,17 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">Kisi bhi panel ko ⠿ se pakad kar upar-niche apni pasand se set kar sakte ho!</div>
+    <div class="note">स्लाइडर बिल्कुल आराम से चलेंगे! बॉक्स मूव करने के लिए सिर्फ कोने वाले ⠿ Drag बटन को पकड़ो।</div>
   </section>
 
   <!-- DRAGGABLE SECTIONS CONTAINER -->
   <section class="controls" id="panelsContainer">
 
     <!-- CARD 1: MYSTERY HUD -->
-    <details class="drag-card" draggable="true" id="card_hud" open>
+    <details class="drag-card" id="card_hud" open>
       <summary>
         <span>🎁 5 Mystery Question Boxes HUD Controller</span>
-        <span class="drag-handle" title="Hold & Drag to reorder">⠿ Move</span>
+        <span class="drag-handle" draggable="true" title="सिर्फ इसे पकड़कर ऊपर-नीचे खींचें">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label class="toggle"><input id="showHud" type="checkbox" checked> Show 5 Mystery Boxes</label>
@@ -262,10 +263,10 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </details>
 
     <!-- CARD 2: RUNNER EVOLUTION -->
-    <details class="drag-card" draggable="true" id="card_runner" open>
+    <details class="drag-card" id="card_runner" open>
       <summary>
         <span>🏃 Runner Evolution Settings (Green Buff vs Red Nerf)</span>
-        <span class="drag-handle" title="Hold & Drag to reorder">⠿ Move</span>
+        <span class="drag-handle" draggable="true" title="सिर्फ इसे पकड़कर ऊपर-नीचे खींचें">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label>Base Start PNG (Stage 0)
@@ -340,7 +341,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <label>
           <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">240</span></span>
           <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="gSize_3" data-dir="-1">◀</button>
+            <button type="button" class="step-btn" data-step-for="gSize_2" data-dir="-1">◀</button>
             <input id="gSize_3" type="range" min="40" max="800" value="240">
             <button type="button" class="step-btn" data-step-for="gSize_3" data-dir="1">▶</button>
           </div>
@@ -455,10 +456,10 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </details>
 
     <!-- CARD 3: HIGHWAY & CAMERA -->
-    <details class="drag-card" draggable="true" id="card_highway" open>
+    <details class="drag-card" id="card_highway" open>
       <summary>
         <span>🛣️ Moving Highway & Camera</span>
-        <span class="drag-handle" title="Hold & Drag to reorder">⠿ Move</span>
+        <span class="drag-handle" draggable="true" title="सिर्फ इसे पकड़कर ऊपर-नीचे खींचें">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label>
@@ -573,7 +574,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
             <option value="warmVanilla">☀️ 7. Warm Vanilla</option>
             <option value="peachDawn">☀️ 8. Peach Sunrise</option>
             <option value="lavenderLight">☀️ 9. Soft Lavender</option>
-            <option value="rosePastel">☀️️ 10. Rose Pastel Glow</option>
+            <option value="rosePastel">☀️ 10. Rose Pastel Glow</option>
             <option value="lemonDay">☀️ 11. Lemon Daylight</option>
             <option value="iceWhite">☀️ 12. Arctic Ice White</option>
             <option value="cyberMintLight">☀️ 13. Cyber Mint Light</option>
@@ -641,10 +642,10 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </details>
 
     <!-- CARD 4: 5 ROWS + BOSS -->
-    <details class="drag-card" draggable="true" id="card_rows" open>
+    <details class="drag-card" id="card_rows" open>
       <summary>
         <span>🚦 5 Fixed Rows + Opponent Boss</span>
-        <span class="drag-handle" title="Hold & Drag to reorder">⠿ Move</span>
+        <span class="drag-handle" draggable="true" title="सिर्फ इसे पकड़कर ऊपर-नीचे खींचें">⠿ Drag</span>
       </summary>
       <div class="rowbar">
         <span class="small">5 main rows with custom color pickers & live size values + Stationary Boss.</span>
@@ -957,32 +958,37 @@ document.addEventListener('click', function(e){
   }
 });
 
-// ⠿ DRAG & DROP CARDS REORDER LOGIC
+// ⠿ DRAG & DROP ONLY BY HANDLE - SLIDERS 100% FREE!
 function setupDragAndDrop(){
   var container = $('panelsContainer');
   if(!container) return;
   var draggedCard = null;
 
-  var cards = container.querySelectorAll('.drag-card');
-  cards.forEach(function(card){
-    card.addEventListener('dragstart', function(e){
-      draggedCard = card;
-      card.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
+  var handles = container.querySelectorAll('.drag-handle');
+  handles.forEach(function(handle){
+    handle.addEventListener('dragstart', function(e){
+      draggedCard = handle.closest('.drag-card');
+      if(draggedCard){
+        draggedCard.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      }
     });
 
-    card.addEventListener('dragend', function(){
-      card.classList.remove('dragging');
-      cards.forEach(function(c){ c.classList.remove('drag-over'); });
+    handle.addEventListener('dragend', function(){
+      if(draggedCard) draggedCard.classList.remove('dragging');
+      container.querySelectorAll('.drag-card').forEach(function(c){ c.classList.remove('drag-over'); });
+      draggedCard = null;
       saveCardOrder();
     });
+  });
 
+  var cards = container.querySelectorAll('.drag-card');
+  cards.forEach(function(card){
     card.addEventListener('dragover', function(e){
+      if(!draggedCard || draggedCard === card) return;
       e.preventDefault();
       e.dataTransfer.dropEffect = 'move';
-      if(draggedCard && draggedCard !== card){
-        card.classList.add('drag-over');
-      }
+      card.classList.add('drag-over');
     });
 
     card.addEventListener('dragleave', function(){
@@ -990,17 +996,17 @@ function setupDragAndDrop(){
     });
 
     card.addEventListener('drop', function(e){
+      if(!draggedCard || draggedCard === card) return;
       e.preventDefault();
       card.classList.remove('drag-over');
-      if(draggedCard && draggedCard !== card){
-        var rect = card.getBoundingClientRect();
-        var midY = rect.top + rect.height / 2;
-        if(e.clientY < midY){
-          container.insertBefore(draggedCard, card);
-        } else {
-          container.insertBefore(draggedCard, card.nextSibling);
-        }
+      var rect = card.getBoundingClientRect();
+      var midY = rect.top + rect.height / 2;
+      if(e.clientY < midY){
+        container.insertBefore(draggedCard, card);
+      } else {
+        container.insertBefore(draggedCard, card.nextSibling);
       }
+      saveCardOrder();
     });
   });
 }
@@ -1998,7 +2004,7 @@ function drawRaisedPad(z, side, hexColor){
   var c = hexToRgb(hexColor);
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
-  var darkG = Math.max(0, Math.floor(c.g * 0.45));
+  var darkG = Math.max(0, Math.floor(c.r * 0.45));
   var darkB = Math.max(0, Math.floor(c.b * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
@@ -2111,7 +2117,6 @@ function drawRunnerBehind(){
   var p = roadBoundsAtZ(state.playerZ || 0.84);
   var pSize = curSize * (0.3 + 0.7 * p.e);
 
-  // Instant steer slider positioning or auto follow
   var targetX = W/2;
   if(state.playerLane === 'slider'){
     targetX = W/2 + (p.half * 0.48 * state.steerOffset);
@@ -2143,7 +2148,6 @@ function drawRows(){
     if(z<0 || z>1.05) return;
     var zz=Math.min(1,z);
 
-    // Live collision check against actual player X position
     if(zz >= pZ - 0.02 && !processedPads[i]){
       processedPads[i] = true;
       var isPlayerOnRight = (state.playerX >= W/2);
