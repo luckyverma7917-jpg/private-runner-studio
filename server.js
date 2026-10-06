@@ -138,7 +138,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">किसी भी पैनल को ⠿ से पकड़ कर ऊपर-नीचे अपनी पसंद से सेट कर सकते हो!</div>
+    <div class="note">Kisi bhi panel ko ⠿ se pakad kar upar-niche apni pasand se set kar sakte ho!</div>
   </section>
 
   <!-- DRAGGABLE SECTIONS CONTAINER -->
@@ -573,7 +573,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
             <option value="warmVanilla">☀️ 7. Warm Vanilla</option>
             <option value="peachDawn">☀️ 8. Peach Sunrise</option>
             <option value="lavenderLight">☀️ 9. Soft Lavender</option>
-            <option value="rosePastel">☀️ 10. Rose Pastel Glow</option>
+            <option value="rosePastel">☀️️ 10. Rose Pastel Glow</option>
             <option value="lemonDay">☀️ 11. Lemon Daylight</option>
             <option value="iceWhite">☀️ 12. Arctic Ice White</option>
             <option value="cyberMintLight">☀️ 13. Cyber Mint Light</option>
