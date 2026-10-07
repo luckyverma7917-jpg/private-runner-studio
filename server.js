@@ -42,7 +42,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio 35+ Roads & Live Image Preview</title>
+<title>Private Runner Studio Stylish Edition</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
@@ -52,7 +52,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 .top-actions{display:flex;gap:7px}.top button,.transport button,.rowbar button{border:1px solid var(--line);background:#222731;color:white;border-radius:11px;padding:9px 12px;font:inherit;cursor:pointer}
 .top .primary,.transport .primary{background:var(--accent);color:#07110c;border-color:transparent;font-weight:800}
 
-.studio{max-width:1380px;margin:auto;padding:14px;display:grid;grid-template-columns:minmax(320px,500px) minmax(340px,1fr);gap:16px}
+.studio{max-width:1420px;margin:auto;padding:14px;display:grid;grid-template-columns:minmax(320px,500px) minmax(360px,1fr);gap:16px}
 .preview{min-width:0}.shell{background:#050607;border:1px solid var(--line);border-radius:18px;padding:7px;display:flex;justify-content:center;box-shadow:0 18px 60px #0007}
 .stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506}canvas{width:100%;height:100%;display:block}
 
@@ -81,38 +81,66 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .drag-handle:hover{background:#323b4a;color:var(--accent);border-color:var(--accent)}
 .drag-handle:active{cursor:grabbing}
 
-.grid{padding:13px;display:grid;gap:11px}.grid.two{grid-template-columns:repeat(auto-fit, minmax(220px, 1fr))}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px;min-width:0}
+.grid{padding:13px;display:grid;gap:12px}.grid.two{grid-template-columns:repeat(auto-fit, minmax(240px, 1fr))}.grid label,.side label{display:grid;gap:6px;color:#d7dbe2;font-size:13px;min-width:0}
 .label-head{display:flex;justify-content:space-between;align-items:center}
 .val-badge{font-size:11px;background:#242a35;color:var(--accent);padding:2px 7px;border-radius:6px;font-family:monospace;font-weight:700}
 .val-badge.red{color:var(--red)}
 .val-badge.gold{color:var(--gold)}
 
-/* SLIDER FINE-TUNE ROW */
-.range-wrap{display:flex;align-items:center;gap:5px;width:100%}
-.range-wrap input[type=range]{flex:1;min-width:60px;cursor:pointer}
-.step-btn{border:1px solid var(--line);background:#1e232d;color:#f6f8fb;border-radius:7px;width:28px;height:28px;display:grid;place-items:center;cursor:pointer;font-size:11px;font-weight:bold;user-select:none;flex-shrink:0}
-.step-btn:hover{background:#2a313f;color:var(--accent)}
+/* 🌟 SLIDE STYLISH CONTROLS */
+.range-wrap{display:flex;align-items:center;gap:6px;width:100%}
+.range-wrap input[type=range]{
+  flex:1;
+  min-width:70px;
+  -webkit-appearance:none;
+  appearance:none;
+  height:7px;
+  border-radius:6px;
+  background:#262c37;
+  outline:none;
+  transition:background 0.2s;
+  cursor:pointer;
+}
+.range-wrap input[type=range]:hover{background:#323a49}
+.range-wrap input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 10px rgba(97,240,166,0.6);
+  cursor:pointer;
+  transition:transform 0.1s, box-shadow 0.1s;
+}
+.range-wrap input[type=range]::-webkit-slider-thumb:hover{
+  transform:scale(1.15);
+  box-shadow:0 0 14px rgba(97,240,166,0.9);
+}
 
-/* FILE PICKER + LIVE THUMBNAIL PREVIEW + CLEAR BUTTON */
-.file-wrap{display:flex;align-items:center;gap:7px;width:100%}
-.file-wrap input[type=file]{flex:1;min-width:0;font-size:11px}
+.step-btn{border:1px solid var(--line);background:#1e232d;color:#f6f8fb;border-radius:8px;width:30px;height:30px;display:grid;place-items:center;cursor:pointer;font-size:11px;font-weight:bold;user-select:none;flex-shrink:0}
+.step-btn:hover{background:#2a313f;color:var(--accent);border-color:var(--accent)}
+
+/* 🌟 NO OVERFLOW FILE PICKER + THUMBNAIL + CLEAR BUTTON */
+.file-wrap{display:flex;align-items:center;gap:8px;width:100%;flex-wrap:wrap}
+.file-wrap input[type=file]{flex:1;min-width:140px;font-size:11px;color:#cbd5e1}
 .thumb-box{width:44px;height:44px;border-radius:8px;border:1px dashed #404859;background:#0d0f14;display:grid;place-items:center;overflow:hidden;flex-shrink:0;position:relative}
 .thumb-box img{width:100%;height:100%;object-fit:contain;display:none}
 .thumb-box span{font-size:10px;color:#6b7280;font-weight:bold}
-.clear-btn{border:1px solid #ff4d4d55;background:#2b1216;color:#ff8585;border-radius:7px;padding:6px 9px;font-size:11px;font-weight:bold;cursor:pointer;flex-shrink:0}
-.clear-btn:hover{background:#45141c;color:#fff}
+.clear-btn{border:1px solid #ff4d4d77;background:#2b1216;color:#ff9e9e;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:bold;cursor:pointer;flex-shrink:0;transition:0.1s all}
+.clear-btn:hover{background:#45141c;color:#fff;border-color:var(--red)}
 
-select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px;width:100%}
+select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px;width:100%}
 .toggle{display:flex!important;align-items:center;gap:8px!important}
 .rowbar{padding:11px 13px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .rows{padding:11px;display:grid;gap:10px}.row{border:1px solid var(--line);border-radius:13px;padding:10px;background:#101318}.rowhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.sides{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:8px}.side{background:#191d24;border-radius:10px;padding:9px;display:grid;gap:8px;min-width:0}.side b{font-size:12px}
+.sides{display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:10px}.side{background:#191d24;border-radius:10px;padding:10px;display:grid;gap:8px;min-width:0}.side b{font-size:12px}
 .color-picker-wrap{display:flex;align-items:center;gap:10px}
 .color-picker-wrap input[type=color]{border:0;padding:0;width:38px;height:34px;border-radius:6px;background:none;cursor:pointer}
 .small{font-size:11px;color:var(--muted)}
 .sub-title{grid-column:1/-1;padding:6px 0;font-weight:bold;font-size:13px;border-bottom:1px solid var(--line);margin-top:6px}
 
-@media(max-width:860px){
+@media(max-width:880px){
   .studio{grid-template-columns:1fr;padding:8px}
   .top{padding:9px}
   .controls{padding-bottom:40px}
@@ -121,7 +149,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V21 LIVE PREVIEW</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V22 STYLISH PRO</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -147,7 +175,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note"><b>लाइव फ़ोटो प्रिव्यू सक्रिय:</b> हर PNG अपलोड करने पर बगल वाले बॉक्स में तुरंत साफ़ फ़ोटो दिखेगी!</div>
+    <div class="note"><b>लैपटॉप स्क्रीन फिक्स:</b> सभी क्लियर बटन और स्लाइडर्स कभी नहीं कटेंगे!</div>
   </section>
 
   <!-- DRAGGABLE SECTIONS CONTAINER -->
@@ -2107,7 +2135,7 @@ function drawRaisedPad(z, side, hexColor){
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
   var darkG = Math.max(0, Math.floor(c.r * 0.45));
-  var darkB = Math.max(0, Math.floor(c.b * 0.45));
+  var darkB = Math.max(0, Math.floor(c.r * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
   ctx.save();ctx.fillStyle='rgba(0,0,0,.24)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+4,width*.46,4+7*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
@@ -2165,19 +2193,15 @@ function drawMysteryHUD(){
       ctx.save();
       ctx.shadowColor = th.glow;
       ctx.shadowBlur = 8;
-      // Outer 3D Bevel Box
       ctx.fillStyle = th.border;
       ctx.beginPath(); ctx.roundRect(bx, hudY, boxS, boxS, 10); ctx.fill();
 
-      // Inner Face
       ctx.fillStyle = th.face;
       ctx.beginPath(); ctx.roundRect(bx + 4, hudY + 4, boxS - 8, boxS - 8, 8); ctx.fill();
 
-      // Border Outline
       ctx.strokeStyle = th.stroke; ctx.lineWidth = 3;
       ctx.strokeRect(bx + 4, hudY + 4, boxS - 8, boxS - 8);
 
-      // Question Mark "?"
       ctx.fillStyle = th.text;
       ctx.font = '900 ' + Math.floor(boxS * 0.65) + 'px Impact, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -2282,7 +2306,6 @@ function drawRows(){
     state.currentLane = isGreenLane ? 'left' : 'right';
   }
 
-  // 1. Pads behind player
   activePads.forEach(function(item){
     if(item.zz < pZ){
       var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
@@ -2295,7 +2318,6 @@ function drawRows(){
     }
   });
 
-  // Opponent Boss
   var secondPadFinishTime = initialDelay + 1 * state.padDelay;
   if(roadTime >= secondPadFinishTime && state.opponent.img){
     var op = roadBoundsAtZ(0.72);
@@ -2303,10 +2325,8 @@ function drawRows(){
     drawImageFit(state.opponent.img, W/2, op.y + 4, oppSize, oppSize, 'bottom');
   }
 
-  // 2. Runner Character
   drawRunnerBehind();
 
-  // 3. Pads in front/above player
   activePads.forEach(function(item){
     if(item.zz >= pZ){
       var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
