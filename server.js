@@ -42,9 +42,9 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio 35+ Roads & Mystery HUD Studio</title>
+<title>Private Runner Studio 35+ Roads & Keyboard Steer</title>
 <style>
-:root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a}
+:root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
 .top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 14px;background:#0b0d10ee;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
@@ -56,11 +56,14 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 .preview{min-width:0}.shell{background:#050607;border:1px solid var(--line);border-radius:18px;padding:7px;display:flex;justify-content:center;box-shadow:0 18px 60px #0007}
 .stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506}canvas{width:100%;height:100%;display:block}
 
+/* QUICK CONTROLS BAR WITH 3 SNAP BUTTONS */
 .steer-box{margin-top:10px;padding:12px;background:#15181e;border:1px solid var(--line);border-radius:14px;display:grid;gap:8px}
 .steer-header{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
-.steer-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.steer-btn{padding:10px;border-radius:9px;border:1px solid #333a46;background:#1e242d;color:white;font-weight:800;font-size:13px;cursor:pointer}
+.steer-btns{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:6px}
+.steer-btn{padding:11px 6px;border-radius:9px;border:1px solid #333a46;background:#1e242d;color:white;font-weight:800;font-size:12px;cursor:pointer;user-select:none;transition:0.1s transform}
+.steer-btn:active{transform:scale(0.96)}
 .steer-btn.left{border-color:#2aff84;color:#2aff84}
+.steer-btn.center{border-color:var(--blue);color:var(--blue)}
 .steer-btn.right{border-color:#ff4d4d;color:#ff4d4d}
 
 .transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}
@@ -68,7 +71,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 
 .controls{display:flex;flex-direction:column;gap:12px;min-width:0}
 
-/* DRAGGABLE CARDS - NO CONFLICT WITH SLIDERS */
+/* DRAGGABLE CARDS - ONLY VIA HANDLE */
 .drag-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);transition:transform 0.15s, opacity 0.15s}
 .drag-card.dragging{opacity:0.35;border-color:var(--accent)}
 .drag-card.drag-over{border-color:var(--accent);transform:translateY(5px)}
@@ -84,7 +87,7 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .val-badge.red{color:var(--red)}
 .val-badge.gold{color:var(--gold)}
 
-/* SLIDER FINE-TUNE ROW - AUTO FIT NO OVERFLOW */
+/* SLIDER FINE-TUNE ROW */
 .range-wrap{display:flex;align-items:center;gap:5px;width:100%}
 .range-wrap input[type=range]{flex:1;min-width:60px;cursor:pointer}
 .step-btn{border:1px solid var(--line);background:#1e232d;color:#f6f8fb;border-radius:7px;width:28px;height:28px;display:grid;place-items:center;cursor:pointer;font-size:11px;font-weight:bold;user-select:none;flex-shrink:0}
@@ -115,16 +118,17 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V19 PRECISION HUD</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V20 KEYBOARD PRO</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
     <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
 
+    <!-- ⚡ 3 SNAP BUTTONS + KEYBOARD SHORTCUTS -->
     <div class="steer-box">
       <div class="steer-header">
-        <span>⚡ Instant Runner Steer (इधर-उधर स्लाइडर)</span>
+        <span>⚡ Runner Steer (कीबोर्ड: ◀ A | ▼ S (Center) | D ▶)</span>
         <span class="val-badge" id="v_laneSteer">-1.0 (Left)</span>
       </div>
       <div class="range-wrap">
@@ -133,13 +137,14 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <button type="button" class="step-btn" data-step-for="laneSteer" data-dir="1">▶</button>
       </div>
       <div class="steer-btns">
-        <button class="steer-btn left" id="quickLeftBtn">⬅ SNAP LEFT LANE</button>
-        <button class="steer-btn right" id="quickRightBtn">SNAP RIGHT LANE ➡️</button>
+        <button class="steer-btn left" id="quickLeftBtn">⬅ LEFT (A / ◀)</button>
+        <button class="steer-btn center" id="quickCenterBtn">🎯 CENTER (S / Space / ▼)</button>
+        <button class="steer-btn right" id="quickRightBtn">RIGHT (D / ▶) ➡️</button>
       </div>
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note">स्लाइडर बिल्कुल आराम से चलेंगे! बॉक्स मूव करने के लिए सिर्फ कोने वाले ⠿ Drag बटन को पकड़ो।</div>
+    <div class="note"><b>कीबोर्ड जुगाड़:</b> बाएँ जाने के लिए <b>A</b> या <b>◀</b>, दाएँ के लिए <b>D</b> या <b>▶</b>, और बीच में लाने के लिए <b>S</b> या <b>Spacebar</b> या <b>▼</b> दबाओ!</div>
   </section>
 
   <!-- DRAGGABLE SECTIONS CONTAINER -->
@@ -341,7 +346,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <label>
           <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">240</span></span>
           <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="gSize_2" data-dir="-1">◀</button>
+            <button type="button" class="step-btn" data-step-for="gSize_3" data-dir="-1">◀</button>
             <input id="gSize_3" type="range" min="40" max="800" value="240">
             <button type="button" class="step-btn" data-step-for="gSize_3" data-dir="1">▶</button>
           </div>
@@ -932,7 +937,7 @@ function updateBadge(key, val){
   if(el) el.textContent = val;
 }
 
-// ◀ ▶ STEP BUTTONS HANDLER (FINE-TUNE ADJUSTMENT)
+// ◀ ▶ STEP BUTTONS HANDLER
 function stepSlider(inp, dir){
   if(!inp) return;
   var step = parseFloat(inp.step) || 1;
@@ -958,7 +963,34 @@ document.addEventListener('click', function(e){
   }
 });
 
-// ⠿ DRAG & DROP ONLY BY HANDLE - SLIDERS 100% FREE!
+// 🎯 INSTANT LANE SETTER HELPER
+function setRunnerLane(val, name){
+  state.steerOffset = val;
+  var inp = $('laneSteer');
+  if(inp) inp.value = val;
+  state.playerLane = 'slider';
+  if($('playerLane')) $('playerLane').value = 'slider';
+  updateBadge('laneSteer', val.toFixed(1) + ' (' + name + ')');
+  autoSaveStudio();
+}
+
+// ⌨️ KEYBOARD SHORTCUTS FOR 1-MS INSTANT LANE SWITCH
+window.addEventListener('keydown', function(e){
+  // Agar kisi text box me type kar rahe hain to game steer mat karo
+  if(e.target.tagName === 'INPUT' && e.target.type !== 'range') return;
+
+  var k = e.key.toLowerCase();
+  if(k === 'arrowleft' || k === 'a'){
+    setRunnerLane(-1.0, 'Left');
+  } else if(k === 'arrowright' || k === 'd'){
+    setRunnerLane(1.0, 'Right');
+  } else if(k === 'arrowdown' || k === 's' || k === ' '){
+    e.preventDefault();
+    setRunnerLane(0.0, 'Center');
+  }
+});
+
+// ⠿ DRAG & DROP ONLY BY HANDLE
 function setupDragAndDrop(){
   var container = $('panelsContainer');
   if(!container) return;
@@ -1185,22 +1217,11 @@ if(steerInput){
     autoSaveStudio();
   };
 }
-$('quickLeftBtn').onclick = function(){
-  state.steerOffset = -1.0;
-  if(steerInput) steerInput.value = -1.0;
-  state.playerLane = 'slider';
-  if($('playerLane')) $('playerLane').value = 'slider';
-  updateBadge('laneSteer', '-1.0 (Left)');
-  autoSaveStudio();
-};
-$('quickRightBtn').onclick = function(){
-  state.steerOffset = 1.0;
-  if(steerInput) steerInput.value = 1.0;
-  state.playerLane = 'slider';
-  if($('playerLane')) $('playerLane').value = 'slider';
-  updateBadge('laneSteer', '1.0 (Right)');
-  autoSaveStudio();
-};
+
+// 🖱️ 3 SNAP BUTTONS CLICKS
+$('quickLeftBtn').onclick = function(){ setRunnerLane(-1.0, 'Left'); };
+$('quickCenterBtn').onclick = function(){ setRunnerLane(0.0, 'Center'); };
+$('quickRightBtn').onclick = function(){ setRunnerLane(1.0, 'Right'); };
 
 // Stage 0 Base setup + Clear
 if($('pSize_0')){
@@ -1758,7 +1779,7 @@ function rArcadeGrid(){
     var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
     drawPoly(quad(a,b),'rgba(0,255,255,'+(.02+.06*a.e)+')');
     for(var j=1;j<4;j++){
-      var x0=lerp(a.l,a.r,j/4), x1=lerp(b.l,b.r,j/4);
+      var x0=lerp(a.l,a.r,j/4), x1=lerp(b.r,b.r,j/4);
       ctx.save();ctx.strokeStyle='rgba(0,255,255,'+(.08+.2*a.e)+')';ctx.lineWidth=1.2+2.4*a.e;
       ctx.beginPath();ctx.moveTo(x0,a.y);ctx.lineTo(x1,b.y);ctx.stroke();ctx.restore();
     }
@@ -2004,7 +2025,7 @@ function drawRaisedPad(z, side, hexColor){
   var c = hexToRgb(hexColor);
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
-  var darkG = Math.max(0, Math.floor(c.r * 0.45));
+  var darkG = Math.max(0, Math.floor(c.g * 0.45));
   var darkB = Math.max(0, Math.floor(c.b * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
