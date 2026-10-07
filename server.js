@@ -42,7 +42,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Stationary Boss Edition</title>
+<title>Private Runner Studio Fight Timing Edition</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
@@ -149,7 +149,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V24 AUTO-STATIONARY BOSS</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V25 PERFECT FIGHT TIMING</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -175,7 +175,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note"><b>Auto-Boss Active:</b> Boss Pad 3 ke baad road par khada dikhega, aur uska size character se automatically thoda sa bada rahega[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)!</div>
+    <div class="note"><b>लड़ाई टाइमिंग फिक्स:</b> 5वाँ पैड स्क्रीन से पूरा गायब होने के बाद ही कैरेक्टर और बॉस आमने-सामने आएँगे!</div>
   </section>
 
   <!-- DRAGGABLE SECTIONS CONTAINER -->
@@ -696,11 +696,12 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     <!-- CARD 4: 5 ROWS + BOSS -->
     <details class="drag-card" id="card_rows" open>
       <summary>
-        <span>🚦 5 Fixed Rows + Opponent Boss</span>
+        <span>🚦 5 Fixed Rows + Opponent Boss Timing</span>
         <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="rowbar">
         <span class="small">5 main rows with custom color pickers & live size values + Stationary Boss.</span>
+        
         <div style="width:100%;margin-top:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
           <span style="font-weight:bold;font-size:12px;color:var(--accent)">⚡ Master All Pads PNG Size:</span>
           <div class="range-wrap" style="flex:1;min-width:140px">
@@ -709,6 +710,18 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <button type="button" class="step-btn" data-step-for="masterPadPngSize" data-dir="1">▶</button>
           </div>
           <span class="val-badge" id="v_masterPadPngSize">95</span>
+        </div>
+
+        <!-- 🌟 NEW: BOSS DISTANCE / FIGHT DELAY CONTROLLER -->
+        <div style="width:100%;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span style="font-weight:bold;font-size:12px;color:var(--gold)">⏱️ Boss Walk Distance (लड़ाई की दूरी):</span>
+          <div class="range-wrap" style="flex:1;min-width:140px">
+            <button type="button" class="step-btn" data-step-for="bossDistance" data-dir="-1">◀</button>
+            <input id="bossDistance" type="range" min="1.0" max="6.0" step="0.2" value="2.8">
+            <button type="button" class="step-btn" data-step-for="bossDistance" data-dir="1">▶</button>
+          </div>
+          <span class="val-badge gold" id="v_bossDistance">2.8s</span>
+          <div class="small" style="width:100%;color:var(--muted)">5वें पैड के जाने के बाद कितना दूर चलकर लड़ाई होगी (बढ़ाने से पैड्स पहले स्क्रीन से बाहर चले जाएँगे)।</div>
         </div>
       </div>
       <div id="rows" class="rows"></div>
@@ -777,10 +790,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 
 <template id="opponentTemplate">
   <div class="row" style="border-color:#61f0a6">
-    <div class="rowhead"><strong style="color:#61f0a6">&#128293; Opponent Boss</strong><span class="small">Stationary at Road End (Auto-Proportional Size)[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)</span></div>
+    <div class="rowhead"><strong style="color:#61f0a6">&#128293; Opponent Boss</strong><span class="small">Stationary at Road End (Auto-Proportional Size)</span></div>
     <div class="side" style="grid-column:span 2">
       <b>OPPONENT CHARACTER PNG</b>
-      <label>PNG (Road par stationary khada rahega, Pad 3 ke baad aayega[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span))
+      <label>PNG (Road par stationary khada rahega, Pad 3 ke baad aayega)
         <div class="file-wrap">
           <div class="thumb-box" id="thumb_oppImg"><span>None</span><img src=""></div>
           <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg">
@@ -788,7 +801,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         </div>
       </label>
       <label class="toggle"><input class="oppRemove" type="checkbox" checked> Auto remove bg</label>
-      <div class="small" style="color:var(--accent);margin-top:4px">⚡ Size Runner ke final stage se automatically thoda sa bada (1.18x) set ho jayega[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)!</div>
+      <div class="small" style="color:var(--accent);margin-top:4px">⚡ Size Runner ke final stage se automatically thoda sa bada (1.18x) set ho jayega!</div>
     </div>
   </div>
 </template>
@@ -819,6 +832,7 @@ var state={
   camHeight:0.95,
   padDelay:2.40,
   padThickness:14,
+  bossDistance:2.8, // 5th pad se duri (sec)
   roadVariant:'classic',
   bgMode:'black',
   speedLines:false,
@@ -978,7 +992,10 @@ function hexToRgb(hex){
 
 function updateBadge(key, val){
   var el = $('v_' + key);
-  if(el) el.textContent = val;
+  if(el){
+    if(key === 'bossDistance') el.textContent = val + 's';
+    else el.textContent = val;
+  }
 }
 
 // 🖼️ LIVE THUMBNAIL BOX UPDATER
@@ -1132,6 +1149,7 @@ function autoSaveStudio(){
       camHeight: state.camHeight,
       padDelay: state.padDelay,
       padThickness: state.padThickness,
+      bossDistance: state.bossDistance,
       roadVariant: state.roadVariant,
       bgMode: state.bgMode,
       speedLines: state.speedLines,
@@ -1148,7 +1166,6 @@ function autoSaveStudio(){
       baseSize: state.baseStage.size,
       gSizes: [0, state.greenStages[1].size, state.greenStages[2].size, state.greenStages[3].size, state.greenStages[4].size, state.greenStages[5].size],
       rSizes: [0, state.redStages[1].size, state.redStages[2].size, state.redStages[3].size, state.redStages[4].size, state.redStages[5].size],
-      oppSize: state.opponent.size,
       oppRemove: state.opponent.removeBg,
       rows: state.rows.map(function(r){
         return {
@@ -1161,13 +1178,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v14', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v15', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v14');
+    var raw = localStorage.getItem('runner_studio_saved_v15');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1231,7 +1248,7 @@ function bindRange(id,key){
     autoSaveStudio();
   });
 }
-['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
+['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
 
 // HUD Controller Listeners
 if($('showHud')){ $('showHud').onchange = function(e){ state.showHud = e.target.checked; autoSaveStudio(); }; }
@@ -1537,7 +1554,7 @@ function initRows(){
   
   var savedData = getSavedSettings();
   if(savedData && typeof savedData === 'object'){
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       if(savedData[id] !== undefined && $(id)){
         state[id] = Number(savedData[id]);
         $(id).value = savedData[id];
@@ -1601,7 +1618,7 @@ function initRows(){
     ];
     rowList.forEach(addRow);
   } else {
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       updateBadge(id, state[id]);
     });
     updateBadge('pSize_0', state.baseStage.size);
@@ -2180,15 +2197,19 @@ function drawMysteryHUD(){
       ctx.save();
       ctx.shadowColor = th.glow;
       ctx.shadowBlur = 8;
+      // Outer 3D Bevel Box
       ctx.fillStyle = th.border;
       ctx.beginPath(); ctx.roundRect(bx, hudY, boxS, boxS, 10); ctx.fill();
 
+      // Inner Face
       ctx.fillStyle = th.face;
       ctx.beginPath(); ctx.roundRect(bx + 4, hudY + 4, boxS - 8, boxS - 8, 8); ctx.fill();
 
+      // Border Outline
       ctx.strokeStyle = th.stroke; ctx.lineWidth = 3;
       ctx.strokeRect(bx + 4, hudY + 4, boxS - 8, boxS - 8);
 
+      // Question Mark "?"
       ctx.fillStyle = th.text;
       ctx.font = '900 ' + Math.floor(boxS * 0.65) + 'px Impact, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -2264,8 +2285,8 @@ function drawRows(){
   state.rows.slice(0,5).forEach(function(row,i){
     var elapsed=roadTime-initialDelay-i*state.padDelay;
     var z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
-    if(z<0 || z>1.05) return;
-    var zz=Math.min(1,z);
+    if(z<0 || z>1.25) return; // Allow pads to cleanly fly past screen
+    var zz=z;
 
     if(zz >= pZ - 0.02 && !processedPads[i]){
       processedPads[i] = true;
@@ -2291,7 +2312,7 @@ function drawRows(){
       activeLaneColor = row.leftColor;
     }
 
-    activePads.push({row: row, zz: zz});
+    activePads.push({row: row, zz: Math.min(1.0, zz), rawZ: zz});
   });
 
   if(closestActiveZ !== -1){
@@ -2301,7 +2322,7 @@ function drawRows(){
 
   // 1. Pads behind player
   activePads.forEach(function(item){
-    if(item.zz < pZ){
+    if(item.rawZ < pZ){
       var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
       var right=drawRaisedPad(item.zz,'right',item.row.rightColor);
       var pngScale=.18+0.95*left.e;
@@ -2312,31 +2333,23 @@ function drawRows(){
     }
   });
 
-  // 🌟 STATIONARY AUTO-PROPORTIONAL BOSS (APPEARS AFTER PAD 3)
-  // Distance fixed on road anchor behind pad 5
+  // 🌟 STATIONARY AUTO-PROPORTIONAL BOSS (APPEARS AFTER PAD 3, FIGHT DISTANCE CONTROLLED)
   var pad5WorldElapsed = roadTime - initialDelay - 4 * state.padDelay;
-  var bossWorldElapsed = pad5WorldElapsed - 1.15; // Placed right behind 5th pad
+  var bDist = Math.max(1.0, state.bossDistance || 2.8);
+  var bossWorldElapsed = pad5WorldElapsed - bDist; // Proper distance gap so 5th pad flies off screen
   var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
 
-  // Appears once pad 3 is crossed
   var pad3Finished = processedPads[2] === true;
 
   if(pad3Finished && state.opponent.img && bossRawZ > 0){
-    // Target boss world position clamp
-    var bossZ = Math.min(pZ - 0.05, bossRawZ); // Stops face-to-face right in front of player
+    var bossZ = Math.min(pZ - 0.05, bossRawZ);
     var op = roadBoundsAtZ(bossZ);
 
-    // Auto Proportional Size: Automatically 1.18x of active runner size (Runner slightly smaller, boss slightly bigger)
     var rInfo = getActiveRunnerInfo();
     var dynamicBossBase = (rInfo.size || 145) * 1.18;
     var bossSize = dynamicBossBase * (0.3 + 0.7 * op.e);
 
     drawImageFit(state.opponent.img, W/2, op.y + 4, bossSize, bossSize, 'bottom');
-
-    // Freeze motion once reached face-to-face in front of 5th pad
-    if(bossRawZ >= pZ - 0.05){
-      // Reached face-to-face, keep freeze
-    }
   }
 
   // 2. Runner Character
@@ -2344,7 +2357,7 @@ function drawRows(){
 
   // 3. Pads in front/above player
   activePads.forEach(function(item){
-    if(item.zz >= pZ){
+    if(item.rawZ >= pZ && item.rawZ <= 1.05){
       var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
       var right=drawRaisedPad(item.zz,'right',item.row.rightColor);
       var pngScale=.18+0.95*left.e;
@@ -2360,9 +2373,10 @@ function frame(now){
   var dt=Math.min(0.05,(now-last)/1000);
   last=now;
 
-  // Auto-freeze game once boss and player reach face-to-face
+  // Auto-freeze game once boss and player reach face-to-face AFTER 5th pad is completely gone
   var pad5WorldElapsed = roadTime - 0.85 - 4 * state.padDelay;
-  var bossWorldElapsed = pad5WorldElapsed - 1.15;
+  var bDist = Math.max(1.0, state.bossDistance || 2.8);
+  var bossWorldElapsed = pad5WorldElapsed - bDist;
   var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
   var isFaceToFace = processedPads[4] && bossRawZ >= (state.playerZ || 0.82) - 0.05;
 
@@ -2391,7 +2405,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v14'); 
+    localStorage.removeItem('runner_studio_saved_v15'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
