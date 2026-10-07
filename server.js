@@ -42,7 +42,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Viral Edition</title>
+<title>Private Runner Studio Stationary Boss Edition</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
@@ -149,7 +149,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V23 3D CAMERA FIX</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V24 AUTO-STATIONARY BOSS</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -159,7 +159,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     <!-- ⚡ 3 SNAP BUTTONS + KEYBOARD SHORTCUTS -->
     <div class="steer-box">
       <div class="steer-header">
-        <span>⚡ Runner Steer (कीबोर्ड: ◀ A | ▼ S (Center) | D ▶)</span>
+        <span>⚡ Runner Steer (Keyboard: ◀ A | ▼ S (Center) | D ▶)</span>
         <span class="val-badge" id="v_laneSteer">-1.0 (Left)</span>
       </div>
       <div class="range-wrap">
@@ -175,7 +175,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note"><b>कैमरा हाइट फिक्स:</b> अब Camera Height स्लाइडर सच में 3D सड़क का कोण ऊपर-नीचे झुकाता है!</div>
+    <div class="note"><b>Auto-Boss Active:</b> Boss Pad 3 ke baad road par khada dikhega, aur uska size character se automatically thoda sa bada rahega[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)!</div>
   </section>
 
   <!-- DRAGGABLE SECTIONS CONTAINER -->
@@ -185,7 +185,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     <details class="drag-card" id="card_hud" open>
       <summary>
         <span>🎁 5 Mystery Question Boxes HUD Controller</span>
-        <span class="drag-handle" draggable="true" title="सिर्फ इसे पकड़कर ऊपर-नीचे खींचें">⠿ Drag</span>
+        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label class="toggle"><input id="showHud" type="checkbox" checked> Show 5 Mystery Boxes</label>
@@ -307,7 +307,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     <details class="drag-card" id="card_runner" open>
       <summary>
         <span>🏃 Runner Evolution Settings (Balanced Proportions)</span>
-        <span class="drag-handle" draggable="true" title="सिर्फ इसे पकड़कर ऊपर-नीचे खींचें">⠿ Drag</span>
+        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label>Base Start PNG (Stage 0)
@@ -511,7 +511,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     <details class="drag-card" id="card_highway" open>
       <summary>
         <span>🛣️ Moving Highway & 3D Camera (YouTube Depth Setup)</span>
-        <span class="drag-handle" draggable="true" title="सिर्फ इसे पकड़कर ऊपर-नीचे खींचें">⠿ Drag</span>
+        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label>
@@ -697,7 +697,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     <details class="drag-card" id="card_rows" open>
       <summary>
         <span>🚦 5 Fixed Rows + Opponent Boss</span>
-        <span class="drag-handle" draggable="true" title="सिर्फ इसे पकड़कर ऊपर-नीचे खींचें">⠿ Drag</span>
+        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="rowbar">
         <span class="small">5 main rows with custom color pickers & live size values + Stationary Boss.</span>
@@ -777,10 +777,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 
 <template id="opponentTemplate">
   <div class="row" style="border-color:#61f0a6">
-    <div class="rowhead"><strong style="color:#61f0a6">&#128293; Opponent Boss</strong><span class="small">Static behind 5th pad (Appears after 2nd pad)</span></div>
+    <div class="rowhead"><strong style="color:#61f0a6">&#128293; Opponent Boss</strong><span class="small">Stationary at Road End (Auto-Proportional Size)[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)</span></div>
     <div class="side" style="grid-column:span 2">
-      <b>OPPONENT CHARACTER</b>
-      <label>PNG
+      <b>OPPONENT CHARACTER PNG</b>
+      <label>PNG (Road par stationary khada rahega, Pad 3 ke baad aayega[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span))
         <div class="file-wrap">
           <div class="thumb-box" id="thumb_oppImg"><span>None</span><img src=""></div>
           <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg">
@@ -788,14 +788,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         </div>
       </label>
       <label class="toggle"><input class="oppRemove" type="checkbox" checked> Auto remove bg</label>
-      <label>
-        <span class="label-head"><span>Size</span><span class="val-badge oppSizeVal">220</span></span>
-        <div class="range-wrap">
-          <button type="button" class="step-btn" data-step-for="oppSize" data-dir="-1">◀</button>
-          <input class="oppSize" type="range" min="50" max="600" value="220">
-          <button type="button" class="step-btn" data-step-for="oppSize" data-dir="1">▶</button>
-        </div>
-      </label>
+      <div class="small" style="color:var(--accent);margin-top:4px">⚡ Size Runner ke final stage se automatically thoda sa bada (1.18x) set ho jayega[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)!</div>
     </div>
   </div>
 </template>
@@ -1168,13 +1161,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v13', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v14', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v13');
+    var raw = localStorage.getItem('runner_studio_saved_v14');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1597,7 +1590,6 @@ function initRows(){
     if(savedData.playerLane && $('playerLane')){ state.playerLane = savedData.playerLane; $('playerLane').value = savedData.playerLane; }
     if(savedData.speedLines !== undefined && $('speedLines')){ state.speedLines = Boolean(savedData.speedLines); $('speedLines').checked = state.speedLines; }
     if(savedData.roadShine !== undefined && $('roadShine')){ state.roadShine = Boolean(savedData.roadShine); $('roadShine').checked = state.roadShine; }
-    if(savedData.oppSize !== undefined){ state.opponent.size = Number(savedData.oppSize); }
     if(savedData.oppRemove !== undefined){ state.opponent.removeBg = Boolean(savedData.oppRemove); }
 
     var rowList = (Array.isArray(savedData.rows) && savedData.rows.length===5) ? savedData.rows : [
@@ -1623,17 +1615,6 @@ function initRows(){
   }
 
   var oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
-  var oppSizeInput = oppEl.querySelector('.oppSize');
-  var oppSizeVal = oppEl.querySelector('.oppSizeVal');
-
-  oppSizeInput.value=state.opponent.size;
-  if(oppSizeVal) oppSizeVal.textContent=state.opponent.size;
-
-  oppSizeInput.oninput=function(e){
-    state.opponent.size=Number(e.target.value); 
-    if(oppSizeVal) oppSizeVal.textContent=e.target.value;
-    autoSaveStudio();
-  };
   oppEl.querySelector('.oppRemove').onchange=function(e){
     state.opponent.removeBg=e.target.checked; 
     autoSaveStudio(); 
@@ -1679,7 +1660,6 @@ function roadBoundsAtZ(z){
   var t=Math.max(0,Math.min(1,z));
   var camH = Math.max(0.2, state.camHeight || 0.95);
   
-  // Real camera elevation logic: lower camHeight tilts perspective down (YouTube look)
   var dynamicHorizon = H * (state.horizon || 0.48) + (1.0 - camH) * (H * 0.12);
   var dynamicHorizonY = Math.max(H * 0.15, Math.min(H * 0.75, dynamicHorizon));
 
@@ -2200,19 +2180,15 @@ function drawMysteryHUD(){
       ctx.save();
       ctx.shadowColor = th.glow;
       ctx.shadowBlur = 8;
-      // Outer 3D Bevel Box
       ctx.fillStyle = th.border;
       ctx.beginPath(); ctx.roundRect(bx, hudY, boxS, boxS, 10); ctx.fill();
 
-      // Inner Face
       ctx.fillStyle = th.face;
       ctx.beginPath(); ctx.roundRect(bx + 4, hudY + 4, boxS - 8, boxS - 8, 8); ctx.fill();
 
-      // Border Outline
       ctx.strokeStyle = th.stroke; ctx.lineWidth = 3;
       ctx.strokeRect(bx + 4, hudY + 4, boxS - 8, boxS - 8);
 
-      // Question Mark "?"
       ctx.fillStyle = th.text;
       ctx.font = '900 ' + Math.floor(boxS * 0.65) + 'px Impact, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -2222,7 +2198,8 @@ function drawMysteryHUD(){
   }
 }
 
-function drawRunnerBehind(){
+// Helper to get active runner size and image
+function getActiveRunnerInfo(){
   var curImg = null;
   var curSize = 145;
 
@@ -2249,10 +2226,15 @@ function drawRunnerBehind(){
     curSize = state.baseStage.size || 145;
   }
 
-  if(!curImg) return;
+  return { img: curImg, size: curSize };
+}
+
+function drawRunnerBehind(){
+  var rInfo = getActiveRunnerInfo();
+  if(!rInfo.img) return;
 
   var p = roadBoundsAtZ(state.playerZ || 0.82);
-  var pSize = curSize * (0.3 + 0.7 * p.e);
+  var pSize = rInfo.size * (0.3 + 0.7 * p.e);
 
   var targetX = W/2;
   if(state.playerLane === 'slider'){
@@ -2268,7 +2250,7 @@ function drawRunnerBehind(){
   state.playerX = state.playerX || (W/2);
   state.playerX += (targetX - state.playerX) * 0.35;
 
-  drawImageFit(curImg, state.playerX, p.y + 4, pSize, pSize, 'bottom');
+  drawImageFit(rInfo.img, state.playerX, p.y + 4, pSize, pSize, 'bottom');
 }
 
 function drawRows(){
@@ -2317,6 +2299,7 @@ function drawRows(){
     state.currentLane = isGreenLane ? 'left' : 'right';
   }
 
+  // 1. Pads behind player
   activePads.forEach(function(item){
     if(item.zz < pZ){
       var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
@@ -2329,15 +2312,37 @@ function drawRows(){
     }
   });
 
-  var secondPadFinishTime = initialDelay + 1 * state.padDelay;
-  if(roadTime >= secondPadFinishTime && state.opponent.img){
-    var op = roadBoundsAtZ(0.72);
-    var oppSize = state.opponent.size * 0.75;
-    drawImageFit(state.opponent.img, W/2, op.y + 4, oppSize, oppSize, 'bottom');
+  // 🌟 STATIONARY AUTO-PROPORTIONAL BOSS (APPEARS AFTER PAD 3)
+  // Distance fixed on road anchor behind pad 5
+  var pad5WorldElapsed = roadTime - initialDelay - 4 * state.padDelay;
+  var bossWorldElapsed = pad5WorldElapsed - 1.15; // Placed right behind 5th pad
+  var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
+
+  // Appears once pad 3 is crossed
+  var pad3Finished = processedPads[2] === true;
+
+  if(pad3Finished && state.opponent.img && bossRawZ > 0){
+    // Target boss world position clamp
+    var bossZ = Math.min(pZ - 0.05, bossRawZ); // Stops face-to-face right in front of player
+    var op = roadBoundsAtZ(bossZ);
+
+    // Auto Proportional Size: Automatically 1.18x of active runner size (Runner slightly smaller, boss slightly bigger)
+    var rInfo = getActiveRunnerInfo();
+    var dynamicBossBase = (rInfo.size || 145) * 1.18;
+    var bossSize = dynamicBossBase * (0.3 + 0.7 * op.e);
+
+    drawImageFit(state.opponent.img, W/2, op.y + 4, bossSize, bossSize, 'bottom');
+
+    // Freeze motion once reached face-to-face in front of 5th pad
+    if(bossRawZ >= pZ - 0.05){
+      // Reached face-to-face, keep freeze
+    }
   }
 
+  // 2. Runner Character
   drawRunnerBehind();
 
+  // 3. Pads in front/above player
   activePads.forEach(function(item){
     if(item.zz >= pZ){
       var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
@@ -2354,7 +2359,15 @@ function drawRows(){
 function frame(now){
   var dt=Math.min(0.05,(now-last)/1000);
   last=now;
-  if(running) roadTime+=dt;
+
+  // Auto-freeze game once boss and player reach face-to-face
+  var pad5WorldElapsed = roadTime - 0.85 - 4 * state.padDelay;
+  var bossWorldElapsed = pad5WorldElapsed - 1.15;
+  var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
+  var isFaceToFace = processedPads[4] && bossRawZ >= (state.playerZ || 0.82) - 0.05;
+
+  if(running && !isFaceToFace) roadTime+=dt;
+
   drawBackground();
   drawRoad();
   drawRows();
@@ -2378,7 +2391,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v13'); 
+    localStorage.removeItem('runner_studio_saved_v14'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
