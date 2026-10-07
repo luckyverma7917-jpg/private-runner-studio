@@ -42,7 +42,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio 35+ Roads & Keyboard Steer</title>
+<title>Private Runner Studio 35+ Roads & Live Image Preview</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
@@ -93,10 +93,13 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .step-btn{border:1px solid var(--line);background:#1e232d;color:#f6f8fb;border-radius:7px;width:28px;height:28px;display:grid;place-items:center;cursor:pointer;font-size:11px;font-weight:bold;user-select:none;flex-shrink:0}
 .step-btn:hover{background:#2a313f;color:var(--accent)}
 
-/* FILE PICKER + CLEAR BUTTON ROW */
-.file-wrap{display:flex;align-items:center;gap:6px;width:100%}
+/* FILE PICKER + LIVE THUMBNAIL PREVIEW + CLEAR BUTTON */
+.file-wrap{display:flex;align-items:center;gap:7px;width:100%}
 .file-wrap input[type=file]{flex:1;min-width:0;font-size:11px}
-.clear-btn{border:1px solid #ff4d4d55;background:#2b1216;color:#ff8585;border-radius:7px;padding:5px 8px;font-size:11px;font-weight:bold;cursor:pointer;flex-shrink:0}
+.thumb-box{width:44px;height:44px;border-radius:8px;border:1px dashed #404859;background:#0d0f14;display:grid;place-items:center;overflow:hidden;flex-shrink:0;position:relative}
+.thumb-box img{width:100%;height:100%;object-fit:contain;display:none}
+.thumb-box span{font-size:10px;color:#6b7280;font-weight:bold}
+.clear-btn{border:1px solid #ff4d4d55;background:#2b1216;color:#ff8585;border-radius:7px;padding:6px 9px;font-size:11px;font-weight:bold;cursor:pointer;flex-shrink:0}
 .clear-btn:hover{background:#45141c;color:#fff}
 
 select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px;width:100%}
@@ -118,7 +121,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V20 KEYBOARD PRO</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V21 LIVE PREVIEW</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -144,7 +147,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note"><b>कीबोर्ड जुगाड़:</b> बाएँ जाने के लिए <b>A</b> या <b>◀</b>, दाएँ के लिए <b>D</b> या <b>▶</b>, और बीच में लाने के लिए <b>S</b> या <b>Spacebar</b> या <b>▼</b> दबाओ!</div>
+    <div class="note"><b>लाइव फ़ोटो प्रिव्यू सक्रिय:</b> हर PNG अपलोड करने पर बगल वाले बॉक्स में तुरंत साफ़ फ़ोटो दिखेगी!</div>
   </section>
 
   <!-- DRAGGABLE SECTIONS CONTAINER -->
@@ -236,30 +239,35 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <div class="sub-title" style="color:var(--gold)">📁 Manual PNG Override for Boxes</div>
         <label>Box 1 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_hud_0"><span>None</span><img src=""></div>
             <input id="hudImg_0" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_0">✕ Clear</button>
           </div>
         </label>
         <label>Box 2 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_hud_1"><span>None</span><img src=""></div>
             <input id="hudImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_1">✕ Clear</button>
           </div>
         </label>
         <label>Box 3 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_hud_2"><span>None</span><img src=""></div>
             <input id="hudImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_2">✕ Clear</button>
           </div>
         </label>
         <label>Box 4 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_hud_3"><span>None</span><img src=""></div>
             <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_3">✕ Clear</button>
           </div>
         </label>
         <label style="grid-column:1/-1">Box 5 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_hud_4"><span>None</span><img src=""></div>
             <input id="hudImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_4">✕ Clear</button>
           </div>
@@ -276,6 +284,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       <div class="grid two">
         <label>Base Start PNG (Stage 0)
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_pImg_0"><span>None</span><img src=""></div>
             <input id="pImg_0" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_pImg_0">✕ Clear</button>
           </div>
@@ -309,6 +318,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <div class="sub-title" style="color:#61f0a6">&#128170; GREEN PAD UPGRADES (STRONG / GROW)</div>
         <label>Green Stage 1 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_gImg_1"><span>None</span><img src=""></div>
             <input id="gImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_1">✕ Clear</button>
           </div>
@@ -324,6 +334,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
         <label>Green Stage 2 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_gImg_2"><span>None</span><img src=""></div>
             <input id="gImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_2">✕ Clear</button>
           </div>
@@ -339,6 +350,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
         <label>Green Stage 3 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_gImg_3"><span>None</span><img src=""></div>
             <input id="gImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_3">✕ Clear</button>
           </div>
@@ -354,6 +366,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
         <label>Green Stage 4 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_gImg_4"><span>None</span><img src=""></div>
             <input id="gImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_4">✕ Clear</button>
           </div>
@@ -369,6 +382,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
         <label>Green Stage 5 PNG (Final)
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_gImg_5"><span>None</span><img src=""></div>
             <input id="gImg_5" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_5">✕ Clear</button>
           </div>
@@ -385,6 +399,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         <div class="sub-title" style="color:#ff6b6b">&#128128; RED PAD DOWNGRADES (WEAK / THIN)</div>
         <label>Red Stage 1 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_rImg_1"><span>None</span><img src=""></div>
             <input id="rImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_1">✕ Clear</button>
           </div>
@@ -400,6 +415,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
         <label>Red Stage 2 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_rImg_2"><span>None</span><img src=""></div>
             <input id="rImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_2">✕ Clear</button>
           </div>
@@ -415,6 +431,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
         <label>Red Stage 3 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_rImg_3"><span>None</span><img src=""></div>
             <input id="rImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_3">✕ Clear</button>
           </div>
@@ -430,6 +447,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
         <label>Red Stage 4 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_rImg_4"><span>None</span><img src=""></div>
             <input id="rImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_4">✕ Clear</button>
           </div>
@@ -445,6 +463,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
 
         <label>Red Stage 5 PNG
           <div class="file-wrap">
+            <div class="thumb-box" id="thumb_rImg_5"><span>None</span><img src=""></div>
             <input id="rImg_5" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_5">✕ Clear</button>
           </div>
@@ -684,6 +703,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
         <label>PNG
           <div class="file-wrap">
+            <div class="thumb-box thumb-left"><span>None</span><img src=""></div>
             <input class="leftInput" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn clear-left">✕ Clear</button>
           </div>
@@ -708,6 +728,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
         <label>PNG
           <div class="file-wrap">
+            <div class="thumb-box thumb-right"><span>None</span><img src=""></div>
             <input class="rightInput" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn clear-right">✕ Clear</button>
           </div>
@@ -733,6 +754,7 @@ select{padding:8px;background:#0f1217;color:white;border:1px solid var(--line);b
       <b>OPPONENT CHARACTER</b>
       <label>PNG
         <div class="file-wrap">
+          <div class="thumb-box" id="thumb_oppImg"><span>None</span><img src=""></div>
           <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg">
           <button type="button" class="clear-btn" id="clear_oppImg">✕ Clear</button>
         </div>
@@ -937,6 +959,22 @@ function updateBadge(key, val){
   if(el) el.textContent = val;
 }
 
+// 🖼️ LIVE THUMBNAIL BOX UPDATER
+function updateThumbBox(boxEl, src){
+  if(!boxEl) return;
+  var im = boxEl.querySelector('img');
+  var txt = boxEl.querySelector('span');
+  if(src){
+    if(im){ im.src = src; im.style.display = 'block'; }
+    if(txt){ txt.style.display = 'none'; }
+    boxEl.style.borderColor = '#61f0a6';
+  } else {
+    if(im){ im.src = ''; im.style.display = 'none'; }
+    if(txt){ txt.style.display = 'block'; }
+    boxEl.style.borderColor = '#404859';
+  }
+}
+
 // ◀ ▶ STEP BUTTONS HANDLER
 function stepSlider(inp, dir){
   if(!inp) return;
@@ -976,9 +1014,7 @@ function setRunnerLane(val, name){
 
 // ⌨️ KEYBOARD SHORTCUTS FOR 1-MS INSTANT LANE SWITCH
 window.addEventListener('keydown', function(e){
-  // Agar kisi text box me type kar rahe hain to game steer mat karo
   if(e.target.tagName === 'INPUT' && e.target.type !== 'range') return;
-
   var k = e.key.toLowerCase();
   if(k === 'arrowleft' || k === 'a'){
     setRunnerLane(-1.0, 'Left');
@@ -1185,12 +1221,14 @@ for(var h=0; h<5; h++){
   (function(bIdx){
     var inp = $('hudImg_' + bIdx);
     var clr = $('clear_hud_' + bIdx);
+    var box = $('thumb_hud_' + bIdx);
     if(inp){
       inp.onchange = function(e){
         var f = e.target.files[0]; if(!f) return;
         readFile(f).then(function(src){
           dataToProcessedImage(src, true).then(function(im){
             manualHudImgs[bIdx] = im;
+            updateThumbBox(box, im.src);
           });
         });
       };
@@ -1200,6 +1238,7 @@ for(var h=0; h<5; h++){
         if(inp) inp.value = '';
         manualHudImgs[bIdx] = null;
         collectedHud[bIdx] = null;
+        updateThumbBox(box, null);
       };
     }
   })(h);
@@ -1223,7 +1262,7 @@ $('quickLeftBtn').onclick = function(){ setRunnerLane(-1.0, 'Left'); };
 $('quickCenterBtn').onclick = function(){ setRunnerLane(0.0, 'Center'); };
 $('quickRightBtn').onclick = function(){ setRunnerLane(1.0, 'Right'); };
 
-// Stage 0 Base setup + Clear
+// Stage 0 Base setup + Clear + Thumb
 if($('pSize_0')){
   $('pSize_0').oninput = function(e){
     state.baseStage.size = Number(e.target.value);
@@ -1234,17 +1273,23 @@ if($('pSize_0')){
 if($('pImg_0')){
   $('pImg_0').onchange = function(e){
     var f=e.target.files[0]; if(!f) return;
-    readFile(f).then(function(src){ dataToProcessedImage(src, true).then(function(im){ state.baseStage.img = im; }); });
+    readFile(f).then(function(src){
+      dataToProcessedImage(src, true).then(function(im){
+        state.baseStage.img = im;
+        updateThumbBox($('thumb_pImg_0'), im.src);
+      });
+    });
   };
 }
 if($('clear_pImg_0')){
   $('clear_pImg_0').onclick = function(){
     if($('pImg_0')) $('pImg_0').value = '';
     state.baseStage.img = null;
+    updateThumbBox($('thumb_pImg_0'), null);
   };
 }
 
-// 5 Green & 5 Red stages setup + Clear buttons
+// 5 Green & 5 Red stages setup + Clear buttons + Live Thumbs
 for(var k=1; k<=5; k++){
   (function(idx){
     if($('gSize_' + idx)){
@@ -1257,13 +1302,19 @@ for(var k=1; k<=5; k++){
     if($('gImg_' + idx)){
       $('gImg_' + idx).onchange = function(e){
         var f=e.target.files[0]; if(!f) return;
-        readFile(f).then(function(src){ dataToProcessedImage(src, true).then(function(im){ state.greenStages[idx].img = im; }); });
+        readFile(f).then(function(src){
+          dataToProcessedImage(src, true).then(function(im){
+            state.greenStages[idx].img = im;
+            updateThumbBox($('thumb_gImg_' + idx), im.src);
+          });
+        });
       };
     }
     if($('clear_gImg_' + idx)){
       $('clear_gImg_' + idx).onclick = function(){
         if($('gImg_' + idx)) $('gImg_' + idx).value = '';
         state.greenStages[idx].img = null;
+        updateThumbBox($('thumb_gImg_' + idx), null);
       };
     }
     if($('rSize_' + idx)){
@@ -1276,13 +1327,19 @@ for(var k=1; k<=5; k++){
     if($('rImg_' + idx)){
       $('rImg_' + idx).onchange = function(e){
         var f=e.target.files[0]; if(!f) return;
-        readFile(f).then(function(src){ dataToProcessedImage(src, true).then(function(im){ state.redStages[idx].img = im; }); });
+        readFile(f).then(function(src){
+          dataToProcessedImage(src, true).then(function(im){
+            state.redStages[idx].img = im;
+            updateThumbBox($('thumb_rImg_' + idx), im.src);
+          });
+        });
       };
     }
     if($('clear_rImg_' + idx)){
       $('clear_rImg_' + idx).onclick = function(){
         if($('rImg_' + idx)) $('rImg_' + idx).value = '';
         state.redStages[idx].img = null;
+        updateThumbBox($('thumb_rImg_' + idx), null);
       };
     }
   })(k);
@@ -1350,6 +1407,9 @@ function addRow(saved){
   var clearLeft = el.querySelector('.clear-left');
   var clearRight = el.querySelector('.clear-right');
 
+  var thumbLeft = el.querySelector('.thumb-left');
+  var thumbRight = el.querySelector('.thumb-right');
+
   leftColorInput.value=row.leftColor;
   rightColorInput.value=row.rightColor;
   if(leftColorVal) leftColorVal.textContent=row.leftColor;
@@ -1369,11 +1429,13 @@ function addRow(saved){
     el.querySelector('.leftInput').value = '';
     row.leftSrc = null;
     row.leftImg = null;
+    updateThumbBox(thumbLeft, null);
   };
   clearRight.onclick = function(){
     el.querySelector('.rightInput').value = '';
     row.rightSrc = null;
     row.rightImg = null;
+    updateThumbBox(thumbRight, null);
   };
 
   el.querySelector('.leftRemove').checked=row.leftRemove;
@@ -1404,34 +1466,46 @@ function addRow(saved){
     row.leftRemove=e.target.checked; 
     autoSaveStudio(); 
     if(row.leftSrc){
-      dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){row.leftImg=im;});
+      dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){
+        row.leftImg=im;
+        updateThumbBox(thumbLeft, im.src);
+      });
     }
   };
   el.querySelector('.rightRemove').onchange=function(e){
     row.rightRemove=e.target.checked; 
     autoSaveStudio(); 
     if(row.rightSrc){
-      dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){row.rightImg=im;});
+      dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){
+        row.rightImg=im;
+        updateThumbBox(thumbRight, im.src);
+      });
     }
   };
   el.querySelector('.leftInput').onchange=function(e){
     var f=e.target.files[0];if(!f)return;
     readFile(f).then(function(src){
       row.leftSrc=src;
-      dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){row.leftImg=im;});
+      dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){
+        row.leftImg=im;
+        updateThumbBox(thumbLeft, im.src);
+      });
     });
   };
   el.querySelector('.rightInput').onchange=function(e){
     var f=e.target.files[0];if(!f)return;
     readFile(f).then(function(src){
       row.rightSrc=src;
-      dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){row.rightImg=im;});
+      dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){
+        row.rightImg=im;
+        updateThumbBox(thumbRight, im.src);
+      });
     });
   };
   
   $('rows').appendChild(el);
-  if(row.leftSrc) dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){row.leftImg=im;});
-  if(row.rightSrc) dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){row.rightImg=im;});
+  if(row.leftSrc) dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){ row.leftImg=im; updateThumbBox(thumbLeft, im.src); });
+  if(row.rightSrc) dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){ row.rightImg=im; updateThumbBox(thumbRight, im.src); });
 }
 
 function initRows(){
@@ -1535,14 +1609,20 @@ function initRows(){
     state.opponent.removeBg=e.target.checked; 
     autoSaveStudio(); 
     if(state.opponent.src){
-      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){state.opponent.img=im;});
+      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){
+        state.opponent.img=im;
+        updateThumbBox($('thumb_oppImg'), im.src);
+      });
     }
   };
   oppEl.querySelector('.oppInput').onchange=function(e){
     var f=e.target.files[0];if(!f)return;
     readFile(f).then(function(src){
       state.opponent.src=src;
-      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){state.opponent.img=im;});
+      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){
+        state.opponent.img=im;
+        updateThumbBox($('thumb_oppImg'), im.src);
+      });
     });
   };
   var clearOpp = oppEl.querySelector('#clear_oppImg');
@@ -1551,6 +1631,7 @@ function initRows(){
       oppEl.querySelector('.oppInput').value = '';
       state.opponent.src = null;
       state.opponent.img = null;
+      updateThumbBox($('thumb_oppImg'), null);
     };
   }
   $('rows').appendChild(oppEl);
@@ -1779,7 +1860,7 @@ function rArcadeGrid(){
     var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
     drawPoly(quad(a,b),'rgba(0,255,255,'+(.02+.06*a.e)+')');
     for(var j=1;j<4;j++){
-      var x0=lerp(a.l,a.r,j/4), x1=lerp(b.r,b.r,j/4);
+      var x0=lerp(a.l,a.r,j/4), x1=lerp(b.l,b.r,j/4);
       ctx.save();ctx.strokeStyle='rgba(0,255,255,'+(.08+.2*a.e)+')';ctx.lineWidth=1.2+2.4*a.e;
       ctx.beginPath();ctx.moveTo(x0,a.y);ctx.lineTo(x1,b.y);ctx.stroke();ctx.restore();
     }
@@ -2025,7 +2106,7 @@ function drawRaisedPad(z, side, hexColor){
   var c = hexToRgb(hexColor);
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
-  var darkG = Math.max(0, Math.floor(c.g * 0.45));
+  var darkG = Math.max(0, Math.floor(c.r * 0.45));
   var darkB = Math.max(0, Math.floor(c.b * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
