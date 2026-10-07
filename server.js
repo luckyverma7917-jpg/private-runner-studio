@@ -42,7 +42,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Stylish Edition</title>
+<title>Private Runner Studio Viral Edition</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
@@ -87,7 +87,7 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .val-badge.red{color:var(--red)}
 .val-badge.gold{color:var(--gold)}
 
-/* 🌟 SLIDE STYLISH CONTROLS */
+/* SLIDE STYLISH CONTROLS */
 .range-wrap{display:flex;align-items:center;gap:6px;width:100%}
 .range-wrap input[type=range]{
   flex:1;
@@ -121,7 +121,7 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .step-btn{border:1px solid var(--line);background:#1e232d;color:#f6f8fb;border-radius:8px;width:30px;height:30px;display:grid;place-items:center;cursor:pointer;font-size:11px;font-weight:bold;user-select:none;flex-shrink:0}
 .step-btn:hover{background:#2a313f;color:var(--accent);border-color:var(--accent)}
 
-/* 🌟 NO OVERFLOW FILE PICKER + THUMBNAIL + CLEAR BUTTON */
+/* NO OVERFLOW FILE PICKER + THUMBNAIL + CLEAR BUTTON */
 .file-wrap{display:flex;align-items:center;gap:8px;width:100%;flex-wrap:wrap}
 .file-wrap input[type=file]{flex:1;min-width:140px;font-size:11px;color:#cbd5e1}
 .thumb-box{width:44px;height:44px;border-radius:8px;border:1px dashed #404859;background:#0d0f14;display:grid;place-items:center;overflow:hidden;flex-shrink:0;position:relative}
@@ -149,7 +149,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V22 STYLISH PRO</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">V23 3D CAMERA FIX</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -175,7 +175,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note"><b>लैपटॉप स्क्रीन फिक्स:</b> सभी क्लियर बटन और स्लाइडर्स कभी नहीं कटेंगे!</div>
+    <div class="note"><b>कैमरा हाइट फिक्स:</b> अब Camera Height स्लाइडर सच में 3D सड़क का कोण ऊपर-नीचे झुकाता है!</div>
   </section>
 
   <!-- DRAGGABLE SECTIONS CONTAINER -->
@@ -191,7 +191,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         <label class="toggle"><input id="showHud" type="checkbox" checked> Show 5 Mystery Boxes</label>
         <label class="toggle"><input id="autoCollectHud" type="checkbox" checked> Auto Collect PNG from Pads</label>
 
-        <label style="grid-column:1/-1">Box Style (35+ Theme Styles)
+        <label style="grid-column:1/-1">Box Style (YouTube Gold Theme Active)
           <select id="hudStyle">
             <optgroup label="--- Classic & Gold ---">
               <option value="classicGold" selected>1. Classic Mario Gold (?)</option>
@@ -306,7 +306,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     <!-- CARD 2: RUNNER EVOLUTION -->
     <details class="drag-card" id="card_runner" open>
       <summary>
-        <span>🏃 Runner Evolution Settings (Green Buff vs Red Nerf)</span>
+        <span>🏃 Runner Evolution Settings (Balanced Proportions)</span>
         <span class="drag-handle" draggable="true" title="सिर्फ इसे पकड़कर ऊपर-नीचे खींचें">⠿ Drag</span>
       </summary>
       <div class="grid two">
@@ -318,10 +318,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Stage 0 Base Size</span><span class="val-badge" id="v_pSize_0">160</span></span>
+          <span class="label-head"><span>Stage 0 Base Size</span><span class="val-badge" id="v_pSize_0">145</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="pSize_0" data-dir="-1">◀</button>
-            <input id="pSize_0" type="range" min="40" max="800" value="160">
+            <input id="pSize_0" type="range" min="40" max="800" value="145">
             <button type="button" class="step-btn" data-step-for="pSize_0" data-dir="1">▶</button>
           </div>
         </label>
@@ -335,10 +335,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </select>
         </label>
         <label>
-          <span class="label-head"><span>Depth (Z-Position)</span><span class="val-badge" id="v_playerZ">0.84</span></span>
+          <span class="label-head"><span>Depth (Z-Position)</span><span class="val-badge" id="v_playerZ">0.82</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="playerZ" data-dir="-1">◀</button>
-            <input id="playerZ" type="range" min="0.50" max="0.95" step="0.01" value="0.84">
+            <input id="playerZ" type="range" min="0.50" max="0.95" step="0.01" value="0.82">
             <button type="button" class="step-btn" data-step-for="playerZ" data-dir="1">▶</button>
           </div>
         </label>
@@ -352,10 +352,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Green 1 Size</span><span class="val-badge" id="v_gSize_1">180</span></span>
+          <span class="label-head"><span>Green 1 Size</span><span class="val-badge" id="v_gSize_1">165</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="gSize_1" data-dir="-1">◀</button>
-            <input id="gSize_1" type="range" min="40" max="800" value="180">
+            <input id="gSize_1" type="range" min="40" max="800" value="165">
             <button type="button" class="step-btn" data-step-for="gSize_1" data-dir="1">▶</button>
           </div>
         </label>
@@ -368,10 +368,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Green 2 Size</span><span class="val-badge" id="v_gSize_2">210</span></span>
+          <span class="label-head"><span>Green 2 Size</span><span class="val-badge" id="v_gSize_2">190</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="gSize_2" data-dir="-1">◀</button>
-            <input id="gSize_2" type="range" min="40" max="800" value="210">
+            <input id="gSize_2" type="range" min="40" max="800" value="190">
             <button type="button" class="step-btn" data-step-for="gSize_2" data-dir="1">▶</button>
           </div>
         </label>
@@ -384,10 +384,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">240</span></span>
+          <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">220</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="gSize_3" data-dir="-1">◀</button>
-            <input id="gSize_3" type="range" min="40" max="800" value="240">
+            <input id="gSize_3" type="range" min="40" max="800" value="220">
             <button type="button" class="step-btn" data-step-for="gSize_3" data-dir="1">▶</button>
           </div>
         </label>
@@ -400,10 +400,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Green 4 Size</span><span class="val-badge" id="v_gSize_4">270</span></span>
+          <span class="label-head"><span>Green 4 Size</span><span class="val-badge" id="v_gSize_4">255</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="gSize_4" data-dir="-1">◀</button>
-            <input id="gSize_4" type="range" min="40" max="800" value="270">
+            <input id="gSize_4" type="range" min="40" max="800" value="255">
             <button type="button" class="step-btn" data-step-for="gSize_4" data-dir="1">▶</button>
           </div>
         </label>
@@ -416,10 +416,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Green 5 Size</span><span class="val-badge" id="v_gSize_5">310</span></span>
+          <span class="label-head"><span>Green 5 Size</span><span class="val-badge" id="v_gSize_5">290</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="gSize_5" data-dir="-1">◀</button>
-            <input id="gSize_5" type="range" min="40" max="800" value="310">
+            <input id="gSize_5" type="range" min="40" max="800" value="290">
             <button type="button" class="step-btn" data-step-for="gSize_5" data-dir="1">▶</button>
           </div>
         </label>
@@ -433,10 +433,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Red 1 Size</span><span class="val-badge red" id="v_rSize_1">140</span></span>
+          <span class="label-head"><span>Red 1 Size</span><span class="val-badge red" id="v_rSize_1">130</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="rSize_1" data-dir="-1">◀</button>
-            <input id="rSize_1" type="range" min="40" max="800" value="140">
+            <input id="rSize_1" type="range" min="40" max="800" value="130">
             <button type="button" class="step-btn" data-step-for="rSize_1" data-dir="1">▶</button>
           </div>
         </label>
@@ -449,10 +449,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Red 2 Size</span><span class="val-badge red" id="v_rSize_2">120</span></span>
+          <span class="label-head"><span>Red 2 Size</span><span class="val-badge red" id="v_rSize_2">115</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="rSize_2" data-dir="-1">◀</button>
-            <input id="rSize_2" type="range" min="40" max="800" value="120">
+            <input id="rSize_2" type="range" min="40" max="800" value="115">
             <button type="button" class="step-btn" data-step-for="rSize_2" data-dir="1">▶</button>
           </div>
         </label>
@@ -465,10 +465,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Red 3 Size</span><span class="val-badge red" id="v_rSize_3">105</span></span>
+          <span class="label-head"><span>Red 3 Size</span><span class="val-badge red" id="v_rSize_3">100</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="rSize_3" data-dir="-1">◀</button>
-            <input id="rSize_3" type="range" min="40" max="800" value="105">
+            <input id="rSize_3" type="range" min="40" max="800" value="100">
             <button type="button" class="step-btn" data-step-for="rSize_3" data-dir="1">▶</button>
           </div>
         </label>
@@ -481,10 +481,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Red 4 Size</span><span class="val-badge red" id="v_rSize_4">90</span></span>
+          <span class="label-head"><span>Red 4 Size</span><span class="val-badge red" id="v_rSize_4">85</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="rSize_4" data-dir="-1">◀</button>
-            <input id="rSize_4" type="range" min="40" max="800" value="90">
+            <input id="rSize_4" type="range" min="40" max="800" value="85">
             <button type="button" class="step-btn" data-step-for="rSize_4" data-dir="1">▶</button>
           </div>
         </label>
@@ -497,10 +497,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Red 5 Size</span><span class="val-badge red" id="v_rSize_5">80</span></span>
+          <span class="label-head"><span>Red 5 Size</span><span class="val-badge red" id="v_rSize_5">75</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="rSize_5" data-dir="-1">◀</button>
-            <input id="rSize_5" type="range" min="40" max="800" value="80">
+            <input id="rSize_5" type="range" min="40" max="800" value="75">
             <button type="button" class="step-btn" data-step-for="rSize_5" data-dir="1">▶</button>
           </div>
         </label>
@@ -510,55 +510,55 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     <!-- CARD 3: HIGHWAY & CAMERA -->
     <details class="drag-card" id="card_highway" open>
       <summary>
-        <span>🛣️ Moving Highway & Camera</span>
+        <span>🛣️ Moving Highway & 3D Camera (YouTube Depth Setup)</span>
         <span class="drag-handle" draggable="true" title="सिर्फ इसे पकड़कर ऊपर-नीचे खींचें">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label>
-          <span class="label-head"><span>Forward speed</span><span class="val-badge" id="v_speed">0.24</span></span>
+          <span class="label-head"><span>Forward speed (Viral Pacing)</span><span class="val-badge" id="v_speed">0.20</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="speed" data-dir="-1">◀</button>
-            <input id="speed" type="range" min="0.12" max="0.50" step="0.01" value="0.24">
+            <input id="speed" type="range" min="0.10" max="0.50" step="0.01" value="0.20">
             <button type="button" class="step-btn" data-step-for="speed" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Horizon Height</span><span class="val-badge" id="v_horizon">0.46</span></span>
+          <span class="label-head"><span>Horizon Height</span><span class="val-badge" id="v_horizon">0.48</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="horizon" data-dir="-1">◀</button>
-            <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.46">
+            <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.48">
             <button type="button" class="step-btn" data-step-for="horizon" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Top Width</span><span class="val-badge" id="v_topWidth">0.08</span></span>
+          <span class="label-head"><span>Top Width (Road Vanishing Point)</span><span class="val-badge" id="v_topWidth">0.06</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="-1">◀</button>
-            <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.08">
+            <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.06">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Bottom Width</span><span class="val-badge" id="v_bottomWidth">0.88</span></span>
+          <span class="label-head"><span>Bottom Width (Perspective)</span><span class="val-badge" id="v_bottomWidth">0.86</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="-1">◀</button>
-            <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.88">
+            <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.86">
             <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Camera Height</span><span class="val-badge" id="v_camHeight">1.2</span></span>
+          <span class="label-head"><span>Camera Height (3D Angle Tilt)</span><span class="val-badge" id="v_camHeight">0.95</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="camHeight" data-dir="-1">◀</button>
-            <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.2">
+            <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="0.95">
             <button type="button" class="step-btn" data-step-for="camHeight" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Pad delay</span><span class="val-badge" id="v_padDelay">1.75</span></span>
+          <span class="label-head"><span>Pad delay (Suspense Time)</span><span class="val-badge" id="v_padDelay">2.40</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="padDelay" data-dir="-1">◀</button>
-            <input id="padDelay" type="range" min="1.10" max="2.60" step="0.05" value="1.75">
+            <input id="padDelay" type="range" min="1.10" max="3.50" step="0.05" value="2.40">
             <button type="button" class="step-btn" data-step-for="padDelay" data-dir="1">▶</button>
           </div>
         </label>
@@ -572,7 +572,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
         <label>Road style (35+ Roads) <select id="roadVariant">
           <optgroup label="--- Classic & Highway ---">
-            <option value="classic" selected>1. Classic V6</option>
+            <option value="classic" selected>1. Classic V6 (Lion Challenge)</option>
             <option value="twinStripe">2. Twin Yellow Stripes</option>
             <option value="tripleLane">3. Triple Fast Lane</option>
             <option value="asphaltSpeed">4. Speed Asphalt Pro</option>
@@ -817,13 +817,14 @@ var processedPads = {};
 var collectedHud = [null, null, null, null, null];
 var manualHudImgs = [null, null, null, null, null];
 
+// 🌟 VIRAL YOUTUBE DEFAULTS
 var state={
-  speed:0.24,
-  horizon:0.46,
-  topWidth:0.08,
-  bottomWidth:0.88,
-  camHeight:1.2,
-  padDelay:1.75,
+  speed:0.20,
+  horizon:0.48,
+  topWidth:0.06,
+  bottomWidth:0.86,
+  camHeight:0.95,
+  padDelay:2.40,
   padThickness:14,
   roadVariant:'classic',
   bgMode:'black',
@@ -836,24 +837,24 @@ var state={
   hudBoxSize:80,
   hudSpacing:14,
   steerOffset:-1.0,
-  baseStage: {img:null, size:160},
+  baseStage: {img:null, size:145},
   greenStages:[
     null,
-    {img:null, size:180},
-    {img:null, size:210},
-    {img:null, size:240},
-    {img:null, size:270},
-    {img:null, size:310}
+    {img:null, size:165},
+    {img:null, size:190},
+    {img:null, size:220},
+    {img:null, size:255},
+    {img:null, size:290}
   ],
   redStages:[
     null,
-    {img:null, size:140},
-    {img:null, size:120},
-    {img:null, size:105},
-    {img:null, size:90},
-    {img:null, size:80}
+    {img:null, size:130},
+    {img:null, size:115},
+    {img:null, size:100},
+    {img:null, size:85},
+    {img:null, size:75}
   ],
-  playerZ:0.84,
+  playerZ:0.82,
   playerLane:'slider',
   playerX:W/2,
   currentLane:'left',
@@ -863,7 +864,7 @@ var state={
 
 // 🎨 35+ HUD COLOR THEMES
 var hudThemes = {
-  classicGold:     { border:'#ff9900', face:'#ffbe1a', stroke:'#221100', text:'#110800', glow:'rgba(255,190,26,0.5)' },
+  classicGold:     { border:'#ff9900', face:'#ffbe1a', stroke:'#221100', text:'#110800', glow:'rgba(255,190,26,0.6)' },
   royalGold:       { border:'#d97706', face:'#fbbf24', stroke:'#451a03', text:'#451a03', glow:'rgba(251,191,36,0.6)' },
   arcadeYellow:    { border:'#eab308', face:'#fef08a', stroke:'#000000', text:'#000000', glow:'rgba(234,179,8,0.7)' },
   bronzeVintage:   { border:'#78350f', face:'#b45309', stroke:'#1c0b02', text:'#fef3c7', glow:'rgba(180,83,9,0.5)' },
@@ -1167,13 +1168,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v12', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v13', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v12');
+    var raw = localStorage.getItem('runner_studio_saved_v13');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1673,19 +1674,25 @@ var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
 var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
+// 🌟 TRUE 3D PERSPECTIVE WITH PROPER CAMERA HEIGHT TILT
 function roadBoundsAtZ(z){
   var t=Math.max(0,Math.min(1,z));
-  var HORIZON_Y=H*state.horizon;
-  var TOP_HALF=W*state.topWidth;
-  var BOTTOM_HALF=W*(state.bottomWidth || 0.88);
+  var camH = Math.max(0.2, state.camHeight || 0.95);
+  
+  // Real camera elevation logic: lower camHeight tilts perspective down (YouTube look)
+  var dynamicHorizon = H * (state.horizon || 0.48) + (1.0 - camH) * (H * 0.12);
+  var dynamicHorizonY = Math.max(H * 0.15, Math.min(H * 0.75, dynamicHorizon));
 
-  var zWorld = (1.0 - t) * 11.5 + 0.85;
-  var scale = 1.0 / (zWorld * state.camHeight);
-  var minScale = 1.0 / (12.35 * state.camHeight);
-  var maxScale = 1.0 / (0.85 * state.camHeight);
+  var TOP_HALF = W * (state.topWidth || 0.06);
+  var BOTTOM_HALF = W * (state.bottomWidth || 0.86);
+
+  var zDistance = (1.0 - t) * (11.0 / camH) + 0.85;
+  var scale = 1.0 / zDistance;
+  var minScale = 1.0 / ((11.0 / camH) + 0.85);
+  var maxScale = 1.0 / 0.85;
   var depth = (scale - minScale) / (maxScale - minScale);
 
-  var y = HORIZON_Y + (H - HORIZON_Y) * depth;
+  var y = dynamicHorizonY + (H - dynamicHorizonY) * depth;
   var half = TOP_HALF + (BOTTOM_HALF - TOP_HALF) * depth;
 
   return {e:depth, y:y, l:W/2-half, r:W/2+half, half:half};
@@ -1815,7 +1822,7 @@ function drawBackground(){
     for(var i=0;i<12;i++){
       var sideDir=i%2===0?-1:1;
       var phase=(i*.11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
-      var y=(H*state.horizon)-250 + phase*350;
+      var y=(H*(state.horizon || 0.48))-250 + phase*350;
       var x=sideDir<0 ? 40+phase*80 : W-40-phase*80;
       var len=24+phase*80;
       ctx.globalAlpha=.08+.34*phase;ctx.lineWidth=2+3*phase;
@@ -2122,12 +2129,12 @@ function drawRoad(){
   fn();
 }
 
-// 🦁 ORIGINAL 3D NEON GLASS PAD - HEIGHT BALANCED
+// 🦁 BALANCED 3D NEON GLASS PAD (FITS LANE CLEANLY)
 function drawRaisedPad(z, side, hexColor){
   var p=roadBoundsAtZ(z), e=p.e;
   var laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
-  var width=Math.max(16, p.half*.84);
-  var height=Math.max(18, width * 0.65);
+  var width=Math.max(14, p.half*.78);
+  var height=Math.max(16, width * 0.58);
   var baseY=p.y + 1;
   var topY=baseY - height;
   
@@ -2135,7 +2142,7 @@ function drawRaisedPad(z, side, hexColor){
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
   var darkG = Math.max(0, Math.floor(c.r * 0.45));
-  var darkB = Math.max(0, Math.floor(c.r * 0.45));
+  var darkB = Math.max(0, Math.floor(c.b * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
   ctx.save();ctx.fillStyle='rgba(0,0,0,.24)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+4,width*.46,4+7*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
@@ -2193,15 +2200,19 @@ function drawMysteryHUD(){
       ctx.save();
       ctx.shadowColor = th.glow;
       ctx.shadowBlur = 8;
+      // Outer 3D Bevel Box
       ctx.fillStyle = th.border;
       ctx.beginPath(); ctx.roundRect(bx, hudY, boxS, boxS, 10); ctx.fill();
 
+      // Inner Face
       ctx.fillStyle = th.face;
       ctx.beginPath(); ctx.roundRect(bx + 4, hudY + 4, boxS - 8, boxS - 8, 8); ctx.fill();
 
+      // Border Outline
       ctx.strokeStyle = th.stroke; ctx.lineWidth = 3;
       ctx.strokeRect(bx + 4, hudY + 4, boxS - 8, boxS - 8);
 
+      // Question Mark "?"
       ctx.fillStyle = th.text;
       ctx.font = '900 ' + Math.floor(boxS * 0.65) + 'px Impact, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -2213,13 +2224,13 @@ function drawMysteryHUD(){
 
 function drawRunnerBehind(){
   var curImg = null;
-  var curSize = 160;
+  var curSize = 145;
 
   if(currentPath === 'green' && currentStageLevel > 0){
     for(var g = currentStageLevel; g >= 1; g--){
       if(state.greenStages[g] && state.greenStages[g].img){
         curImg = state.greenStages[g].img;
-        curSize = state.greenStages[g].size || 180;
+        curSize = state.greenStages[g].size || 165;
         break;
       }
     }
@@ -2227,7 +2238,7 @@ function drawRunnerBehind(){
     for(var r = currentStageLevel; r >= 1; r--){
       if(state.redStages[r] && state.redStages[r].img){
         curImg = state.redStages[r].img;
-        curSize = state.redStages[r].size || 140;
+        curSize = state.redStages[r].size || 130;
         break;
       }
     }
@@ -2235,12 +2246,12 @@ function drawRunnerBehind(){
 
   if(!curImg){
     curImg = state.baseStage.img;
-    curSize = state.baseStage.size || 160;
+    curSize = state.baseStage.size || 145;
   }
 
   if(!curImg) return;
 
-  var p = roadBoundsAtZ(state.playerZ || 0.84);
+  var p = roadBoundsAtZ(state.playerZ || 0.82);
   var pSize = curSize * (0.3 + 0.7 * p.e);
 
   var targetX = W/2;
@@ -2261,10 +2272,10 @@ function drawRunnerBehind(){
 }
 
 function drawRows(){
-  var initialDelay=.75;
+  var initialDelay=.85;
   var closestActiveZ = -1;
   var activeLaneColor = '#2aff84';
-  var pZ = state.playerZ || 0.84;
+  var pZ = state.playerZ || 0.82;
 
   var activePads = [];
 
@@ -2367,7 +2378,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v12'); 
+    localStorage.removeItem('runner_studio_saved_v13'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
