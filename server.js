@@ -31,7 +31,11 @@ function authed(req){return verifySession(parseCookies(req).runner_session);}
 function send(res,status,body,type,headers){
   type = type || 'text/plain; charset=utf-8';
   headers = headers || {};
-  res.writeHead(status, Object.assign({'Content-Type':type,'Cache-Control':'no-store'}, headers));
+  res.writeHead(status, Object.assign({
+    'Content-Type':type,
+    'Cache-Control':'no-store, no-cache, must-revalidate',
+    'Connection':'keep-alive'
+  }, headers));
   res.end(body);
 }
 
@@ -42,21 +46,23 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Fight Timing Edition</title>
+<title>Private Runner Studio 60FPS Pro</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
 .top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 14px;background:#0b0d10ee;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
-.top strong{font-size:18px}.badge{font-size:11px;color:#07110c;background:var(--accent);border-radius:99px;padding:4px 7px;margin-left:6px}
+.top strong{font-size:18px}.badge{font-size:11px;color:#07110c;background:var(--accent);border-radius:99px;padding:4px 7px;margin-left:6px;font-weight:900}
 .top-actions{display:flex;gap:7px}.top button,.transport button,.rowbar button{border:1px solid var(--line);background:#222731;color:white;border-radius:11px;padding:9px 12px;font:inherit;cursor:pointer}
 .top .primary,.transport .primary{background:var(--accent);color:#07110c;border-color:transparent;font-weight:800}
 
 .studio{max-width:1420px;margin:auto;padding:14px;display:grid;grid-template-columns:minmax(320px,500px) minmax(360px,1fr);gap:16px}
 .preview{min-width:0}.shell{background:#050607;border:1px solid var(--line);border-radius:18px;padding:7px;display:flex;justify-content:center;box-shadow:0 18px 60px #0007}
-.stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506}canvas{width:100%;height:100%;display:block}
+.stageWrap{width:min(100%,460px);aspect-ratio:9/16;border-radius:13px;overflow:hidden;background:#050506;position:relative}
+canvas{width:100%;height:100%;display:block;transform:translateZ(0);backface-visibility:hidden}
 
-/* QUICK CONTROLS BAR WITH 3 SNAP BUTTONS */
+.fps-counter{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.7);color:#61f0a6;font-family:monospace;font-size:12px;padding:3px 8px;border-radius:6px;border:1px solid #2b303a;z-index:5;pointer-events:none}
+
 .steer-box{margin-top:10px;padding:12px;background:#15181e;border:1px solid var(--line);border-radius:14px;display:grid;gap:8px}
 .steer-header{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
 .steer-btns{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:6px}
@@ -71,7 +77,6 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 
 .controls{display:flex;flex-direction:column;gap:12px;min-width:0}
 
-/* DRAGGABLE CARDS - ONLY VIA HANDLE */
 .drag-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);transition:transform 0.15s, opacity 0.15s}
 .drag-card.dragging{opacity:0.35;border-color:var(--accent)}
 .drag-card.drag-over{border-color:var(--accent);transform:translateY(5px)}
@@ -87,7 +92,6 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .val-badge.red{color:var(--red)}
 .val-badge.gold{color:var(--gold)}
 
-/* SLIDE STYLISH CONTROLS */
 .range-wrap{display:flex;align-items:center;gap:6px;width:100%}
 .range-wrap input[type=range]{
   flex:1;
@@ -121,7 +125,6 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .step-btn{border:1px solid var(--line);background:#1e232d;color:#f6f8fb;border-radius:8px;width:30px;height:30px;display:grid;place-items:center;cursor:pointer;font-size:11px;font-weight:bold;user-select:none;flex-shrink:0}
 .step-btn:hover{background:#2a313f;color:var(--accent);border-color:var(--accent)}
 
-/* NO OVERFLOW FILE PICKER + THUMBNAIL + CLEAR BUTTON */
 .file-wrap{display:flex;align-items:center;gap:8px;width:100%;flex-wrap:wrap}
 .file-wrap input[type=file]{flex:1;min-width:140px;font-size:11px;color:#cbd5e1}
 .thumb-box{width:44px;height:44px;border-radius:8px;border:1px dashed #404859;background:#0d0f14;display:grid;place-items:center;overflow:hidden;flex-shrink:0;position:relative}
@@ -149,14 +152,13 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">V25 PERFECT FIGHT TIMING</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">60 FPS ULTRA</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
-    <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
+    <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas><div class="fps-counter" id="fpsBox">60 FPS</div></div></div>
 
-    <!-- ⚡ 3 SNAP BUTTONS + KEYBOARD SHORTCUTS -->
     <div class="steer-box">
       <div class="steer-header">
         <span>⚡ Runner Steer (Keyboard: ◀ A | ▼ S (Center) | D ▶)</span>
@@ -174,14 +176,12 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </div>
 
-    <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export Video</button></div>
-    <div class="note"><b>लड़ाई टाइमिंग फिक्स:</b> 5वाँ पैड स्क्रीन से पूरा गायब होने के बाद ही कैरेक्टर और बॉस आमने-सामने आएँगे!</div>
+    <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export 60FPS Video</button></div>
+    <div class="note"><b>Auto-Boss Active:</b> दूसरा पैड पार होते ही (तीसरे से पहले) अपोनेंट सड़क पर दिख जाएगा!</div>
   </section>
 
-  <!-- DRAGGABLE SECTIONS CONTAINER -->
   <section class="controls" id="panelsContainer">
 
-    <!-- CARD 1: MYSTERY HUD -->
     <details class="drag-card" id="card_hud" open>
       <summary>
         <span>🎁 5 Mystery Question Boxes HUD Controller</span>
@@ -191,7 +191,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         <label class="toggle"><input id="showHud" type="checkbox" checked> Show 5 Mystery Boxes</label>
         <label class="toggle"><input id="autoCollectHud" type="checkbox" checked> Auto Collect PNG from Pads</label>
 
-        <label style="grid-column:1/-1">Box Style (YouTube Gold Theme Active)
+        <label style="grid-column:1/-1">Box Style
           <select id="hudStyle">
             <optgroup label="--- Classic & Gold ---">
               <option value="classicGold" selected>1. Classic Mario Gold (?)</option>
@@ -223,18 +223,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
               <option value="shadowCarbon">23. Carbon Fiber Stealth</option>
               <option value="cleanSilver">24. Metallic Polished Silver</option>
               <option value="cosmicPurple">25. Cosmic Galaxy Nebula</option>
-            </optgroup>
-            <optgroup label="--- Modern & Pastel ---">
-              <option value="pastelMint">26. Pastel Fresh Mint</option>
-              <option value="pastelPeach">27. Pastel Peach Dawn</option>
-              <option value="pastelLavender">28. Pastel Soft Lavender</option>
-              <option value="sunsetBoulevard">29. Sunset Twilight Duo</option>
-              <option value="cleanDarkGlass">30. Frosted Dark Glass</option>
-              <option value="cleanLightGlass">31. Frosted White Glass</option>
-              <option value="aquaMarine">32. Radiant Aquamarine</option>
-              <option value="roseGold">33. Luxury Rose Gold</option>
-              <option value="hyperNeon">34. Hyper Rainbow Spectrum</option>
-              <option value="ultimateBlackGold">35. Ultimate Black & Gold</option>
             </optgroup>
           </select>
         </label>
@@ -303,7 +291,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </details>
 
-    <!-- CARD 2: RUNNER EVOLUTION -->
     <details class="drag-card" id="card_runner" open>
       <summary>
         <span>🏃 Runner Evolution Settings (Balanced Proportions)</span>
@@ -343,7 +330,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <div class="sub-title" style="color:#61f0a6">&#128170; GREEN PAD UPGRADES (STRONG / GROW)</div>
+        <div class="sub-title" style="color:#61f0a6">&#128170; GREEN PAD UPGRADES</div>
         <label>Green Stage 1 PNG
           <div class="file-wrap">
             <div class="thumb-box" id="thumb_gImg_1"><span>None</span><img src=""></div>
@@ -408,7 +395,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <label>Green Stage 5 PNG (Final)
+        <label>Green Stage 5 PNG
           <div class="file-wrap">
             <div class="thumb-box" id="thumb_gImg_5"><span>None</span><img src=""></div>
             <input id="gImg_5" type="file" accept="image/png,image/webp,image/jpeg">
@@ -424,7 +411,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <div class="sub-title" style="color:#ff6b6b">&#128128; RED PAD DOWNGRADES (WEAK / THIN)</div>
+        <div class="sub-title" style="color:#ff6b6b">&#128128; RED PAD DOWNGRADES</div>
         <label>Red Stage 1 PNG
           <div class="file-wrap">
             <div class="thumb-box" id="thumb_rImg_1"><span>None</span><img src=""></div>
@@ -507,15 +494,14 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </details>
 
-    <!-- CARD 3: HIGHWAY & CAMERA -->
     <details class="drag-card" id="card_highway" open>
       <summary>
-        <span>🛣️ Moving Highway & 3D Camera (YouTube Depth Setup)</span>
+        <span>🛣️ Moving Highway & 3D Camera</span>
         <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label>
-          <span class="label-head"><span>Forward speed (Viral Pacing)</span><span class="val-badge" id="v_speed">0.20</span></span>
+          <span class="label-head"><span>Forward speed (60fps synced)</span><span class="val-badge" id="v_speed">0.20</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="speed" data-dir="-1">◀</button>
             <input id="speed" type="range" min="0.10" max="0.50" step="0.01" value="0.20">
@@ -531,7 +517,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Top Width (Road Vanishing Point)</span><span class="val-badge" id="v_topWidth">0.06</span></span>
+          <span class="label-head"><span>Top Width</span><span class="val-badge" id="v_topWidth">0.06</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="-1">◀</button>
             <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.06">
@@ -539,7 +525,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Bottom Width (Perspective)</span><span class="val-badge" id="v_bottomWidth">0.86</span></span>
+          <span class="label-head"><span>Bottom Width</span><span class="val-badge" id="v_bottomWidth">0.86</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="-1">◀</button>
             <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.86">
@@ -547,7 +533,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Camera Height (3D Angle Tilt)</span><span class="val-badge" id="v_camHeight">0.95</span></span>
+          <span class="label-head"><span>Camera Height</span><span class="val-badge" id="v_camHeight">0.95</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="camHeight" data-dir="-1">◀</button>
             <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="0.95">
@@ -555,7 +541,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Pad delay (Suspense Time)</span><span class="val-badge" id="v_padDelay">2.40</span></span>
+          <span class="label-head"><span>Pad delay</span><span class="val-badge" id="v_padDelay">2.40</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="padDelay" data-dir="-1">◀</button>
             <input id="padDelay" type="range" min="1.10" max="3.50" step="0.05" value="2.40">
@@ -693,7 +679,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </details>
 
-    <!-- CARD 4: 5 ROWS + BOSS -->
     <details class="drag-card" id="card_rows" open>
       <summary>
         <span>🚦 5 Fixed Rows + Opponent Boss Timing</span>
@@ -712,16 +697,15 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <span class="val-badge" id="v_masterPadPngSize">95</span>
         </div>
 
-        <!-- 🌟 NEW: BOSS DISTANCE / FIGHT DELAY CONTROLLER -->
         <div style="width:100%;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <span style="font-weight:bold;font-size:12px;color:var(--gold)">⏱️ Boss Walk Distance (लड़ाई की दूरी):</span>
+          <span style="font-weight:bold;font-size:12px;color:var(--gold)">⏱️ Boss Walk Distance:</span>
           <div class="range-wrap" style="flex:1;min-width:140px">
             <button type="button" class="step-btn" data-step-for="bossDistance" data-dir="-1">◀</button>
             <input id="bossDistance" type="range" min="1.0" max="6.0" step="0.2" value="2.8">
             <button type="button" class="step-btn" data-step-for="bossDistance" data-dir="1">▶</button>
           </div>
           <span class="val-badge gold" id="v_bossDistance">2.8s</span>
-          <div class="small" style="width:100%;color:var(--muted)">5वें पैड के जाने के बाद कितना दूर चलकर लड़ाई होगी (बढ़ाने से पैड्स पहले स्क्रीन से बाहर चले जाएँगे)।</div>
+          <div class="small" style="width:100%;color:var(--muted)">5वें पैड के जाने के बाद लड़ाई के बीच का गैप (सेकंड में)।</div>
         </div>
       </div>
       <div id="rows" class="rows"></div>
@@ -790,10 +774,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 
 <template id="opponentTemplate">
   <div class="row" style="border-color:#61f0a6">
-    <div class="rowhead"><strong style="color:#61f0a6">&#128293; Opponent Boss</strong><span class="small">Stationary at Road End (Auto-Proportional Size)</span></div>
+    <div class="rowhead"><strong style="color:#61f0a6">&#128293; Opponent Boss</strong><span class="small">Stationary at Road End</span></div>
     <div class="side" style="grid-column:span 2">
       <b>OPPONENT CHARACTER PNG</b>
-      <label>PNG (Road par stationary khada rahega, Pad 3 ke baad aayega)
+      <label>PNG (Road par stationary khada rahega, Pad 2 ke baad aayega)
         <div class="file-wrap">
           <div class="thumb-box" id="thumb_oppImg"><span>None</span><img src=""></div>
           <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg">
@@ -801,7 +785,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         </div>
       </label>
       <label class="toggle"><input class="oppRemove" type="checkbox" checked> Auto remove bg</label>
-      <div class="small" style="color:var(--accent);margin-top:4px">⚡ Size Runner ke final stage se automatically thoda sa bada (1.18x) set ho jayega!</div>
+      <div class="small" style="color:var(--accent);margin-top:4px">⚡ Size automatically runner se thoda sa bada (1.18x) lock rahega!</div>
     </div>
   </div>
 </template>
@@ -809,21 +793,20 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 <script>
 (function(){
 var canvas=document.getElementById('stage');
-var ctx=canvas.getContext('2d');
+var ctx=canvas.getContext('2d', { alpha: false, desynchronized: true });
 var W=canvas.width, H=canvas.height;
 var $=function(id){ return document.getElementById(id); };
-var running=true, last=performance.now(), roadTime=0, recorder=null, rowCounter=0;
 
-// Dual Progression Memory
+var running=true, last=performance.now(), roadTime=0, recorder=null, rowCounter=0;
+var frameCount=0, lastFpsTime=performance.now();
+
 var currentPath = 'base';
 var currentStageLevel = 0;
 var processedPads = {};
 
-// 🎁 5 Mystery Boxes HUD Memory
 var collectedHud = [null, null, null, null, null];
 var manualHudImgs = [null, null, null, null, null];
 
-// 🌟 VIRAL YOUTUBE DEFAULTS
 var state={
   speed:0.20,
   horizon:0.48,
@@ -832,7 +815,7 @@ var state={
   camHeight:0.95,
   padDelay:2.40,
   padThickness:14,
-  bossDistance:2.8, // 5th pad se duri (sec)
+  bossDistance:2.8,
   roadVariant:'classic',
   bgMode:'black',
   speedLines:false,
@@ -869,7 +852,6 @@ var state={
   opponent:{src:null, img:null, removeBg:true, size:220}
 };
 
-// 🎨 35+ HUD COLOR THEMES
 var hudThemes = {
   classicGold:     { border:'#ff9900', face:'#ffbe1a', stroke:'#221100', text:'#110800', glow:'rgba(255,190,26,0.6)' },
   royalGold:       { border:'#d97706', face:'#fbbf24', stroke:'#451a03', text:'#451a03', glow:'rgba(251,191,36,0.6)' },
@@ -998,7 +980,6 @@ function updateBadge(key, val){
   }
 }
 
-// 🖼️ LIVE THUMBNAIL BOX UPDATER
 function updateThumbBox(boxEl, src){
   if(!boxEl) return;
   var im = boxEl.querySelector('img');
@@ -1014,7 +995,6 @@ function updateThumbBox(boxEl, src){
   }
 }
 
-// ◀ ▶ STEP BUTTONS HANDLER
 function stepSlider(inp, dir){
   if(!inp) return;
   var step = parseFloat(inp.step) || 1;
@@ -1040,7 +1020,6 @@ document.addEventListener('click', function(e){
   }
 });
 
-// 🎯 INSTANT LANE SETTER HELPER
 function setRunnerLane(val, name){
   state.steerOffset = val;
   var inp = $('laneSteer');
@@ -1051,7 +1030,6 @@ function setRunnerLane(val, name){
   autoSaveStudio();
 }
 
-// ⌨️ KEYBOARD SHORTCUTS FOR 1-MS INSTANT LANE SWITCH
 window.addEventListener('keydown', function(e){
   if(e.target.tagName === 'INPUT' && e.target.type !== 'range') return;
   var k = e.key.toLowerCase();
@@ -1065,7 +1043,6 @@ window.addEventListener('keydown', function(e){
   }
 });
 
-// ⠿ DRAG & DROP ONLY BY HANDLE
 function setupDragAndDrop(){
   var container = $('panelsContainer');
   if(!container) return;
@@ -1178,13 +1155,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v15', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v16', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v15');
+    var raw = localStorage.getItem('runner_studio_saved_v16');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1250,12 +1227,10 @@ function bindRange(id,key){
 }
 ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
 
-// HUD Controller Listeners
 if($('showHud')){ $('showHud').onchange = function(e){ state.showHud = e.target.checked; autoSaveStudio(); }; }
 if($('autoCollectHud')){ $('autoCollectHud').onchange = function(e){ state.autoCollectHud = e.target.checked; autoSaveStudio(); }; }
 if($('hudStyle')){ $('hudStyle').onchange = function(e){ state.hudStyle = e.target.value; autoSaveStudio(); }; }
 
-// Manual file uploaders & Clear buttons for all 5 boxes
 for(var h=0; h<5; h++){
   (function(bIdx){
     var inp = $('hudImg_' + bIdx);
@@ -1283,7 +1258,6 @@ for(var h=0; h<5; h++){
   })(h);
 }
 
-// Steer slider instant response
 var steerInput = $('laneSteer');
 if(steerInput){
   steerInput.oninput = function(e){
@@ -1296,12 +1270,10 @@ if(steerInput){
   };
 }
 
-// 🖱️ 3 SNAP BUTTONS CLICKS
 $('quickLeftBtn').onclick = function(){ setRunnerLane(-1.0, 'Left'); };
 $('quickCenterBtn').onclick = function(){ setRunnerLane(0.0, 'Center'); };
 $('quickRightBtn').onclick = function(){ setRunnerLane(1.0, 'Right'); };
 
-// Stage 0 Base setup + Clear + Thumb
 if($('pSize_0')){
   $('pSize_0').oninput = function(e){
     state.baseStage.size = Number(e.target.value);
@@ -1328,7 +1300,6 @@ if($('clear_pImg_0')){
   };
 }
 
-// 5 Green & 5 Red stages setup + Clear buttons + Live Thumbs
 for(var k=1; k<=5; k++){
   (function(idx){
     if($('gSize_' + idx)){
@@ -1384,7 +1355,6 @@ for(var k=1; k<=5; k++){
   })(k);
 }
 
-// ⚡ MASTER PAD PNG SIZE SLIDER HANDLER
 if($('masterPadPngSize')){
   $('masterPadPngSize').oninput = function(e){
     var val = Number(e.target.value);
@@ -1672,7 +1642,6 @@ var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
 var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
-// 🌟 TRUE 3D PERSPECTIVE WITH PROPER CAMERA HEIGHT TILT
 function roadBoundsAtZ(z){
   var t=Math.max(0,Math.min(1,z));
   var camH = Math.max(0.2, state.camHeight || 0.95);
@@ -1829,7 +1798,6 @@ function drawBackground(){
   }
 }
 
-/* --- 35 ROADS --- */
 function rClassic(){
   fillRoadBase('#7c8591','#454c57');
   drawRoadTexture(.028);
@@ -1892,7 +1860,7 @@ function rArcadeGrid(){
     var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
     drawPoly(quad(a,b),'rgba(0,255,255,'+(.02+.06*a.e)+')');
     for(var j=1;j<4;j++){
-      var x0=lerp(a.l,a.r,j/4), x1=lerp(b.l,b.r,j/4);
+      var x0=lerp(a.l,a.r,j/4), x1=lerp(b.r,b.r,j/4);
       ctx.save();ctx.strokeStyle='rgba(0,255,255,'+(.08+.2*a.e)+')';ctx.lineWidth=1.2+2.4*a.e;
       ctx.beginPath();ctx.moveTo(x0,a.y);ctx.lineTo(x1,b.y);ctx.stroke();ctx.restore();
     }
@@ -2126,7 +2094,6 @@ function drawRoad(){
   fn();
 }
 
-// 🦁 BALANCED 3D NEON GLASS PAD (FITS LANE CLEANLY)
 function drawRaisedPad(z, side, hexColor){
   var p=roadBoundsAtZ(z), e=p.e;
   var laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
@@ -2139,7 +2106,7 @@ function drawRaisedPad(z, side, hexColor){
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
   var darkG = Math.max(0, Math.floor(c.r * 0.45));
-  var darkB = Math.max(0, Math.floor(c.b * 0.45));
+  var darkB = Math.max(0, Math.floor(c.r * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
   ctx.save();ctx.fillStyle='rgba(0,0,0,.24)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+4,width*.46,4+7*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
@@ -2170,7 +2137,6 @@ function drawImageFit(im, x, y, boxW, boxH, anchor){
   ctx.drawImage(im,dx,dy,dw,dh);
 }
 
-// 🎁 5 MYSTERY BOXES HUD (SCREEN TOP WITH 35+ THEMES)
 function drawMysteryHUD(){
   if(!state.showHud) return;
 
@@ -2197,19 +2163,15 @@ function drawMysteryHUD(){
       ctx.save();
       ctx.shadowColor = th.glow;
       ctx.shadowBlur = 8;
-      // Outer 3D Bevel Box
       ctx.fillStyle = th.border;
       ctx.beginPath(); ctx.roundRect(bx, hudY, boxS, boxS, 10); ctx.fill();
 
-      // Inner Face
       ctx.fillStyle = th.face;
       ctx.beginPath(); ctx.roundRect(bx + 4, hudY + 4, boxS - 8, boxS - 8, 8); ctx.fill();
 
-      // Border Outline
       ctx.strokeStyle = th.stroke; ctx.lineWidth = 3;
       ctx.strokeRect(bx + 4, hudY + 4, boxS - 8, boxS - 8);
 
-      // Question Mark "?"
       ctx.fillStyle = th.text;
       ctx.font = '900 ' + Math.floor(boxS * 0.65) + 'px Impact, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -2219,7 +2181,6 @@ function drawMysteryHUD(){
   }
 }
 
-// Helper to get active runner size and image
 function getActiveRunnerInfo(){
   var curImg = null;
   var curSize = 145;
@@ -2285,7 +2246,7 @@ function drawRows(){
   state.rows.slice(0,5).forEach(function(row,i){
     var elapsed=roadTime-initialDelay-i*state.padDelay;
     var z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
-    if(z<0 || z>1.25) return; // Allow pads to cleanly fly past screen
+    if(z<0 || z>1.25) return;
     var zz=z;
 
     if(zz >= pZ - 0.02 && !processedPads[i]){
@@ -2333,15 +2294,16 @@ function drawRows(){
     }
   });
 
-  // 🌟 STATIONARY AUTO-PROPORTIONAL BOSS (APPEARS AFTER PAD 3, FIGHT DISTANCE CONTROLLED)
+  // 🌟 STATIONARY AUTO-PROPORTIONAL BOSS (APPEARS AFTER PAD 2 CROSS, BEFORE PAD 3)
   var pad5WorldElapsed = roadTime - initialDelay - 4 * state.padDelay;
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
-  var bossWorldElapsed = pad5WorldElapsed - bDist; // Proper distance gap so 5th pad flies off screen
+  var bossWorldElapsed = pad5WorldElapsed - bDist;
   var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
 
-  var pad3Finished = processedPads[2] === true;
+  // ⚡ Pad 2 cross hote hi boss dikhega:
+  var pad2Finished = processedPads[1] === true;
 
-  if(pad3Finished && state.opponent.img && bossRawZ > 0){
+  if(pad2Finished && state.opponent.img && bossRawZ > 0){
     var bossZ = Math.min(pZ - 0.05, bossRawZ);
     var op = roadBoundsAtZ(bossZ);
 
@@ -2370,17 +2332,25 @@ function drawRows(){
 }
 
 function frame(now){
-  var dt=Math.min(0.05,(now-last)/1000);
-  last=now;
+  var dt = (now - last) / 1000;
+  if(dt > 0.05) dt = 0.0166;
+  last = now;
 
-  // Auto-freeze game once boss and player reach face-to-face AFTER 5th pad is completely gone
+  frameCount++;
+  if(now - lastFpsTime >= 500){
+    var curFps = Math.round((frameCount * 1000) / (now - lastFpsTime));
+    if($('fpsBox')) $('fpsBox').textContent = curFps + ' FPS';
+    frameCount = 0;
+    lastFpsTime = now;
+  }
+
   var pad5WorldElapsed = roadTime - 0.85 - 4 * state.padDelay;
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossWorldElapsed = pad5WorldElapsed - bDist;
   var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
   var isFaceToFace = processedPads[4] && bossRawZ >= (state.playerZ || 0.82) - 0.05;
 
-  if(running && !isFaceToFace) roadTime+=dt;
+  if(running && !isFaceToFace) roadTime += dt;
 
   drawBackground();
   drawRoad();
@@ -2401,11 +2371,11 @@ $('resetBtn').onclick=function(){
 $('saveBtn').onclick=function(){
   autoSaveStudio();
   saveCardOrder();
-  alert('Settings and panel order saved successfully!');
+  alert('Settings saved successfully!');
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v15'); 
+    localStorage.removeItem('runner_studio_saved_v16'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
@@ -2416,27 +2386,28 @@ $('exportBtn').onclick = function(){
   if (recorder) return;
   var sec = Math.max(2, Math.min(60, +$('recordSec').value || 15));
   var stream = canvas.captureStream(60);
-  var mime = 'video/webm;codecs=vp9';
-  if (!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm;codecs=vp8';
+  var mime = 'video/webm;codecs=vp8';
   if (!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm';
+  
   var chunks = [];
   recorder = new MediaRecorder(stream, { 
     mimeType: mime, 
-    videoBitsPerSecond: 20000000 
+    videoBitsPerSecond: 16000000 
   });
+  
   recorder.ondataavailable = function(e){ if (e.data.size) chunks.push(e.data); };
   recorder.onstop = function(){
     var blob = new Blob(chunks, { type: mime });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'runner-hd-video.webm';
+    a.download = 'runner-60fps-video.webm';
     a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); }, 5000);
     recorder = null;
-    $('exportBtn').textContent = 'Export Video';
+    $('exportBtn').textContent = 'Export 60FPS Video';
   };
-  recorder.start();
-  $('exportBtn').textContent = 'Recording HD...';
+  recorder.start(100);
+  $('exportBtn').textContent = 'Recording 60 FPS...';
   setTimeout(function(){ if (recorder && recorder.state !== 'inactive') recorder.stop(); }, sec * 1000);
 };
 })();
@@ -2444,8 +2415,17 @@ $('exportBtn').onclick = function(){
 </body>
 </html>`;
 
-const server = http.createServer(async function(req, res){
-  var url = new URL(req.url, 'http://localhost');
+const server = http.createServer(function(req, res){
+  req.on('error', function(err){ console.error('Req error:', err); });
+  res.on('error', function(err){ console.error('Res error:', err); });
+
+  var url;
+  try {
+    url = new URL(req.url, 'http://' + (req.headers.host || 'localhost'));
+  } catch(e) {
+    return send(res, 400, 'Bad Request');
+  }
+
   if(url.pathname === '/api/login'){
     if(req.method !== 'POST') return send(res, 405, 'Method not allowed');
     var b = '';
@@ -2461,7 +2441,8 @@ const server = http.createServer(async function(req, res){
           var token = payload + '.' + sig;
           res.writeHead(200, {
             'Set-Cookie': 'runner_session=' + token + '; Path=/; HttpOnly; SameSite=Lax',
-            'Content-Type': 'text/plain'
+            'Content-Type': 'text/plain',
+            'Connection': 'keep-alive'
           });
           res.end('OK');
         } else {
@@ -2486,4 +2467,7 @@ const server = http.createServer(async function(req, res){
   send(res, 404, 'Not found');
 });
 
-server.listen(PORT, function(){ console.log('Server running on port ' + PORT); });
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 66000;
+
+server.listen(PORT, function(){ console.log('60FPS Server running on port ' + PORT); });
