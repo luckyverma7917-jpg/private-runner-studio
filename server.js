@@ -46,7 +46,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Complete Edition</title>
+<title>Private Runner Studio Straight Road Edition</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
@@ -70,10 +70,7 @@ canvas{width:100%;height:100%;display:block;transform:translateZ(0);backface-vis
 .steer-btn.center{border-color:var(--blue);color:var(--blue)}
 .steer-btn.right{border-color:#ff4d4d;color:#ff4d4d}
 
-.transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}
-.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}
-.scrub-box{width:100%;margin-top:6px;display:flex;align-items:center;gap:10px;background:#15181e;padding:8px 12px;border:1px solid var(--line);border-radius:12px}
-.scrub-box span{font-size:12px;font-weight:700;color:var(--accent);white-space:nowrap}
+.transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}
 .note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}
 
 .controls{display:flex;flex-direction:column;gap:12px;min-width:0}
@@ -118,6 +115,10 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
   cursor:pointer;
   transition:transform 0.1s, box-shadow 0.1s;
 }
+.range-wrap input[type=range]::-webkit-slider-thumb:hover{
+  transform:scale(1.15);
+  box-shadow:0 0 14px rgba(97,240,166,0.9);
+}
 
 .step-btn{border:1px solid var(--line);background:#1e232d;color:#f6f8fb;border-radius:8px;width:30px;height:30px;display:grid;place-items:center;cursor:pointer;font-size:11px;font-weight:bold;user-select:none;flex-shrink:0}
 .step-btn:hover{background:#2a313f;color:var(--accent);border-color:var(--accent)}
@@ -149,7 +150,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">PRO EDITION</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">STRAIGHT ROAD 60FPS</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -173,26 +174,12 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </div>
 
-    <div class="transport">
-      <button class="primary" id="playBtn">Pause</button>
-      <button id="resetBtn">Reset Time</button>
-      <label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label>
-      <button id="exportBtn">Export 60FPS Video</button>
-    </div>
-
-    <!-- 🌟 TIMELINE SCRUBBER SLIDER -->
-    <div class="scrub-box">
-      <span>⏪ ⏩ Seek Time:</span>
-      <input id="timeScrubber" type="range" min="0" max="25" step="0.05" value="0" style="flex:1">
-      <span id="v_timeScrubber" class="val-badge">0.0s</span>
-    </div>
-
-    <div class="note"><b>सॉर्टिंग और सीक सक्रिय:</b> पैड की PNG ओवरलैप नहीं होंगी और स्लाइडर से कभी भी आगे-पीछे जाकर देख सकते हो!</div>
+    <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export 60FPS Video</button></div>
+    <div class="note"><b>सड़क चौड़ाई फिक्स:</b> अब सड़क आगे जाकर त्रिकोणी नहीं बनेगी, बिल्कुल YouTube जैसी चौड़ी और सीधी दिखेगी!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
 
-    <!-- CARD 1: MYSTERY HUD -->
     <details class="drag-card" id="card_hud" open>
       <summary>
         <span>🎁 5 Mystery Question Boxes HUD Controller</span>
@@ -218,6 +205,9 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
               <option value="plasmaPink">9. Hot Plasma Pink</option>
               <option value="electricBlue">10. Electric Blue Thunder</option>
               <option value="violetNight">11. Synthwave Violet</option>
+              <option value="toxicLime">12. Toxic Biohazard Lime</option>
+              <option value="matrixGreen">13. Matrix Green Flow</option>
+              <option value="overdriveNeon">15. Overdrive Synthwave</option>
             </optgroup>
           </select>
         </label>
@@ -247,16 +237,13 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <div class="sub-title" style="color:var(--gold)">📁 Manual PNG Override for Boxes (With Auto BG Toggle)</div>
-        
-        <!-- BOX 1-5 OVERRIDES -->
+        <div class="sub-title" style="color:var(--gold)">📁 Manual PNG Override for Boxes</div>
         <label>Box 1 PNG
           <div class="file-wrap">
             <div class="thumb-box" id="thumb_hud_0"><span>None</span><img src=""></div>
             <input id="hudImg_0" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_0">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="hudRemove_0" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>Box 2 PNG
           <div class="file-wrap">
@@ -264,7 +251,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_1">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="hudRemove_1" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>Box 3 PNG
           <div class="file-wrap">
@@ -272,7 +258,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_2">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="hudRemove_2" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>Box 4 PNG
           <div class="file-wrap">
@@ -280,7 +265,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_3">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="hudRemove_3" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label style="grid-column:1/-1">Box 5 PNG
           <div class="file-wrap">
@@ -288,15 +272,13 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_4">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="hudRemove_4" type="checkbox" checked> Auto remove bg</label>
         </label>
       </div>
     </details>
 
-    <!-- CARD 2: RUNNER EVOLUTION -->
     <details class="drag-card" id="card_runner" open>
       <summary>
-        <span>🏃 Runner Evolution Settings (With Auto BG Toggles)</span>
+        <span>🏃 Runner Evolution Settings (Balanced Proportions)</span>
         <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="grid two">
@@ -306,7 +288,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="pImg_0" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_pImg_0">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="pRemove_0" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Stage 0 Base Size</span><span class="val-badge" id="v_pSize_0">145</span></span>
@@ -334,16 +315,13 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <!-- GREEN PAD UPGRADES 1-5 -->
         <div class="sub-title" style="color:#61f0a6">&#128170; GREEN PAD UPGRADES</div>
-        
         <label>Green Stage 1 PNG
           <div class="file-wrap">
             <div class="thumb-box" id="thumb_gImg_1"><span>None</span><img src=""></div>
             <input id="gImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_1">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="gRemove_1" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Green 1 Size</span><span class="val-badge" id="v_gSize_1">165</span></span>
@@ -360,7 +338,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_2">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="gRemove_2" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Green 2 Size</span><span class="val-badge" id="v_gSize_2">190</span></span>
@@ -377,7 +354,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_3">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="gRemove_3" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">220</span></span>
@@ -394,7 +370,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_4">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="gRemove_4" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Green 4 Size</span><span class="val-badge" id="v_gSize_4">255</span></span>
@@ -411,7 +386,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_5" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_5">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="gRemove_5" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Green 5 Size</span><span class="val-badge" id="v_gSize_5">290</span></span>
@@ -422,16 +396,13 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <!-- RED PAD DOWNGRADES 1-5 -->
         <div class="sub-title" style="color:#ff6b6b">&#128128; RED PAD DOWNGRADES</div>
-
         <label>Red Stage 1 PNG
           <div class="file-wrap">
             <div class="thumb-box" id="thumb_rImg_1"><span>None</span><img src=""></div>
             <input id="rImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_1">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="rRemove_1" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Red 1 Size</span><span class="val-badge red" id="v_rSize_1">130</span></span>
@@ -448,7 +419,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_2">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="rRemove_2" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Red 2 Size</span><span class="val-badge red" id="v_rSize_2">115</span></span>
@@ -465,7 +435,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_3">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="rRemove_3" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Red 3 Size</span><span class="val-badge red" id="v_rSize_3">100</span></span>
@@ -482,7 +451,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_4">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="rRemove_4" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Red 4 Size</span><span class="val-badge red" id="v_rSize_4">85</span></span>
@@ -499,7 +467,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_5" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_5">✕ Clear</button>
           </div>
-          <label class="toggle"><input id="rRemove_5" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Red 5 Size</span><span class="val-badge red" id="v_rSize_5">75</span></span>
@@ -512,10 +479,9 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </details>
 
-    <!-- CARD 3: HIGHWAY & CAMERA -->
     <details class="drag-card" id="card_highway" open>
       <summary>
-        <span>🛣️ Moving Highway & Perspective</span>
+        <span>🛣️ Moving Highway & Perspective (Straight YouTube Setup)</span>
         <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="grid two">
@@ -528,23 +494,23 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Horizon Height (सड़क की लंबाई)</span><span class="val-badge" id="v_horizon">0.31</span></span>
+          <span class="label-head"><span>Horizon Height</span><span class="val-badge" id="v_horizon">0.42</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="horizon" data-dir="-1">◀</button>
-            <input id="horizon" type="range" min="0.15" max="0.75" step="0.01" value="0.31">
+            <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.42">
             <button type="button" class="step-btn" data-step-for="horizon" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Top Width (सीधी सड़क की चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.14</span></span>
+          <span class="label-head"><span>Top Width (सीधी सड़क की चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.17</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="-1">◀</button>
-            <input id="topWidth" type="range" min="0.04" max="0.35" step="0.005" value="0.14">
+            <input id="topWidth" type="range" min="0.04" max="0.35" step="0.005" value="0.17">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Bottom Width (निचली चौड़ाई)</span><span class="val-badge" id="v_bottomWidth">0.98</span></span>
+          <span class="label-head"><span>Bottom Width (निचली चौड़ाई)</span><span class="val-badge" id="v_bottomWidth">0.98</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="-1">◀</button>
             <input id="bottomWidth" type="range" min="0.50" max="1.15" step="0.02" value="0.98">
@@ -590,6 +556,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <option value="railRunner">9. Rail Runner Lightbeam</option>
             <option value="chevronRush">10. Chevron Rush Neon</option>
             <option value="cyberViolet">11. Cyber Violet Drift</option>
+            <option value="laserCyan">12. Laser Cyan Circuit</option>
+            <option value="matrixCode">13. Matrix Green Codeflow</option>
+            <option value="plasmaPink">14. Plasma Pink Horizon</option>
+            <option value="overdriveNeon">15. Overdrive Synthwave</option>
           </optgroup>
         </select></label>
         <label style="grid-column:1/-1">Background Theme <select id="bgMode">
@@ -599,12 +569,15 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <option value="cloudGrey">☀️ 3. Cloud Grey</option>
             <option value="skyBlueLight">☀️ 4. Clear Sky Blue</option>
             <option value="cyanBreeze">☀️ 5. Light Cyan Breeze</option>
+            <option value="mintFresh">☀️ 6. Fresh Mint Pastel</option>
           </optgroup>
           <optgroup label="--- 50+ Dark Themes ---">
             <option value="black" selected>1. Pitch Black</option>
             <option value="midnight">2. Midnight Void</option>
             <option value="obsidian">3. Obsidian Matte</option>
             <option value="deepSpace">4. Deep Space Abyss</option>
+            <option value="cyberDark">5. Cyber Dark</option>
+            <option value="matrixBlack">6. Matrix Black</option>
           </optgroup>
         </select></label>
         <label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label>
@@ -612,7 +585,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </details>
 
-    <!-- CARD 4: 5 ROWS + BOSS -->
     <details class="drag-card" id="card_rows" open>
       <summary>
         <span>🚦 5 Fixed Rows + Opponent Boss Timing</span>
@@ -739,14 +711,13 @@ var processedPads = {};
 
 var collectedHud = [null, null, null, null, null];
 var manualHudImgs = [null, null, null, null, null];
-var rawHudSrcs = [null, null, null, null, null];
-var hudRemoveFlags = [true, true, true, true, true];
 
+// 🌟 EXACT YOUTUBE ROAD PERSPECTIVE (STRAIGHT & BROAD)
 var state={
   speed:0.20,
-  horizon:0.31,
-  topWidth:0.14,
-  bottomWidth:0.98,
+  horizon:0.42,
+  topWidth:0.17,    // Straight highway width
+  bottomWidth:0.98, // Full bottom span
   camHeight:0.95,
   padDelay:2.40,
   padThickness:14,
@@ -762,22 +733,22 @@ var state={
   hudBoxSize:86,
   hudSpacing:12,
   steerOffset:-1.0,
-  baseStage: {img:null, rawSrc:null, removeBg:true, size:145},
+  baseStage: {img:null, size:145},
   greenStages:[
     null,
-    {img:null, rawSrc:null, removeBg:true, size:165},
-    {img:null, rawSrc:null, removeBg:true, size:190},
-    {img:null, rawSrc:null, removeBg:true, size:220},
-    {img:null, rawSrc:null, removeBg:true, size:255},
-    {img:null, rawSrc:null, removeBg:true, size:290}
+    {img:null, size:165},
+    {img:null, size:190},
+    {img:null, size:220},
+    {img:null, size:255},
+    {img:null, size:290}
   ],
   redStages:[
     null,
-    {img:null, rawSrc:null, removeBg:true, size:130},
-    {img:null, rawSrc:null, removeBg:true, size:115},
-    {img:null, rawSrc:null, removeBg:true, size:100},
-    {img:null, rawSrc:null, removeBg:true, size:85},
-    {img:null, rawSrc:null, removeBg:true, size:75}
+    {img:null, size:130},
+    {img:null, size:115},
+    {img:null, size:100},
+    {img:null, size:85},
+    {img:null, size:75}
   ],
   playerZ:0.86,
   playerLane:'slider',
@@ -798,7 +769,10 @@ var hudThemes = {
   laserRed: { border:'#b91c1c', face:'#ef4444', stroke:'#450a0a', text:'#240202', glow:'rgba(239,68,68,0.8)' },
   plasmaPink: { border:'#be185d', face:'#f43f5e', stroke:'#4c0519', text:'#26020c', glow:'rgba(244,63,94,0.8)' },
   electricBlue: { border:'#1d4ed8', face:'#3b82f6', stroke:'#0f172a', text:'#06142e', glow:'rgba(59,130,246,0.8)' },
-  violetNight: { border:'#6d28d9', face:'#8b5cf6', stroke:'#2e1065', text:'#1a043d', glow:'rgba(139,92,246,0.8)' }
+  violetNight: { border:'#6d28d9', face:'#8b5cf6', stroke:'#2e1065', text:'#1a043d', glow:'rgba(139,92,246,0.8)' },
+  toxicLime: { border:'#4d7c0f', face:'#84cc16', stroke:'#1a2e05', text:'#102002', glow:'rgba(132,204,22,0.8)' },
+  matrixGreen: { border:'#047857', face:'#10b981', stroke:'#022c22', text:'#021c15', glow:'rgba(16,185,129,0.8)' },
+  overdriveNeon: { border:'#c2410c', face:'#f97316', stroke:'#431407', text:'#290a03', glow:'rgba(249,115,22,0.8)' }
 };
 
 var bgColors = {
@@ -807,10 +781,13 @@ var bgColors = {
   cloudGrey: ['#edf2f7', '#cbd5e1'],
   skyBlueLight: ['#e0f2fe', '#bae6fd'],
   cyanBreeze: ['#ecfeff', '#cffafe'],
+  mintFresh: ['#f0fdf4', '#dcfce7'],
   black: ['#000000', '#050505'],
   midnight: ['#000000', '#05070c'],
   obsidian: ['#0a0a0f', '#12121a'],
-  deepSpace: ['#010204', '#080c14']
+  deepSpace: ['#010204', '#080c14'],
+  cyberDark: ['#05020a', '#12071f'],
+  matrixBlack: ['#000502', '#021207']
 };
 
 function hexToRgb(hex){
@@ -818,7 +795,11 @@ function hexToRgb(hex){
   if(c.length===3) c = c.charAt(0)+c.charAt(0)+c.charAt(1)+c.charAt(1)+c.charAt(2)+c.charAt(2);
   var num = parseInt(c, 16);
   if(isNaN(num)) return {r:42, g:255, b:132};
-  return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+  return {
+    r: (num >> 16) & 255,
+    g: (num >> 8) & 255,
+    b: num & 255
+  };
 }
 
 function updateBadge(key, val){
@@ -882,21 +863,31 @@ function setRunnerLane(val, name){
 window.addEventListener('keydown', function(e){
   if(e.target.tagName === 'INPUT' && e.target.type !== 'range') return;
   var k = e.key.toLowerCase();
-  if(k === 'arrowleft' || k === 'a'){ setRunnerLane(-1.0, 'Left'); }
-  else if(k === 'arrowright' || k === 'd'){ setRunnerLane(1.0, 'Right'); }
-  else if(k === 'arrowdown' || k === 's' || k === ' '){ e.preventDefault(); setRunnerLane(0.0, 'Center'); }
+  if(k === 'arrowleft' || k === 'a'){
+    setRunnerLane(-1.0, 'Left');
+  } else if(k === 'arrowright' || k === 'd'){
+    setRunnerLane(1.0, 'Right');
+  } else if(k === 'arrowdown' || k === 's' || k === ' '){
+    e.preventDefault();
+    setRunnerLane(0.0, 'Center');
+  }
 });
 
 function setupDragAndDrop(){
   var container = $('panelsContainer');
   if(!container) return;
   var draggedCard = null;
+
   var handles = container.querySelectorAll('.drag-handle');
   handles.forEach(function(handle){
     handle.addEventListener('dragstart', function(e){
       draggedCard = handle.closest('.drag-card');
-      if(draggedCard){ draggedCard.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
+      if(draggedCard){
+        draggedCard.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      }
     });
+
     handle.addEventListener('dragend', function(){
       if(draggedCard) draggedCard.classList.remove('dragging');
       container.querySelectorAll('.drag-card').forEach(function(c){ c.classList.remove('drag-over'); });
@@ -909,16 +900,26 @@ function setupDragAndDrop(){
   cards.forEach(function(card){
     card.addEventListener('dragover', function(e){
       if(!draggedCard || draggedCard === card) return;
-      e.preventDefault(); e.dataTransfer.dropEffect = 'move'; card.classList.add('drag-over');
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      card.classList.add('drag-over');
     });
-    card.addEventListener('dragleave', function(){ card.classList.remove('drag-over'); });
+
+    card.addEventListener('dragleave', function(){
+      card.classList.remove('drag-over');
+    });
+
     card.addEventListener('drop', function(e){
       if(!draggedCard || draggedCard === card) return;
-      e.preventDefault(); card.classList.remove('drag-over');
+      e.preventDefault();
+      card.classList.remove('drag-over');
       var rect = card.getBoundingClientRect();
       var midY = rect.top + rect.height / 2;
-      if(e.clientY < midY) container.insertBefore(draggedCard, card);
-      else container.insertBefore(draggedCard, card.nextSibling);
+      if(e.clientY < midY){
+        container.insertBefore(draggedCard, card);
+      } else {
+        container.insertBefore(draggedCard, card.nextSibling);
+      }
       saveCardOrder();
     });
   });
@@ -930,6 +931,7 @@ function saveCardOrder(){
   var order = Array.from(container.querySelectorAll('.drag-card')).map(function(c){ return c.id; });
   try{ localStorage.setItem('runner_studio_panel_order', JSON.stringify(order)); }catch(e){}
 }
+
 function restoreCardOrder(){
   try{
     var raw = localStorage.getItem('runner_studio_panel_order');
@@ -937,34 +939,59 @@ function restoreCardOrder(){
     var order = JSON.parse(raw);
     var container = $('panelsContainer');
     if(!container || !Array.isArray(order)) return;
-    order.forEach(function(id){ var el = $(id); if(el) container.appendChild(el); });
+    order.forEach(function(id){
+      var el = $(id);
+      if(el) container.appendChild(el);
+    });
   }catch(e){}
 }
 
 function autoSaveStudio(){
   try{
     var s = {
-      speed: state.speed, horizon: state.horizon, topWidth: state.topWidth, bottomWidth: state.bottomWidth,
-      camHeight: state.camHeight, padDelay: state.padDelay, padThickness: state.padThickness, bossDistance: state.bossDistance,
-      roadVariant: state.roadVariant, bgMode: state.bgMode, speedLines: state.speedLines, roadShine: state.roadShine,
-      showHud: state.showHud, autoCollectHud: state.autoCollectHud, hudStyle: state.hudStyle, hudY: state.hudY,
-      hudBoxSize: state.hudBoxSize, hudSpacing: state.hudSpacing, playerZ: state.playerZ, playerLane: state.playerLane,
-      steerOffset: state.steerOffset, baseSize: state.baseStage.size, baseRemove: state.baseStage.removeBg,
+      speed: state.speed,
+      horizon: state.horizon,
+      topWidth: state.topWidth,
+      bottomWidth: state.bottomWidth,
+      camHeight: state.camHeight,
+      padDelay: state.padDelay,
+      padThickness: state.padThickness,
+      bossDistance: state.bossDistance,
+      roadVariant: state.roadVariant,
+      bgMode: state.bgMode,
+      speedLines: state.speedLines,
+      roadShine: state.roadShine,
+      showHud: state.showHud,
+      autoCollectHud: state.autoCollectHud,
+      hudStyle: state.hudStyle,
+      hudY: state.hudY,
+      hudBoxSize: state.hudBoxSize,
+      hudSpacing: state.hudSpacing,
+      playerZ: state.playerZ,
+      playerLane: state.playerLane,
+      steerOffset: state.steerOffset,
+      baseSize: state.baseStage.size,
       gSizes: [0, state.greenStages[1].size, state.greenStages[2].size, state.greenStages[3].size, state.greenStages[4].size, state.greenStages[5].size],
-      gRemoves: [true, state.greenStages[1].removeBg, state.greenStages[2].removeBg, state.greenStages[3].removeBg, state.greenStages[4].removeBg, state.greenStages[5].removeBg],
       rSizes: [0, state.redStages[1].size, state.redStages[2].size, state.redStages[3].size, state.redStages[4].size, state.redStages[5].size],
-      rRemoves: [true, state.redStages[1].removeBg, state.redStages[2].removeBg, state.redStages[3].removeBg, state.redStages[4].removeBg, state.redStages[5].removeBg],
-      hudRemoves: hudRemoveFlags,
       oppRemove: state.opponent.removeBg,
-      rows: state.rows.map(function(r){ return { leftColor: r.leftColor, rightColor: r.rightColor, leftSize: r.leftSize, rightSize: r.rightSize, leftRemove: r.leftRemove, rightRemove: r.rightRemove }; })
+      rows: state.rows.map(function(r){
+        return {
+          leftColor: r.leftColor,
+          rightColor: r.rightColor,
+          leftSize: r.leftSize,
+          rightSize: r.rightSize,
+          leftRemove: r.leftRemove,
+          rightRemove: r.rightRemove
+        };
+      })
     };
-    localStorage.setItem('runner_studio_saved_v21', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v19', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v21');
+    var raw = localStorage.getItem('runner_studio_saved_v19');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -975,6 +1002,14 @@ function readFile(file){
     fr.onload=function(){resolve(fr.result);};
     fr.onerror=reject;
     fr.readAsDataURL(file);
+  });
+}
+function dataToImage(src){
+  return new Promise(function(resolve,reject){
+    var im=new Image();
+    im.onload=function(){resolve(im);};
+    im.onerror=reject;
+    im.src=src;
   });
 }
 function processImageDataUrl(dataUrl, removeBg){
@@ -1033,43 +1068,26 @@ if($('showHud')){ $('showHud').onchange = function(e){ state.showHud = e.target.
 if($('autoCollectHud')){ $('autoCollectHud').onchange = function(e){ state.autoCollectHud = e.target.checked; autoSaveStudio(); }; }
 if($('hudStyle')){ $('hudStyle').onchange = function(e){ state.hudStyle = e.target.value; autoSaveStudio(); }; }
 
-// HUD 1-5 Upload & Remove BG
 for(var h=0; h<5; h++){
   (function(bIdx){
     var inp = $('hudImg_' + bIdx);
     var clr = $('clear_hud_' + bIdx);
     var box = $('thumb_hud_' + bIdx);
-    var rm = $('hudRemove_' + bIdx);
-
     if(inp){
       inp.onchange = function(e){
         var f = e.target.files[0]; if(!f) return;
         readFile(f).then(function(src){
-          rawHudSrcs[bIdx] = src;
-          dataToProcessedImage(src, hudRemoveFlags[bIdx]).then(function(im){
+          dataToProcessedImage(src, true).then(function(im){
             manualHudImgs[bIdx] = im;
             updateThumbBox(box, im.src);
           });
         });
       };
     }
-    if(rm){
-      rm.onchange = function(e){
-        hudRemoveFlags[bIdx] = e.target.checked;
-        autoSaveStudio();
-        if(rawHudSrcs[bIdx]){
-          dataToProcessedImage(rawHudSrcs[bIdx], hudRemoveFlags[bIdx]).then(function(im){
-            manualHudImgs[bIdx] = im;
-            updateThumbBox(box, im.src);
-          });
-        }
-      };
-    }
     if(clr){
       clr.onclick = function(){
         if(inp) inp.value = '';
         manualHudImgs[bIdx] = null;
-        rawHudSrcs[bIdx] = null;
         collectedHud[bIdx] = null;
         updateThumbBox(box, null);
       };
@@ -1077,7 +1095,22 @@ for(var h=0; h<5; h++){
   })(h);
 }
 
-// Stage 0 Base Runner Upload & Remove BG
+var steerInput = $('laneSteer');
+if(steerInput){
+  steerInput.oninput = function(e){
+    state.steerOffset = Number(e.target.value);
+    state.playerLane = 'slider';
+    if($('playerLane')) $('playerLane').value = 'slider';
+    var textVal = state.steerOffset <= -0.2 ? (state.steerOffset + ' (Left)') : (state.steerOffset >= 0.2 ? (state.steerOffset + ' (Right)') : '0.0 (Center)');
+    updateBadge('laneSteer', textVal);
+    autoSaveStudio();
+  };
+}
+
+$('quickLeftBtn').onclick = function(){ setRunnerLane(-1.0, 'Left'); };
+$('quickCenterBtn').onclick = function(){ setRunnerLane(0.0, 'Center'); };
+$('quickRightBtn').onclick = function(){ setRunnerLane(1.0, 'Right'); };
+
 if($('pSize_0')){
   $('pSize_0').oninput = function(e){
     state.baseStage.size = Number(e.target.value);
@@ -1085,24 +1118,11 @@ if($('pSize_0')){
     autoSaveStudio();
   };
 }
-if($('pRemove_0')){
-  $('pRemove_0').onchange = function(e){
-    state.baseStage.removeBg = e.target.checked;
-    autoSaveStudio();
-    if(state.baseStage.rawSrc){
-      dataToProcessedImage(state.baseStage.rawSrc, state.baseStage.removeBg).then(function(im){
-        state.baseStage.img = im;
-        updateThumbBox($('thumb_pImg_0'), im.src);
-      });
-    }
-  };
-}
 if($('pImg_0')){
   $('pImg_0').onchange = function(e){
     var f=e.target.files[0]; if(!f) return;
     readFile(f).then(function(src){
-      state.baseStage.rawSrc = src;
-      dataToProcessedImage(src, state.baseStage.removeBg).then(function(im){
+      dataToProcessedImage(src, true).then(function(im){
         state.baseStage.img = im;
         updateThumbBox($('thumb_pImg_0'), im.src);
       });
@@ -1113,15 +1133,12 @@ if($('clear_pImg_0')){
   $('clear_pImg_0').onclick = function(){
     if($('pImg_0')) $('pImg_0').value = '';
     state.baseStage.img = null;
-    state.baseStage.rawSrc = null;
     updateThumbBox($('thumb_pImg_0'), null);
   };
 }
 
-// Green & Red Stages 1-5 Upload & Remove BG
 for(var k=1; k<=5; k++){
   (function(idx){
-    // Green
     if($('gSize_' + idx)){
       $('gSize_' + idx).oninput = function(e){
         state.greenStages[idx].size = Number(e.target.value);
@@ -1129,24 +1146,11 @@ for(var k=1; k<=5; k++){
         autoSaveStudio();
       };
     }
-    if($('gRemove_' + idx)){
-      $('gRemove_' + idx).onchange = function(e){
-        state.greenStages[idx].removeBg = e.target.checked;
-        autoSaveStudio();
-        if(state.greenStages[idx].rawSrc){
-          dataToProcessedImage(state.greenStages[idx].rawSrc, state.greenStages[idx].removeBg).then(function(im){
-            state.greenStages[idx].img = im;
-            updateThumbBox($('thumb_gImg_' + idx), im.src);
-          });
-        }
-      };
-    }
     if($('gImg_' + idx)){
       $('gImg_' + idx).onchange = function(e){
         var f=e.target.files[0]; if(!f) return;
         readFile(f).then(function(src){
-          state.greenStages[idx].rawSrc = src;
-          dataToProcessedImage(src, state.greenStages[idx].removeBg).then(function(im){
+          dataToProcessedImage(src, true).then(function(im){
             state.greenStages[idx].img = im;
             updateThumbBox($('thumb_gImg_' + idx), im.src);
           });
@@ -1157,12 +1161,9 @@ for(var k=1; k<=5; k++){
       $('clear_gImg_' + idx).onclick = function(){
         if($('gImg_' + idx)) $('gImg_' + idx).value = '';
         state.greenStages[idx].img = null;
-        state.greenStages[idx].rawSrc = null;
         updateThumbBox($('thumb_gImg_' + idx), null);
       };
     }
-
-    // Red
     if($('rSize_' + idx)){
       $('rSize_' + idx).oninput = function(e){
         state.redStages[idx].size = Number(e.target.value);
@@ -1170,24 +1171,11 @@ for(var k=1; k<=5; k++){
         autoSaveStudio();
       };
     }
-    if($('rRemove_' + idx)){
-      $('rRemove_' + idx).onchange = function(e){
-        state.redStages[idx].removeBg = e.target.checked;
-        autoSaveStudio();
-        if(state.redStages[idx].rawSrc){
-          dataToProcessedImage(state.redStages[idx].rawSrc, state.redStages[idx].removeBg).then(function(im){
-            state.redStages[idx].img = im;
-            updateThumbBox($('thumb_rImg_' + idx), im.src);
-          });
-        }
-      };
-    }
     if($('rImg_' + idx)){
       $('rImg_' + idx).onchange = function(e){
         var f=e.target.files[0]; if(!f) return;
         readFile(f).then(function(src){
-          state.redStages[idx].rawSrc = src;
-          dataToProcessedImage(src, state.redStages[idx].removeBg).then(function(im){
+          dataToProcessedImage(src, true).then(function(im){
             state.redStages[idx].img = im;
             updateThumbBox($('thumb_rImg_' + idx), im.src);
           });
@@ -1198,7 +1186,6 @@ for(var k=1; k<=5; k++){
       $('clear_rImg_' + idx).onclick = function(){
         if($('rImg_' + idx)) $('rImg_' + idx).value = '';
         state.redStages[idx].img = null;
-        state.redStages[idx].rawSrc = null;
         updateThumbBox($('thumb_rImg_' + idx), null);
       };
     }
@@ -1209,7 +1196,10 @@ if($('masterPadPngSize')){
   $('masterPadPngSize').oninput = function(e){
     var val = Number(e.target.value);
     updateBadge('masterPadPngSize', val);
-    state.rows.forEach(function(r){ r.leftSize = val; r.rightSize = val; });
+    state.rows.forEach(function(r){
+      r.leftSize = val;
+      r.rightSize = val;
+    });
     document.querySelectorAll('.leftSize').forEach(function(inp){ inp.value = val; });
     document.querySelectorAll('.rightSize').forEach(function(inp){ inp.value = val; });
     document.querySelectorAll('.leftSizeVal').forEach(function(bdg){ bdg.textContent = val; });
@@ -1223,40 +1213,6 @@ if($('speedLines')) $('speedLines').onchange=function(e){state.speedLines=e.targ
 if($('roadShine')) $('roadShine').onchange=function(e){state.roadShine=e.target.checked; autoSaveStudio();};
 if($('bgMode')) $('bgMode').onchange=function(e){state.bgMode=e.target.value; autoSaveStudio();};
 if($('playerLane')) $('playerLane').onchange=function(e){state.playerLane=e.target.value; autoSaveStudio();};
-
-// 🌟 TIMELINE SCRUBBER LISTENER
-if($('timeScrubber')){
-  $('timeScrubber').oninput = function(e){
-    roadTime = Number(e.target.value);
-    $('v_timeScrubber').textContent = roadTime.toFixed(1) + 's';
-    // Re-evaluate game states based on scrubbed time
-    recalculateProgressionForTime(roadTime);
-  };
-}
-
-function recalculateProgressionForTime(t){
-  currentPath = 'base';
-  currentStageLevel = 0;
-  processedPads = {};
-  collectedHud = [null, null, null, null, null];
-  var initialDelay = 0.85;
-  var pZ = state.playerZ || 0.86;
-
-  state.rows.slice(0,5).forEach(function(row, i){
-    var elapsed = t - initialDelay - i * state.padDelay;
-    var z = elapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
-    if(z >= pZ - 0.02){
-      processedPads[i] = true;
-      var isPlayerOnRight = (state.playerX >= W/2);
-      var padHex = isPlayerOnRight ? row.rightColor : row.leftColor;
-      var itemImg = isPlayerOnRight ? row.rightImg : row.leftImg;
-      if(state.autoCollectHud && itemImg) collectedHud[i] = itemImg;
-      var isGreen = (padHex.indexOf('2a') !== -1 || padHex.indexOf('00') !== -1 || padHex.indexOf('green') !== -1);
-      currentPath = isGreen ? 'green' : 'red';
-      currentStageLevel = i + 1;
-    }
-  });
-}
 
 function makeId(){ return String(Date.now()+Math.random()); }
 
@@ -1317,38 +1273,80 @@ function addRow(saved){
 
   clearLeft.onclick = function(){
     el.querySelector('.leftInput').value = '';
-    row.leftSrc = null; row.leftImg = null;
+    row.leftSrc = null;
+    row.leftImg = null;
     updateThumbBox(thumbLeft, null);
   };
   clearRight.onclick = function(){
     el.querySelector('.rightInput').value = '';
-    row.rightSrc = null; row.rightImg = null;
+    row.rightSrc = null;
+    row.rightImg = null;
     updateThumbBox(thumbRight, null);
   };
 
   el.querySelector('.leftRemove').checked=row.leftRemove;
   el.querySelector('.rightRemove').checked=row.rightRemove;
 
-  leftColorInput.oninput=function(e){ row.leftColor=e.target.value; if(leftColorVal) leftColorVal.textContent=e.target.value; autoSaveStudio(); };
-  rightColorInput.oninput=function(e){ row.rightColor=e.target.value; if(rightColorVal) rightColorVal.textContent=e.target.value; autoSaveStudio(); };
-  leftSizeInput.oninput=function(e){ row.leftSize=Number(e.target.value); if(leftSizeVal) leftSizeVal.textContent=e.target.value; autoSaveStudio(); };
-  rightSizeInput.oninput=function(e){ row.rightSize=Number(e.target.value); if(rightSizeVal) rightSizeVal.textContent=e.target.value; autoSaveStudio(); };
+  leftColorInput.oninput=function(e){
+    row.leftColor=e.target.value;
+    if(leftColorVal) leftColorVal.textContent=e.target.value;
+    autoSaveStudio();
+  };
+  rightColorInput.oninput=function(e){
+    row.rightColor=e.target.value;
+    if(rightColorVal) rightColorVal.textContent=e.target.value;
+    autoSaveStudio();
+  };
+  leftSizeInput.oninput=function(e){
+    row.leftSize=Number(e.target.value); 
+    if(leftSizeVal) leftSizeVal.textContent=e.target.value;
+    autoSaveStudio();
+  };
+  rightSizeInput.oninput=function(e){
+    row.rightSize=Number(e.target.value); 
+    if(rightSizeVal) rightSizeVal.textContent=e.target.value;
+    autoSaveStudio();
+  };
   
   el.querySelector('.leftRemove').onchange=function(e){
-    row.leftRemove=e.target.checked; autoSaveStudio(); 
-    if(row.leftSrc) dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){ row.leftImg=im; updateThumbBox(thumbLeft, im.src); });
+    row.leftRemove=e.target.checked; 
+    autoSaveStudio(); 
+    if(row.leftSrc){
+      dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){
+        row.leftImg=im;
+        updateThumbBox(thumbLeft, im.src);
+      });
+    }
   };
   el.querySelector('.rightRemove').onchange=function(e){
-    row.rightRemove=e.target.checked; autoSaveStudio(); 
-    if(row.rightSrc) dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){ row.rightImg=im; updateThumbBox(thumbRight, im.src); });
+    row.rightRemove=e.target.checked; 
+    autoSaveStudio(); 
+    if(row.rightSrc){
+      dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){
+        row.rightImg=im;
+        updateThumbBox(thumbRight, im.src);
+      });
+    }
   };
   el.querySelector('.leftInput').onchange=function(e){
     var f=e.target.files[0];if(!f)return;
-    readFile(f).then(function(src){ row.leftSrc=src; dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){ row.leftImg=im; updateThumbBox(thumbLeft, im.src); }); });
+    readFile(f).then(function(src){
+      row.leftSrc=src;
+      dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){
+        row.leftImg=im;
+        updateThumbBox(thumbLeft, im.src);
+      });
+    });
   };
   el.querySelector('.rightInput').onchange=function(e){
     var f=e.target.files[0];if(!f)return;
-    readFile(f).then(function(src){ row.rightSrc=src; dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){ row.rightImg=im; updateThumbBox(thumbRight, im.src); }); });
+    readFile(f).then(function(src){
+      row.rightSrc=src;
+      dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){
+        row.rightImg=im;
+        updateThumbBox(thumbRight, im.src);
+      });
+    });
   };
   
   $('rows').appendChild(el);
@@ -1364,11 +1362,24 @@ function initRows(){
   var savedData = getSavedSettings();
   if(savedData && typeof savedData === 'object'){
     ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
-      if(savedData[id] !== undefined && $(id)){ state[id] = Number(savedData[id]); $(id).value = savedData[id]; updateBadge(id, savedData[id]); }
+      if(savedData[id] !== undefined && $(id)){
+        state[id] = Number(savedData[id]);
+        $(id).value = savedData[id];
+        updateBadge(id, savedData[id]);
+      }
     });
-    if(savedData.showHud !== undefined && $('showHud')){ state.showHud = Boolean(savedData.showHud); $('showHud').checked = state.showHud; }
-    if(savedData.autoCollectHud !== undefined && $('autoCollectHud')){ state.autoCollectHud = Boolean(savedData.autoCollectHud); $('autoCollectHud').checked = state.autoCollectHud; }
-    if(savedData.hudStyle && $('hudStyle')){ state.hudStyle = savedData.hudStyle; $('hudStyle').value = savedData.hudStyle; }
+    if(savedData.showHud !== undefined && $('showHud')){
+      state.showHud = Boolean(savedData.showHud);
+      $('showHud').checked = state.showHud;
+    }
+    if(savedData.autoCollectHud !== undefined && $('autoCollectHud')){
+      state.autoCollectHud = Boolean(savedData.autoCollectHud);
+      $('autoCollectHud').checked = state.autoCollectHud;
+    }
+    if(savedData.hudStyle && $('hudStyle')){
+      state.hudStyle = savedData.hudStyle;
+      $('hudStyle').value = savedData.hudStyle;
+    }
     if(savedData.steerOffset !== undefined){
       state.steerOffset = Number(savedData.steerOffset);
       if($('laneSteer')){
@@ -1377,36 +1388,27 @@ function initRows(){
         updateBadge('laneSteer', textVal);
       }
     }
-    if(savedData.baseSize && $('pSize_0')){ state.baseStage.size = Number(savedData.baseSize); $('pSize_0').value = savedData.baseSize; updateBadge('pSize_0', savedData.baseSize); }
-    if(savedData.baseRemove !== undefined && $('pRemove_0')){ state.baseStage.removeBg = Boolean(savedData.baseRemove); $('pRemove_0').checked = state.baseStage.removeBg; }
-    
+    if(savedData.baseSize && $('pSize_0')){
+      state.baseStage.size = Number(savedData.baseSize);
+      $('pSize_0').value = savedData.baseSize;
+      updateBadge('pSize_0', savedData.baseSize);
+    }
     if(Array.isArray(savedData.gSizes)){
       savedData.gSizes.forEach(function(sz, i){
-        if(i > 0 && state.greenStages[i]){ state.greenStages[i].size = Number(sz); if($('gSize_' + i)){ $('gSize_' + i).value = sz; updateBadge('gSize_' + i, sz); } }
-      });
-    }
-    if(Array.isArray(savedData.gRemoves)){
-      savedData.gRemoves.forEach(function(rm, i){
-        if(i > 0 && state.greenStages[i]){ state.greenStages[i].removeBg = Boolean(rm); if($('gRemove_' + i)) $('gRemove_' + i).checked = state.greenStages[i].removeBg; }
+        if(i > 0 && state.greenStages[i]){
+          state.greenStages[i].size = Number(sz);
+          if($('gSize_' + i)){ $('gSize_' + i).value = sz; updateBadge('gSize_' + i, sz); }
+        }
       });
     }
     if(Array.isArray(savedData.rSizes)){
       savedData.rSizes.forEach(function(sz, i){
-        if(i > 0 && state.redStages[i]){ state.redStages[i].size = Number(sz); if($('rSize_' + i)){ $('rSize_' + i).value = sz; updateBadge('rSize_' + i, sz); } }
+        if(i > 0 && state.redStages[i]){
+          state.redStages[i].size = Number(sz);
+          if($('rSize_' + i)){ $('rSize_' + i).value = sz; updateBadge('rSize_' + i, sz); }
+        }
       });
     }
-    if(Array.isArray(savedData.rRemoves)){
-      savedData.rRemoves.forEach(function(rm, i){
-        if(i > 0 && state.redStages[i]){ state.redStages[i].removeBg = Boolean(rm); if($('rRemove_' + i)) $('rRemove_' + i).checked = state.redStages[i].removeBg; }
-      });
-    }
-    if(Array.isArray(savedData.hudRemoves)){
-      savedData.hudRemoves.forEach(function(rm, i){
-        hudRemoveFlags[i] = Boolean(rm);
-        if($('hudRemove_' + i)) $('hudRemove_' + i).checked = hudRemoveFlags[i];
-      });
-    }
-
     if(savedData.roadVariant && $('roadVariant')){ state.roadVariant = savedData.roadVariant; $('roadVariant').value = savedData.roadVariant; }
     if(savedData.bgMode && $('bgMode')){ state.bgMode = savedData.bgMode; $('bgMode').value = savedData.bgMode; }
     if(savedData.playerLane && $('playerLane')){ state.playerLane = savedData.playerLane; $('playerLane').value = savedData.playerLane; }
@@ -1423,30 +1425,46 @@ function initRows(){
     ];
     rowList.forEach(addRow);
   } else {
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ updateBadge(id, state[id]); });
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
+      updateBadge(id, state[id]);
+    });
     updateBadge('pSize_0', state.baseStage.size);
-    for(var i=1;i<=5;i++){ updateBadge('gSize_' + i, state.greenStages[i].size); updateBadge('rSize_' + i, state.redStages[i].size); }
-    for(var i=0;i<5;i++){ addRow({leftColor:i%2?'#ff323a':'#2aff84', rightColor:i%2?'#2aff84':'#ff323a'}); }
+    for(var i=1;i<=5;i++){
+      updateBadge('gSize_' + i, state.greenStages[i].size);
+      updateBadge('rSize_' + i, state.redStages[i].size);
+    }
+    for(var i=0;i<5;i++){
+      addRow({leftColor:i%2?'#ff323a':'#2aff84', rightColor:i%2?'#2aff84':'#ff323a'});
+    }
   }
 
   var oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
   oppEl.querySelector('.oppRemove').onchange=function(e){
     state.opponent.removeBg=e.target.checked; 
     autoSaveStudio(); 
-    if(state.opponent.src){ dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){ state.opponent.img=im; updateThumbBox($('thumb_oppImg'), im.src); }); }
+    if(state.opponent.src){
+      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){
+        state.opponent.img=im;
+        updateThumbBox($('thumb_oppImg'), im.src);
+      });
+    }
   };
   oppEl.querySelector('.oppInput').onchange=function(e){
     var f=e.target.files[0];if(!f)return;
     readFile(f).then(function(src){
       state.opponent.src=src;
-      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){ state.opponent.img=im; updateThumbBox($('thumb_oppImg'), im.src); });
+      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){
+        state.opponent.img=im;
+        updateThumbBox($('thumb_oppImg'), im.src);
+      });
     });
   };
   var clearOpp = oppEl.querySelector('#clear_oppImg');
   if(clearOpp){
     clearOpp.onclick = function(){
       oppEl.querySelector('.oppInput').value = '';
-      state.opponent.src = null; state.opponent.img = null;
+      state.opponent.src = null;
+      state.opponent.img = null;
       updateThumbBox($('thumb_oppImg'), null);
     };
   }
@@ -1461,17 +1479,19 @@ var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
 var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
+// 🌟 STRAIGHT HIGHWAY PERSPECTIVE (NO PINCHING CONE)
 function roadBoundsAtZ(z){
-  var t=Math.max(-0.25, Math.min(1.15, z));
+  var t=Math.max(0,Math.min(1,z));
   var camH = Math.max(0.2, state.camHeight || 0.95);
-  var dynamicHorizon = H * (state.horizon || 0.31) + (1.0 - camH) * (H * 0.12);
-  var dynamicHorizonY = Math.max(H * 0.12, Math.min(H * 0.75, dynamicHorizon));
+  
+  var dynamicHorizon = H * (state.horizon || 0.42) + (1.0 - camH) * (H * 0.12);
+  var dynamicHorizonY = Math.max(H * 0.15, Math.min(H * 0.75, dynamicHorizon));
 
-  var TOP_HALF = W * (state.topWidth || 0.14);
+  var TOP_HALF = W * (state.topWidth || 0.17);
   var BOTTOM_HALF = W * (state.bottomWidth || 0.98);
 
   var zDistance = (1.0 - t) * (11.0 / camH) + 0.85;
-  var scale = 1.0 / Math.max(0.01, zDistance);
+  var scale = 1.0 / zDistance;
   var minScale = 1.0 / ((11.0 / camH) + 0.85);
   var maxScale = 1.0 / 0.85;
   var depth = (scale - minScale) / (maxScale - minScale);
@@ -1481,54 +1501,78 @@ function roadBoundsAtZ(z){
 
   return {e:depth, y:y, l:W/2-half, r:W/2+half, half:half};
 }
-
 function lerp(a,b,t){return a+(b-a)*t;}
 function drawPoly(pts, fill){
-  ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]);
+  ctx.beginPath();
+  ctx.moveTo(pts[0][0],pts[0][1]);
   for(var i=1;i<pts.length;i++) ctx.lineTo(pts[i][0],pts[i][1]);
-  ctx.closePath(); ctx.fillStyle=fill; ctx.fill();
+  ctx.closePath();
+  ctx.fillStyle=fill;
+  ctx.fill();
 }
 function quad(a,b){return [[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]];}
-
 function fillRoadBase(topColor,bottomColor){
-  var top=roadBoundsAtZ(-0.15), bottom=roadBoundsAtZ(1.05);
+  var top=roadBoundsAtZ(0), bottom=roadBoundsAtZ(1);
   var g=ctx.createLinearGradient(0,top.y,0,H);
-  g.addColorStop(0,topColor); g.addColorStop(1,bottomColor);
+  g.addColorStop(0,topColor);
+  g.addColorStop(1,bottomColor);
   drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]],g);
   return {top:top,bottom:bottom};
 }
 function drawEdgeStripSeries(count,speedFactor,widthA,widthB,colorA,colorB){
-  for(var i=-2;i<count;i++){
-    var z0=(i/count + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1.15;
+  for(var i=0;i<count;i++){
+    var z0=(i/count + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1;
     var z1=z0+.065;
-    if(z1>1.1) continue;
+    if(z1>1) continue;
     var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    var wa=widthA+widthB*Math.max(0,a.e), wb=widthA+widthB*Math.max(0,b.e);
-    var c=Math.abs(i)%2===0?colorA:colorB;
+    var wa=widthA+widthB*a.e, wb=widthA+widthB*b.e;
+    var c=i%2===0?colorA:colorB;
     drawPoly([[a.l,a.y],[a.l+wa,a.y],[b.l+wb,b.y],[b.l,b.y]],c);
     drawPoly([[a.r-wa,a.y],[a.r,a.y],[b.r,b.y],[b.r-wb,b.y]],c);
   }
 }
 function drawCenterDashed(offsetRatio,color,widthBase,widthGrow,len,density,speedFactor,minZ){
-  for(var i=-2;i<density;i++){
-    var z0=(i/density + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1.15;
+  for(var i=0;i<density;i++){
+    var z0=(i/density + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1;
     var z1=z0+len;
-    if(z1>1.1 || z0<minZ) continue;
+    if(z1>1 || z0<minZ) continue;
     var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
     var x0=W/2+a.half*offsetRatio;
     var x1=W/2+b.half*offsetRatio;
-    ctx.save(); ctx.strokeStyle=color; ctx.lineCap='round';
-    ctx.lineWidth=widthBase+widthGrow*Math.max(0,a.e);
-    ctx.beginPath(); ctx.moveTo(x0,a.y); ctx.lineTo(x1,b.y); ctx.stroke(); ctx.restore();
+    ctx.save();
+    ctx.strokeStyle=color;
+    ctx.lineCap='round';
+    ctx.lineWidth=widthBase+widthGrow*a.e;
+    ctx.beginPath();
+    ctx.moveTo(x0,a.y);
+    ctx.lineTo(x1,b.y);
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+function drawCenterPulseDots(offsetRatio,color,sizeBase,sizeGrow,count,speedFactor,minZ){
+  for(var i=0;i<count;i++){
+    var z=(i/count + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1;
+    if(z<minZ) continue;
+    var p=roadBoundsAtZ(z);
+    var x=W/2+p.half*offsetRatio;
+    ctx.save();
+    ctx.fillStyle=color;
+    ctx.shadowColor=color;
+    ctx.shadowBlur=10+18*p.e;
+    ctx.beginPath();
+    ctx.arc(x,p.y,sizeBase+sizeGrow*p.e,0,Math.PI*2);
+    ctx.fill();
+    ctx.restore();
   }
 }
 function drawRoadTexture(strength){
   ctx.save();
-  for(var i=-1;i<10;i++){
-    var z=(i*.13 + roadTime*state.speed*TRACK_MOTION_SCALE*1.08)%1.1;
-    if(z<.05) continue;
-    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1.1,z+.06));
-    var alpha=.012+strength*Math.max(0,a.e);
+  for(var i=0;i<9;i++){
+    var z=(i*.13 + roadTime*state.speed*TRACK_MOTION_SCALE*1.08)%1;
+    if(z<.15) continue;
+    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
+    var alpha=.012+strength*a.e;
     drawPoly(quad(a,b),'rgba(255,255,255,'+alpha+')');
   }
   ctx.restore();
@@ -1547,15 +1591,24 @@ function drawRoadShineSeries(color,alphaMul){
   ctx.restore();
 }
 function drawSideRails(color){
-  ctx.save(); ctx.strokeStyle=color; ctx.lineCap='round';
+  ctx.save();
+  ctx.strokeStyle=color;
+  ctx.lineCap='round';
   for(var i=0;i<10;i++){
     var z0=(i/10 + roadTime*state.speed*TRACK_MOTION_SCALE*.84)%1;
     var z1=z0+.075;
     if(z1>1 || z0<.06) continue;
     var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    ctx.globalAlpha=.14+.42*a.e; ctx.lineWidth=2+6*a.e;
-    ctx.beginPath(); ctx.moveTo(a.l+12+a.e*8,a.y); ctx.lineTo(b.l+12+b.e*8,b.y); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(a.r-12-a.e*8,a.y); ctx.lineTo(b.r-12-b.e*8,b.y); ctx.stroke();
+    ctx.globalAlpha=.14+.42*a.e;
+    ctx.lineWidth=2+6*a.e;
+    ctx.beginPath();
+    ctx.moveTo(a.l+12+a.e*8,a.y);
+    ctx.lineTo(b.l+12+b.e*8,b.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(a.r-12-a.e*8,a.y);
+    ctx.lineTo(b.r-12-b.e*8,b.y);
+    ctx.stroke();
   }
   ctx.restore();
 }
@@ -1563,8 +1616,24 @@ function drawSideRails(color){
 function drawBackground(){
   var pair = bgColors[state.bgMode] || ['#000000', '#050505'];
   var g = ctx.createLinearGradient(0, 0, 0, H);
-  g.addColorStop(0, pair[0]); g.addColorStop(1, pair[1]);
-  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  g.addColorStop(0, pair[0]);
+  g.addColorStop(1, pair[1]);
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+
+  if(state.speedLines){
+    ctx.save();ctx.strokeStyle='rgba(255,255,255,.38)';ctx.lineCap='round';
+    for(var i=0;i<12;i++){
+      var sideDir=i%2===0?-1:1;
+      var phase=(i*.11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
+      var y=(H*(state.horizon || 0.42))-250 + phase*350;
+      var x=sideDir<0 ? 40+phase*80 : W-40-phase*80;
+      var len=24+phase*80;
+      ctx.globalAlpha=.08+.34*phase;ctx.lineWidth=2+3*phase;
+      ctx.beginPath();ctx.moveTo(x,y-len*.55);ctx.lineTo(x+sideDir*14*phase,y+len*.45);ctx.stroke();
+    }
+    ctx.restore();
+  }
 }
 
 function rClassic(){
@@ -1579,6 +1648,7 @@ function rTwinStripe(){
   drawEdgeStripSeries(18,.82,4,20,'#ffffff','#b6bcc6');
   drawCenterDashed(-.04,'rgba(255,216,82,.98)',2,5,.10,10,.84,.14);
   drawCenterDashed(.04,'rgba(255,216,82,.98)',2,5,.10,10,.84,.14);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.28)',.85);
 }
 function rTripleLane(){
   fillRoadBase('#46505c','#1f262f');
@@ -1587,17 +1657,283 @@ function rTripleLane(){
   drawCenterDashed(-.26,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
   drawCenterDashed(0,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
   drawCenterDashed(.26,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.26)',.72);
+}
+function rAsphaltSpeed(){
+  fillRoadBase('#2b2e34','#14161a');
+  drawRoadTexture(.045);
+  drawEdgeStripSeries(20,.95,4,24,'#ffd000','#111111');
+  drawCenterDashed(0,'rgba(255,255,255,.9)',3,6,.14,12,.95,.10);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.45)',1.1);
+}
+function rMidnightHighway(){
+  fillRoadBase('#1a1e28','#0c0e14');
+  drawRoadTexture(.02);
+  drawEdgeStripSeries(18,.8,3,18,'#3b82f6','#ffffff');
+  drawCenterDashed(0,'rgba(96,165,250,.9)',2,5,.09,9,.82,.15);
+  drawSideRails('rgba(59,130,246,.4)');
+}
+function rNeonPulse(){
+  fillRoadBase('#29193d','#12071f');
+  drawRoadTexture(.030);
+  drawEdgeStripSeries(18,.82,4,20,'#ff0055','#00ffff');
+  drawCenterDashed(-.04,'rgba(0,255,255,.95)',2,5,.08,11,.88,.15);
+  drawCenterDashed(.04,'rgba(0,255,255,.95)',2,5,.08,11,.88,.15);
+  drawCenterPulseDots(0,'rgba(255,0,128,.95)',2,6,9,1.12,.18);
+  if(state.roadShine) drawRoadShineSeries('rgba(0,255,255,.55)',1.15);
+}
+function rEdgeGlow(){
+  fillRoadBase('#1a2c26','#0c1813');
+  drawRoadTexture(.022);
+  drawEdgeStripSeries(18,.84,4,20,'#00ff66','#003314');
+  drawSideRails('rgba(0,255,102,.6)');
+  drawCenterDashed(0,'rgba(0,255,102,.5)',1.5,3.5,.08,9,.82,.2);
+}
+function rArcadeGrid(){
+  fillRoadBase('#151b30','#080a14');
+  for(var i=0;i<12;i++){
+    var z0=(i/12 + roadTime*state.speed*TRACK_MOTION_SCALE*.78)%1;
+    var z1=z0+.065;
+    if(z1>1 || z0<.15) continue;
+    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    drawPoly(quad(a,b),'rgba(0,255,255,'+(.02+.06*a.e)+')');
+    for(var j=1;j<4;j++){
+      var x0=lerp(a.l,a.r,j/4), x1=lerp(b.l,b.r,j/4);
+      ctx.save();ctx.strokeStyle='rgba(0,255,255,'+(.08+.2*a.e)+')';ctx.lineWidth=1.2+2.4*a.e;
+      ctx.beginPath();ctx.moveTo(x0,a.y);ctx.lineTo(x1,b.y);ctx.stroke();ctx.restore();
+    }
+  }
+  drawEdgeStripSeries(18,.80,4,20,'#ff007f','#00ffff');
+}
+function rRailRunner(){
+  fillRoadBase('#222630','#0e1015');
+  drawSideRails('rgba(0,229,255,.8)');
+  drawCenterDashed(-.12,'rgba(0,229,255,.9)',2,4,.07,10,.95,.16);
+  drawCenterDashed(.12,'rgba(0,229,255,.9)',2,4,.07,10,.95,.16);
+  drawCenterPulseDots(0,'#ffffff',1.8,4.5,10,1.04,.18);
+}
+function rChevronRush(){
+  fillRoadBase('#2a2a38','#12121a');
+  drawEdgeStripSeries(18,.82,4,20,'#ff3366','#ffffff');
+  for(var i=0;i<10;i++){
+    var z=(i/10 + roadTime*state.speed*TRACK_MOTION_SCALE*.92)%1;
+    if(z<.15 || z>.96) continue;
+    var p=roadBoundsAtZ(z);
+    var span=20+p.e*95, lift=10+p.e*44;
+    ctx.save();ctx.strokeStyle='rgba(255,51,102,'+(.25+.5*p.e)+')';ctx.lineWidth=2+5*p.e;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(W/2-span,p.y-lift);ctx.lineTo(W/2,p.y);ctx.lineTo(W/2+span,p.y-lift);ctx.stroke();ctx.restore();
+  }
+}
+function rCyberViolet(){
+  fillRoadBase('#30123f','#14041c');
+  drawEdgeStripSeries(18,.85,4,22,'#c026d3','#a855f7');
+  drawCenterDashed(0,'rgba(232,121,249,.95)',3,6,.12,11,.9,.12);
+  drawSideRails('rgba(192,38,211,.6)');
+}
+function rLaserCyan(){
+  fillRoadBase('#082f49','#02131f');
+  drawEdgeStripSeries(18,.85,5,25,'#06b6d4','#38bdf8');
+  drawCenterDashed(-.08,'#38bdf8',2,5,.1,10,.88,.15);
+  drawCenterDashed(.08,'#38bdf8',2,5,.1,10,.88,.15);
+}
+function rMatrixCode(){
+  fillRoadBase('#052e16','#021409');
+  drawRoadTexture(.05);
+  drawEdgeStripSeries(18,.8,4,20,'#22c55e','#14532d');
+  drawCenterDashed(0,'rgba(34,197,94,.9)',2.5,5,.07,14,1.1,.1);
+}
+function rPlasmaPink(){
+  fillRoadBase('#4a044e','#1f0122');
+  drawEdgeStripSeries(18,.85,5,24,'#f43f5e','#fda4af');
+  drawCenterDashed(0,'rgba(244,63,94,.9)',3,6,.1,10,.85,.15);
+}
+function rOverdriveSynth(){
+  fillRoadBase('#3b0764','#18022b');
+  drawEdgeStripSeries(18,.85,5,26,'#ec4899','#8b5cf6');
+  drawCenterPulseDots(0,'#f43f5e',2,6,11,1.05,.15);
+  drawSideRails('rgba(236,72,153,.7)');
+}
+function rLavaCrack(){
+  fillRoadBase('#450a0a','#1f0404');
+  drawEdgeStripSeries(16,.75,5,28,'#ea580c','#7f1d1d');
+  drawCenterDashed(0,'rgba(251,146,60,.95)',4,8,.15,8,.75,.15);
+  drawRoadTexture(.06);
+}
+function rIceCrystal(){
+  fillRoadBase('#083344','#03151d');
+  drawEdgeStripSeries(18,.82,4,24,'#e0f2fe','#38bdf8');
+  drawCenterDashed(-.05,'#bae6fd',2,5,.08,10,.85,.15);
+  drawCenterDashed(.05,'#bae6fd',2,5,.08,10,.85,.15);
+  drawSideRails('rgba(224,242,254,.7)');
+}
+function rGoldenPath(){
+  fillRoadBase('#422006','#1a0c02');
+  drawEdgeStripSeries(18,.82,5,25,'#eab308','#fef08a');
+  drawCenterDashed(0,'rgba(234,179,8,.95)',3,7,.11,10,.84,.14);
+}
+function rToxicHazard(){
+  fillRoadBase('#1a2e05','#0a1401');
+  drawEdgeStripSeries(18,.88,5,25,'#84cc16','#000000');
+  drawCenterDashed(0,'rgba(132,204,22,.95)',3,6,.1,10,.88,.12);
+}
+function rCosmicVoid(){
+  fillRoadBase('#180d2e','#080313');
+  drawCenterPulseDots(-.15,'#a855f7',1.5,4,12,.95,.1);
+  drawCenterPulseDots(.15,'#38bdf8',1.5,4,12,.95,.1);
+  drawEdgeStripSeries(18,.8,4,22,'#c084fc','#38bdf8');
+}
+function rAmethystPath(){
+  fillRoadBase('#3b0764','#150125');
+  drawEdgeStripSeries(18,.85,4,24,'#a855f7','#f3e8ff');
+  drawCenterDashed(0,'#d8b4fe',2,5,.1,10,.82,.14);
+}
+function rInfernoFire(){
+  fillRoadBase('#500724','#20010d');
+  drawEdgeStripSeries(18,.85,5,26,'#ef4444','#fb923c');
+  drawCenterDashed(0,'#f97316',3,7,.12,9,.82,.15);
+}
+function rElectricThunder(){
+  fillRoadBase('#0c4a6e','#041c2c');
+  drawEdgeStripSeries(18,.9,5,26,'#38bdf8','#ffffff');
+  drawSideRails('rgba(56,189,248,.8)');
+  drawCenterDashed(0,'#7dd3fc',2.5,5.5,.08,12,.95,.12);
+}
+function rCarbonTrack(){
+  fillRoadBase('#323b49','#151c24');
+  for(var i=0;i<11;i++){
+    var z0=(i/11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
+    var z1=z0+.075;
+    if(z1>1 || z0<.12) continue;
+    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    var insetA=a.half*.08, insetB=b.half*.08;
+    drawPoly([[a.l+insetA,a.y],[a.r-insetA,a.y],[b.r-insetB,b.y],[b.l+insetB,b.y]], i%2===0?'rgba(255,255,255,.05)':'rgba(0,0,0,.09)');
+  }
+  drawEdgeStripSeries(18,.78,4,18,'#ff8f29','#ffffff');
+  drawCenterDashed(0,'rgba(255,171,85,.75)',2,4,.07,10,.90,.18);
+}
+function rDiamondFlow(){
+  fillRoadBase('#414b59','#1c232c');
+  drawRoadTexture(.020);
+  drawEdgeStripSeries(18,.82,4,20,'#ff3347','#ffffff');
+  for(var i=0;i<8;i++){
+    var z=(i/8 + roadTime*state.speed*TRACK_MOTION_SCALE*.88)%1;
+    if(z<.15 || z>.94) continue;
+    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
+    var midY=(a.y+b.y)/2;
+    var w=12+a.e*56, h=6+a.e*32;
+    ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
+    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
+  }
+}
+function rMinimalGrey(){
+  fillRoadBase('#475569','#1e293b');
+  drawEdgeStripSeries(18,.8,4,20,'#ffffff','#64748b');
+  drawCenterDashed(0,'rgba(255,255,255,.7)',2,4,.1,10,.8,.15);
+}
+function rPastelDream(){
+  fillRoadBase('#701a75','#3b0764');
+  drawEdgeStripSeries(18,.8,5,22,'#f472b6','#38bdf8');
+  drawCenterDashed(0,'#fbcfe8',2,5,.09,10,.82,.14);
+}
+function rSunsetBoulevard(){
+  fillRoadBase('#7c2d12','#361005');
+  drawEdgeStripSeries(18,.82,5,24,'#f97316','#fde047');
+  drawCenterDashed(-.05,'#fed7aa',2,4.5,.08,10,.85,.15);
+  drawCenterDashed(.05,'#fed7aa',2,4.5,.08,10,.85,.15);
+}
+function rRainbowPrism(){
+  fillRoadBase('#18181b','#09090b');
+  var colors=['#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#8b5cf6'];
+  for(var i=0;i<18;i++){
+    var z0=(i/18 + roadTime*state.speed*TRACK_MOTION_SCALE*.85)%1;
+    var z1=z0+.055;
+    if(z1>1) continue;
+    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    var col=colors[i%colors.length];
+    drawPoly([[a.l,a.y],[a.l+8+a.e*18,a.y],[b.l+8+b.e*18,b.y],[b.l,b.y]],col);
+    drawPoly([[a.r-8-a.e*18,a.y],[a.r,a.y],[b.r,b.y],[b.r-8-b.e*18,b.y]],col);
+  }
+  drawCenterDashed(0,'#ffffff',2,5,.09,10,.85,.15);
+}
+function rRetroSun(){
+  fillRoadBase('#4a044e','#1c021f');
+  drawEdgeStripSeries(18,.85,4,22,'#facc15','#ec4899');
+  drawSideRails('#ec4899');
+  drawCenterDashed(0,'#fde047',3,6,.12,9,.84,.15);
+}
+function rDarkObsidian(){
+  fillRoadBase('#0f172a','#020617');
+  drawRoadTexture(.035);
+  drawEdgeStripSeries(18,.75,3,16,'#334155','#0f172a');
+  drawCenterDashed(0,'rgba(148,163,184,.6)',1.5,3.5,.08,9,.8,.2);
+}
+function rHyperSpace(){
+  fillRoadBase('#0f0728','#03010a');
+  drawSideRails('rgba(168,85,247,.9)');
+  drawCenterDashed(-.15,'#38bdf8',2,5,.15,14,1.2,.1);
+  drawCenterDashed(.15,'#38bdf8',2,5,.15,14,1.2,.1);
+  drawCenterPulseDots(0,'#ffffff',2,7,12,1.3,.1);
+}
+function rCleanWhiteTrack(){
+  fillRoadBase('#cbd5e1','#94a3b8');
+  drawEdgeStripSeries(18,.82,4,22,'#0f172a','#ffffff');
+  drawCenterDashed(0,'#0f172a',2.5,5,.1,10,.85,.14);
+}
+function rEmeraldCity(){
+  fillRoadBase('#064e3b','#022c22');
+  drawEdgeStripSeries(18,.85,5,25,'#34d399','#a7f3d0');
+  drawCenterDashed(0,'#6ee7b7',3,6,.1,10,.85,.15);
+}
+function rRubyRoyale(){
+  fillRoadBase('#881337','#4c0519');
+  drawEdgeStripSeries(18,.85,5,26,'#fb7185','#ffe4e6');
+  drawCenterDashed(0,'#fda4af',3,6.5,.11,10,.85,.15);
 }
 
 function drawRoad(){
-  var dict={ classic: rClassic, twinStripe: rTwinStripe, tripleLane: rTripleLane };
+  var dict={
+    classic: rClassic,
+    twinStripe: rTwinStripe,
+    tripleLane: rTripleLane,
+    asphaltSpeed: rAsphaltSpeed,
+    midnightHighway: rMidnightHighway,
+    neonPulse: rNeonPulse,
+    edgeGlow: rEdgeGlow,
+    arcadeGrid: rArcadeGrid,
+    railRunner: rRailRunner,
+    chevronRush: rChevronRush,
+    cyberViolet: rCyberViolet,
+    laserCyan: rLaserCyan,
+    matrixCode: rMatrixCode,
+    plasmaPink: rPlasmaPink,
+    overdriveNeon: rOverdriveSynth,
+    lavaCrack: rLavaCrack,
+    iceCrystal: rIceCrystal,
+    goldenPath: rGoldenPath,
+    toxicHazard: rToxicHazard,
+    cosmicVoid: rCosmicVoid,
+    amethystPath: rAmethystPath,
+    infernoFire: rInfernoFire,
+    electricThunder: rElectricThunder,
+    carbonTrack: rCarbonTrack,
+    diamondFlow: rDiamondFlow,
+    minimalGrey: rMinimalGrey,
+    pastelDream: rPastelDream,
+    sunsetBoulevard: rSunsetBoulevard,
+    rainbowPrism: rRainbowPrism,
+    retroSun: rRetroSun,
+    darkObsidian: rDarkObsidian,
+    hyperSpace: rHyperSpace,
+    cleanWhiteTrack: rCleanWhiteTrack,
+    emeraldCity: rEmeraldCity,
+    rubyRoyale: rRubyRoyale
+  };
   var fn = dict[state.roadVariant] || rClassic;
   fn();
 }
 
-// 🦁 3D GLASS PAD DRAWING WITH CLAMPED NATURAL BOUNDS
 function drawRaisedPad(z, side, hexColor){
-  var p=roadBoundsAtZ(z), e=Math.max(0, p.e);
+  var p=roadBoundsAtZ(z), e=p.e;
   var laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
   var width=Math.max(14, p.half*.78);
   var height=Math.max(16, width * 0.58);
@@ -1615,7 +1951,10 @@ function drawRaisedPad(z, side, hexColor){
   ctx.save();ctx.fillStyle='rgba('+dark+',.78)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-(state.padThickness||14)*.45,width,state.padThickness||14,5);ctx.fill();ctx.restore();
   
   var g=ctx.createLinearGradient(0,baseY,0,topY);
-  g.addColorStop(0,'rgba('+rgb+',.88)'); g.addColorStop(.35,'rgba('+rgb+',.55)'); g.addColorStop(.75,'rgba('+rgb+',.22)'); g.addColorStop(1,'rgba('+rgb+',0)');
+  g.addColorStop(0,'rgba('+rgb+',.88)');
+  g.addColorStop(.35,'rgba('+rgb+',.55)');
+  g.addColorStop(.75,'rgba('+rgb+',.22)');
+  g.addColorStop(1,'rgba('+rgb+',0)');
   
   ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=16+24*e;ctx.fillStyle=g;
   ctx.beginPath();ctx.roundRect(laneCenter-width/2,topY,width,height,8);ctx.fill();ctx.restore();
@@ -1638,12 +1977,14 @@ function drawImageFit(im, x, y, boxW, boxH, anchor){
 
 function drawMysteryHUD(){
   if(!state.showHud) return;
+
   var count = 5;
   var boxS = state.hudBoxSize || 86;
   var gap = state.hudSpacing || 12;
   var totalW = count * boxS + (count - 1) * gap;
   var startX = (W - totalW) / 2;
   var hudY = state.hudY || 88;
+
   var th = hudThemes[state.hudStyle] || hudThemes.classicGold;
 
   for(var b = 0; b < count; b++){
@@ -1651,15 +1992,26 @@ function drawMysteryHUD(){
     var activeImg = manualHudImgs[b] || collectedHud[b];
 
     if(activeImg){
-      ctx.save(); ctx.shadowColor = th.glow; ctx.shadowBlur = 14;
+      ctx.save();
+      ctx.shadowColor = th.glow;
+      ctx.shadowBlur = 14;
       drawImageFit(activeImg, bx + boxS/2, hudY + boxS - 4, boxS * 0.9, boxS * 0.9, 'bottom');
       ctx.restore();
     } else {
-      ctx.save(); ctx.shadowColor = th.glow; ctx.shadowBlur = 8;
-      ctx.fillStyle = th.border; ctx.beginPath(); ctx.roundRect(bx, hudY, boxS, boxS, 10); ctx.fill();
-      ctx.fillStyle = th.face; ctx.beginPath(); ctx.roundRect(bx + 4, hudY + 4, boxS - 8, boxS - 8, 8); ctx.fill();
-      ctx.strokeStyle = th.stroke; ctx.lineWidth = 3; ctx.strokeRect(bx + 4, hudY + 4, boxS - 8, boxS - 8);
-      ctx.fillStyle = th.text; ctx.font = '900 ' + Math.floor(boxS * 0.65) + 'px Impact, sans-serif';
+      ctx.save();
+      ctx.shadowColor = th.glow;
+      ctx.shadowBlur = 8;
+      ctx.fillStyle = th.border;
+      ctx.beginPath(); ctx.roundRect(bx, hudY, boxS, boxS, 10); ctx.fill();
+
+      ctx.fillStyle = th.face;
+      ctx.beginPath(); ctx.roundRect(bx + 4, hudY + 4, boxS - 8, boxS - 8, 8); ctx.fill();
+
+      ctx.strokeStyle = th.stroke; ctx.lineWidth = 3;
+      ctx.strokeRect(bx + 4, hudY + 4, boxS - 8, boxS - 8);
+
+      ctx.fillStyle = th.text;
+      ctx.font = '900 ' + Math.floor(boxS * 0.65) + 'px Impact, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText('?', bx + boxS/2, hudY + boxS/2 + 2);
       ctx.restore();
@@ -1668,17 +2020,32 @@ function drawMysteryHUD(){
 }
 
 function getActiveRunnerInfo(){
-  var curImg = null; var curSize = 145;
+  var curImg = null;
+  var curSize = 145;
+
   if(currentPath === 'green' && currentStageLevel > 0){
     for(var g = currentStageLevel; g >= 1; g--){
-      if(state.greenStages[g] && state.greenStages[g].img){ curImg = state.greenStages[g].img; curSize = state.greenStages[g].size || 165; break; }
+      if(state.greenStages[g] && state.greenStages[g].img){
+        curImg = state.greenStages[g].img;
+        curSize = state.greenStages[g].size || 165;
+        break;
+      }
     }
   } else if(currentPath === 'red' && currentStageLevel > 0){
     for(var r = currentStageLevel; r >= 1; r--){
-      if(state.redStages[r] && state.redStages[r].img){ curImg = state.redStages[r].img; curSize = state.redStages[r].size || 130; break; }
+      if(state.redStages[r] && state.redStages[r].img){
+        curImg = state.redStages[r].img;
+        curSize = state.redStages[r].size || 130;
+        break;
+      }
     }
   }
-  if(!curImg){ curImg = state.baseStage.img; curSize = state.baseStage.size || 145; }
+
+  if(!curImg){
+    curImg = state.baseStage.img;
+    curSize = state.baseStage.size || 145;
+  }
+
   return { img: curImg, size: curSize };
 }
 
@@ -1687,13 +2054,18 @@ function drawRunnerBehind(){
   if(!rInfo.img) return;
 
   var p = roadBoundsAtZ(state.playerZ || 0.86);
-  var pSize = rInfo.size * (0.3 + 0.7 * Math.max(0, p.e));
+  var pSize = rInfo.size * (0.3 + 0.7 * p.e);
 
   var targetX = W/2;
-  if(state.playerLane === 'slider') targetX = W/2 + (p.half * 0.48 * state.steerOffset);
-  else if(state.playerLane === 'right') targetX = W/2 + p.half * 0.48;
-  else if(state.playerLane === 'left') targetX = W/2 - p.half * 0.48;
-  else targetX = state.currentLane === 'right' ? (W/2 + p.half * 0.48) : (W/2 - p.half * 0.48);
+  if(state.playerLane === 'slider'){
+    targetX = W/2 + (p.half * 0.48 * state.steerOffset);
+  } else if(state.playerLane === 'right'){
+    targetX = W/2 + p.half * 0.48;
+  } else if(state.playerLane === 'left'){
+    targetX = W/2 - p.half * 0.48;
+  } else {
+    targetX = state.currentLane === 'right' ? (W/2 + p.half * 0.48) : (W/2 - p.half * 0.48);
+  }
 
   state.playerX = state.playerX || (W/2);
   state.playerX += (targetX - state.playerX) * 0.35;
@@ -1701,19 +2073,18 @@ function drawRunnerBehind(){
   drawImageFit(rInfo.img, state.playerX, p.y + 4, pSize, pSize, 'bottom');
 }
 
-// 🌟 DEPTH-SORTED OVERLAP-FREE DRAWING PIPELINE
 function drawRows(){
   var initialDelay=.85;
   var closestActiveZ = -1;
   var activeLaneColor = '#2aff84';
   var pZ = state.playerZ || 0.86;
 
-  var renderQueue = [];
+  var activePads = [];
 
   state.rows.slice(0,5).forEach(function(row,i){
     var elapsed=roadTime-initialDelay-i*state.padDelay;
     var z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
-    if(z < -0.15 || z > 1.35) return;
+    if(z<0 || z>1.25) return;
     var zz=z;
 
     if(zz >= pZ - 0.02 && !processedPads[i]){
@@ -1721,9 +2092,17 @@ function drawRows(){
       var isPlayerOnRight = (state.playerX >= W/2);
       var padHex = isPlayerOnRight ? row.rightColor : row.leftColor;
       var itemImg = isPlayerOnRight ? row.rightImg : row.leftImg;
-      if(state.autoCollectHud && itemImg) collectedHud[i] = itemImg;
+
+      if(state.autoCollectHud && itemImg){
+        collectedHud[i] = itemImg;
+      }
+      
       var isGreen = (padHex.indexOf('2a') !== -1 || padHex.indexOf('00') !== -1 || padHex.indexOf('green') !== -1);
-      currentPath = isGreen ? 'green' : 'red';
+      if(isGreen){
+        currentPath = 'green';
+      } else {
+        currentPath = 'red';
+      }
       currentStageLevel = i + 1;
     }
 
@@ -1732,8 +2111,7 @@ function drawRows(){
       activeLaneColor = row.leftColor;
     }
 
-    // Add pad to depth render queue
-    renderQueue.push({ type: 'pad', row: row, rawZ: zz, sortKey: zz });
+    activePads.push({row: row, zz: Math.min(1.0, zz), rawZ: zz});
   });
 
   if(closestActiveZ !== -1){
@@ -1741,47 +2119,51 @@ function drawRows(){
     state.currentLane = isGreenLane ? 'left' : 'right';
   }
 
-  // Stationary Boss Anchor
+  // 1. Pads behind player
+  activePads.forEach(function(item){
+    if(item.rawZ < pZ){
+      var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
+      var right=drawRaisedPad(item.zz,'right',item.row.rightColor);
+      var pngScale=.18+0.95*left.e;
+      var leftSize=Math.min(item.row.leftSize*pngScale,left.width*.92);
+      var rightSize=Math.min(item.row.rightSize*pngScale,right.width*.92);
+      if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-6,leftSize,leftSize,'bottom');
+      if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-6,rightSize,rightSize,'bottom');
+    }
+  });
+
+  // Stationary Boss (Pad 2 cross hote hi road par stationary dikhega)
   var pad5WorldElapsed = roadTime - initialDelay - 4 * state.padDelay;
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossWorldElapsed = pad5WorldElapsed - bDist;
   var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
+
   var pad2Finished = processedPads[1] === true;
 
   if(pad2Finished && state.opponent.img){
     var bossZ = Math.max(0.01, Math.min(pZ, bossRawZ));
-    renderQueue.push({ type: 'boss', z: bossZ, sortKey: bossZ });
+    var op = roadBoundsAtZ(bossZ);
+
+    var rInfo = getActiveRunnerInfo();
+    var dynamicBossBase = (rInfo.size || 145) * 1.18;
+    var bossSize = dynamicBossBase * (0.3 + 0.7 * op.e);
+
+    drawImageFit(state.opponent.img, W/2, op.y + 4, bossSize, bossSize, 'bottom');
   }
 
-  // Add runner to depth queue
-  renderQueue.push({ type: 'runner', sortKey: pZ });
+  // 2. Runner Character
+  drawRunnerBehind();
 
-  // ⚡ CRITICAL: SORT FROM FURTHEST (smallest Z) TO CLOSEST (largest Z)
-  renderQueue.sort(function(a, b){ return a.sortKey - b.sortKey; });
-
-  // Render strictly by depth order to completely eliminate image clipping / overlaying!
-  renderQueue.forEach(function(item){
-    if(item.type === 'pad'){
-      var clampedZ = Math.min(1.0, Math.max(0, item.rawZ));
-      var left=drawRaisedPad(clampedZ,'left',item.row.leftColor);
-      var right=drawRaisedPad(clampedZ,'right',item.row.rightColor);
-      var pngScale=.18+0.95*Math.max(0, left.e);
+  // 3. Pads in front/above player
+  activePads.forEach(function(item){
+    if(item.rawZ >= pZ && item.rawZ <= 1.05){
+      var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
+      var right=drawRaisedPad(item.zz,'right',item.row.rightColor);
+      var pngScale=.18+0.95*left.e;
       var leftSize=Math.min(item.row.leftSize*pngScale,left.width*.92);
       var rightSize=Math.min(item.row.rightSize*pngScale,right.width*.92);
-      
-      // Pad PNGs render with clean boundary
       if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-6,leftSize,leftSize,'bottom');
       if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-6,rightSize,rightSize,'bottom');
-    } 
-    else if(item.type === 'boss'){
-      var op = roadBoundsAtZ(item.z);
-      var rInfo = getActiveRunnerInfo();
-      var dynamicBossBase = (rInfo.size || 145) * 1.18;
-      var bossSize = dynamicBossBase * (0.3 + 0.7 * Math.max(0, op.e));
-      drawImageFit(state.opponent.img, W/2, op.y + 4, bossSize, bossSize, 'bottom');
-    }
-    else if(item.type === 'runner'){
-      drawRunnerBehind();
     }
   });
 }
@@ -1802,10 +2184,6 @@ function frame(now){
 
   if(running && !isTouching){
     roadTime += delta;
-    if($('timeScrubber') && document.activeElement !== $('timeScrubber')){
-      $('timeScrubber').value = roadTime;
-      $('v_timeScrubber').textContent = roadTime.toFixed(1) + 's';
-    }
   }
 
   drawBackground();
@@ -1823,7 +2201,6 @@ $('resetBtn').onclick=function(){
   currentStageLevel=0;
   processedPads={};
   collectedHud=[null, null, null, null, null];
-  if($('timeScrubber')){ $('timeScrubber').value = 0; $('v_timeScrubber').textContent = '0.0s'; }
 };
 $('saveBtn').onclick=function(){
   autoSaveStudio();
@@ -1832,7 +2209,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v21'); 
+    localStorage.removeItem('runner_studio_saved_v19'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
@@ -1842,18 +2219,23 @@ $('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'
 $('exportBtn').onclick = function(){
   if (recorder) return;
   var sec = Math.max(2, Math.min(60, +$('recordSec').value || 15));
+  
   var stream = canvas.captureStream(60);
   var mime = 'video/webm;codecs=vp8';
   if (!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm';
   
   var chunks = [];
-  recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 16000000 });
+  recorder = new MediaRecorder(stream, { 
+    mimeType: mime, 
+    videoBitsPerSecond: 16000000 
+  });
+  
   recorder.ondataavailable = function(e){ if (e.data.size) chunks.push(e.data); };
   recorder.onstop = function(){
     var blob = new Blob(chunks, { type: mime });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'runner-perfect-60fps.webm';
+    a.download = 'runner-straight-road-60fps.webm';
     a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); }, 5000);
     recorder = null;
@@ -1923,4 +2305,4 @@ const server = http.createServer(function(req, res){
 server.keepAliveTimeout = 65000;
 server.headersTimeout = 66000;
 
-server.listen(PORT, function(){ console.log('Pro Studio Server running on port ' + PORT); });
+server.listen(PORT, function(){ console.log('Straight Highway Server running on port ' + PORT); });
