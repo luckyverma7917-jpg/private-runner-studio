@@ -46,7 +46,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio 60FPS Pro</title>
+<title>Private Runner Studio Clean Edition</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
@@ -150,7 +150,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">60 FPS SMOOTH</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">PRO CLEAN</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -175,7 +175,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export 60FPS Video</button></div>
-    <div class="note"><b>100% Smooth:</b> जिटर और फ्लिकर पूरी तरह ठीक कर दिया गया है। वीडियो में कोई वॉटरमार्क या टेक्स्ट नहीं आएगा!</div>
+    <div class="note"><b>Auto-Boss System:</b> 2nd पैड क्रॉस होते ही बॉस दिखेगा और आखिर में ठीक उसके ऊपर टच होकर रुकेगा!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -207,8 +207,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
               <option value="violetNight">11. Synthwave Violet</option>
               <option value="toxicLime">12. Toxic Biohazard Lime</option>
               <option value="matrixGreen">13. Matrix Green Flow</option>
-              <option value="overdriveOrange">14. Overdrive Neon Orange</option>
-              <option value="whiteGlow">15. Radiant White Neon</option>
+              <option value="overdriveNeon">15. Overdrive Synthwave</option>
             </optgroup>
             <optgroup label="--- Elemental & Gems ---">
               <option value="rubyRoyale">16. Royal Ruby Red</option>
@@ -775,7 +774,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     <div class="rowhead"><strong style="color:#61f0a6">&#128293; Opponent Boss</strong><span class="small">Stationary at Road End</span></div>
     <div class="side" style="grid-column:span 2">
       <b>OPPONENT CHARACTER PNG</b>
-      <label>PNG (Road par stationary khada rahega, Pad 2 ke baad aayega)
+      <label>PNG (Pad 2 क्रॉस होते ही दिखेगा और कैरेक्टर इसके ऊपर टच करेगा)
         <div class="file-wrap">
           <div class="thumb-box" id="thumb_oppImg"><span>None</span><img src=""></div>
           <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg">
@@ -1152,13 +1151,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v17', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v18', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v17');
+    var raw = localStorage.getItem('runner_studio_saved_v18');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1176,7 +1175,6 @@ function dataToImage(src){
     var im=new Image();
     im.onload=function(){resolve(im);};
     im.onerror=reject;
-    im.src=src;
   });
 }
 function processImageDataUrl(dataUrl, removeBg){
@@ -1210,7 +1208,14 @@ function processImageDataUrl(dataUrl, removeBg){
   });
 }
 function dataToProcessedImage(src, removeBg){
-  return processImageDataUrl(src, removeBg).then(function(cleanSrc){ return dataToImage(cleanSrc); });
+  return processImageDataUrl(src, removeBg).then(function(cleanSrc){
+    return new Promise(function(res, rej){
+      var im = new Image();
+      im.onload = function(){ res(im); };
+      im.onerror = rej;
+      im.src = cleanSrc;
+    });
+  });
 }
 
 function bindRange(id,key){
@@ -2102,8 +2107,8 @@ function drawRaisedPad(z, side, hexColor){
   var c = hexToRgb(hexColor);
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
-  var darkG = Math.max(0, Math.floor(c.g * 0.45));
-  var darkB = Math.max(0, Math.floor(c.b * 0.45));
+  var darkG = Math.max(0, Math.floor(c.r * 0.45));
+  var darkB = Math.max(0, Math.floor(c.r * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
   ctx.save();ctx.fillStyle='rgba(0,0,0,.24)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+4,width*.46,4+7*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
@@ -2291,16 +2296,18 @@ function drawRows(){
     }
   });
 
-  // Stationary Boss (Pad 2 cross hote hi road par stationary dikhega)
+  // 🌟 STATIONARY AUTO-PROPORTIONAL BOSS (2ND PAD CROSS HOTE HI DIKHEGA AUR PLAYER USKO TOUCH KAREGA)
   var pad5WorldElapsed = roadTime - initialDelay - 4 * state.padDelay;
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossWorldElapsed = pad5WorldElapsed - bDist;
   var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
 
+  // ⚡ शर्त: जैसे ही 2nd पैड क्रॉस हो, बॉस हमेशा दिखेगा (दूर क्षितिज पर)
   var pad2Finished = processedPads[1] === true;
 
-  if(pad2Finished && state.opponent.img && bossRawZ > 0){
-    var bossZ = Math.min(pZ - 0.05, bossRawZ);
+  if(pad2Finished && state.opponent.img){
+    // Boss target Z: 5वें पैड के बाद सड़क पर चलते हुए वो सीधे प्लेयर की Z पर आएगा (हल्का सा टच/ओवरलैप)
+    var bossZ = Math.max(0.01, Math.min(pZ, bossRawZ));
     var op = roadBoundsAtZ(bossZ);
 
     var rInfo = getActiveRunnerInfo();
@@ -2327,21 +2334,23 @@ function drawRows(){
   });
 }
 
-// ⚡ 60 FPS FLICKER-FREE FIXED TIME ENGINE
-var targetDelta = 1 / 60; // Locked 60 FPS update
+// ⚡ ROCK-SOLID 60FPS LOCKED ENGINE
+var FIXED_TIMESTEP = 1 / 60;
 
 function frame(now){
   var delta = (now - last) / 1000;
-  if(delta > 0.1) delta = targetDelta;
+  if(delta > 0.1) delta = FIXED_TIMESTEP;
   last = now;
 
   var pad5WorldElapsed = roadTime - 0.85 - 4 * state.padDelay;
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossWorldElapsed = pad5WorldElapsed - bDist;
   var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
-  var isFaceToFace = processedPads[4] && bossRawZ >= (state.playerZ || 0.82) - 0.05;
 
-  if(running && !isFaceToFace){
+  // जब खिलाड़ी और बॉस बिल्कुल टच कर लें (Z = playerZ), तब फ़्रीज़ हो
+  var isTouching = processedPads[4] && bossRawZ >= (state.playerZ || 0.82);
+
+  if(running && !isTouching){
     roadTime += delta;
   }
 
@@ -2368,7 +2377,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v17'); 
+    localStorage.removeItem('runner_studio_saved_v18'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
