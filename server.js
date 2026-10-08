@@ -46,7 +46,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Clean Edition</title>
+<title>Private Runner Studio Straight Road Edition</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
@@ -150,7 +150,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">PRO CLEAN</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">STRAIGHT ROAD 60FPS</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -175,7 +175,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     </div>
 
     <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export 60FPS Video</button></div>
-    <div class="note"><b>Auto-Boss System:</b> 2nd पैड क्रॉस होते ही बॉस दिखेगा और आखिर में ठीक उसके ऊपर टच होकर रुकेगा!</div>
+    <div class="note"><b>सड़क चौड़ाई फिक्स:</b> अब सड़क आगे जाकर त्रिकोणी नहीं बनेगी, बिल्कुल YouTube जैसी चौड़ी और सीधी दिखेगी!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -209,42 +209,30 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
               <option value="matrixGreen">13. Matrix Green Flow</option>
               <option value="overdriveNeon">15. Overdrive Synthwave</option>
             </optgroup>
-            <optgroup label="--- Elemental & Gems ---">
-              <option value="rubyRoyale">16. Royal Ruby Red</option>
-              <option value="sapphireBlue">17. Deep Sapphire Blue</option>
-              <option value="amethystPurple">18. Amethyst Crystal Gem</option>
-              <option value="moltenLava">19. Molten Magma Lava</option>
-              <option value="iceGlacier">20. Frozen Arctic Glacier</option>
-              <option value="goldenCrown">21. Sovereign Golden Crown</option>
-              <option value="darkObsidian">22. Dark Matte Obsidian</option>
-              <option value="shadowCarbon">23. Carbon Fiber Stealth</option>
-              <option value="cleanSilver">24. Metallic Polished Silver</option>
-              <option value="cosmicPurple">25. Cosmic Galaxy Nebula</option>
-            </optgroup>
           </select>
         </label>
 
         <label>
-          <span class="label-head"><span>HUD Y-Position</span><span class="val-badge gold" id="v_hudY">75</span></span>
+          <span class="label-head"><span>HUD Y-Position</span><span class="val-badge gold" id="v_hudY">88</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="hudY" data-dir="-1">◀</button>
-            <input id="hudY" type="range" min="30" max="300" value="75">
+            <input id="hudY" type="range" min="30" max="300" value="88">
             <button type="button" class="step-btn" data-step-for="hudY" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Box Size</span><span class="val-badge gold" id="v_hudBoxSize">80</span></span>
+          <span class="label-head"><span>Box Size</span><span class="val-badge gold" id="v_hudBoxSize">86</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="hudBoxSize" data-dir="-1">◀</button>
-            <input id="hudBoxSize" type="range" min="45" max="140" value="80">
+            <input id="hudBoxSize" type="range" min="45" max="140" value="86">
             <button type="button" class="step-btn" data-step-for="hudBoxSize" data-dir="1">▶</button>
           </div>
         </label>
         <label style="grid-column:1/-1">
-          <span class="label-head"><span>Box Spacing</span><span class="val-badge gold" id="v_hudSpacing">14</span></span>
+          <span class="label-head"><span>Box Spacing</span><span class="val-badge gold" id="v_hudSpacing">12</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="hudSpacing" data-dir="-1">◀</button>
-            <input id="hudSpacing" type="range" min="6" max="40" value="14">
+            <input id="hudSpacing" type="range" min="6" max="40" value="12">
             <button type="button" class="step-btn" data-step-for="hudSpacing" data-dir="1">▶</button>
           </div>
         </label>
@@ -319,10 +307,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </select>
         </label>
         <label>
-          <span class="label-head"><span>Depth (Z-Position)</span><span class="val-badge" id="v_playerZ">0.82</span></span>
+          <span class="label-head"><span>Depth (Z-Position)</span><span class="val-badge" id="v_playerZ">0.86</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="playerZ" data-dir="-1">◀</button>
-            <input id="playerZ" type="range" min="0.50" max="0.95" step="0.01" value="0.82">
+            <input id="playerZ" type="range" min="0.50" max="0.95" step="0.01" value="0.86">
             <button type="button" class="step-btn" data-step-for="playerZ" data-dir="1">▶</button>
           </div>
         </label>
@@ -493,7 +481,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 
     <details class="drag-card" id="card_highway" open>
       <summary>
-        <span>🛣️ Moving Highway & 3D Camera</span>
+        <span>🛣️ Moving Highway & Perspective (Straight YouTube Setup)</span>
         <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="grid two">
@@ -506,26 +494,26 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Horizon Height</span><span class="val-badge" id="v_horizon">0.48</span></span>
+          <span class="label-head"><span>Horizon Height</span><span class="val-badge" id="v_horizon">0.42</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="horizon" data-dir="-1">◀</button>
-            <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.48">
+            <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.42">
             <button type="button" class="step-btn" data-step-for="horizon" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Top Width</span><span class="val-badge" id="v_topWidth">0.06</span></span>
+          <span class="label-head"><span>Top Width (सीधी सड़क की चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.17</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="-1">◀</button>
-            <input id="topWidth" type="range" min="0.02" max="0.25" step="0.005" value="0.06">
+            <input id="topWidth" type="range" min="0.04" max="0.35" step="0.005" value="0.17">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Bottom Width</span><span class="val-badge" id="v_bottomWidth">0.86</span></span>
+          <span class="label-head"><span>Bottom Width (निचली चौड़ाई)</span><span class="val-badge" id="v_bottomWidth">0.98</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="-1">◀</button>
-            <input id="bottomWidth" type="range" min="0.50" max="1.10" step="0.02" value="0.86">
+            <input id="bottomWidth" type="range" min="0.50" max="1.15" step="0.02" value="0.98">
             <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="1">▶</button>
           </div>
         </label>
@@ -573,30 +561,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <option value="plasmaPink">14. Plasma Pink Horizon</option>
             <option value="overdriveNeon">15. Overdrive Synthwave</option>
           </optgroup>
-          <optgroup label="--- Elemental & Fantasy ---">
-            <option value="lavaCrack">16. Molten Lava Magma</option>
-            <option value="iceCrystal">17. Frozen Crystal Ice</option>
-            <option value="goldenPath">18. Royal Golden Highway</option>
-            <option value="toxicHazard">19. Toxic Biohazard</option>
-            <option value="cosmicVoid">20. Cosmic Star Dust</option>
-            <option value="amethystPath">21. Crystal Amethyst</option>
-            <option value="infernoFire">22. Blazing Inferno Track</option>
-            <option value="electricThunder">23. Electric Thunder Blue</option>
-          </optgroup>
-          <optgroup label="--- Modern & Aesthetic ---">
-            <option value="carbonTrack">24. Carbon Fiber Sport</option>
-            <option value="diamondFlow">25. Diamond Glow Flow</option>
-            <option value="minimalGrey">26. Studio Minimalist Mono</option>
-            <option value="pastelDream">27. Pastel Dreamway</option>
-            <option value="sunsetBoulevard">28. Sunset Boulevard</option>
-            <option value="rainbowPrism">29. Rainbow Prism Edge</option>
-            <option value="retroSun">30. 80s Retro Sun Track</option>
-            <option value="darkObsidian">31. Matte Dark Obsidian</option>
-            <option value="hyperSpace">32. Hyper Space Warp</option>
-            <option value="cleanWhiteTrack">33. Pure Ceramic White</option>
-            <option value="emeraldCity">34. Radiant Emerald Run</option>
-            <option value="rubyRoyale">35. Ruby Royale Luxury</option>
-          </optgroup>
         </select></label>
         <label style="grid-column:1/-1">Background Theme <select id="bgMode">
           <optgroup label="--- Light & Aesthetic Themes ---">
@@ -606,15 +570,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <option value="skyBlueLight">☀️ 4. Clear Sky Blue</option>
             <option value="cyanBreeze">☀️ 5. Light Cyan Breeze</option>
             <option value="mintFresh">☀️ 6. Fresh Mint Pastel</option>
-            <option value="warmVanilla">☀️ 7. Warm Vanilla</option>
-            <option value="peachDawn">☀️ 8. Peach Sunrise</option>
-            <option value="lavenderLight">☀️ 9. Soft Lavender</option>
-            <option value="rosePastel">☀️ 10. Rose Pastel Glow</option>
-            <option value="lemonDay">☀️ 11. Lemon Daylight</option>
-            <option value="iceWhite">☀️ 12. Arctic Ice White</option>
-            <option value="cyberMintLight">☀️ 13. Cyber Mint Light</option>
-            <option value="lilacMist">☀️ 14. Lilac Morning</option>
-            <option value="goldenSand">☀️ 15. Warm Golden Glow</option>
           </optgroup>
           <optgroup label="--- 50+ Dark Themes ---">
             <option value="black" selected>1. Pitch Black</option>
@@ -623,52 +578,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <option value="deepSpace">4. Deep Space Abyss</option>
             <option value="cyberDark">5. Cyber Dark</option>
             <option value="matrixBlack">6. Matrix Black</option>
-            <option value="carbonDark">7. Carbon Fiber Dark</option>
-            <option value="charcoal">8. Charcoal Shadow</option>
-            <option value="gunmetal">9. Gunmetal Grey</option>
-            <option value="onyx">10. Onyx Night</option>
-            <option value="eclipse">11. Total Eclipse</option>
-            <option value="abyss">12. Ocean Abyss</option>
-            <option value="deepNavy">13. Deep Navy Dark</option>
-            <option value="midnightBlue">14. Midnight Blue</option>
-            <option value="slateDark">15. Slate Shadow</option>
-            <option value="asphalt">16. Wet Asphalt</option>
-            <option value="gravel">17. Dark Gravel</option>
-            <option value="steelDark">18. Dark Steel</option>
-            <option value="ironDark">19. Dark Iron</option>
-            <option value="phantom">20. Phantom Black</option>
-            <option value="shadow">21. Dark Shadow</option>
-            <option value="vampire">22. Vampire Red-Black</option>
-            <option value="crimsonDark">23. Dark Crimson</option>
-            <option value="bloodNight">24. Blood Night</option>
-            <option value="neonPurpleDark">25. Neon Purple Dark</option>
-            <option value="violetNight">26. Violet Abyss</option>
-            <option value="electricBlueDark">27. Electric Blue Dark</option>
-            <option value="cyanDark">28. Dark Cyan Void</option>
-            <option value="emeraldDark">29. Dark Emerald</option>
-            <option value="matrixGreen">30. Matrix Green Dark</option>
-            <option value="toxicGreen">31. Toxic Dark</option>
-            <option value="amberDark">32. Amber Shadow</option>
-            <option value="sunsetDark">33. Dark Sunset</option>
-            <option value="laserRed">34. Laser Red Dark</option>
-            <option value="plasmaDark">35. Plasma Dark</option>
-            <option value="reactor">36. Reactor Core</option>
-            <option value="synthwave">37. Synthwave Night</option>
-            <option value="retrowave">38. Retrowave Dark</option>
-            <option value="cyberpunkDark">39. Cyberpunk Night</option>
-            <option value="gotham">40. Gotham Alley</option>
-            <option value="underworld">41. Underworld</option>
-            <option value="infernoDark">42. Dark Inferno</option>
-            <option value="magmaDark">43. Dark Magma</option>
-            <option value="voidBlue">44. Void Blue</option>
-            <option value="voidPurple">45. Void Purple</option>
-            <option value="voidGreen">46. Void Green</option>
-            <option value="voidRed">47. Void Red</option>
-            <option value="voidGold">48. Void Gold</option>
-            <option value="cosmicDark">49. Cosmic Dark</option>
-            <option value="nebulaDark">50. Dark Nebula</option>
-            <option value="quantumVoid">51. Quantum Void</option>
-            <option value="ultimateDark">52. Ultimate Dark V2</option>
           </optgroup>
         </select></label>
         <label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label>
@@ -803,11 +712,12 @@ var processedPads = {};
 var collectedHud = [null, null, null, null, null];
 var manualHudImgs = [null, null, null, null, null];
 
+// 🌟 EXACT YOUTUBE ROAD PERSPECTIVE (STRAIGHT & BROAD)
 var state={
   speed:0.20,
-  horizon:0.48,
-  topWidth:0.06,
-  bottomWidth:0.86,
+  horizon:0.42,
+  topWidth:0.17,    // Straight highway width
+  bottomWidth:0.98, // Full bottom span
   camHeight:0.95,
   padDelay:2.40,
   padThickness:14,
@@ -819,9 +729,9 @@ var state={
   showHud:true,
   autoCollectHud:true,
   hudStyle:'classicGold',
-  hudY:75,
-  hudBoxSize:80,
-  hudSpacing:14,
+  hudY:88,
+  hudBoxSize:86,
+  hudSpacing:12,
   steerOffset:-1.0,
   baseStage: {img:null, size:145},
   greenStages:[
@@ -840,7 +750,7 @@ var state={
     {img:null, size:85},
     {img:null, size:75}
   ],
-  playerZ:0.82,
+  playerZ:0.86,
   playerLane:'slider',
   playerX:W/2,
   currentLane:'left',
@@ -849,41 +759,20 @@ var state={
 };
 
 var hudThemes = {
-  classicGold:     { border:'#ff9900', face:'#ffbe1a', stroke:'#221100', text:'#110800', glow:'rgba(255,190,26,0.6)' },
-  royalGold:       { border:'#d97706', face:'#fbbf24', stroke:'#451a03', text:'#451a03', glow:'rgba(251,191,36,0.6)' },
-  arcadeYellow:    { border:'#eab308', face:'#fef08a', stroke:'#000000', text:'#000000', glow:'rgba(234,179,8,0.7)' },
-  bronzeVintage:   { border:'#78350f', face:'#b45309', stroke:'#1c0b02', text:'#fef3c7', glow:'rgba(180,83,9,0.5)' },
-  pureWhiteBox:    { border:'#94a3b8', face:'#f8fafc', stroke:'#0f172a', text:'#0f172a', glow:'rgba(248,250,252,0.6)' },
-  neonGreen:       { border:'#15803d', face:'#22c55e', stroke:'#052e16', text:'#021f0e', glow:'rgba(34,197,94,0.8)' },
-  cyberCyan:       { border:'#0284c7', face:'#00f5ff', stroke:'#082f49', text:'#041f30', glow:'rgba(0,245,255,0.8)' },
-  laserRed:        { border:'#b91c1c', face:'#ef4444', stroke:'#450a0a', text:'#240202', glow:'rgba(239,68,68,0.8)' },
-  plasmaPink:      { border:'#be185d', face:'#f43f5e', stroke:'#4c0519', text:'#26020c', glow:'rgba(244,63,94,0.8)' },
-  electricBlue:    { border:'#1d4ed8', face:'#3b82f6', stroke:'#0f172a', text:'#06142e', glow:'rgba(59,130,246,0.8)' },
-  violetNight:     { border:'#6d28d9', face:'#8b5cf6', stroke:'#2e1065', text:'#1a043d', glow:'rgba(139,92,246,0.8)' },
-  toxicLime:       { border:'#4d7c0f', face:'#84cc16', stroke:'#1a2e05', text:'#102002', glow:'rgba(132,204,22,0.8)' },
-  matrixGreen:     { border:'#047857', face:'#10b981', stroke:'#022c22', text:'#021c15', glow:'rgba(16,185,129,0.8)' },
-  overdriveOrange: { border:'#c2410c', face:'#f97316', stroke:'#431407', text:'#290a03', glow:'rgba(249,115,22,0.8)' },
-  whiteGlow:       { border:'#64748b', face:'#ffffff', stroke:'#1e293b', text:'#0f172a', glow:'rgba(255,255,255,0.9)' },
-  rubyRoyale:      { border:'#9f1239', face:'#e11d48', stroke:'#4c0519', text:'#fecdd3', glow:'rgba(225,29,72,0.8)' },
-  sapphireBlue:    { border:'#1e40af', face:'#2563eb', stroke:'#172554', text:'#bfdbfe', glow:'rgba(37,99,235,0.8)' },
-  amethystPurple:  { border:'#7e22ce', face:'#a855f7', stroke:'#3b0764', text:'#f3e8ff', glow:'rgba(168,85,247,0.8)' },
-  moltenLava:      { border:'#9a3412', face:'#ea580c', stroke:'#431407', text:'#ffedd5', glow:'rgba(234,88,12,0.8)' },
-  iceGlacier:      { border:'#0e7490', face:'#38bdf8', stroke:'#083344', text:'#e0f2fe', glow:'rgba(56,189,248,0.8)' },
-  goldenCrown:     { border:'#a16207', face:'#facc15', stroke:'#422006', text:'#422006', glow:'rgba(250,204,21,0.8)' },
-  darkObsidian:    { border:'#334155', face:'#1e293b', stroke:'#020617', text:'#cbd5e1', glow:'rgba(51,65,85,0.6)' },
-  shadowCarbon:    { border:'#27272a', face:'#18181b', stroke:'#09090b', text:'#a1a1aa', glow:'rgba(39,39,42,0.6)' },
-  cleanSilver:     { border:'#94a3b8', face:'#cbd5e1', stroke:'#334155', text:'#0f172a', glow:'rgba(203,213,225,0.7)' },
-  cosmicPurple:    { border:'#581c87', face:'#9333ea', stroke:'#2e1065', text:'#f3e8ff', glow:'rgba(147,51,234,0.8)' },
-  pastelMint:      { border:'#059669', face:'#6ee7b7', stroke:'#064e3b', text:'#022c22', glow:'rgba(110,231,183,0.7)' },
-  pastelPeach:     { border:'#ea580c', face:'#fdba74', stroke:'#431407', text:'#431407', glow:'rgba(253,186,116,0.7)' },
-  pastelLavender:  { border:'#7c3aed', face:'#c4b5fd', stroke:'#2e1065', text:'#2e1065', glow:'rgba(196,181,253,0.7)' },
-  sunsetBoulevard: { border:'#b91c1c', face:'#fb923c', stroke:'#450a0a', text:'#450a0a', glow:'rgba(251,146,60,0.8)' },
-  cleanDarkGlass:  { border:'#475569', face:'#0f172a', stroke:'#020617', text:'#38bdf8', glow:'rgba(15,23,42,0.8)' },
-  cleanLightGlass: { border:'#cbd5e1', face:'#ffffff', stroke:'#94a3b8', text:'#0284c7', glow:'rgba(255,255,255,0.8)' },
-  aquaMarine:      { border:'#0d9488', face:'#2dd4bf', stroke:'#134e4a', text:'#042f2e', glow:'rgba(45,212,191,0.8)' },
-  roseGold:        { border:'#be123c', face:'#fda4af', stroke:'#4c0519', text:'#4c0519', glow:'rgba(253,164,175,0.7)' },
-  hyperNeon:       { border:'#ec4899', face:'#00ffff', stroke:'#111111', text:'#111111', glow:'rgba(0,255,255,0.9)' },
-  ultimateBlackGold:{ border:'#ca8a04', face:'#09090b', stroke:'#ca8a04', text:'#eab308', glow:'rgba(202,138,4,0.8)' }
+  classicGold: { border:'#ff9900', face:'#ffbe1a', stroke:'#221100', text:'#110800', glow:'rgba(255,190,26,0.6)' },
+  royalGold: { border:'#d97706', face:'#fbbf24', stroke:'#451a03', text:'#451a03', glow:'rgba(251,191,36,0.6)' },
+  arcadeYellow: { border:'#eab308', face:'#fef08a', stroke:'#000000', text:'#000000', glow:'rgba(234,179,8,0.7)' },
+  bronzeVintage: { border:'#78350f', face:'#b45309', stroke:'#1c0b02', text:'#fef3c7', glow:'rgba(180,83,9,0.5)' },
+  pureWhiteBox: { border:'#94a3b8', face:'#f8fafc', stroke:'#0f172a', text:'#0f172a', glow:'rgba(248,250,252,0.6)' },
+  neonGreen: { border:'#15803d', face:'#22c55e', stroke:'#052e16', text:'#021f0e', glow:'rgba(34,197,94,0.8)' },
+  cyberCyan: { border:'#0284c7', face:'#00f5ff', stroke:'#082f49', text:'#041f30', glow:'rgba(0,245,255,0.8)' },
+  laserRed: { border:'#b91c1c', face:'#ef4444', stroke:'#450a0a', text:'#240202', glow:'rgba(239,68,68,0.8)' },
+  plasmaPink: { border:'#be185d', face:'#f43f5e', stroke:'#4c0519', text:'#26020c', glow:'rgba(244,63,94,0.8)' },
+  electricBlue: { border:'#1d4ed8', face:'#3b82f6', stroke:'#0f172a', text:'#06142e', glow:'rgba(59,130,246,0.8)' },
+  violetNight: { border:'#6d28d9', face:'#8b5cf6', stroke:'#2e1065', text:'#1a043d', glow:'rgba(139,92,246,0.8)' },
+  toxicLime: { border:'#4d7c0f', face:'#84cc16', stroke:'#1a2e05', text:'#102002', glow:'rgba(132,204,22,0.8)' },
+  matrixGreen: { border:'#047857', face:'#10b981', stroke:'#022c22', text:'#021c15', glow:'rgba(16,185,129,0.8)' },
+  overdriveNeon: { border:'#c2410c', face:'#f97316', stroke:'#431407', text:'#290a03', glow:'rgba(249,115,22,0.8)' }
 };
 
 var bgColors = {
@@ -893,67 +782,12 @@ var bgColors = {
   skyBlueLight: ['#e0f2fe', '#bae6fd'],
   cyanBreeze: ['#ecfeff', '#cffafe'],
   mintFresh: ['#f0fdf4', '#dcfce7'],
-  warmVanilla: ['#fefce8', '#fef08a'],
-  peachDawn: ['#fff7ed', '#fed7aa'],
-  lavenderLight: ['#faf5ff', '#e9d5ff'],
-  rosePastel: ['#fff1f2', '#fecdd3'],
-  lemonDay: ['#fef9c3', '#fde047'],
-  iceWhite: ['#f0f9ff', '#e0f2fe'],
-  cyberMintLight: ['#d1fae5', '#a7f3d0'],
-  lilacMist: ['#f5f3ff', '#ddd6fe'],
-  goldenSand: ['#fef3c7', '#fde68a'],
   black: ['#000000', '#050505'],
   midnight: ['#000000', '#05070c'],
   obsidian: ['#0a0a0f', '#12121a'],
   deepSpace: ['#010204', '#080c14'],
   cyberDark: ['#05020a', '#12071f'],
-  matrixBlack: ['#000502', '#021207'],
-  carbonDark: ['#09090b', '#18181b'],
-  charcoal: ['#111111', '#1f1f1f'],
-  gunmetal: ['#15181c', '#262b32'],
-  onyx: ['#08080a', '#141418'],
-  eclipse: ['#030005', '#0d0214'],
-  abyss: ['#02060d', '#07182e'],
-  deepNavy: ['#040810', '#0b1322'],
-  midnightBlue: ['#030712', '#0f172a'],
-  slateDark: ['#0f172a', '#1e293b'],
-  asphalt: ['#18181b', '#27272a'],
-  gravel: ['#202025', '#32323b'],
-  steelDark: ['#1e293b', '#334155'],
-  ironDark: ['#111827', '#1f2937'],
-  phantom: ['#030303', '#0d0d0d'],
-  shadow: ['#09090b', '#18181b'],
-  vampire: ['#140305', '#2b060b'],
-  crimsonDark: ['#1a0508', '#380b12'],
-  bloodNight: ['#1f0408', '#450912'],
-  neonPurpleDark: ['#10031c', '#24073d'],
-  violetNight: ['#0d0214', '#1c052e'],
-  electricBlueDark: ['#020d1a', '#072240'],
-  cyanDark: ['#02121a', '#073142'],
-  emeraldDark: ['#021a0f', '#073d24'],
-  matrixGreen: ['#021205', '#073010'],
-  toxicGreen: ['#051a02', '#123d07'],
-  amberDark: ['#1a1002', '#3d2707'],
-  sunsetDark: ['#1c0a02', '#401807'],
-  laserRed: ['#1c0202', '#400707'],
-  plasmaDark: ['#14021a', '#2d073d'],
-  reactor: ['#1a1202', '#3d2c07'],
-  synthwave: ['#12031c', '#2b0840'],
-  retrowave: ['#1a0314', '#3d072f'],
-  cyberpunkDark: ['#02141a', '#073845'],
-  gotham: ['#0a0b0d', '#16191f'],
-  underworld: ['#0d0202', '#210505'],
-  infernoDark: ['#1c0802', '#421405'],
-  magmaDark: ['#1f0b02', '#471a05'],
-  voidBlue: ['#010914', '#051f40'],
-  voidPurple: ['#0c0114', '#270540'],
-  voidGreen: ['#011406', '#05401b'],
-  voidRed: ['#140101', '#400505'],
-  voidGold: ['#141101', '#403605'],
-  cosmicDark: ['#08040d', '#140822'],
-  nebulaDark: ['#040a14', '#08172c'],
-  quantumVoid: ['#020508', '#061320'],
-  ultimateDark: ['#050508', '#101017']
+  matrixBlack: ['#000502', '#021207']
 };
 
 function hexToRgb(hex){
@@ -1151,13 +985,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v18', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v19', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v18');
+    var raw = localStorage.getItem('runner_studio_saved_v19');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1175,6 +1009,7 @@ function dataToImage(src){
     var im=new Image();
     im.onload=function(){resolve(im);};
     im.onerror=reject;
+    im.src=src;
   });
 }
 function processImageDataUrl(dataUrl, removeBg){
@@ -1644,15 +1479,16 @@ var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
 var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
+// 🌟 STRAIGHT HIGHWAY PERSPECTIVE (NO PINCHING CONE)
 function roadBoundsAtZ(z){
   var t=Math.max(0,Math.min(1,z));
   var camH = Math.max(0.2, state.camHeight || 0.95);
   
-  var dynamicHorizon = H * (state.horizon || 0.48) + (1.0 - camH) * (H * 0.12);
+  var dynamicHorizon = H * (state.horizon || 0.42) + (1.0 - camH) * (H * 0.12);
   var dynamicHorizonY = Math.max(H * 0.15, Math.min(H * 0.75, dynamicHorizon));
 
-  var TOP_HALF = W * (state.topWidth || 0.06);
-  var BOTTOM_HALF = W * (state.bottomWidth || 0.86);
+  var TOP_HALF = W * (state.topWidth || 0.17);
+  var BOTTOM_HALF = W * (state.bottomWidth || 0.98);
 
   var zDistance = (1.0 - t) * (11.0 / camH) + 0.85;
   var scale = 1.0 / zDistance;
@@ -1790,7 +1626,7 @@ function drawBackground(){
     for(var i=0;i<12;i++){
       var sideDir=i%2===0?-1:1;
       var phase=(i*.11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
-      var y=(H*(state.horizon || 0.48))-250 + phase*350;
+      var y=(H*(state.horizon || 0.42))-250 + phase*350;
       var x=sideDir<0 ? 40+phase*80 : W-40-phase*80;
       var len=24+phase*80;
       ctx.globalAlpha=.08+.34*phase;ctx.lineWidth=2+3*phase;
@@ -1862,7 +1698,7 @@ function rArcadeGrid(){
     var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
     drawPoly(quad(a,b),'rgba(0,255,255,'+(.02+.06*a.e)+')');
     for(var j=1;j<4;j++){
-      var x0=lerp(a.l,a.r,j/4), x1=lerp(b.r,b.r,j/4);
+      var x0=lerp(a.l,a.r,j/4), x1=lerp(b.l,b.r,j/4);
       ctx.save();ctx.strokeStyle='rgba(0,255,255,'+(.08+.2*a.e)+')';ctx.lineWidth=1.2+2.4*a.e;
       ctx.beginPath();ctx.moveTo(x0,a.y);ctx.lineTo(x1,b.y);ctx.stroke();ctx.restore();
     }
@@ -2108,7 +1944,7 @@ function drawRaisedPad(z, side, hexColor){
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
   var darkG = Math.max(0, Math.floor(c.r * 0.45));
-  var darkB = Math.max(0, Math.floor(c.r * 0.45));
+  var darkB = Math.max(0, Math.floor(c.b * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
   ctx.save();ctx.fillStyle='rgba(0,0,0,.24)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+4,width*.46,4+7*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
@@ -2143,11 +1979,11 @@ function drawMysteryHUD(){
   if(!state.showHud) return;
 
   var count = 5;
-  var boxS = state.hudBoxSize || 80;
-  var gap = state.hudSpacing || 14;
+  var boxS = state.hudBoxSize || 86;
+  var gap = state.hudSpacing || 12;
   var totalW = count * boxS + (count - 1) * gap;
   var startX = (W - totalW) / 2;
-  var hudY = state.hudY || 75;
+  var hudY = state.hudY || 88;
 
   var th = hudThemes[state.hudStyle] || hudThemes.classicGold;
 
@@ -2217,7 +2053,7 @@ function drawRunnerBehind(){
   var rInfo = getActiveRunnerInfo();
   if(!rInfo.img) return;
 
-  var p = roadBoundsAtZ(state.playerZ || 0.82);
+  var p = roadBoundsAtZ(state.playerZ || 0.86);
   var pSize = rInfo.size * (0.3 + 0.7 * p.e);
 
   var targetX = W/2;
@@ -2241,7 +2077,7 @@ function drawRows(){
   var initialDelay=.85;
   var closestActiveZ = -1;
   var activeLaneColor = '#2aff84';
-  var pZ = state.playerZ || 0.82;
+  var pZ = state.playerZ || 0.86;
 
   var activePads = [];
 
@@ -2296,17 +2132,15 @@ function drawRows(){
     }
   });
 
-  // 🌟 STATIONARY AUTO-PROPORTIONAL BOSS (2ND PAD CROSS HOTE HI DIKHEGA AUR PLAYER USKO TOUCH KAREGA)
+  // Stationary Boss (Pad 2 cross hote hi road par stationary dikhega)
   var pad5WorldElapsed = roadTime - initialDelay - 4 * state.padDelay;
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossWorldElapsed = pad5WorldElapsed - bDist;
   var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
 
-  // ⚡ शर्त: जैसे ही 2nd पैड क्रॉस हो, बॉस हमेशा दिखेगा (दूर क्षितिज पर)
   var pad2Finished = processedPads[1] === true;
 
   if(pad2Finished && state.opponent.img){
-    // Boss target Z: 5वें पैड के बाद सड़क पर चलते हुए वो सीधे प्लेयर की Z पर आएगा (हल्का सा टच/ओवरलैप)
     var bossZ = Math.max(0.01, Math.min(pZ, bossRawZ));
     var op = roadBoundsAtZ(bossZ);
 
@@ -2334,7 +2168,6 @@ function drawRows(){
   });
 }
 
-// ⚡ ROCK-SOLID 60FPS LOCKED ENGINE
 var FIXED_TIMESTEP = 1 / 60;
 
 function frame(now){
@@ -2347,8 +2180,7 @@ function frame(now){
   var bossWorldElapsed = pad5WorldElapsed - bDist;
   var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
 
-  // जब खिलाड़ी और बॉस बिल्कुल टच कर लें (Z = playerZ), तब फ़्रीज़ हो
-  var isTouching = processedPads[4] && bossRawZ >= (state.playerZ || 0.82);
+  var isTouching = processedPads[4] && bossRawZ >= (state.playerZ || 0.86);
 
   if(running && !isTouching){
     roadTime += delta;
@@ -2377,7 +2209,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v18'); 
+    localStorage.removeItem('runner_studio_saved_v19'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
@@ -2403,7 +2235,7 @@ $('exportBtn').onclick = function(){
     var blob = new Blob(chunks, { type: mime });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'runner-60fps-clean.webm';
+    a.download = 'runner-straight-road-60fps.webm';
     a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); }, 5000);
     recorder = null;
@@ -2473,4 +2305,4 @@ const server = http.createServer(function(req, res){
 server.keepAliveTimeout = 65000;
 server.headersTimeout = 66000;
 
-server.listen(PORT, function(){ console.log('Smooth 60FPS Server running on port ' + PORT); });
+server.listen(PORT, function(){ console.log('Straight Highway Server running on port ' + PORT); });
