@@ -46,7 +46,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Straight Road Edition</title>
+<title>Private Runner Studio Complete Edition</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
@@ -70,7 +70,10 @@ canvas{width:100%;height:100%;display:block;transform:translateZ(0);backface-vis
 .steer-btn.center{border-color:var(--blue);color:var(--blue)}
 .steer-btn.right{border-color:#ff4d4d;color:#ff4d4d}
 
-.transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}
+.transport{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}
+.transport input[type=number]{width:70px;padding:9px;background:#fff;color:#111;border-radius:8px;border:0}
+.scrub-box{width:100%;margin-top:8px;display:flex;align-items:center;gap:10px;background:#15181e;padding:10px 14px;border:1px solid var(--line);border-radius:12px}
+.scrub-box span{font-size:12px;font-weight:700;color:var(--accent);white-space:nowrap}
 .note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}
 
 .controls{display:flex;flex-direction:column;gap:12px;min-width:0}
@@ -115,10 +118,6 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
   cursor:pointer;
   transition:transform 0.1s, box-shadow 0.1s;
 }
-.range-wrap input[type=range]::-webkit-slider-thumb:hover{
-  transform:scale(1.15);
-  box-shadow:0 0 14px rgba(97,240,166,0.9);
-}
 
 .step-btn{border:1px solid var(--line);background:#1e232d;color:#f6f8fb;border-radius:8px;width:30px;height:30px;display:grid;place-items:center;cursor:pointer;font-size:11px;font-weight:bold;user-select:none;flex-shrink:0}
 .step-btn:hover{background:#2a313f;color:var(--accent);border-color:var(--accent)}
@@ -150,7 +149,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">STRAIGHT ROAD 60FPS</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">PRO EDITION</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -174,12 +173,26 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </div>
 
-    <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export 60FPS Video</button></div>
-    <div class="note"><b>सड़क चौड़ाई फिक्स:</b> अब सड़क आगे जाकर त्रिकोणी नहीं बनेगी, बिल्कुल YouTube जैसी चौड़ी और सीधी दिखेगी!</div>
+    <div class="transport">
+      <button class="primary" id="playBtn">Pause</button>
+      <button id="resetBtn">Reset Time</button>
+      <label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label>
+      <button id="exportBtn">Export 60FPS Video</button>
+    </div>
+
+    <!-- 🌟 TIMELINE SCRUBBER -->
+    <div class="scrub-box">
+      <span>⏪ ⏩ Seek Time:</span>
+      <input id="timeScrubber" type="range" min="0" max="25" step="0.05" value="0" style="flex:1">
+      <span id="v_timeScrubber" class="val-badge">0.0s</span>
+    </div>
+
+    <div class="note"><b>सॉर्टिंग और सीक सक्रिय:</b> हर बॉक्स में Auto-remove BG चेकबॉक्स है और सीख स्लाइडर से टाइम आगे-पीछे कर सकते हो!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
 
+    <!-- CARD 1: MYSTERY HUD -->
     <details class="drag-card" id="card_hud" open>
       <summary>
         <span>🎁 5 Mystery Question Boxes HUD Controller</span>
@@ -205,9 +218,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
               <option value="plasmaPink">9. Hot Plasma Pink</option>
               <option value="electricBlue">10. Electric Blue Thunder</option>
               <option value="violetNight">11. Synthwave Violet</option>
-              <option value="toxicLime">12. Toxic Biohazard Lime</option>
-              <option value="matrixGreen">13. Matrix Green Flow</option>
-              <option value="overdriveNeon">15. Overdrive Synthwave</option>
             </optgroup>
           </select>
         </label>
@@ -237,13 +247,15 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <div class="sub-title" style="color:var(--gold)">📁 Manual PNG Override for Boxes</div>
+        <div class="sub-title" style="color:var(--gold)">📁 Manual PNG Override for Boxes (With Auto BG Toggle)</div>
+        
         <label>Box 1 PNG
           <div class="file-wrap">
             <div class="thumb-box" id="thumb_hud_0"><span>None</span><img src=""></div>
             <input id="hudImg_0" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_0">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="hudRemove_0" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>Box 2 PNG
           <div class="file-wrap">
@@ -251,6 +263,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_1">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="hudRemove_1" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>Box 3 PNG
           <div class="file-wrap">
@@ -258,6 +271,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_2">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="hudRemove_2" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>Box 4 PNG
           <div class="file-wrap">
@@ -265,6 +279,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_3">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="hudRemove_3" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label style="grid-column:1/-1">Box 5 PNG
           <div class="file-wrap">
@@ -272,13 +287,15 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_4">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="hudRemove_4" type="checkbox" checked> Auto remove bg</label>
         </label>
       </div>
     </details>
 
+    <!-- CARD 2: RUNNER EVOLUTION -->
     <details class="drag-card" id="card_runner" open>
       <summary>
-        <span>🏃 Runner Evolution Settings (Balanced Proportions)</span>
+        <span>🏃 Runner Evolution Settings (With Auto BG Toggles)</span>
         <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="grid two">
@@ -288,6 +305,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="pImg_0" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_pImg_0">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="pRemove_0" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Stage 0 Base Size</span><span class="val-badge" id="v_pSize_0">145</span></span>
@@ -315,13 +333,16 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
+        <!-- GREEN PAD UPGRADES -->
         <div class="sub-title" style="color:#61f0a6">&#128170; GREEN PAD UPGRADES</div>
+        
         <label>Green Stage 1 PNG
           <div class="file-wrap">
             <div class="thumb-box" id="thumb_gImg_1"><span>None</span><img src=""></div>
             <input id="gImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_1">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="gRemove_1" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Green 1 Size</span><span class="val-badge" id="v_gSize_1">165</span></span>
@@ -338,6 +359,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_2">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="gRemove_2" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Green 2 Size</span><span class="val-badge" id="v_gSize_2">190</span></span>
@@ -354,6 +376,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_3">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="gRemove_3" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">220</span></span>
@@ -370,6 +393,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_4">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="gRemove_4" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Green 4 Size</span><span class="val-badge" id="v_gSize_4">255</span></span>
@@ -386,6 +410,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_5" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_5">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="gRemove_5" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Green 5 Size</span><span class="val-badge" id="v_gSize_5">290</span></span>
@@ -396,13 +421,16 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
+        <!-- RED PAD DOWNGRADES -->
         <div class="sub-title" style="color:#ff6b6b">&#128128; RED PAD DOWNGRADES</div>
+
         <label>Red Stage 1 PNG
           <div class="file-wrap">
             <div class="thumb-box" id="thumb_rImg_1"><span>None</span><img src=""></div>
             <input id="rImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_1">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="rRemove_1" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Red 1 Size</span><span class="val-badge red" id="v_rSize_1">130</span></span>
@@ -419,6 +447,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_2">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="rRemove_2" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Red 2 Size</span><span class="val-badge red" id="v_rSize_2">115</span></span>
@@ -435,6 +464,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_3">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="rRemove_3" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Red 3 Size</span><span class="val-badge red" id="v_rSize_3">100</span></span>
@@ -451,6 +481,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_4">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="rRemove_4" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Red 4 Size</span><span class="val-badge red" id="v_rSize_4">85</span></span>
@@ -467,6 +498,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_5" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_5">✕ Clear</button>
           </div>
+          <label class="toggle"><input id="rRemove_5" type="checkbox" checked> Auto remove bg</label>
         </label>
         <label>
           <span class="label-head"><span>Red 5 Size</span><span class="val-badge red" id="v_rSize_5">75</span></span>
@@ -479,6 +511,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </details>
 
+    <!-- CARD 3: HIGHWAY & CAMERA -->
     <details class="drag-card" id="card_highway" open>
       <summary>
         <span>🛣️ Moving Highway & Perspective (Straight YouTube Setup)</span>
@@ -561,6 +594,30 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <option value="plasmaPink">14. Plasma Pink Horizon</option>
             <option value="overdriveNeon">15. Overdrive Synthwave</option>
           </optgroup>
+          <optgroup label="--- Elemental & Fantasy ---">
+            <option value="lavaCrack">16. Molten Lava Magma</option>
+            <option value="iceCrystal">17. Frozen Crystal Ice</option>
+            <option value="goldenPath">18. Royal Golden Highway</option>
+            <option value="toxicHazard">19. Toxic Biohazard</option>
+            <option value="cosmicVoid">20. Cosmic Star Dust</option>
+            <option value="amethystPath">21. Crystal Amethyst</option>
+            <option value="infernoFire">22. Blazing Inferno Track</option>
+            <option value="electricThunder">23. Electric Thunder Blue</option>
+          </optgroup>
+          <optgroup label="--- Modern & Aesthetic ---">
+            <option value="carbonTrack">24. Carbon Fiber Sport</option>
+            <option value="diamondFlow">25. Diamond Glow Flow</option>
+            <option value="minimalGrey">26. Studio Minimalist Mono</option>
+            <option value="pastelDream">27. Pastel Dreamway</option>
+            <option value="sunsetBoulevard">28. Sunset Boulevard</option>
+            <option value="rainbowPrism">29. Rainbow Prism Edge</option>
+            <option value="retroSun">30. 80s Retro Sun Track</option>
+            <option value="darkObsidian">31. Matte Dark Obsidian</option>
+            <option value="hyperSpace">32. Hyper Space Warp</option>
+            <option value="cleanWhiteTrack">33. Pure Ceramic White</option>
+            <option value="emeraldCity">34. Radiant Emerald Run</option>
+            <option value="rubyRoyale">35. Ruby Royale Luxury</option>
+          </optgroup>
         </select></label>
         <label style="grid-column:1/-1">Background Theme <select id="bgMode">
           <optgroup label="--- Light & Aesthetic Themes ---">
@@ -585,6 +642,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </details>
 
+    <!-- CARD 4: 5 ROWS + BOSS -->
     <details class="drag-card" id="card_rows" open>
       <summary>
         <span>🚦 5 Fixed Rows + Opponent Boss Timing</span>
@@ -711,6 +769,8 @@ var processedPads = {};
 
 var collectedHud = [null, null, null, null, null];
 var manualHudImgs = [null, null, null, null, null];
+var rawHudSrcs = [null, null, null, null, null];
+var hudRemoveFlags = [true, true, true, true, true];
 
 // 🌟 EXACT YOUTUBE ROAD PERSPECTIVE (STRAIGHT & BROAD)
 var state={
@@ -733,22 +793,22 @@ var state={
   hudBoxSize:86,
   hudSpacing:12,
   steerOffset:-1.0,
-  baseStage: {img:null, size:145},
+  baseStage: {img:null, rawSrc:null, removeBg:true, size:145},
   greenStages:[
     null,
-    {img:null, size:165},
-    {img:null, size:190},
-    {img:null, size:220},
-    {img:null, size:255},
-    {img:null, size:290}
+    {img:null, rawSrc:null, removeBg:true, size:165},
+    {img:null, rawSrc:null, removeBg:true, size:190},
+    {img:null, rawSrc:null, removeBg:true, size:220},
+    {img:null, rawSrc:null, removeBg:true, size:255},
+    {img:null, rawSrc:null, removeBg:true, size:290}
   ],
   redStages:[
     null,
-    {img:null, size:130},
-    {img:null, size:115},
-    {img:null, size:100},
-    {img:null, size:85},
-    {img:null, size:75}
+    {img:null, rawSrc:null, removeBg:true, size:130},
+    {img:null, rawSrc:null, removeBg:true, size:115},
+    {img:null, rawSrc:null, removeBg:true, size:100},
+    {img:null, rawSrc:null, removeBg:true, size:85},
+    {img:null, rawSrc:null, removeBg:true, size:75}
   ],
   playerZ:0.86,
   playerLane:'slider',
@@ -795,11 +855,7 @@ function hexToRgb(hex){
   if(c.length===3) c = c.charAt(0)+c.charAt(0)+c.charAt(1)+c.charAt(1)+c.charAt(2)+c.charAt(2);
   var num = parseInt(c, 16);
   if(isNaN(num)) return {r:42, g:255, b:132};
-  return {
-    r: (num >> 16) & 255,
-    g: (num >> 8) & 255,
-    b: num & 255
-  };
+  return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
 }
 
 function updateBadge(key, val){
@@ -863,31 +919,21 @@ function setRunnerLane(val, name){
 window.addEventListener('keydown', function(e){
   if(e.target.tagName === 'INPUT' && e.target.type !== 'range') return;
   var k = e.key.toLowerCase();
-  if(k === 'arrowleft' || k === 'a'){
-    setRunnerLane(-1.0, 'Left');
-  } else if(k === 'arrowright' || k === 'd'){
-    setRunnerLane(1.0, 'Right');
-  } else if(k === 'arrowdown' || k === 's' || k === ' '){
-    e.preventDefault();
-    setRunnerLane(0.0, 'Center');
-  }
+  if(k === 'arrowleft' || k === 'a'){ setRunnerLane(-1.0, 'Left'); }
+  else if(k === 'arrowright' || k === 'd'){ setRunnerLane(1.0, 'Right'); }
+  else if(k === 'arrowdown' || k === 's' || k === ' '){ e.preventDefault(); setRunnerLane(0.0, 'Center'); }
 });
 
 function setupDragAndDrop(){
   var container = $('panelsContainer');
   if(!container) return;
   var draggedCard = null;
-
   var handles = container.querySelectorAll('.drag-handle');
   handles.forEach(function(handle){
     handle.addEventListener('dragstart', function(e){
       draggedCard = handle.closest('.drag-card');
-      if(draggedCard){
-        draggedCard.classList.add('dragging');
-        e.dataTransfer.effectAllowed = 'move';
-      }
+      if(draggedCard){ draggedCard.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
     });
-
     handle.addEventListener('dragend', function(){
       if(draggedCard) draggedCard.classList.remove('dragging');
       container.querySelectorAll('.drag-card').forEach(function(c){ c.classList.remove('drag-over'); });
@@ -900,26 +946,16 @@ function setupDragAndDrop(){
   cards.forEach(function(card){
     card.addEventListener('dragover', function(e){
       if(!draggedCard || draggedCard === card) return;
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      card.classList.add('drag-over');
+      e.preventDefault(); e.dataTransfer.dropEffect = 'move'; card.classList.add('drag-over');
     });
-
-    card.addEventListener('dragleave', function(){
-      card.classList.remove('drag-over');
-    });
-
+    card.addEventListener('dragleave', function(){ card.classList.remove('drag-over'); });
     card.addEventListener('drop', function(e){
       if(!draggedCard || draggedCard === card) return;
-      e.preventDefault();
-      card.classList.remove('drag-over');
+      e.preventDefault(); card.classList.remove('drag-over');
       var rect = card.getBoundingClientRect();
       var midY = rect.top + rect.height / 2;
-      if(e.clientY < midY){
-        container.insertBefore(draggedCard, card);
-      } else {
-        container.insertBefore(draggedCard, card.nextSibling);
-      }
+      if(e.clientY < midY) container.insertBefore(draggedCard, card);
+      else container.insertBefore(draggedCard, card.nextSibling);
       saveCardOrder();
     });
   });
@@ -931,7 +967,6 @@ function saveCardOrder(){
   var order = Array.from(container.querySelectorAll('.drag-card')).map(function(c){ return c.id; });
   try{ localStorage.setItem('runner_studio_panel_order', JSON.stringify(order)); }catch(e){}
 }
-
 function restoreCardOrder(){
   try{
     var raw = localStorage.getItem('runner_studio_panel_order');
@@ -939,59 +974,34 @@ function restoreCardOrder(){
     var order = JSON.parse(raw);
     var container = $('panelsContainer');
     if(!container || !Array.isArray(order)) return;
-    order.forEach(function(id){
-      var el = $(id);
-      if(el) container.appendChild(el);
-    });
+    order.forEach(function(id){ var el = $(id); if(el) container.appendChild(el); });
   }catch(e){}
 }
 
 function autoSaveStudio(){
   try{
     var s = {
-      speed: state.speed,
-      horizon: state.horizon,
-      topWidth: state.topWidth,
-      bottomWidth: state.bottomWidth,
-      camHeight: state.camHeight,
-      padDelay: state.padDelay,
-      padThickness: state.padThickness,
-      bossDistance: state.bossDistance,
-      roadVariant: state.roadVariant,
-      bgMode: state.bgMode,
-      speedLines: state.speedLines,
-      roadShine: state.roadShine,
-      showHud: state.showHud,
-      autoCollectHud: state.autoCollectHud,
-      hudStyle: state.hudStyle,
-      hudY: state.hudY,
-      hudBoxSize: state.hudBoxSize,
-      hudSpacing: state.hudSpacing,
-      playerZ: state.playerZ,
-      playerLane: state.playerLane,
-      steerOffset: state.steerOffset,
-      baseSize: state.baseStage.size,
+      speed: state.speed, horizon: state.horizon, topWidth: state.topWidth, bottomWidth: state.bottomWidth,
+      camHeight: state.camHeight, padDelay: state.padDelay, padThickness: state.padThickness, bossDistance: state.bossDistance,
+      roadVariant: state.roadVariant, bgMode: state.bgMode, speedLines: state.speedLines, roadShine: state.roadShine,
+      showHud: state.showHud, autoCollectHud: state.autoCollectHud, hudStyle: state.hudStyle, hudY: state.hudY,
+      hudBoxSize: state.hudBoxSize, hudSpacing: state.hudSpacing, playerZ: state.playerZ, playerLane: state.playerLane,
+      steerOffset: state.steerOffset, baseSize: state.baseStage.size, baseRemove: state.baseStage.removeBg,
       gSizes: [0, state.greenStages[1].size, state.greenStages[2].size, state.greenStages[3].size, state.greenStages[4].size, state.greenStages[5].size],
+      gRemoves: [true, state.greenStages[1].removeBg, state.greenStages[2].removeBg, state.greenStages[3].removeBg, state.greenStages[4].removeBg, state.greenStages[5].removeBg],
       rSizes: [0, state.redStages[1].size, state.redStages[2].size, state.redStages[3].size, state.redStages[4].size, state.redStages[5].size],
+      rRemoves: [true, state.redStages[1].removeBg, state.redStages[2].removeBg, state.redStages[3].removeBg, state.redStages[4].removeBg, state.redStages[5].removeBg],
+      hudRemoves: hudRemoveFlags,
       oppRemove: state.opponent.removeBg,
-      rows: state.rows.map(function(r){
-        return {
-          leftColor: r.leftColor,
-          rightColor: r.rightColor,
-          leftSize: r.leftSize,
-          rightSize: r.rightSize,
-          leftRemove: r.leftRemove,
-          rightRemove: r.rightRemove
-        };
-      })
+      rows: state.rows.map(function(r){ return { leftColor: r.leftColor, rightColor: r.rightColor, leftSize: r.leftSize, rightSize: r.rightSize, leftRemove: r.leftRemove, rightRemove: r.rightRemove }; })
     };
-    localStorage.setItem('runner_studio_saved_v19', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v23', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v19');
+    var raw = localStorage.getItem('runner_studio_saved_v23');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1002,14 +1012,6 @@ function readFile(file){
     fr.onload=function(){resolve(fr.result);};
     fr.onerror=reject;
     fr.readAsDataURL(file);
-  });
-}
-function dataToImage(src){
-  return new Promise(function(resolve,reject){
-    var im=new Image();
-    im.onload=function(){resolve(im);};
-    im.onerror=reject;
-    im.src=src;
   });
 }
 function processImageDataUrl(dataUrl, removeBg){
@@ -1068,26 +1070,43 @@ if($('showHud')){ $('showHud').onchange = function(e){ state.showHud = e.target.
 if($('autoCollectHud')){ $('autoCollectHud').onchange = function(e){ state.autoCollectHud = e.target.checked; autoSaveStudio(); }; }
 if($('hudStyle')){ $('hudStyle').onchange = function(e){ state.hudStyle = e.target.value; autoSaveStudio(); }; }
 
+// HUD 1-5 Upload & Remove BG
 for(var h=0; h<5; h++){
   (function(bIdx){
     var inp = $('hudImg_' + bIdx);
     var clr = $('clear_hud_' + bIdx);
     var box = $('thumb_hud_' + bIdx);
+    var rm = $('hudRemove_' + bIdx);
+
     if(inp){
       inp.onchange = function(e){
         var f = e.target.files[0]; if(!f) return;
         readFile(f).then(function(src){
-          dataToProcessedImage(src, true).then(function(im){
+          rawHudSrcs[bIdx] = src;
+          dataToProcessedImage(src, hudRemoveFlags[bIdx]).then(function(im){
             manualHudImgs[bIdx] = im;
             updateThumbBox(box, im.src);
           });
         });
       };
     }
+    if(rm){
+      rm.onchange = function(e){
+        hudRemoveFlags[bIdx] = e.target.checked;
+        autoSaveStudio();
+        if(rawHudSrcs[bIdx]){
+          dataToProcessedImage(rawHudSrcs[bIdx], hudRemoveFlags[bIdx]).then(function(im){
+            manualHudImgs[bIdx] = im;
+            updateThumbBox(box, im.src);
+          });
+        }
+      };
+    }
     if(clr){
       clr.onclick = function(){
         if(inp) inp.value = '';
         manualHudImgs[bIdx] = null;
+        rawHudSrcs[bIdx] = null;
         collectedHud[bIdx] = null;
         updateThumbBox(box, null);
       };
@@ -1095,22 +1114,7 @@ for(var h=0; h<5; h++){
   })(h);
 }
 
-var steerInput = $('laneSteer');
-if(steerInput){
-  steerInput.oninput = function(e){
-    state.steerOffset = Number(e.target.value);
-    state.playerLane = 'slider';
-    if($('playerLane')) $('playerLane').value = 'slider';
-    var textVal = state.steerOffset <= -0.2 ? (state.steerOffset + ' (Left)') : (state.steerOffset >= 0.2 ? (state.steerOffset + ' (Right)') : '0.0 (Center)');
-    updateBadge('laneSteer', textVal);
-    autoSaveStudio();
-  };
-}
-
-$('quickLeftBtn').onclick = function(){ setRunnerLane(-1.0, 'Left'); };
-$('quickCenterBtn').onclick = function(){ setRunnerLane(0.0, 'Center'); };
-$('quickRightBtn').onclick = function(){ setRunnerLane(1.0, 'Right'); };
-
+// Stage 0 Base Runner Upload & Remove BG
 if($('pSize_0')){
   $('pSize_0').oninput = function(e){
     state.baseStage.size = Number(e.target.value);
@@ -1118,11 +1122,24 @@ if($('pSize_0')){
     autoSaveStudio();
   };
 }
+if($('pRemove_0')){
+  $('pRemove_0').onchange = function(e){
+    state.baseStage.removeBg = e.target.checked;
+    autoSaveStudio();
+    if(state.baseStage.rawSrc){
+      dataToProcessedImage(state.baseStage.rawSrc, state.baseStage.removeBg).then(function(im){
+        state.baseStage.img = im;
+        updateThumbBox($('thumb_pImg_0'), im.src);
+      });
+    }
+  };
+}
 if($('pImg_0')){
   $('pImg_0').onchange = function(e){
     var f=e.target.files[0]; if(!f) return;
     readFile(f).then(function(src){
-      dataToProcessedImage(src, true).then(function(im){
+      state.baseStage.rawSrc = src;
+      dataToProcessedImage(src, state.baseStage.removeBg).then(function(im){
         state.baseStage.img = im;
         updateThumbBox($('thumb_pImg_0'), im.src);
       });
@@ -1133,12 +1150,15 @@ if($('clear_pImg_0')){
   $('clear_pImg_0').onclick = function(){
     if($('pImg_0')) $('pImg_0').value = '';
     state.baseStage.img = null;
+    state.baseStage.rawSrc = null;
     updateThumbBox($('thumb_pImg_0'), null);
   };
 }
 
+// Green & Red Stages 1-5 Upload & Remove BG
 for(var k=1; k<=5; k++){
   (function(idx){
+    // Green
     if($('gSize_' + idx)){
       $('gSize_' + idx).oninput = function(e){
         state.greenStages[idx].size = Number(e.target.value);
@@ -1146,11 +1166,24 @@ for(var k=1; k<=5; k++){
         autoSaveStudio();
       };
     }
+    if($('gRemove_' + idx)){
+      $('gRemove_' + idx).onchange = function(e){
+        state.greenStages[idx].removeBg = e.target.checked;
+        autoSaveStudio();
+        if(state.greenStages[idx].rawSrc){
+          dataToProcessedImage(state.greenStages[idx].rawSrc, state.greenStages[idx].removeBg).then(function(im){
+            state.greenStages[idx].img = im;
+            updateThumbBox($('thumb_gImg_' + idx), im.src);
+          });
+        }
+      };
+    }
     if($('gImg_' + idx)){
       $('gImg_' + idx).onchange = function(e){
         var f=e.target.files[0]; if(!f) return;
         readFile(f).then(function(src){
-          dataToProcessedImage(src, true).then(function(im){
+          state.greenStages[idx].rawSrc = src;
+          dataToProcessedImage(src, state.greenStages[idx].removeBg).then(function(im){
             state.greenStages[idx].img = im;
             updateThumbBox($('thumb_gImg_' + idx), im.src);
           });
@@ -1161,9 +1194,12 @@ for(var k=1; k<=5; k++){
       $('clear_gImg_' + idx).onclick = function(){
         if($('gImg_' + idx)) $('gImg_' + idx).value = '';
         state.greenStages[idx].img = null;
+        state.greenStages[idx].rawSrc = null;
         updateThumbBox($('thumb_gImg_' + idx), null);
       };
     }
+
+    // Red
     if($('rSize_' + idx)){
       $('rSize_' + idx).oninput = function(e){
         state.redStages[idx].size = Number(e.target.value);
@@ -1171,11 +1207,24 @@ for(var k=1; k<=5; k++){
         autoSaveStudio();
       };
     }
+    if($('rRemove_' + idx)){
+      $('rRemove_' + idx).onchange = function(e){
+        state.redStages[idx].removeBg = e.target.checked;
+        autoSaveStudio();
+        if(state.redStages[idx].rawSrc){
+          dataToProcessedImage(state.redStages[idx].rawSrc, state.redStages[idx].removeBg).then(function(im){
+            state.redStages[idx].img = im;
+            updateThumbBox($('thumb_rImg_' + idx), im.src);
+          });
+        }
+      };
+    }
     if($('rImg_' + idx)){
       $('rImg_' + idx).onchange = function(e){
         var f=e.target.files[0]; if(!f) return;
         readFile(f).then(function(src){
-          dataToProcessedImage(src, true).then(function(im){
+          state.redStages[idx].rawSrc = src;
+          dataToProcessedImage(src, state.redStages[idx].removeBg).then(function(im){
             state.redStages[idx].img = im;
             updateThumbBox($('thumb_rImg_' + idx), im.src);
           });
@@ -1186,6 +1235,7 @@ for(var k=1; k<=5; k++){
       $('clear_rImg_' + idx).onclick = function(){
         if($('rImg_' + idx)) $('rImg_' + idx).value = '';
         state.redStages[idx].img = null;
+        state.redStages[idx].rawSrc = null;
         updateThumbBox($('thumb_rImg_' + idx), null);
       };
     }
@@ -1196,10 +1246,7 @@ if($('masterPadPngSize')){
   $('masterPadPngSize').oninput = function(e){
     var val = Number(e.target.value);
     updateBadge('masterPadPngSize', val);
-    state.rows.forEach(function(r){
-      r.leftSize = val;
-      r.rightSize = val;
-    });
+    state.rows.forEach(function(r){ r.leftSize = val; r.rightSize = val; });
     document.querySelectorAll('.leftSize').forEach(function(inp){ inp.value = val; });
     document.querySelectorAll('.rightSize').forEach(function(inp){ inp.value = val; });
     document.querySelectorAll('.leftSizeVal').forEach(function(bdg){ bdg.textContent = val; });
@@ -1213,6 +1260,39 @@ if($('speedLines')) $('speedLines').onchange=function(e){state.speedLines=e.targ
 if($('roadShine')) $('roadShine').onchange=function(e){state.roadShine=e.target.checked; autoSaveStudio();};
 if($('bgMode')) $('bgMode').onchange=function(e){state.bgMode=e.target.value; autoSaveStudio();};
 if($('playerLane')) $('playerLane').onchange=function(e){state.playerLane=e.target.value; autoSaveStudio();};
+
+// 🌟 TIMELINE SCRUBBER LISTENER
+if($('timeScrubber')){
+  $('timeScrubber').oninput = function(e){
+    roadTime = Number(e.target.value);
+    $('v_timeScrubber').textContent = roadTime.toFixed(1) + 's';
+    recalculateProgressionForTime(roadTime);
+  };
+}
+
+function recalculateProgressionForTime(t){
+  currentPath = 'base';
+  currentStageLevel = 0;
+  processedPads = {};
+  collectedHud = [null, null, null, null, null];
+  var initialDelay = 0.85;
+  var pZ = state.playerZ || 0.86;
+
+  state.rows.slice(0,5).forEach(function(row, i){
+    var elapsed = t - initialDelay - i * state.padDelay;
+    var z = elapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
+    if(z >= pZ - 0.02){
+      processedPads[i] = true;
+      var isPlayerOnRight = (state.playerX >= W/2);
+      var padHex = isPlayerOnRight ? row.rightColor : row.leftColor;
+      var itemImg = isPlayerOnRight ? row.rightImg : row.leftImg;
+      if(state.autoCollectHud && itemImg) collectedHud[i] = itemImg;
+      var isGreen = (padHex.indexOf('2a') !== -1 || padHex.indexOf('00') !== -1 || padHex.indexOf('green') !== -1);
+      currentPath = isGreen ? 'green' : 'red';
+      currentStageLevel = i + 1;
+    }
+  });
+}
 
 function makeId(){ return String(Date.now()+Math.random()); }
 
@@ -1273,80 +1353,38 @@ function addRow(saved){
 
   clearLeft.onclick = function(){
     el.querySelector('.leftInput').value = '';
-    row.leftSrc = null;
-    row.leftImg = null;
+    row.leftSrc = null; row.leftImg = null;
     updateThumbBox(thumbLeft, null);
   };
   clearRight.onclick = function(){
     el.querySelector('.rightInput').value = '';
-    row.rightSrc = null;
-    row.rightImg = null;
+    row.rightSrc = null; row.rightImg = null;
     updateThumbBox(thumbRight, null);
   };
 
   el.querySelector('.leftRemove').checked=row.leftRemove;
   el.querySelector('.rightRemove').checked=row.rightRemove;
 
-  leftColorInput.oninput=function(e){
-    row.leftColor=e.target.value;
-    if(leftColorVal) leftColorVal.textContent=e.target.value;
-    autoSaveStudio();
-  };
-  rightColorInput.oninput=function(e){
-    row.rightColor=e.target.value;
-    if(rightColorVal) rightColorVal.textContent=e.target.value;
-    autoSaveStudio();
-  };
-  leftSizeInput.oninput=function(e){
-    row.leftSize=Number(e.target.value); 
-    if(leftSizeVal) leftSizeVal.textContent=e.target.value;
-    autoSaveStudio();
-  };
-  rightSizeInput.oninput=function(e){
-    row.rightSize=Number(e.target.value); 
-    if(rightSizeVal) rightSizeVal.textContent=e.target.value;
-    autoSaveStudio();
-  };
+  leftColorInput.oninput=function(e){ row.leftColor=e.target.value; if(leftColorVal) leftColorVal.textContent=e.target.value; autoSaveStudio(); };
+  rightColorInput.oninput=function(e){ row.rightColor=e.target.value; if(rightColorVal) rightColorVal.textContent=e.target.value; autoSaveStudio(); };
+  leftSizeInput.oninput=function(e){ row.leftSize=Number(e.target.value); if(leftSizeVal) leftSizeVal.textContent=e.target.value; autoSaveStudio(); };
+  rightSizeInput.oninput=function(e){ row.rightSize=Number(e.target.value); if(rightSizeVal) rightSizeVal.textContent=e.target.value; autoSaveStudio(); };
   
   el.querySelector('.leftRemove').onchange=function(e){
-    row.leftRemove=e.target.checked; 
-    autoSaveStudio(); 
-    if(row.leftSrc){
-      dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){
-        row.leftImg=im;
-        updateThumbBox(thumbLeft, im.src);
-      });
-    }
+    row.leftRemove=e.target.checked; autoSaveStudio(); 
+    if(row.leftSrc) dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){ row.leftImg=im; updateThumbBox(thumbLeft, im.src); });
   };
   el.querySelector('.rightRemove').onchange=function(e){
-    row.rightRemove=e.target.checked; 
-    autoSaveStudio(); 
-    if(row.rightSrc){
-      dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){
-        row.rightImg=im;
-        updateThumbBox(thumbRight, im.src);
-      });
-    }
+    row.rightRemove=e.target.checked; autoSaveStudio(); 
+    if(row.rightSrc) dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){ row.rightImg=im; updateThumbBox(thumbRight, im.src); });
   };
   el.querySelector('.leftInput').onchange=function(e){
     var f=e.target.files[0];if(!f)return;
-    readFile(f).then(function(src){
-      row.leftSrc=src;
-      dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){
-        row.leftImg=im;
-        updateThumbBox(thumbLeft, im.src);
-      });
-    });
+    readFile(f).then(function(src){ row.leftSrc=src; dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){ row.leftImg=im; updateThumbBox(thumbLeft, im.src); }); });
   };
   el.querySelector('.rightInput').onchange=function(e){
     var f=e.target.files[0];if(!f)return;
-    readFile(f).then(function(src){
-      row.rightSrc=src;
-      dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){
-        row.rightImg=im;
-        updateThumbBox(thumbRight, im.src);
-      });
-    });
+    readFile(f).then(function(src){ row.rightSrc=src; dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){ row.rightImg=im; updateThumbBox(thumbRight, im.src); }); });
   };
   
   $('rows').appendChild(el);
@@ -1362,24 +1400,11 @@ function initRows(){
   var savedData = getSavedSettings();
   if(savedData && typeof savedData === 'object'){
     ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
-      if(savedData[id] !== undefined && $(id)){
-        state[id] = Number(savedData[id]);
-        $(id).value = savedData[id];
-        updateBadge(id, savedData[id]);
-      }
+      if(savedData[id] !== undefined && $(id)){ state[id] = Number(savedData[id]); $(id).value = savedData[id]; updateBadge(id, savedData[id]); }
     });
-    if(savedData.showHud !== undefined && $('showHud')){
-      state.showHud = Boolean(savedData.showHud);
-      $('showHud').checked = state.showHud;
-    }
-    if(savedData.autoCollectHud !== undefined && $('autoCollectHud')){
-      state.autoCollectHud = Boolean(savedData.autoCollectHud);
-      $('autoCollectHud').checked = state.autoCollectHud;
-    }
-    if(savedData.hudStyle && $('hudStyle')){
-      state.hudStyle = savedData.hudStyle;
-      $('hudStyle').value = savedData.hudStyle;
-    }
+    if(savedData.showHud !== undefined && $('showHud')){ state.showHud = Boolean(savedData.showHud); $('showHud').checked = state.showHud; }
+    if(savedData.autoCollectHud !== undefined && $('autoCollectHud')){ state.autoCollectHud = Boolean(savedData.autoCollectHud); $('autoCollectHud').checked = state.autoCollectHud; }
+    if(savedData.hudStyle && $('hudStyle')){ state.hudStyle = savedData.hudStyle; $('hudStyle').value = savedData.hudStyle; }
     if(savedData.steerOffset !== undefined){
       state.steerOffset = Number(savedData.steerOffset);
       if($('laneSteer')){
@@ -1388,27 +1413,36 @@ function initRows(){
         updateBadge('laneSteer', textVal);
       }
     }
-    if(savedData.baseSize && $('pSize_0')){
-      state.baseStage.size = Number(savedData.baseSize);
-      $('pSize_0').value = savedData.baseSize;
-      updateBadge('pSize_0', savedData.baseSize);
-    }
+    if(savedData.baseSize && $('pSize_0')){ state.baseStage.size = Number(savedData.baseSize); $('pSize_0').value = savedData.baseSize; updateBadge('pSize_0', savedData.baseSize); }
+    if(savedData.baseRemove !== undefined && $('pRemove_0')){ state.baseStage.removeBg = Boolean(savedData.baseRemove); $('pRemove_0').checked = state.baseStage.removeBg; }
+    
     if(Array.isArray(savedData.gSizes)){
       savedData.gSizes.forEach(function(sz, i){
-        if(i > 0 && state.greenStages[i]){
-          state.greenStages[i].size = Number(sz);
-          if($('gSize_' + i)){ $('gSize_' + i).value = sz; updateBadge('gSize_' + i, sz); }
-        }
+        if(i > 0 && state.greenStages[i]){ state.greenStages[i].size = Number(sz); if($('gSize_' + i)){ $('gSize_' + i).value = sz; updateBadge('gSize_' + i, sz); } }
+      });
+    }
+    if(Array.isArray(savedData.gRemoves)){
+      savedData.gRemoves.forEach(function(rm, i){
+        if(i > 0 && state.greenStages[i]){ state.greenStages[i].removeBg = Boolean(rm); if($('gRemove_' + i)) $('gRemove_' + i).checked = state.greenStages[i].removeBg; }
       });
     }
     if(Array.isArray(savedData.rSizes)){
       savedData.rSizes.forEach(function(sz, i){
-        if(i > 0 && state.redStages[i]){
-          state.redStages[i].size = Number(sz);
-          if($('rSize_' + i)){ $('rSize_' + i).value = sz; updateBadge('rSize_' + i, sz); }
-        }
+        if(i > 0 && state.redStages[i]){ state.redStages[i].size = Number(sz); if($('rSize_' + i)){ $('rSize_' + i).value = sz; updateBadge('rSize_' + i, sz); } }
       });
     }
+    if(Array.isArray(savedData.rRemoves)){
+      savedData.rRemoves.forEach(function(rm, i){
+        if(i > 0 && state.redStages[i]){ state.redStages[i].removeBg = Boolean(rm); if($('rRemove_' + i)) $('rRemove_' + i).checked = state.redStages[i].removeBg; }
+      });
+    }
+    if(Array.isArray(savedData.hudRemoves)){
+      savedData.hudRemoves.forEach(function(rm, i){
+        hudRemoveFlags[i] = Boolean(rm);
+        if($('hudRemove_' + i)) $('hudRemove_' + i).checked = hudRemoveFlags[i];
+      });
+    }
+
     if(savedData.roadVariant && $('roadVariant')){ state.roadVariant = savedData.roadVariant; $('roadVariant').value = savedData.roadVariant; }
     if(savedData.bgMode && $('bgMode')){ state.bgMode = savedData.bgMode; $('bgMode').value = savedData.bgMode; }
     if(savedData.playerLane && $('playerLane')){ state.playerLane = savedData.playerLane; $('playerLane').value = savedData.playerLane; }
@@ -1425,46 +1459,30 @@ function initRows(){
     ];
     rowList.forEach(addRow);
   } else {
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
-      updateBadge(id, state[id]);
-    });
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ updateBadge(id, state[id]); });
     updateBadge('pSize_0', state.baseStage.size);
-    for(var i=1;i<=5;i++){
-      updateBadge('gSize_' + i, state.greenStages[i].size);
-      updateBadge('rSize_' + i, state.redStages[i].size);
-    }
-    for(var i=0;i<5;i++){
-      addRow({leftColor:i%2?'#ff323a':'#2aff84', rightColor:i%2?'#2aff84':'#ff323a'});
-    }
+    for(var i=1;i<=5;i++){ updateBadge('gSize_' + i, state.greenStages[i].size); updateBadge('rSize_' + i, state.redStages[i].size); }
+    for(var i=0;i<5;i++){ addRow({leftColor:i%2?'#ff323a':'#2aff84', rightColor:i%2?'#2aff84':'#ff323a'}); }
   }
 
   var oppEl=$('opponentTemplate').content.firstElementChild.cloneNode(true);
   oppEl.querySelector('.oppRemove').onchange=function(e){
     state.opponent.removeBg=e.target.checked; 
     autoSaveStudio(); 
-    if(state.opponent.src){
-      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){
-        state.opponent.img=im;
-        updateThumbBox($('thumb_oppImg'), im.src);
-      });
-    }
+    if(state.opponent.src){ dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){ state.opponent.img=im; updateThumbBox($('thumb_oppImg'), im.src); }); }
   };
   oppEl.querySelector('.oppInput').onchange=function(e){
     var f=e.target.files[0];if(!f)return;
     readFile(f).then(function(src){
       state.opponent.src=src;
-      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){
-        state.opponent.img=im;
-        updateThumbBox($('thumb_oppImg'), im.src);
-      });
+      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){ state.opponent.img=im; updateThumbBox($('thumb_oppImg'), im.src); });
     });
   };
   var clearOpp = oppEl.querySelector('#clear_oppImg');
   if(clearOpp){
     clearOpp.onclick = function(){
       oppEl.querySelector('.oppInput').value = '';
-      state.opponent.src = null;
-      state.opponent.img = null;
+      state.opponent.src = null; state.opponent.img = null;
       updateThumbBox($('thumb_oppImg'), null);
     };
   }
@@ -1636,6 +1654,7 @@ function drawBackground(){
   }
 }
 
+/* --- 35 ROADS --- */
 function rClassic(){
   fillRoadBase('#7c8591','#454c57');
   drawRoadTexture(.028);
@@ -1944,7 +1963,7 @@ function drawRaisedPad(z, side, hexColor){
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
   var darkG = Math.max(0, Math.floor(c.r * 0.45));
-  var darkB = Math.max(0, Math.floor(c.b * 0.45));
+  var darkB = Math.max(0, Math.floor(c.r * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
   ctx.save();ctx.fillStyle='rgba(0,0,0,.24)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+4,width*.46,4+7*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
@@ -2073,18 +2092,19 @@ function drawRunnerBehind(){
   drawImageFit(rInfo.img, state.playerX, p.y + 4, pSize, pSize, 'bottom');
 }
 
+// 🌟 DEPTH-SORTED OVERLAP-FREE DRAWING PIPELINE
 function drawRows(){
   var initialDelay=.85;
   var closestActiveZ = -1;
   var activeLaneColor = '#2aff84';
   var pZ = state.playerZ || 0.86;
 
-  var activePads = [];
+  var renderQueue = [];
 
   state.rows.slice(0,5).forEach(function(row,i){
     var elapsed=roadTime-initialDelay-i*state.padDelay;
     var z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
-    if(z<0 || z>1.25) return;
+    if(z < -0.15 || z > 1.35) return;
     var zz=z;
 
     if(zz >= pZ - 0.02 && !processedPads[i]){
@@ -2111,7 +2131,7 @@ function drawRows(){
       activeLaneColor = row.leftColor;
     }
 
-    activePads.push({row: row, zz: Math.min(1.0, zz), rawZ: zz});
+    renderQueue.push({ type: 'pad', row: row, rawZ: zz, sortKey: zz });
   });
 
   if(closestActiveZ !== -1){
@@ -2119,51 +2139,45 @@ function drawRows(){
     state.currentLane = isGreenLane ? 'left' : 'right';
   }
 
-  // 1. Pads behind player
-  activePads.forEach(function(item){
-    if(item.rawZ < pZ){
-      var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
-      var right=drawRaisedPad(item.zz,'right',item.row.rightColor);
-      var pngScale=.18+0.95*left.e;
-      var leftSize=Math.min(item.row.leftSize*pngScale,left.width*.92);
-      var rightSize=Math.min(item.row.rightSize*pngScale,right.width*.92);
-      if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-6,leftSize,leftSize,'bottom');
-      if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-6,rightSize,rightSize,'bottom');
-    }
-  });
-
-  // Stationary Boss (Pad 2 cross hote hi road par stationary dikhega)
+  // Stationary Boss Anchor
   var pad5WorldElapsed = roadTime - initialDelay - 4 * state.padDelay;
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossWorldElapsed = pad5WorldElapsed - bDist;
   var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
-
   var pad2Finished = processedPads[1] === true;
 
   if(pad2Finished && state.opponent.img){
     var bossZ = Math.max(0.01, Math.min(pZ, bossRawZ));
-    var op = roadBoundsAtZ(bossZ);
-
-    var rInfo = getActiveRunnerInfo();
-    var dynamicBossBase = (rInfo.size || 145) * 1.18;
-    var bossSize = dynamicBossBase * (0.3 + 0.7 * op.e);
-
-    drawImageFit(state.opponent.img, W/2, op.y + 4, bossSize, bossSize, 'bottom');
+    renderQueue.push({ type: 'boss', z: bossZ, sortKey: bossZ });
   }
 
-  // 2. Runner Character
-  drawRunnerBehind();
+  renderQueue.push({ type: 'runner', sortKey: pZ });
 
-  // 3. Pads in front/above player
-  activePads.forEach(function(item){
-    if(item.rawZ >= pZ && item.rawZ <= 1.05){
-      var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
-      var right=drawRaisedPad(item.zz,'right',item.row.rightColor);
+  // ⚡ CRITICAL: SORT FROM FURTHEST (smallest Z) TO CLOSEST (largest Z)
+  renderQueue.sort(function(a, b){ return a.sortKey - b.sortKey; });
+
+  // Render strictly by depth order to completely eliminate image clipping / overlaying!
+  renderQueue.forEach(function(item){
+    if(item.type === 'pad'){
+      var clampedZ = Math.min(1.0, Math.max(0, item.rawZ));
+      var left=drawRaisedPad(clampedZ,'left',item.row.leftColor);
+      var right=drawRaisedPad(clampedZ,'right',item.row.rightColor);
       var pngScale=.18+0.95*left.e;
       var leftSize=Math.min(item.row.leftSize*pngScale,left.width*.92);
       var rightSize=Math.min(item.row.rightSize*pngScale,right.width*.92);
+      
       if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-6,leftSize,leftSize,'bottom');
       if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-6,rightSize,rightSize,'bottom');
+    } 
+    else if(item.type === 'boss'){
+      var op = roadBoundsAtZ(item.z);
+      var rInfo = getActiveRunnerInfo();
+      var dynamicBossBase = (rInfo.size || 145) * 1.18;
+      var bossSize = dynamicBossBase * (0.3 + 0.7 * op.e);
+      drawImageFit(state.opponent.img, W/2, op.y + 4, bossSize, bossSize, 'bottom');
+    }
+    else if(item.type === 'runner'){
+      drawRunnerBehind();
     }
   });
 }
@@ -2184,6 +2198,10 @@ function frame(now){
 
   if(running && !isTouching){
     roadTime += delta;
+    if($('timeScrubber') && document.activeElement !== $('timeScrubber')){
+      $('timeScrubber').value = roadTime;
+      $('v_timeScrubber').textContent = roadTime.toFixed(1) + 's';
+    }
   }
 
   drawBackground();
@@ -2201,6 +2219,7 @@ $('resetBtn').onclick=function(){
   currentStageLevel=0;
   processedPads={};
   collectedHud=[null, null, null, null, null];
+  if($('timeScrubber')){ $('timeScrubber').value = 0; $('v_timeScrubber').textContent = '0.0s'; }
 };
 $('saveBtn').onclick=function(){
   autoSaveStudio();
@@ -2209,7 +2228,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v19'); 
+    localStorage.removeItem('runner_studio_saved_v23'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
