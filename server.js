@@ -280,7 +280,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_3">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="hudRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="toggle"><input id="hudRemove_4" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label style="grid-column:1/-1">Box 5 PNG
           <div class="file-wrap">
@@ -1565,9 +1565,9 @@ var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
 var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
-// 🌟 STRAIGHT HIGHWAY PERSPECTIVE (NO PINCHING CONE)
+// 🌟 STRAIGHT HIGHWAY PERSPECTIVE (SMOOTH BOTTOM EXIT - NO LOCKING AT SCREEN EDGE)
 function roadBoundsAtZ(z){
-  var t=Math.max(0,Math.min(1,z));
+  var t = Math.max(0, z); // Clamping hatayi taaki screen ke niche aage slide hota rahe
   var camH = Math.max(0.2, state.camHeight || 0.95);
   
   var dynamicHorizon = H * (state.horizon || 0.42) + (1.0 - camH) * (H * 0.12);
@@ -1576,7 +1576,7 @@ function roadBoundsAtZ(z){
   var TOP_HALF = W * (state.topWidth || 0.17);
   var BOTTOM_HALF = W * (state.bottomWidth || 0.98);
 
-  var zDistance = (1.0 - t) * (11.0 / camH) + 0.85;
+  var zDistance = Math.max(0.01, (1.0 - t) * (11.0 / camH) + 0.85);
   var scale = 1.0 / zDistance;
   var minScale = 1.0 / ((11.0 / camH) + 0.85);
   var maxScale = 1.0 / 0.85;
@@ -1668,7 +1668,7 @@ function drawRoadShineSeries(color,alphaMul){
   for(var i=0;i<7;i++){
     var z=(i*.16 + roadTime*state.speed*TRACK_MOTION_SCALE*1.2)%1;
     if(z<.22) continue;
-    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
+    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.09));
     var xA=W/2 + (i%2?-1:1)*a.half*(.32+.18*(i%3));
     var xB=W/2 + (i%2?-1:1)*b.half*(.32+.18*(i%3));
     ctx.globalAlpha=(.16+.45*z)*alphaMul;ctx.lineWidth=2+5*z;
@@ -2208,7 +2208,8 @@ function drawRows(){
   state.rows.slice(0,5).forEach(function(row,i){
     var elapsed=roadTime-initialDelay-i*state.padDelay;
     var z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
-    if(z<0 || z>1.25) return;
+    // 🌟 FIX: Pad screen ke paar niche aage smoothly slide ho sake (1.15 tak allow kiya)
+    if(z<0 || z>1.15) return;
     var zz=z;
 
     if(zz >= pZ - 0.02 && !processedPads[i]){
@@ -2235,7 +2236,8 @@ function drawRows(){
       activeLaneColor = row.leftColor;
     }
 
-    activePads.push({row: row, zz: Math.min(1.0, zz), rawZ: zz});
+    // 🌟 FIX: zz ko kisi artificial 1.0 limit par clamp nahi karenge taaki screen ke niche rukne ka sawal hi na ho
+    activePads.push({row: row, zz: zz, rawZ: zz});
   });
 
   if(closestActiveZ !== -1){
@@ -2243,18 +2245,17 @@ function drawRows(){
     state.currentLane = isGreenLane ? 'left' : 'right';
   }
 
-  // 🌟 FIX: Sort pads from Far to Near (Lowest rawZ to Highest rawZ)
-  // ताकी पीछे का पैड पहले बने और आगे आने वाला पैड उसके ऊपर साफ़-सुथरा दिखे (No Overlay / Washing out)
+  // Far to Near Sorting (pehle piche wale fir aage wale)
   activePads.sort(function(a, b){ return a.rawZ - b.rawZ; });
 
-  // 1. Pads behind player (दूर वाले पैड्स जो अभी प्लेयर तक नहीं पहुंचे)
+  // 1. Pads behind player
   activePads.forEach(function(item){
     if(item.rawZ < pZ){
       drawSinglePadRow(item);
     }
   });
 
-  // Stationary Boss (Pad 2 cross hote hi road par stationary dikhega)
+  // Stationary Boss
   var pad5WorldElapsed = roadTime - initialDelay - 4 * state.padDelay;
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossWorldElapsed = pad5WorldElapsed - bDist;
@@ -2276,9 +2277,9 @@ function drawRows(){
   // 2. Runner Character
   drawRunnerBehind();
 
-  // 3. Pads in front/above player (जो प्लेयर को पार कर आगे निकल रहे हैं)
+  // 3. Pads in front/above player (Player ko cross karke screen ke niche naturally nikal jayenge)
   activePads.forEach(function(item){
-    if(item.rawZ >= pZ && item.rawZ <= 1.05){
+    if(item.rawZ >= pZ){
       drawSinglePadRow(item);
     }
   });
