@@ -174,7 +174,19 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       </div>
     </div>
 
-    <div class="transport"><button class="primary" id="playBtn">Pause</button><button id="resetBtn">Reset Time</button><label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label><button id="exportBtn">Export 60FPS Video</button></div>
+    <div class="transport">
+      <button class="primary" id="playBtn">Pause</button>
+      <button id="resetBtn">Reset Time</button>
+      <label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label>
+      <button id="exportBtn">Export 60FPS Video</button>
+      <div style="width:100%;margin-top:6px;display:flex;align-items:center;gap:8px">
+        <span style="font-size:12px;font-weight:700">⏱️ Scrub Video:</span>
+        <div class="range-wrap" style="flex:1">
+          <input id="scrubBar" type="range" min="0" max="25" step="0.05" value="0">
+        </div>
+        <span class="val-badge gold" id="v_scrubBar">0.0s</span>
+      </div>
+    </div>
     <div class="note"><b>सड़क चौड़ाई फिक्स:</b> अब सड़क आगे जाकर त्रिकोणी नहीं बनेगी, बिल्कुल YouTube जैसी चौड़ी और सीधी दिखेगी!</div>
   </section>
 
@@ -244,6 +256,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_0" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_0">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="hudRemove_0" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>Box 2 PNG
           <div class="file-wrap">
@@ -251,6 +264,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_1">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="hudRemove_1" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>Box 3 PNG
           <div class="file-wrap">
@@ -258,6 +272,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_2">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="hudRemove_2" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>Box 4 PNG
           <div class="file-wrap">
@@ -265,6 +280,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_3">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="hudRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label style="grid-column:1/-1">Box 5 PNG
           <div class="file-wrap">
@@ -272,6 +288,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_4">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="hudRemove_4" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
       </div>
     </details>
@@ -288,6 +305,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="pImg_0" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_pImg_0">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="pRemove_0" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Stage 0 Base Size</span><span class="val-badge" id="v_pSize_0">145</span></span>
@@ -322,6 +340,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_1">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="gRemove_1" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Green 1 Size</span><span class="val-badge" id="v_gSize_1">165</span></span>
@@ -338,6 +357,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_2">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="gRemove_2" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Green 2 Size</span><span class="val-badge" id="v_gSize_2">190</span></span>
@@ -354,6 +374,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_3">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="gRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">220</span></span>
@@ -370,6 +391,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_4">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="gRemove_4" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Green 4 Size</span><span class="val-badge" id="v_gSize_4">255</span></span>
@@ -386,6 +408,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="gImg_5" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_5">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="gRemove_5" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Green 5 Size</span><span class="val-badge" id="v_gSize_5">290</span></span>
@@ -403,6 +426,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_1">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="rRemove_1" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Red 1 Size</span><span class="val-badge red" id="v_rSize_1">130</span></span>
@@ -419,6 +443,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_2">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="rRemove_2" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Red 2 Size</span><span class="val-badge red" id="v_rSize_2">115</span></span>
@@ -435,6 +460,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_3">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="rRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Red 3 Size</span><span class="val-badge red" id="v_rSize_3">100</span></span>
@@ -451,6 +477,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_4">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="rRemove_4" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Red 4 Size</span><span class="val-badge red" id="v_rSize_4">85</span></span>
@@ -467,6 +494,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="rImg_5" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_5">✕ Clear</button>
           </div>
+          <div class="toggle"><input id="rRemove_5" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Red 5 Size</span><span class="val-badge red" id="v_rSize_5">75</span></span>
@@ -670,7 +698,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <div class="range-wrap">
             <button type="button" class="step-btn step-right-minus">◀</button>
             <input class="rightSize" type="range" min="45" max="450" value="95">
-            <button type="button" class="step-btn step-right-plus">▶</button>
+            <button type="button" class="step-right-plus step-btn">▶</button>
           </div>
         </label>
       </div>
@@ -704,6 +732,7 @@ var W=canvas.width, H=canvas.height;
 var $=function(id){ return document.getElementById(id); };
 
 var running=true, last=performance.now(), roadTime=0, recorder=null, rowCounter=0;
+var isScrubbing = false;
 
 var currentPath = 'base';
 var currentStageLevel = 0;
@@ -711,6 +740,8 @@ var processedPads = {};
 
 var collectedHud = [null, null, null, null, null];
 var manualHudImgs = [null, null, null, null, null];
+var manualHudRaw = [null, null, null, null, null];
+var manualHudRemove = [true, true, true, true, true];
 
 // 🌟 EXACT YOUTUBE ROAD PERSPECTIVE (STRAIGHT & BROAD)
 var state={
@@ -733,22 +764,22 @@ var state={
   hudBoxSize:86,
   hudSpacing:12,
   steerOffset:-1.0,
-  baseStage: {img:null, size:145},
+  baseStage: {img:null, raw:null, removeBg:true, size:145},
   greenStages:[
     null,
-    {img:null, size:165},
-    {img:null, size:190},
-    {img:null, size:220},
-    {img:null, size:255},
-    {img:null, size:290}
+    {img:null, raw:null, removeBg:true, size:165},
+    {img:null, raw:null, removeBg:true, size:190},
+    {img:null, raw:null, removeBg:true, size:220},
+    {img:null, raw:null, removeBg:true, size:255},
+    {img:null, raw:null, removeBg:true, size:290}
   ],
   redStages:[
     null,
-    {img:null, size:130},
-    {img:null, size:115},
-    {img:null, size:100},
-    {img:null, size:85},
-    {img:null, size:75}
+    {img:null, raw:null, removeBg:true, size:130},
+    {img:null, raw:null, removeBg:true, size:115},
+    {img:null, raw:null, removeBg:true, size:100},
+    {img:null, raw:null, removeBg:true, size:85},
+    {img:null, raw:null, removeBg:true, size:75}
   ],
   playerZ:0.86,
   playerLane:'slider',
@@ -805,7 +836,7 @@ function hexToRgb(hex){
 function updateBadge(key, val){
   var el = $('v_' + key);
   if(el){
-    if(key === 'bossDistance') el.textContent = val + 's';
+    if(key === 'bossDistance' || key === 'scrubBar') el.textContent = val + 's';
     else el.textContent = val;
   }
 }
@@ -1073,20 +1104,36 @@ for(var h=0; h<5; h++){
     var inp = $('hudImg_' + bIdx);
     var clr = $('clear_hud_' + bIdx);
     var box = $('thumb_hud_' + bIdx);
+    var chk = $('hudRemove_' + bIdx);
+
+    function reprocessHud(){
+      if(!manualHudRaw[bIdx]){ manualHudImgs[bIdx]=null; updateThumbBox(box, null); return; }
+      dataToProcessedImage(manualHudRaw[bIdx], manualHudRemove[bIdx]).then(function(im){
+        manualHudImgs[bIdx] = im;
+        updateThumbBox(box, im.src);
+      });
+    }
+
+    if(chk){
+      chk.onchange = function(e){
+        manualHudRemove[bIdx] = e.target.checked;
+        reprocessHud();
+      };
+    }
+
     if(inp){
       inp.onchange = function(e){
         var f = e.target.files[0]; if(!f) return;
         readFile(f).then(function(src){
-          dataToProcessedImage(src, true).then(function(im){
-            manualHudImgs[bIdx] = im;
-            updateThumbBox(box, im.src);
-          });
+          manualHudRaw[bIdx] = src;
+          reprocessHud();
         });
       };
     }
     if(clr){
       clr.onclick = function(){
         if(inp) inp.value = '';
+        manualHudRaw[bIdx] = null;
         manualHudImgs[bIdx] = null;
         collectedHud[bIdx] = null;
         updateThumbBox(box, null);
@@ -1118,11 +1165,23 @@ if($('pSize_0')){
     autoSaveStudio();
   };
 }
+if($('pRemove_0')){
+  $('pRemove_0').onchange = function(e){
+    state.baseStage.removeBg = e.target.checked;
+    if(state.baseStage.raw){
+      dataToProcessedImage(state.baseStage.raw, state.baseStage.removeBg).then(function(im){
+        state.baseStage.img = im;
+        updateThumbBox($('thumb_pImg_0'), im.src);
+      });
+    }
+  };
+}
 if($('pImg_0')){
   $('pImg_0').onchange = function(e){
     var f=e.target.files[0]; if(!f) return;
     readFile(f).then(function(src){
-      dataToProcessedImage(src, true).then(function(im){
+      state.baseStage.raw = src;
+      dataToProcessedImage(src, state.baseStage.removeBg).then(function(im){
         state.baseStage.img = im;
         updateThumbBox($('thumb_pImg_0'), im.src);
       });
@@ -1132,6 +1191,7 @@ if($('pImg_0')){
 if($('clear_pImg_0')){
   $('clear_pImg_0').onclick = function(){
     if($('pImg_0')) $('pImg_0').value = '';
+    state.baseStage.raw = null;
     state.baseStage.img = null;
     updateThumbBox($('thumb_pImg_0'), null);
   };
@@ -1146,11 +1206,23 @@ for(var k=1; k<=5; k++){
         autoSaveStudio();
       };
     }
+    if($('gRemove_' + idx)){
+      $('gRemove_' + idx).onchange = function(e){
+        state.greenStages[idx].removeBg = e.target.checked;
+        if(state.greenStages[idx].raw){
+          dataToProcessedImage(state.greenStages[idx].raw, state.greenStages[idx].removeBg).then(function(im){
+            state.greenStages[idx].img = im;
+            updateThumbBox($('thumb_gImg_' + idx), im.src);
+          });
+        }
+      };
+    }
     if($('gImg_' + idx)){
       $('gImg_' + idx).onchange = function(e){
         var f=e.target.files[0]; if(!f) return;
         readFile(f).then(function(src){
-          dataToProcessedImage(src, true).then(function(im){
+          state.greenStages[idx].raw = src;
+          dataToProcessedImage(src, state.greenStages[idx].removeBg).then(function(im){
             state.greenStages[idx].img = im;
             updateThumbBox($('thumb_gImg_' + idx), im.src);
           });
@@ -1160,6 +1232,7 @@ for(var k=1; k<=5; k++){
     if($('clear_gImg_' + idx)){
       $('clear_gImg_' + idx).onclick = function(){
         if($('gImg_' + idx)) $('gImg_' + idx).value = '';
+        state.greenStages[idx].raw = null;
         state.greenStages[idx].img = null;
         updateThumbBox($('thumb_gImg_' + idx), null);
       };
@@ -1171,11 +1244,23 @@ for(var k=1; k<=5; k++){
         autoSaveStudio();
       };
     }
+    if($('rRemove_' + idx)){
+      $('rRemove_' + idx).onchange = function(e){
+        state.redStages[idx].removeBg = e.target.checked;
+        if(state.redStages[idx].raw){
+          dataToProcessedImage(state.redStages[idx].raw, state.redStages[idx].removeBg).then(function(im){
+            state.redStages[idx].img = im;
+            updateThumbBox($('thumb_rImg_' + idx), im.src);
+          });
+        }
+      };
+    }
     if($('rImg_' + idx)){
       $('rImg_' + idx).onchange = function(e){
         var f=e.target.files[0]; if(!f) return;
         readFile(f).then(function(src){
-          dataToProcessedImage(src, true).then(function(im){
+          state.redStages[idx].raw = src;
+          dataToProcessedImage(src, state.redStages[idx].removeBg).then(function(im){
             state.redStages[idx].img = im;
             updateThumbBox($('thumb_rImg_' + idx), im.src);
           });
@@ -1185,6 +1270,7 @@ for(var k=1; k<=5; k++){
     if($('clear_rImg_' + idx)){
       $('clear_rImg_' + idx).onclick = function(){
         if($('rImg_' + idx)) $('rImg_' + idx).value = '';
+        state.redStages[idx].raw = null;
         state.redStages[idx].img = null;
         updateThumbBox($('thumb_rImg_' + idx), null);
       };
@@ -1944,7 +2030,7 @@ function drawRaisedPad(z, side, hexColor){
   var rgb = c.r + ',' + c.g + ',' + c.b;
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
   var darkG = Math.max(0, Math.floor(c.r * 0.45));
-  var darkB = Math.max(0, Math.floor(c.b * 0.45));
+  var darkB = Math.max(0, Math.floor(c.r * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
   ctx.save();ctx.fillStyle='rgba(0,0,0,.24)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+4,width*.46,4+7*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
@@ -2073,6 +2159,34 @@ function drawRunnerBehind(){
   drawImageFit(rInfo.img, state.playerX, p.y + 4, pSize, pSize, 'bottom');
 }
 
+function syncStateFromTime(t){
+  roadTime = Math.max(0, t);
+  processedPads = {};
+  collectedHud = [null, null, null, null, null];
+  currentPath = 'base';
+  currentStageLevel = 0;
+  
+  var initialDelay = 0.85;
+  var pZ = state.playerZ || 0.86;
+  
+  state.rows.slice(0,5).forEach(function(row, i){
+    var elapsed = roadTime - initialDelay - i * state.padDelay;
+    var z = elapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
+    if(z >= pZ - 0.02){
+      processedPads[i] = true;
+      var isPlayerOnRight = (state.steerOffset > 0);
+      var padHex = isPlayerOnRight ? row.rightColor : row.leftColor;
+      var itemImg = isPlayerOnRight ? row.rightImg : row.leftImg;
+      if(state.autoCollectHud && itemImg){
+        collectedHud[i] = itemImg;
+      }
+      var isGreen = (padHex.indexOf('2a') !== -1 || padHex.indexOf('00') !== -1 || padHex.indexOf('green') !== -1);
+      currentPath = isGreen ? 'green' : 'red';
+      currentStageLevel = i + 1;
+    }
+  });
+}
+
 function drawRows(){
   var initialDelay=.85;
   var closestActiveZ = -1;
@@ -2168,6 +2282,19 @@ function drawRows(){
   });
 }
 
+var scrubber = $('scrubBar');
+if(scrubber){
+  scrubber.addEventListener('mousedown', function(){ isScrubbing = true; });
+  scrubber.addEventListener('touchstart', function(){ isScrubbing = true; }, {passive:true});
+  scrubber.addEventListener('mouseup', function(){ isScrubbing = false; });
+  scrubber.addEventListener('touchend', function(){ isScrubbing = false; });
+  scrubber.addEventListener('input', function(e){
+    var t = Number(e.target.value);
+    updateBadge('scrubBar', t.toFixed(1));
+    syncStateFromTime(t);
+  });
+}
+
 var FIXED_TIMESTEP = 1 / 60;
 
 function frame(now){
@@ -2182,8 +2309,12 @@ function frame(now){
 
   var isTouching = processedPads[4] && bossRawZ >= (state.playerZ || 0.86);
 
-  if(running && !isTouching){
+  if(running && !isTouching && !isScrubbing){
     roadTime += delta;
+    if(scrubber){
+      scrubber.value = roadTime.toFixed(2);
+      updateBadge('scrubBar', roadTime.toFixed(1));
+    }
   }
 
   drawBackground();
@@ -2196,11 +2327,8 @@ requestAnimationFrame(frame);
 
 $('playBtn').onclick=function(){running=!running;$('playBtn').textContent=running?'Pause':'Play';};
 $('resetBtn').onclick=function(){
-  roadTime=0;
-  currentPath='base';
-  currentStageLevel=0;
-  processedPads={};
-  collectedHud=[null, null, null, null, null];
+  syncStateFromTime(0);
+  if(scrubber){ scrubber.value = 0; updateBadge('scrubBar', '0.0'); }
 };
 $('saveBtn').onclick=function(){
   autoSaveStudio();
