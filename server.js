@@ -1668,7 +1668,7 @@ function drawRoadShineSeries(color,alphaMul){
   for(var i=0;i<7;i++){
     var z=(i*.16 + roadTime*state.speed*TRACK_MOTION_SCALE*1.2)%1;
     if(z<.22) continue;
-    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.09));
+    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
     var xA=W/2 + (i%2?-1:1)*a.half*(.32+.18*(i%3));
     var xB=W/2 + (i%2?-1:1)*b.half*(.32+.18*(i%3));
     ctx.globalAlpha=(.16+.45*z)*alphaMul;ctx.lineWidth=2+5*z;
@@ -2187,6 +2187,16 @@ function syncStateFromTime(t){
   });
 }
 
+function drawSinglePadRow(item){
+  var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
+  var right=drawRaisedPad(item.zz,'right',item.row.rightColor);
+  var pngScale=.18+0.95*left.e;
+  var leftSize=Math.min(item.row.leftSize*pngScale,left.width*.92);
+  var rightSize=Math.min(item.row.rightSize*pngScale,right.width*.92);
+  if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-6,leftSize,leftSize,'bottom');
+  if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-6,rightSize,rightSize,'bottom');
+}
+
 function drawRows(){
   var initialDelay=.85;
   var closestActiveZ = -1;
@@ -2233,16 +2243,14 @@ function drawRows(){
     state.currentLane = isGreenLane ? 'left' : 'right';
   }
 
-  // 1. Pads behind player
+  // 🌟 FIX: Sort pads from Far to Near (Lowest rawZ to Highest rawZ)
+  // ताकी पीछे का पैड पहले बने और आगे आने वाला पैड उसके ऊपर साफ़-सुथरा दिखे (No Overlay / Washing out)
+  activePads.sort(function(a, b){ return a.rawZ - b.rawZ; });
+
+  // 1. Pads behind player (दूर वाले पैड्स जो अभी प्लेयर तक नहीं पहुंचे)
   activePads.forEach(function(item){
     if(item.rawZ < pZ){
-      var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
-      var right=drawRaisedPad(item.zz,'right',item.row.rightColor);
-      var pngScale=.18+0.95*left.e;
-      var leftSize=Math.min(item.row.leftSize*pngScale,left.width*.92);
-      var rightSize=Math.min(item.row.rightSize*pngScale,right.width*.92);
-      if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-6,leftSize,leftSize,'bottom');
-      if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-6,rightSize,rightSize,'bottom');
+      drawSinglePadRow(item);
     }
   });
 
@@ -2268,16 +2276,10 @@ function drawRows(){
   // 2. Runner Character
   drawRunnerBehind();
 
-  // 3. Pads in front/above player
+  // 3. Pads in front/above player (जो प्लेयर को पार कर आगे निकल रहे हैं)
   activePads.forEach(function(item){
     if(item.rawZ >= pZ && item.rawZ <= 1.05){
-      var left=drawRaisedPad(item.zz,'left',item.row.leftColor);
-      var right=drawRaisedPad(item.zz,'right',item.row.rightColor);
-      var pngScale=.18+0.95*left.e;
-      var leftSize=Math.min(item.row.leftSize*pngScale,left.width*.92);
-      var rightSize=Math.min(item.row.rightSize*pngScale,right.width*.92);
-      if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-6,leftSize,leftSize,'bottom');
-      if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-6,rightSize,rightSize,'bottom');
+      drawSinglePadRow(item);
     }
   });
 }
