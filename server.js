@@ -187,56 +187,51 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>सड़क चौड़ाई फिक्स:</b> अब सड़क आगे जाकर त्रिकोणी नहीं बनेगी, बिल्कुल YouTube जैसी चौड़ी और सीधी दिखेगी!</div>
+    <div class="note"><b>सड़क व बॉक्स अपग्रेड:</b> अब मिस्ट्री बॉक्स में Fire, Water, Electric, Gem जैसे आकर्षक स्टाइल्स हैं और कलेक्ट होते ही पॉप एनीमेशन फूटेगा!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
 
     <details class="drag-card" id="card_hud" open>
       <summary>
-        <span>🎁 5 Mystery Question Boxes HUD Controller</span>
+        <span>🎁 5 Mystery Boxes HUD (Animated Fire, Water & Gold)</span>
         <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label class="toggle"><input id="showHud" type="checkbox" checked> Show 5 Mystery Boxes</label>
         <label class="toggle"><input id="autoCollectHud" type="checkbox" checked> Auto Collect PNG from Pads</label>
 
-        <label style="grid-column:1/-1">Box Style
+        <label style="grid-column:1/-1">Box VFX Style (Extreme Eye-Catching)
           <select id="hudStyle">
-            <optgroup label="--- Classic & Gold ---">
-              <option value="classicGold" selected>1. Classic Mario Gold (?)</option>
-              <option value="royalGold">2. Royal Amber Gold</option>
-              <option value="arcadeYellow">3. 80s Arcade Bright Yellow</option>
-              <option value="bronzeVintage">4. Vintage Bronze Box</option>
-              <option value="pureWhiteBox">5. Clean Minimal White</option>
+            <optgroup label="--- 🔥 Elements & Magic ---">
+              <option value="fireInferno" selected>🔥 1. Inferno Flaming Fire Box</option>
+              <option value="waterCrystal">💧 2. Aqua Water & Ice Crystal</option>
+              <option value="electricThunder">⚡ 3. Electric Thunder Pulse</option>
+              <option value="toxicAcid">☣️ 4. Toxic Acid Neon Lime</option>
+              <option value="amethystGem">💎 5. Amethyst Purple Gem Glow</option>
+              <option value="plasmaPink">💖 6. Hot Plasma Cyber Pink</option>
             </optgroup>
-            <optgroup label="--- Neon & Cyberpunk ---">
-              <option value="neonGreen">6. Emerald Neon Pulse</option>
-              <option value="cyberCyan">7. Cyber Cyan Circuit</option>
-              <option value="laserRed">8. Laser Crimson Red</option>
-              <option value="plasmaPink">9. Hot Plasma Pink</option>
-              <option value="electricBlue">10. Electric Blue Thunder</option>
-              <option value="violetNight">11. Synthwave Violet</option>
-              <option value="toxicLime">12. Toxic Biohazard Lime</option>
-              <option value="matrixGreen">13. Matrix Green Flow</option>
-              <option value="overdriveNeon">15. Overdrive Synthwave</option>
+            <optgroup label="--- 👑 Royal & Classic ---">
+              <option value="royal3DGold">👑 7. 3D Mario Chamfered Gold (?)</option>
+              <option value="pureWhiteBox">⚪ 8. Clean Minimal Studio White</option>
+              <option value="stealthCarbon">🖤 9. Stealth Carbon Matte</option>
             </optgroup>
           </select>
         </label>
 
         <label>
-          <span class="label-head"><span>HUD Y-Position</span><span class="val-badge gold" id="v_hudY">88</span></span>
+          <span class="label-head"><span>HUD Y-Position</span><span class="val-badge gold" id="v_hudY">105</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="hudY" data-dir="-1">◀</button>
-            <input id="hudY" type="range" min="30" max="300" value="88">
+            <input id="hudY" type="range" min="30" max="300" value="105">
             <button type="button" class="step-btn" data-step-for="hudY" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Box Size</span><span class="val-badge gold" id="v_hudBoxSize">86</span></span>
+          <span class="label-head"><span>Box Size</span><span class="val-badge gold" id="v_hudBoxSize">88</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="hudBoxSize" data-dir="-1">◀</button>
-            <input id="hudBoxSize" type="range" min="45" max="140" value="86">
+            <input id="hudBoxSize" type="range" min="45" max="140" value="88">
             <button type="button" class="step-btn" data-step-for="hudBoxSize" data-dir="1">▶</button>
           </div>
         </label>
@@ -280,7 +275,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_3">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="hudRemove_4" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="toggle"><input id="hudRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label style="grid-column:1/-1">Box 5 PNG
           <div class="file-wrap">
@@ -514,10 +509,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       </summary>
       <div class="grid two">
         <label>
-          <span class="label-head"><span>Forward speed</span><span class="val-badge" id="v_speed">0.20</span></span>
+          <span class="label-head"><span>Forward speed</span><span class="val-badge" id="v_speed">0.24</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="speed" data-dir="-1">◀</button>
-            <input id="speed" type="range" min="0.10" max="0.50" step="0.01" value="0.20">
+            <input id="speed" type="range" min="0.10" max="0.50" step="0.01" value="0.24">
             <button type="button" class="step-btn" data-step-for="speed" data-dir="1">▶</button>
           </div>
         </label>
@@ -562,14 +557,14 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Pad glow base</span><span class="val-badge" id="v_padThickness">14</span></span>
+          <span class="label-head"><span>Pad glow base</span><span class="val-badge" id="v_padThickness">15</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="padThickness" data-dir="-1">◀</button>
-            <input id="padThickness" type="range" min="6" max="28" value="14">
+            <input id="padThickness" type="range" min="6" max="28" value="15">
             <button type="button" class="step-btn" data-step-for="padThickness" data-dir="1">▶</button>
           </div>
         </label>
-        <label>Road style (35+ Roads) <select id="roadVariant">
+        <label>Road style (35+ Real Roads) <select id="roadVariant">
           <optgroup label="--- Classic & Highway ---">
             <option value="classic" selected>1. Classic V6 (Lion Challenge)</option>
             <option value="twinStripe">2. Twin Yellow Stripes</option>
@@ -589,26 +584,36 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <option value="plasmaPink">14. Plasma Pink Horizon</option>
             <option value="overdriveNeon">15. Overdrive Synthwave</option>
           </optgroup>
+          <optgroup label="--- Elements & Magic ---">
+            <option value="lavaCrack">16. Molten Lava Cracks</option>
+            <option value="iceCrystal">17. Frozen Ice Crystal Road</option>
+            <option value="goldenPath">18. Golden Treasury Trail</option>
+            <option value="toxicHazard">19. Toxic Biohazard Grid</option>
+            <option value="cosmicVoid">20. Cosmic Star Void</option>
+            <option value="amethystPath">21. Royal Amethyst Glow</option>
+            <option value="infernoFire">22. Blazing Inferno Track</option>
+            <option value="electricThunder">23. Thunderstorm Blue Strike</option>
+            <option value="rainbowPrism">24. Rainbow Light Prism</option>
+          </optgroup>
         </select></label>
         <label style="grid-column:1/-1">Background Theme <select id="bgMode">
-          <optgroup label="--- Light & Aesthetic Themes ---">
-            <option value="cleanWhite">☀️ 1. Clean Studio White</option>
-            <option value="softSilver">☀️ 2. Soft Silver Mist</option>
-            <option value="cloudGrey">☀️ 3. Cloud Grey</option>
-            <option value="skyBlueLight">☀️ 4. Clear Sky Blue</option>
-            <option value="cyanBreeze">☀️ 5. Light Cyan Breeze</option>
-            <option value="mintFresh">☀️ 6. Fresh Mint Pastel</option>
-          </optgroup>
-          <optgroup label="--- 50+ Dark Themes ---">
+          <optgroup label="--- Dark & Aesthetic ---">
             <option value="black" selected>1. Pitch Black</option>
             <option value="midnight">2. Midnight Void</option>
-            <option value="obsidian">3. Obsidian Matte</option>
+            <option value="obsidian">3. Obsidian Matte (High Contrast)</option>
             <option value="deepSpace">4. Deep Space Abyss</option>
-            <option value="cyberDark">5. Cyber Dark</option>
-            <option value="matrixBlack">6. Matrix Black</option>
+            <option value="cyberDark">5. Cyber Dark Purple</option>
+            <option value="matrixBlack">6. Matrix Deep Green</option>
+          </optgroup>
+          <optgroup label="--- Light Studio Themes ---">
+            <option value="cleanWhite">☀️ 7. Clean Studio White</option>
+            <option value="softSilver">☀️ 8. Soft Silver Mist</option>
+            <option value="cloudGrey">☀️ 9. Cloud Grey</option>
+            <option value="skyBlueLight">☀️ 10. Clear Sky Blue</option>
+            <option value="mintFresh">☀️ 11. Fresh Mint Pastel</option>
           </optgroup>
         </select></label>
-        <label class="toggle"><input id="speedLines" type="checkbox"> Motion streaks</label>
+        <label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks (YouTube speed)</label>
         <label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label>
       </div>
     </details>
@@ -739,29 +744,29 @@ var currentStageLevel = 0;
 var processedPads = {};
 
 var collectedHud = [null, null, null, null, null];
+var collectedTimes = [-999, -999, -999, -999, -999];
 var manualHudImgs = [null, null, null, null, null];
 var manualHudRaw = [null, null, null, null, null];
 var manualHudRemove = [true, true, true, true, true];
 
-// 🌟 EXACT YOUTUBE ROAD PERSPECTIVE (STRAIGHT & BROAD)
 var state={
-  speed:0.20,
+  speed:0.24,
   horizon:0.42,
-  topWidth:0.17,    // Straight highway width
-  bottomWidth:0.98, // Full bottom span
+  topWidth:0.17,
+  bottomWidth:0.98,
   camHeight:0.95,
   padDelay:2.40,
-  padThickness:14,
+  padThickness:15,
   bossDistance:2.8,
   roadVariant:'classic',
   bgMode:'black',
-  speedLines:false,
+  speedLines:true,
   roadShine:true,
   showHud:true,
   autoCollectHud:true,
-  hudStyle:'classicGold',
-  hudY:88,
-  hudBoxSize:86,
+  hudStyle:'fireInferno',
+  hudY:105,
+  hudBoxSize:88,
   hudSpacing:12,
   steerOffset:-1.0,
   baseStage: {img:null, raw:null, removeBg:true, size:145},
@@ -789,36 +794,18 @@ var state={
   opponent:{src:null, img:null, removeBg:true, size:220}
 };
 
-var hudThemes = {
-  classicGold: { border:'#ff9900', face:'#ffbe1a', stroke:'#221100', text:'#110800', glow:'rgba(255,190,26,0.6)' },
-  royalGold: { border:'#d97706', face:'#fbbf24', stroke:'#451a03', text:'#451a03', glow:'rgba(251,191,36,0.6)' },
-  arcadeYellow: { border:'#eab308', face:'#fef08a', stroke:'#000000', text:'#000000', glow:'rgba(234,179,8,0.7)' },
-  bronzeVintage: { border:'#78350f', face:'#b45309', stroke:'#1c0b02', text:'#fef3c7', glow:'rgba(180,83,9,0.5)' },
-  pureWhiteBox: { border:'#94a3b8', face:'#f8fafc', stroke:'#0f172a', text:'#0f172a', glow:'rgba(248,250,252,0.6)' },
-  neonGreen: { border:'#15803d', face:'#22c55e', stroke:'#052e16', text:'#021f0e', glow:'rgba(34,197,94,0.8)' },
-  cyberCyan: { border:'#0284c7', face:'#00f5ff', stroke:'#082f49', text:'#041f30', glow:'rgba(0,245,255,0.8)' },
-  laserRed: { border:'#b91c1c', face:'#ef4444', stroke:'#450a0a', text:'#240202', glow:'rgba(239,68,68,0.8)' },
-  plasmaPink: { border:'#be185d', face:'#f43f5e', stroke:'#4c0519', text:'#26020c', glow:'rgba(244,63,94,0.8)' },
-  electricBlue: { border:'#1d4ed8', face:'#3b82f6', stroke:'#0f172a', text:'#06142e', glow:'rgba(59,130,246,0.8)' },
-  violetNight: { border:'#6d28d9', face:'#8b5cf6', stroke:'#2e1065', text:'#1a043d', glow:'rgba(139,92,246,0.8)' },
-  toxicLime: { border:'#4d7c0f', face:'#84cc16', stroke:'#1a2e05', text:'#102002', glow:'rgba(132,204,22,0.8)' },
-  matrixGreen: { border:'#047857', face:'#10b981', stroke:'#022c22', text:'#021c15', glow:'rgba(16,185,129,0.8)' },
-  overdriveNeon: { border:'#c2410c', face:'#f97316', stroke:'#431407', text:'#290a03', glow:'rgba(249,115,22,0.8)' }
-};
-
 var bgColors = {
+  black: ['#000000', '#050505'],
+  midnight: ['#000000', '#05070c'],
+  obsidian: ['#090a0f', '#12141c'],
+  deepSpace: ['#010204', '#080c14'],
+  cyberDark: ['#08020e', '#180726'],
+  matrixBlack: ['#000502', '#021207'],
   cleanWhite: ['#ffffff', '#f1f3f5'],
   softSilver: ['#f8f9fa', '#e9ecef'],
   cloudGrey: ['#edf2f7', '#cbd5e1'],
   skyBlueLight: ['#e0f2fe', '#bae6fd'],
-  cyanBreeze: ['#ecfeff', '#cffafe'],
-  mintFresh: ['#f0fdf4', '#dcfce7'],
-  black: ['#000000', '#050505'],
-  midnight: ['#000000', '#05070c'],
-  obsidian: ['#0a0a0f', '#12121a'],
-  deepSpace: ['#010204', '#080c14'],
-  cyberDark: ['#05020a', '#12071f'],
-  matrixBlack: ['#000502', '#021207']
+  mintFresh: ['#f0fdf4', '#dcfce7']
 };
 
 function hexToRgb(hex){
@@ -826,11 +813,7 @@ function hexToRgb(hex){
   if(c.length===3) c = c.charAt(0)+c.charAt(0)+c.charAt(1)+c.charAt(1)+c.charAt(2)+c.charAt(2);
   var num = parseInt(c, 16);
   if(isNaN(num)) return {r:42, g:255, b:132};
-  return {
-    r: (num >> 16) & 255,
-    g: (num >> 8) & 255,
-    b: num & 255
-  };
+  return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
 }
 
 function updateBadge(key, val){
@@ -1016,13 +999,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v19', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v20', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v19');
+    var raw = localStorage.getItem('runner_studio_saved_v20');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1033,14 +1016,6 @@ function readFile(file){
     fr.onload=function(){resolve(fr.result);};
     fr.onerror=reject;
     fr.readAsDataURL(file);
-  });
-}
-function dataToImage(src){
-  return new Promise(function(resolve,reject){
-    var im=new Image();
-    im.onload=function(){resolve(im);};
-    im.onerror=reject;
-    im.src=src;
   });
 }
 function processImageDataUrl(dataUrl, removeBg){
@@ -1136,6 +1111,7 @@ for(var h=0; h<5; h++){
         manualHudRaw[bIdx] = null;
         manualHudImgs[bIdx] = null;
         collectedHud[bIdx] = null;
+        collectedTimes[bIdx] = -999;
         updateThumbBox(box, null);
       };
     }
@@ -1565,9 +1541,8 @@ var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
 var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
-// 🌟 STRAIGHT HIGHWAY PERSPECTIVE (SMOOTH BOTTOM EXIT - NO LOCKING AT SCREEN EDGE)
 function roadBoundsAtZ(z){
-  var t = Math.max(0, z); // Clamping hatayi taaki screen ke niche aage slide hota rahe
+  var t = Math.max(0, z);
   var camH = Math.max(0.2, state.camHeight || 0.95);
   
   var dynamicHorizon = H * (state.horizon || 0.42) + (1.0 - camH) * (H * 0.12);
@@ -1708,15 +1683,15 @@ function drawBackground(){
   ctx.fillRect(0, 0, W, H);
 
   if(state.speedLines){
-    ctx.save();ctx.strokeStyle='rgba(255,255,255,.38)';ctx.lineCap='round';
-    for(var i=0;i<12;i++){
+    ctx.save();ctx.strokeStyle='rgba(255,255,255,.45)';ctx.lineCap='round';
+    for(var i=0;i<16;i++){
       var sideDir=i%2===0?-1:1;
-      var phase=(i*.11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
-      var y=(H*(state.horizon || 0.42))-250 + phase*350;
-      var x=sideDir<0 ? 40+phase*80 : W-40-phase*80;
-      var len=24+phase*80;
-      ctx.globalAlpha=.08+.34*phase;ctx.lineWidth=2+3*phase;
-      ctx.beginPath();ctx.moveTo(x,y-len*.55);ctx.lineTo(x+sideDir*14*phase,y+len*.45);ctx.stroke();
+      var phase=(i*.09 + roadTime*state.speed*TRACK_MOTION_SCALE*.95)%1;
+      var y=(H*(state.horizon || 0.42))-220 + phase*400;
+      var x=sideDir<0 ? 30+phase*100 : W-30-phase*100;
+      var len=30+phase*110;
+      ctx.globalAlpha=.12+.42*phase;ctx.lineWidth=2.5+3.5*phase;
+      ctx.beginPath();ctx.moveTo(x,y-len*.55);ctx.lineTo(x+sideDir*18*phase,y+len*.45);ctx.stroke();
     }
     ctx.restore();
   }
@@ -1884,49 +1859,6 @@ function rElectricThunder(){
   drawSideRails('rgba(56,189,248,.8)');
   drawCenterDashed(0,'#7dd3fc',2.5,5.5,.08,12,.95,.12);
 }
-function rCarbonTrack(){
-  fillRoadBase('#323b49','#151c24');
-  for(var i=0;i<11;i++){
-    var z0=(i/11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
-    var z1=z0+.075;
-    if(z1>1 || z0<.12) continue;
-    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    var insetA=a.half*.08, insetB=b.half*.08;
-    drawPoly([[a.l+insetA,a.y],[a.r-insetA,a.y],[b.r-insetB,b.y],[b.l+insetB,b.y]], i%2===0?'rgba(255,255,255,.05)':'rgba(0,0,0,.09)');
-  }
-  drawEdgeStripSeries(18,.78,4,18,'#ff8f29','#ffffff');
-  drawCenterDashed(0,'rgba(255,171,85,.75)',2,4,.07,10,.90,.18);
-}
-function rDiamondFlow(){
-  fillRoadBase('#414b59','#1c232c');
-  drawRoadTexture(.020);
-  drawEdgeStripSeries(18,.82,4,20,'#ff3347','#ffffff');
-  for(var i=0;i<8;i++){
-    var z=(i/8 + roadTime*state.speed*TRACK_MOTION_SCALE*.88)%1;
-    if(z<.15 || z>.94) continue;
-    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
-    var midY=(a.y+b.y)/2;
-    var w=12+a.e*56, h=6+a.e*32;
-    ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
-  }
-}
-function rMinimalGrey(){
-  fillRoadBase('#475569','#1e293b');
-  drawEdgeStripSeries(18,.8,4,20,'#ffffff','#64748b');
-  drawCenterDashed(0,'rgba(255,255,255,.7)',2,4,.1,10,.8,.15);
-}
-function rPastelDream(){
-  fillRoadBase('#701a75','#3b0764');
-  drawEdgeStripSeries(18,.8,5,22,'#f472b6','#38bdf8');
-  drawCenterDashed(0,'#fbcfe8',2,5,.09,10,.82,.14);
-}
-function rSunsetBoulevard(){
-  fillRoadBase('#7c2d12','#361005');
-  drawEdgeStripSeries(18,.82,5,24,'#f97316','#fde047');
-  drawCenterDashed(-.05,'#fed7aa',2,4.5,.08,10,.85,.15);
-  drawCenterDashed(.05,'#fed7aa',2,4.5,.08,10,.85,.15);
-}
 function rRainbowPrism(){
   fillRoadBase('#18181b','#09090b');
   var colors=['#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#8b5cf6'];
@@ -1940,40 +1872,6 @@ function rRainbowPrism(){
     drawPoly([[a.r-8-a.e*18,a.y],[a.r,a.y],[b.r,b.y],[b.r-8-b.e*18,b.y]],col);
   }
   drawCenterDashed(0,'#ffffff',2,5,.09,10,.85,.15);
-}
-function rRetroSun(){
-  fillRoadBase('#4a044e','#1c021f');
-  drawEdgeStripSeries(18,.85,4,22,'#facc15','#ec4899');
-  drawSideRails('#ec4899');
-  drawCenterDashed(0,'#fde047',3,6,.12,9,.84,.15);
-}
-function rDarkObsidian(){
-  fillRoadBase('#0f172a','#020617');
-  drawRoadTexture(.035);
-  drawEdgeStripSeries(18,.75,3,16,'#334155','#0f172a');
-  drawCenterDashed(0,'rgba(148,163,184,.6)',1.5,3.5,.08,9,.8,.2);
-}
-function rHyperSpace(){
-  fillRoadBase('#0f0728','#03010a');
-  drawSideRails('rgba(168,85,247,.9)');
-  drawCenterDashed(-.15,'#38bdf8',2,5,.15,14,1.2,.1);
-  drawCenterDashed(.15,'#38bdf8',2,5,.15,14,1.2,.1);
-  drawCenterPulseDots(0,'#ffffff',2,7,12,1.3,.1);
-}
-function rCleanWhiteTrack(){
-  fillRoadBase('#cbd5e1','#94a3b8');
-  drawEdgeStripSeries(18,.82,4,22,'#0f172a','#ffffff');
-  drawCenterDashed(0,'#0f172a',2.5,5,.1,10,.85,.14);
-}
-function rEmeraldCity(){
-  fillRoadBase('#064e3b','#022c22');
-  drawEdgeStripSeries(18,.85,5,25,'#34d399','#a7f3d0');
-  drawCenterDashed(0,'#6ee7b7',3,6,.1,10,.85,.15);
-}
-function rRubyRoyale(){
-  fillRoadBase('#881337','#4c0519');
-  drawEdgeStripSeries(18,.85,5,26,'#fb7185','#ffe4e6');
-  drawCenterDashed(0,'#fda4af',3,6.5,.11,10,.85,.15);
 }
 
 function drawRoad(){
@@ -2001,28 +1899,18 @@ function drawRoad(){
     amethystPath: rAmethystPath,
     infernoFire: rInfernoFire,
     electricThunder: rElectricThunder,
-    carbonTrack: rCarbonTrack,
-    diamondFlow: rDiamondFlow,
-    minimalGrey: rMinimalGrey,
-    pastelDream: rPastelDream,
-    sunsetBoulevard: rSunsetBoulevard,
-    rainbowPrism: rRainbowPrism,
-    retroSun: rRetroSun,
-    darkObsidian: rDarkObsidian,
-    hyperSpace: rHyperSpace,
-    cleanWhiteTrack: rCleanWhiteTrack,
-    emeraldCity: rEmeraldCity,
-    rubyRoyale: rRubyRoyale
+    rainbowPrism: rRainbowPrism
   };
   var fn = dict[state.roadVariant] || rClassic;
   fn();
 }
 
+// 🌟 PAD RENDERER - FULL LANE WIDTH (No empty gaps on sides)
 function drawRaisedPad(z, side, hexColor){
   var p=roadBoundsAtZ(z), e=p.e;
-  var laneCenter=side==='left' ? W/2-p.half*.48 : W/2+p.half*.48;
-  var width=Math.max(14, p.half*.78);
-  var height=Math.max(16, width * 0.58);
+  var laneCenter=side==='left' ? W/2-p.half*.50 : W/2+p.half*.50;
+  var width=Math.max(16, p.half*.96); // Almost full half-lane width
+  var height=Math.max(18, width * 0.60);
   var baseY=p.y + 1;
   var topY=baseY - height;
   
@@ -2033,19 +1921,19 @@ function drawRaisedPad(z, side, hexColor){
   var darkB = Math.max(0, Math.floor(c.r * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
-  ctx.save();ctx.fillStyle='rgba(0,0,0,.24)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+4,width*.46,4+7*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
-  ctx.save();ctx.fillStyle='rgba('+dark+',.78)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-(state.padThickness||14)*.45,width,state.padThickness||14,5);ctx.fill();ctx.restore();
+  ctx.save();ctx.fillStyle='rgba(0,0,0,.28)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+4,width*.48,5+8*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
+  ctx.save();ctx.fillStyle='rgba('+dark+',.85)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-(state.padThickness||15)*.45,width,state.padThickness||15,6);ctx.fill();ctx.restore();
   
   var g=ctx.createLinearGradient(0,baseY,0,topY);
-  g.addColorStop(0,'rgba('+rgb+',.88)');
-  g.addColorStop(.35,'rgba('+rgb+',.55)');
-  g.addColorStop(.75,'rgba('+rgb+',.22)');
+  g.addColorStop(0,'rgba('+rgb+',.92)');
+  g.addColorStop(.35,'rgba('+rgb+',.58)');
+  g.addColorStop(.75,'rgba('+rgb+',.25)');
   g.addColorStop(1,'rgba('+rgb+',0)');
   
-  ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=16+24*e;ctx.fillStyle=g;
+  ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=18+26*e;ctx.fillStyle=g;
   ctx.beginPath();ctx.roundRect(laneCenter-width/2,topY,width,height,8);ctx.fill();ctx.restore();
   
-  ctx.save();ctx.strokeStyle='rgba('+rgb+',.96)';ctx.lineWidth=2+2*e;ctx.beginPath();ctx.moveTo(laneCenter-width*.48,baseY-1);ctx.lineTo(laneCenter+width*.48,baseY-1);ctx.stroke();ctx.restore();
+  ctx.save();ctx.strokeStyle='rgba('+rgb+',.98)';ctx.lineWidth=2.5+2.5*e;ctx.beginPath();ctx.moveTo(laneCenter-width*.49,baseY-1);ctx.lineTo(laneCenter+width*.49,baseY-1);ctx.stroke();ctx.restore();
   
   return {center:[laneCenter,baseY-height*.43], baseY:baseY, topY:topY, width:width, height:height, e:e};
 }
@@ -2061,47 +1949,187 @@ function drawImageFit(im, x, y, boxW, boxH, anchor){
   ctx.drawImage(im,dx,dy,dw,dh);
 }
 
+// 🌟 ULTRA-ATTRACTIVE MYSTERY BOXES (FIRE, WATER, ELECTRIC, GEM, GOLD) + POP BOUNCE
+function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, popAge){
+  ctx.save();
+  var cx = bx + size/2;
+  var cy = by + size/2;
+
+  // Pop shockwave burst
+  if(isPopping && popAge < 0.35){
+    var waveRadius = (size * 0.6) + (popAge / 0.35) * (size * 0.7);
+    var waveAlpha = Math.max(0, 1 - (popAge / 0.35));
+    ctx.save();
+    ctx.strokeStyle = style === 'fireInferno' ? 'rgba(255,100,20,'+waveAlpha+')' : (style === 'waterCrystal' ? 'rgba(0,220,255,'+waveAlpha+')' : 'rgba(255,220,50,'+waveAlpha+')');
+    ctx.lineWidth = 4 * waveAlpha;
+    ctx.beginPath(); ctx.arc(cx, cy, waveRadius, 0, Math.PI*2); ctx.stroke();
+    ctx.restore();
+  }
+
+  // Scale bounce transform
+  ctx.translate(cx, cy);
+  ctx.scale(popScale, popScale);
+  ctx.translate(-cx, -cy);
+
+  if(activeImg){
+    // Collected PNG inside Glowing Pedestal
+    ctx.save();
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.beginPath(); ctx.roundRect(bx, by, size, size, 12); ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.shadowColor = '#61f0a6'; ctx.shadowBlur = 16;
+    drawImageFit(activeImg, cx, by + size - 6, size * 0.88, size * 0.88, 'bottom');
+    ctx.restore();
+  } else {
+    // 🎨 Distinct Visual Styles for Question Box
+    if(style === 'fireInferno'){
+      // 🔥 Blazing Fire Box
+      var g = ctx.createLinearGradient(bx, by, bx + size, by + size);
+      g.addColorStop(0, '#ff1a00'); g.addColorStop(0.5, '#ff7700'); g.addColorStop(1, '#ffdd00');
+      ctx.shadowColor = '#ff4400'; ctx.shadowBlur = 18;
+      ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+      
+      ctx.fillStyle = '#450600'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.strokeStyle = '#ff9900'; ctx.lineWidth = 3; ctx.stroke();
+
+      ctx.fillStyle = '#ffea75'; ctx.shadowColor = '#ff3300'; ctx.shadowBlur = 12;
+      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('?', cx, cy + 2);
+
+    } else if(style === 'waterCrystal'){
+      // 💧 Aqua Ice / Water Glass Box
+      var gw = ctx.createLinearGradient(bx, by, bx, by + size);
+      gw.addColorStop(0, '#00f0ff'); gw.addColorStop(0.7, '#0077ff'); gw.addColorStop(1, '#0033aa');
+      ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 18;
+      ctx.fillStyle = gw; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+
+      ctx.fillStyle = '#02183a'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.strokeStyle = '#67e8f9'; ctx.lineWidth = 3; ctx.stroke();
+
+      ctx.fillStyle = '#cffafe'; ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 12;
+      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('?', cx, cy + 2);
+
+    } else if(style === 'electricThunder'){
+      // ⚡ Electric Thunder Box
+      ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 20;
+      ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+
+      ctx.fillStyle = '#082f49'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.strokeStyle = '#facc15'; ctx.lineWidth = 3.5; ctx.stroke();
+
+      ctx.fillStyle = '#fef08a'; ctx.shadowColor = '#facc15'; ctx.shadowBlur = 14;
+      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('⚡', cx, cy + 2);
+
+    } else if(style === 'toxicAcid'){
+      // ☣️ Toxic Acid Lime Box
+      ctx.shadowColor = '#84cc16'; ctx.shadowBlur = 18;
+      ctx.fillStyle = '#65a30d'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+
+      ctx.fillStyle = '#142a03'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.strokeStyle = '#a3e635'; ctx.lineWidth = 3; ctx.stroke();
+
+      ctx.fillStyle = '#bef264'; ctx.shadowColor = '#84cc16'; ctx.shadowBlur = 12;
+      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('?', cx, cy + 2);
+
+    } else if(style === 'amethystGem'){
+      // 💎 Royal Amethyst Purple Gem
+      ctx.shadowColor = '#c084fc'; ctx.shadowBlur = 18;
+      ctx.fillStyle = '#7e22ce'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+
+      ctx.fillStyle = '#24073d'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.strokeStyle = '#d8b4fe'; ctx.lineWidth = 3; ctx.stroke();
+
+      ctx.fillStyle = '#f3e8ff'; ctx.shadowColor = '#a855f7'; ctx.shadowBlur = 12;
+      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('?', cx, cy + 2);
+
+    } else if(style === 'plasmaPink'){
+      // 💖 Plasma Hot Pink Cyber
+      ctx.shadowColor = '#f43f5e'; ctx.shadowBlur = 18;
+      ctx.fillStyle = '#e11d48'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+
+      ctx.fillStyle = '#3a0313'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.strokeStyle = '#fda4af'; ctx.lineWidth = 3; ctx.stroke();
+
+      ctx.fillStyle = '#ffe4e6'; ctx.shadowColor = '#fb7185'; ctx.shadowBlur = 12;
+      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('?', cx, cy + 2);
+
+    } else if(style === 'stealthCarbon'){
+      // 🖤 Stealth Carbon Matte
+      ctx.fillStyle = '#22252c'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+      ctx.fillStyle = '#111317'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.strokeStyle = '#475569'; ctx.lineWidth = 2.5; ctx.stroke();
+
+      ctx.fillStyle = '#94a3b8'; ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('?', cx, cy + 2);
+
+    } else if(style === 'pureWhiteBox'){
+      // ⚪ Clean Minimal White
+      ctx.fillStyle = '#f8fafc'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+      ctx.fillStyle = '#0f172a'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 2.5; ctx.stroke();
+
+      ctx.fillStyle = '#f8fafc'; ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('?', cx, cy + 2);
+
+    } else {
+      // 👑 3D Mario Chamfered Gold (Default)
+      var gg = ctx.createLinearGradient(bx, by, bx, by + size);
+      gg.addColorStop(0, '#fde047'); gg.addColorStop(0.5, '#eab308'); gg.addColorStop(1, '#a16207');
+      ctx.shadowColor = 'rgba(234,179,8,0.7)'; ctx.shadowBlur = 16;
+      ctx.fillStyle = gg; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+
+      ctx.fillStyle = '#713f12'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.strokeStyle = '#fef08a'; ctx.lineWidth = 3; ctx.stroke();
+
+      ctx.fillStyle = '#fef9c3'; ctx.shadowColor = '#ca8a04'; ctx.shadowBlur = 10;
+      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('?', cx, cy + 2);
+    }
+  }
+
+  ctx.restore();
+}
+
 function drawMysteryHUD(){
   if(!state.showHud) return;
 
   var count = 5;
-  var boxS = state.hudBoxSize || 86;
+  var boxS = state.hudBoxSize || 88;
   var gap = state.hudSpacing || 12;
   var totalW = count * boxS + (count - 1) * gap;
   var startX = (W - totalW) / 2;
-  var hudY = state.hudY || 88;
-
-  var th = hudThemes[state.hudStyle] || hudThemes.classicGold;
+  var hudY = state.hudY || 105;
 
   for(var b = 0; b < count; b++){
     var bx = startX + b * (boxS + gap);
     var activeImg = manualHudImgs[b] || collectedHud[b];
 
-    if(activeImg){
-      ctx.save();
-      ctx.shadowColor = th.glow;
-      ctx.shadowBlur = 14;
-      drawImageFit(activeImg, bx + boxS/2, hudY + boxS - 4, boxS * 0.9, boxS * 0.9, 'bottom');
-      ctx.restore();
-    } else {
-      ctx.save();
-      ctx.shadowColor = th.glow;
-      ctx.shadowBlur = 8;
-      ctx.fillStyle = th.border;
-      ctx.beginPath(); ctx.roundRect(bx, hudY, boxS, boxS, 10); ctx.fill();
-
-      ctx.fillStyle = th.face;
-      ctx.beginPath(); ctx.roundRect(bx + 4, hudY + 4, boxS - 8, boxS - 8, 8); ctx.fill();
-
-      ctx.strokeStyle = th.stroke; ctx.lineWidth = 3;
-      ctx.strokeRect(bx + 4, hudY + 4, boxS - 8, boxS - 8);
-
-      ctx.fillStyle = th.text;
-      ctx.font = '900 ' + Math.floor(boxS * 0.65) + 'px Impact, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('?', bx + boxS/2, hudY + boxS/2 + 2);
-      ctx.restore();
+    var popAge = roadTime - collectedTimes[b];
+    var isPopping = popAge >= 0 && popAge <= 0.35;
+    var popScale = 1.0;
+    if(isPopping){
+      // Quick bounce curve
+      var progress = popAge / 0.35;
+      popScale = 1.0 + Math.sin(progress * Math.PI) * 0.28;
     }
+
+    drawMysteryBoxVFX(bx, hudY, boxS, state.hudStyle, activeImg, isPopping, popScale, popAge);
   }
 }
 
@@ -2144,13 +2172,13 @@ function drawRunnerBehind(){
 
   var targetX = W/2;
   if(state.playerLane === 'slider'){
-    targetX = W/2 + (p.half * 0.48 * state.steerOffset);
+    targetX = W/2 + (p.half * 0.50 * state.steerOffset);
   } else if(state.playerLane === 'right'){
-    targetX = W/2 + p.half * 0.48;
+    targetX = W/2 + p.half * 0.50;
   } else if(state.playerLane === 'left'){
-    targetX = W/2 - p.half * 0.48;
+    targetX = W/2 - p.half * 0.50;
   } else {
-    targetX = state.currentLane === 'right' ? (W/2 + p.half * 0.48) : (W/2 - p.half * 0.48);
+    targetX = state.currentLane === 'right' ? (W/2 + p.half * 0.50) : (W/2 - p.half * 0.50);
   }
 
   state.playerX = state.playerX || (W/2);
@@ -2163,6 +2191,7 @@ function syncStateFromTime(t){
   roadTime = Math.max(0, t);
   processedPads = {};
   collectedHud = [null, null, null, null, null];
+  collectedTimes = [-999, -999, -999, -999, -999];
   currentPath = 'base';
   currentStageLevel = 0;
   
@@ -2179,6 +2208,7 @@ function syncStateFromTime(t){
       var itemImg = isPlayerOnRight ? row.rightImg : row.leftImg;
       if(state.autoCollectHud && itemImg){
         collectedHud[i] = itemImg;
+        collectedTimes[i] = roadTime;
       }
       var isGreen = (padHex.indexOf('2a') !== -1 || padHex.indexOf('00') !== -1 || padHex.indexOf('green') !== -1);
       currentPath = isGreen ? 'green' : 'red';
@@ -2208,7 +2238,6 @@ function drawRows(){
   state.rows.slice(0,5).forEach(function(row,i){
     var elapsed=roadTime-initialDelay-i*state.padDelay;
     var z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
-    // 🌟 FIX: Pad screen ke paar niche aage smoothly slide ho sake (1.15 tak allow kiya)
     if(z<0 || z>1.15) return;
     var zz=z;
 
@@ -2220,6 +2249,7 @@ function drawRows(){
 
       if(state.autoCollectHud && itemImg){
         collectedHud[i] = itemImg;
+        collectedTimes[i] = roadTime; // Trigger Pop Shockwave
       }
       
       var isGreen = (padHex.indexOf('2a') !== -1 || padHex.indexOf('00') !== -1 || padHex.indexOf('green') !== -1);
@@ -2236,7 +2266,6 @@ function drawRows(){
       activeLaneColor = row.leftColor;
     }
 
-    // 🌟 FIX: zz ko kisi artificial 1.0 limit par clamp nahi karenge taaki screen ke niche rukne ka sawal hi na ho
     activePads.push({row: row, zz: zz, rawZ: zz});
   });
 
@@ -2245,7 +2274,6 @@ function drawRows(){
     state.currentLane = isGreenLane ? 'left' : 'right';
   }
 
-  // Far to Near Sorting (pehle piche wale fir aage wale)
   activePads.sort(function(a, b){ return a.rawZ - b.rawZ; });
 
   // 1. Pads behind player
@@ -2277,7 +2305,7 @@ function drawRows(){
   // 2. Runner Character
   drawRunnerBehind();
 
-  // 3. Pads in front/above player (Player ko cross karke screen ke niche naturally nikal jayenge)
+  // 3. Pads in front/above player (Naturally slide down off-screen)
   activePads.forEach(function(item){
     if(item.rawZ >= pZ){
       drawSinglePadRow(item);
@@ -2340,7 +2368,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v19'); 
+    localStorage.removeItem('runner_studio_saved_v20'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
