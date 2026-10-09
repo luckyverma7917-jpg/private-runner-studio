@@ -194,7 +194,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 
     <details class="drag-card" id="card_hud" open>
       <summary>
-        <span>🎁 5 Mystery Boxes HUD (Animated Fire, Water & Gold)</span>
+        <span>🎁 5 Mystery Boxes HUD (Elements & Question Themes)</span>
         <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="grid two">
@@ -203,18 +203,25 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 
         <label style="grid-column:1/-1">Box VFX Style (Extreme Eye-Catching)
           <select id="hudStyle">
-            <optgroup label="--- 🔥 Elements & Magic ---">
-              <option value="fireInferno" selected>🔥 1. Inferno Flaming Fire Box</option>
-              <option value="waterCrystal">💧 2. Aqua Water & Ice Crystal</option>
-              <option value="electricThunder">⚡ 3. Electric Thunder Pulse</option>
-              <option value="toxicAcid">☣️ 4. Toxic Acid Neon Lime</option>
-              <option value="amethystGem">💎 5. Amethyst Purple Gem Glow</option>
-              <option value="plasmaPink">💖 6. Hot Plasma Cyber Pink</option>
+            <optgroup label="--- 🔥 Elemental Icons (No Question Mark) ---">
+              <option value="fireInferno" selected>🔥 1. Inferno Flame (Burning Fire Icon)</option>
+              <option value="waterCrystal">💧 2. Aqua Splash (Crystal Water Drop)</option>
+              <option value="amethystGem">💎 3. Faceted Diamond Gem (Magic Sparkle)</option>
+              <option value="electricThunder">⚡ 4. Neon Lightning Bolt (Thunder Zap)</option>
             </optgroup>
-            <optgroup label="--- 👑 Royal & Classic ---">
-              <option value="royal3DGold">👑 7. 3D Mario Chamfered Gold (?)</option>
-              <option value="pureWhiteBox">⚪ 8. Clean Minimal Studio White</option>
-              <option value="stealthCarbon">🖤 9. Stealth Carbon Matte</option>
+            <optgroup label="--- ❓ Classic & Viral Question Marks ---">
+              <option value="royal3DGold">👑 5. 3D Mario Classic Gold (?)</option>
+              <option value="royalAmber">👑 6. Royal Amber Gold (?)</option>
+              <option value="arcadeYellow">⭐ 7. 80s Arcade Bright Yellow (?)</option>
+              <option value="laserCrimson">🔴 8. Laser Crimson Red (?)</option>
+              <option value="cyberCyan">🔵 9. Cyber Cyan Circuit (?)</option>
+              <option value="neonGreen">🟢 10. Emerald Neon Pulse (?)</option>
+              <option value="plasmaPink">💖 11. Plasma Cyber Pink (?)</option>
+              <option value="electricBlue">⚡ 12. Electric Blue Thunder (?)</option>
+              <option value="synthwaveViolet">🟣 13. Synthwave Violet (?)</option>
+              <option value="toxicAcid">☣️ 14. Toxic Biohazard Lime (?)</option>
+              <option value="pureWhiteBox">⚪ 15. Clean Minimal Studio White (?)</option>
+              <option value="stealthCarbon">🖤 16. Stealth Carbon Matte (?)</option>
             </optgroup>
           </select>
         </label>
@@ -646,7 +653,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       <div class="rowbar">
         <span class="small">5 main rows with custom color pickers & live size values + Stationary Boss.</span>
         
-        <!-- 🌟 MASTER BATCH PNG UPLOADER FOR ALL 5 ROWS -->
         <div style="width:100%;background:#101318;padding:12px;border:1px solid #3c4454;border-radius:12px;display:grid;gap:10px;margin-top:6px">
           <div style="font-weight:900;font-size:13px;color:var(--accent);display:flex;align-items:center;gap:6px">
             <span>⚡ Master Left & Right PNG (Apply to All 5 Rows with 1-Click)</span>
@@ -1057,13 +1063,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v21', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v22', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v21');
+    var raw = localStorage.getItem('runner_studio_saved_v22');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1474,7 +1480,6 @@ function addRow(saved){
   if(row.rightSrc) dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){ row.rightImg=im; updateThumbBox(thumbRight, im.src); });
 }
 
-// 🌟 MASTER BATCH SETUP FUNCTION FOR ALL 5 ROWS
 function setupMasterBatchUploaders(){
   var mLeftInp = $('master_left_file');
   var mLeftClr = $('master_left_clear');
@@ -2035,6 +2040,52 @@ function rElectricThunder(){
   drawSideRails('rgba(56,189,248,.8)');
   drawCenterDashed(0,'#7dd3fc',2.5,5.5,.08,12,.95,.12);
 }
+function rRainbowPrism(){
+  fillRoadBase('#18181b','#09090b');
+  var colors=['#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#8b5cf6'];
+  for(var i=0;i<18;i++){
+    var z0=(i/18 + roadTime*state.speed*TRACK_MOTION_SCALE*.85)%1;
+    var z1=z0+.055;
+    if(z1>1) continue;
+    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    var col=colors[i%colors.length];
+    drawPoly([[a.l,a.y],[a.l+8+a.e*18,a.y],[b.l+8+b.e*18,b.y],[b.l,b.y]],col);
+    drawPoly([[a.r-8-a.e*18,a.y],[a.r,a.y],[b.r,b.y],[b.r-8-b.e*18,b.y]],col);
+  }
+  drawCenterDashed(0,'#ffffff',2,5,.09,10,.85,.15);
+}
+function rSunsetBoulevard(){
+  fillRoadBase('#7c2d12','#361005');
+  drawEdgeStripSeries(18,.82,5,24,'#f97316','#fde047');
+  drawCenterDashed(-.05,'#fed7aa',2,4.5,.08,10,.85,.15);
+  drawCenterDashed(.05,'#fed7aa',2,4.5,.08,10,.85,.15);
+}
+function rPastelDream(){
+  fillRoadBase('#701a75','#3b0764');
+  drawEdgeStripSeries(18,.8,5,22,'#f472b6','#38bdf8');
+  drawCenterDashed(0,'#fbcfe8',2,5,.09,10,.82,.14);
+}
+function rEmeraldCity(){
+  fillRoadBase('#064e3b','#022c22');
+  drawEdgeStripSeries(18,.85,5,25,'#34d399','#a7f3d0');
+  drawCenterDashed(0,'#6ee7b7',3,6,.1,10,.85,.15);
+}
+function rRubyRoyale(){
+  fillRoadBase('#881337','#4c0519');
+  drawEdgeStripSeries(18,.85,5,26,'#fb7185','#ffe4e6');
+  drawCenterDashed(0,'#fda4af',3,6.5,.11,10,.85,.15);
+}
+function rCleanWhiteTrack(){
+  fillRoadBase('#cbd5e1','#94a3b8');
+  drawEdgeStripSeries(18,.82,4,22,'#0f172a','#ffffff');
+  drawCenterDashed(0,'#0f172a',2.5,5,.1,10,.85,.14);
+}
+function rDarkObsidian(){
+  fillRoadBase('#0f172a','#020617');
+  drawRoadTexture(.035);
+  drawEdgeStripSeries(18,.75,3,16,'#334155','#0f172a');
+  drawCenterDashed(0,'rgba(148,163,184,.6)',1.5,3.5,.08,9,.8,.2);
+}
 function rCarbonTrack(){
   fillRoadBase('#323b49','#151c24');
   for(var i=0;i<11;i++){
@@ -2059,50 +2110,13 @@ function rDiamondFlow(){
     var midY=(a.y+b.y)/2;
     var w=12+a.e*56, h=6+a.e*32;
     ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2,midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
   }
 }
 function rMinimalGrey(){
   fillRoadBase('#475569','#1e293b');
   drawEdgeStripSeries(18,.8,4,20,'#ffffff','#64748b');
   drawCenterDashed(0,'rgba(255,255,255,.7)',2,4,.1,10,.8,.15);
-}
-function rPastelDream(){
-  fillRoadBase('#701a75','#3b0764');
-  drawEdgeStripSeries(18,.8,5,22,'#f472b6','#38bdf8');
-  drawCenterDashed(0,'#fbcfe8',2,5,.09,10,.82,.14);
-}
-function rSunsetBoulevard(){
-  fillRoadBase('#7c2d12','#361005');
-  drawEdgeStripSeries(18,.82,5,24,'#f97316','#fde047');
-  drawCenterDashed(-.05,'#fed7aa',2,4.5,.08,10,.85,.15);
-  drawCenterDashed(.05,'#fed7aa',2,4.5,.08,10,.85,.15);
-}
-function rRainbowPrism(){
-  fillRoadBase('#18181b','#09090b');
-  var colors=['#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#8b5cf6'];
-  for(var i=0;i<18;i++){
-    var z0=(i/18 + roadTime*state.speed*TRACK_MOTION_SCALE*.85)%1;
-    var z1=z0+.055;
-    if(z1>1) continue;
-    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    var col=colors[i%colors.length];
-    drawPoly([[a.l,a.y],[a.l+8+a.e*18,a.y],[b.l+8+b.e*18,b.y],[b.l,b.y]],col);
-    drawPoly([[a.r-8-a.e*18,a.y],[a.r,a.y],[b.r,b.y],[b.r-8-b.e*18,b.y]],col);
-  }
-  drawCenterDashed(0,'#ffffff',2,5,.09,10,.85,.15);
-}
-function rRetroSun(){
-  fillRoadBase('#4a044e','#1c021f');
-  drawEdgeStripSeries(18,.85,4,22,'#facc15','#ec4899');
-  drawSideRails('#ec4899');
-  drawCenterDashed(0,'#fde047',3,6,.12,9,.84,.15);
-}
-function rDarkObsidian(){
-  fillRoadBase('#0f172a','#020617');
-  drawRoadTexture(.035);
-  drawEdgeStripSeries(18,.75,3,16,'#334155','#0f172a');
-  drawCenterDashed(0,'rgba(148,163,184,.6)',1.5,3.5,.08,9,.8,.2);
 }
 function rHyperSpace(){
   fillRoadBase('#0f0728','#03010a');
@@ -2111,20 +2125,11 @@ function rHyperSpace(){
   drawCenterDashed(.15,'#38bdf8',2,5,.15,14,1.2,.1);
   drawCenterPulseDots(0,'#ffffff',2,7,12,1.3,.1);
 }
-function rCleanWhiteTrack(){
-  fillRoadBase('#cbd5e1','#94a3b8');
-  drawEdgeStripSeries(18,.82,4,22,'#0f172a','#ffffff');
-  drawCenterDashed(0,'#0f172a',2.5,5,.1,10,.85,.14);
-}
-function rEmeraldCity(){
-  fillRoadBase('#064e3b','#022c22');
-  drawEdgeStripSeries(18,.85,5,25,'#34d399','#a7f3d0');
-  drawCenterDashed(0,'#6ee7b7',3,6,.1,10,.85,.15);
-}
-function rRubyRoyale(){
-  fillRoadBase('#881337','#4c0519');
-  drawEdgeStripSeries(18,.85,5,26,'#fb7185','#ffe4e6');
-  drawCenterDashed(0,'#fda4af',3,6.5,.11,10,.85,.15);
+function rRetroSun(){
+  fillRoadBase('#4a044e','#1c021f');
+  drawEdgeStripSeries(18,.85,4,22,'#facc15','#ec4899');
+  drawSideRails('#ec4899');
+  drawCenterDashed(0,'#fde047',3,6,.12,9,.84,.15);
 }
 
 function drawRoad(){
@@ -2212,51 +2217,188 @@ function drawImageFit(im, x, y, boxW, boxH, anchor){
   ctx.drawImage(im,dx,dy,dw,dh);
 }
 
+// 🌟 PROCEDURAL ELEMENTAL ICONS (FLAME, DROPLET, DIAMOND, BOLT)
+function drawFlameIcon(cx, cy, s){
+  ctx.save();
+  ctx.translate(cx, cy);
+  var sc = s / 70;
+  ctx.scale(sc, sc);
+
+  // Outer Flame
+  var gf = ctx.createLinearGradient(0, -26, 0, 24);
+  gf.addColorStop(0, '#ffff55'); gf.addColorStop(0.4, '#ff7700'); gf.addColorStop(1, '#ff1a00');
+  ctx.fillStyle = gf;
+  ctx.beginPath();
+  ctx.moveTo(0, -28);
+  ctx.bezierCurveTo(14, -14, 26, 4, 18, 22);
+  ctx.bezierCurveTo(12, 30, -12, 30, -18, 22);
+  ctx.bezierCurveTo(-26, 4, -14, -14, 0, -28);
+  ctx.fill();
+
+  // Inner Core Flame
+  ctx.fillStyle = '#fff9a6';
+  ctx.beginPath();
+  ctx.moveTo(0, -8);
+  ctx.bezierCurveTo(7, 2, 12, 12, 8, 20);
+  ctx.bezierCurveTo(4, 25, -4, 25, -8, 20);
+  ctx.bezierCurveTo(-12, 12, -7, 2, 0, -8);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawDropletIcon(cx, cy, s){
+  ctx.save();
+  ctx.translate(cx, cy);
+  var sc = s / 70;
+  ctx.scale(sc, sc);
+
+  var gd = ctx.createLinearGradient(0, -26, 0, 24);
+  gd.addColorStop(0, '#e0f7ff'); gd.addColorStop(0.5, '#00b4d8'); gd.addColorStop(1, '#0077b6');
+  ctx.fillStyle = gd;
+  ctx.beginPath();
+  ctx.moveTo(0, -26);
+  ctx.bezierCurveTo(18, -4, 22, 16, 12, 24);
+  ctx.bezierCurveTo(2, 30, -2, 30, -12, 24);
+  ctx.bezierCurveTo(-22, 16, -18, -4, 0, -26);
+  ctx.fill();
+
+  // Droplet Specular Shine
+  ctx.fillStyle = 'rgba(255,255,255,0.75)';
+  ctx.beginPath();
+  ctx.ellipse(-6, 2, 4, 9, -0.4, 0, Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawDiamondIcon(cx, cy, s){
+  ctx.save();
+  ctx.translate(cx, cy);
+  var sc = s / 70;
+  ctx.scale(sc, sc);
+
+  var gm = ctx.createLinearGradient(-22, -22, 22, 22);
+  gm.addColorStop(0, '#f3e8ff'); gm.addColorStop(0.5, '#c084fc'); gm.addColorStop(1, '#7e22ce');
+  ctx.fillStyle = gm;
+  ctx.beginPath();
+  ctx.moveTo(0, -26);
+  ctx.lineTo(24, 0);
+  ctx.lineTo(0, 26);
+  ctx.lineTo(-24, 0);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // Facet Lines
+  ctx.beginPath();
+  ctx.moveTo(-24, 0); ctx.lineTo(24, 0);
+  ctx.moveTo(0, -26); ctx.lineTo(0, 26);
+  ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawBoltIcon(cx, cy, s){
+  ctx.save();
+  ctx.translate(cx, cy);
+  var sc = s / 70;
+  ctx.scale(sc, sc);
+
+  var gb = ctx.createLinearGradient(0, -26, 0, 26);
+  gb.addColorStop(0, '#ffffff'); gb.addColorStop(0.4, '#fde047'); gb.addColorStop(1, '#eab308');
+  ctx.fillStyle = gb;
+  ctx.shadowColor = '#facc15'; ctx.shadowBlur = 14;
+  ctx.beginPath();
+  ctx.moveTo(4, -28);
+  ctx.lineTo(-16, 2);
+  ctx.lineTo(-2, 2);
+  ctx.lineTo(-6, 28);
+  ctx.lineTo(16, -2);
+  ctx.lineTo(2, -2);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+// 🌟 ULTRA-ATTRACTIVE BOX VFX (ELEMENTAL & 10+ VIRAL QUESTION THEMES)
 function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, popAge){
   ctx.save();
   var cx = bx + size/2;
   var cy = by + size/2;
 
-  if(isPopping && popAge < 0.35){
-    var waveRadius = (size * 0.6) + (popAge / 0.35) * (size * 0.7);
-    var waveAlpha = Math.max(0, 1 - (popAge / 0.35));
+  // Custom Burst Particles
+  if(isPopping && popAge < 0.40){
+    var progress = popAge / 0.40;
+    var alpha = Math.max(0, 1 - progress);
+
     ctx.save();
-    ctx.strokeStyle = style === 'fireInferno' ? 'rgba(255,100,20,'+waveAlpha+')' : (style === 'waterCrystal' ? 'rgba(0,220,255,'+waveAlpha+')' : 'rgba(255,220,50,'+waveAlpha+')');
-    ctx.lineWidth = 4 * waveAlpha;
-    ctx.beginPath(); ctx.arc(cx, cy, waveRadius, 0, Math.PI*2); ctx.stroke();
+    if(style === 'fireInferno'){
+      for(var f=0; f<6; f++){
+        var ang = (f / 6) * Math.PI*2 + progress * 2;
+        var r = (size * 0.4) + progress * (size * 0.65);
+        ctx.fillStyle = f % 2 ? 'rgba(255,100,0,'+alpha+')' : 'rgba(255,220,50,'+alpha+')';
+        ctx.beginPath(); ctx.arc(cx + Math.cos(ang)*r, cy + Math.sin(ang)*r - progress*18, 4 + 4*alpha, 0, Math.PI*2); ctx.fill();
+      }
+    } else if(style === 'waterCrystal'){
+      ctx.strokeStyle = 'rgba(0,210,255,'+alpha+')';
+      ctx.lineWidth = 3.5 * alpha;
+      ctx.beginPath(); ctx.arc(cx, cy, (size * 0.5) + progress * (size * 0.7), 0, Math.PI*2); ctx.stroke();
+    } else {
+      ctx.strokeStyle = 'rgba(255,215,0,'+alpha+')';
+      ctx.lineWidth = 4 * alpha;
+      ctx.beginPath(); ctx.arc(cx, cy, (size * 0.5) + progress * (size * 0.6), 0, Math.PI*2); ctx.stroke();
+    }
     ctx.restore();
   }
 
+  // Scale Bounce
   ctx.translate(cx, cy);
   ctx.scale(popScale, popScale);
   ctx.translate(-cx, -cy);
 
   if(activeImg){
     ctx.save();
-    ctx.fillStyle = 'rgba(0,0,0,0.55)';
-    ctx.beginPath(); ctx.roundRect(bx, by, size, size, 12); ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 2;
-    ctx.stroke();
+    ctx.fillStyle = 'rgba(0,0,0,0.58)';
+    ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 2.5; ctx.stroke();
 
-    ctx.shadowColor = '#61f0a6'; ctx.shadowBlur = 16;
+    ctx.shadowColor = '#61f0a6'; ctx.shadowBlur = 18;
     drawImageFit(activeImg, cx, by + size - 6, size * 0.88, size * 0.88, 'bottom');
     ctx.restore();
   } else {
+    // 🎨 STYLES RENDERING
+    var qThemes = {
+      royal3DGold:    { border:'#ff9900', face:'#fde047', stroke:'#451a03', text:'#451a03', glow:'rgba(255,190,26,0.85)' },
+      royalAmber:     { border:'#d97706', face:'#fbbf24', stroke:'#451a03', text:'#451a03', glow:'rgba(251,191,36,0.8)' },
+      arcadeYellow:   { border:'#eab308', face:'#fef08a', stroke:'#000000', text:'#000000', glow:'rgba(234,179,8,0.85)' },
+      laserCrimson:   { border:'#b91c1c', face:'#ef4444', stroke:'#450a0a', text:'#240202', glow:'rgba(239,68,68,0.9)' },
+      cyberCyan:      { border:'#0284c7', face:'#00f5ff', stroke:'#082f49', text:'#041f30', glow:'rgba(0,245,255,0.9)' },
+      neonGreen:      { border:'#15803d', face:'#22c55e', stroke:'#052e16', text:'#021f0e', glow:'rgba(34,197,94,0.9)' },
+      plasmaPink:     { border:'#be185d', face:'#f43f5e', stroke:'#4c0519', text:'#26020c', glow:'rgba(244,63,94,0.9)' },
+      electricBlue:   { border:'#1d4ed8', face:'#3b82f6', stroke:'#0f172a', text:'#06142e', glow:'rgba(59,130,246,0.9)' },
+      synthwaveViolet:{ border:'#6d28d9', face:'#8b5cf6', stroke:'#2e1065', text:'#1a043d', glow:'rgba(139,92,246,0.9)' },
+      toxicAcid:      { border:'#4d7c0f', face:'#84cc16', stroke:'#1a2e05', text:'#102002', glow:'rgba(132,204,22,0.9)' },
+      pureWhiteBox:   { border:'#cbd5e1', face:'#f8fafc', stroke:'#0f172a', text:'#0f172a', glow:'rgba(255,255,255,0.8)' },
+      stealthCarbon:  { border:'#334155', face:'#1e293b', stroke:'#090d16', text:'#94a3b8', glow:'rgba(71,85,105,0.7)' }
+    };
+
     if(style === 'fireInferno'){
-      var g = ctx.createLinearGradient(bx, by, bx + size, by + size);
-      g.addColorStop(0, '#ff1a00'); g.addColorStop(0.5, '#ff7700'); g.addColorStop(1, '#ffdd00');
+      // 🔥 Burning Fire Icon
+      var gf = ctx.createLinearGradient(bx, by, bx + size, by + size);
+      gf.addColorStop(0, '#ff1a00'); gf.addColorStop(0.5, '#ff7700'); gf.addColorStop(1, '#ffdd00');
       ctx.shadowColor = '#ff4400'; ctx.shadowBlur = 18;
-      ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
-      
-      ctx.fillStyle = '#450600'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.fillStyle = gf; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+
+      ctx.fillStyle = '#380500'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
       ctx.strokeStyle = '#ff9900'; ctx.lineWidth = 3; ctx.stroke();
 
-      ctx.fillStyle = '#ffea75'; ctx.shadowColor = '#ff3300'; ctx.shadowBlur = 12;
-      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('?', cx, cy + 2);
+      drawFlameIcon(cx, cy, size * 0.65);
 
     } else if(style === 'waterCrystal'){
+      // 💧 Aqua Crystal Drop
       var gw = ctx.createLinearGradient(bx, by, bx, by + size);
       gw.addColorStop(0, '#00f0ff'); gw.addColorStop(0.7, '#0077ff'); gw.addColorStop(1, '#0033aa');
       ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 18;
@@ -2265,87 +2407,39 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
       ctx.fillStyle = '#02183a'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
       ctx.strokeStyle = '#67e8f9'; ctx.lineWidth = 3; ctx.stroke();
 
-      ctx.fillStyle = '#cffafe'; ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 12;
-      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('?', cx, cy + 2);
-
-    } else if(style === 'electricThunder'){
-      ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 20;
-      ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
-
-      ctx.fillStyle = '#082f49'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
-      ctx.strokeStyle = '#facc15'; ctx.lineWidth = 3.5; ctx.stroke();
-
-      ctx.fillStyle = '#fef08a'; ctx.shadowColor = '#facc15'; ctx.shadowBlur = 14;
-      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('⚡', cx, cy + 2);
-
-    } else if(style === 'toxicAcid'){
-      ctx.shadowColor = '#84cc16'; ctx.shadowBlur = 18;
-      ctx.fillStyle = '#65a30d'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
-
-      ctx.fillStyle = '#142a03'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
-      ctx.strokeStyle = '#a3e635'; ctx.lineWidth = 3; ctx.stroke();
-
-      ctx.fillStyle = '#bef264'; ctx.shadowColor = '#84cc16'; ctx.shadowBlur = 12;
-      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('?', cx, cy + 2);
+      drawDropletIcon(cx, cy, size * 0.65);
 
     } else if(style === 'amethystGem'){
+      // 💎 Faceted Gem Diamond
       ctx.shadowColor = '#c084fc'; ctx.shadowBlur = 18;
       ctx.fillStyle = '#7e22ce'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
 
-      ctx.fillStyle = '#24073d'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.fillStyle = '#220638'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
       ctx.strokeStyle = '#d8b4fe'; ctx.lineWidth = 3; ctx.stroke();
 
-      ctx.fillStyle = '#f3e8ff'; ctx.shadowColor = '#a855f7'; ctx.shadowBlur = 12;
-      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('?', cx, cy + 2);
+      drawDiamondIcon(cx, cy, size * 0.65);
 
-    } else if(style === 'plasmaPink'){
-      ctx.shadowColor = '#f43f5e'; ctx.shadowBlur = 18;
-      ctx.fillStyle = '#e11d48'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+    } else if(style === 'electricThunder'){
+      // ⚡ Neon Lightning Bolt
+      ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 18;
+      ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
 
-      ctx.fillStyle = '#3a0313'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
-      ctx.strokeStyle = '#fda4af'; ctx.lineWidth = 3; ctx.stroke();
+      ctx.fillStyle = '#082f49'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.strokeStyle = '#facc15'; ctx.lineWidth = 3; ctx.stroke();
 
-      ctx.fillStyle = '#ffe4e6'; ctx.shadowColor = '#fb7185'; ctx.shadowBlur = 12;
-      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('?', cx, cy + 2);
-
-    } else if(style === 'stealthCarbon'){
-      ctx.fillStyle = '#22252c'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
-      ctx.fillStyle = '#111317'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
-      ctx.strokeStyle = '#475569'; ctx.lineWidth = 2.5; ctx.stroke();
-
-      ctx.fillStyle = '#94a3b8'; ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('?', cx, cy + 2);
-
-    } else if(style === 'pureWhiteBox'){
-      ctx.fillStyle = '#f8fafc'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
-      ctx.fillStyle = '#0f172a'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
-      ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 2.5; ctx.stroke();
-
-      ctx.fillStyle = '#f8fafc'; ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('?', cx, cy + 2);
+      drawBoltIcon(cx, cy, size * 0.65);
 
     } else {
-      var gg = ctx.createLinearGradient(bx, by, bx, by + size);
-      gg.addColorStop(0, '#fde047'); gg.addColorStop(0.5, '#eab308'); gg.addColorStop(1, '#a16207');
-      ctx.shadowColor = 'rgba(234,179,8,0.7)'; ctx.shadowBlur = 16;
-      ctx.fillStyle = gg; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+      // ❓ 10+ Classic & Viral Question Marks
+      var th = qThemes[style] || qThemes.royal3DGold;
 
-      ctx.fillStyle = '#713f12'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
-      ctx.strokeStyle = '#fef08a'; ctx.lineWidth = 3; ctx.stroke();
+      ctx.shadowColor = th.glow; ctx.shadowBlur = 14;
+      ctx.fillStyle = th.border; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
 
-      ctx.fillStyle = '#fef9c3'; ctx.shadowColor = '#ca8a04'; ctx.shadowBlur = 10;
+      ctx.fillStyle = th.face; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
+      ctx.strokeStyle = th.stroke; ctx.lineWidth = 3; ctx.stroke();
+
+      ctx.fillStyle = th.text;
       ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText('?', cx, cy + 2);
@@ -2370,10 +2464,10 @@ function drawMysteryHUD(){
     var activeImg = manualHudImgs[b] || collectedHud[b];
 
     var popAge = roadTime - collectedTimes[b];
-    var isPopping = popAge >= 0 && popAge <= 0.35;
+    var isPopping = popAge >= 0 && popAge <= 0.40;
     var popScale = 1.0;
     if(isPopping){
-      var progress = popAge / 0.35;
+      var progress = popAge / 0.40;
       popScale = 1.0 + Math.sin(progress * Math.PI) * 0.28;
     }
 
@@ -2616,7 +2710,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v21'); 
+    localStorage.removeItem('runner_studio_saved_v22'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
