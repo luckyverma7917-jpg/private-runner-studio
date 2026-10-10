@@ -177,7 +177,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     <div class="transport">
       <button class="primary" id="playBtn">Pause</button>
       <button id="resetBtn">Reset Time</button>
-      <label>Record sec <input id="recordSec" type="number" min="2" max="60" value="15"></label>
+      <label>Record sec <input id="recordSec" type="number" min="2" max="60" value="20"></label>
       <button id="exportBtn">Export 60FPS Video</button>
       <div style="width:100%;margin-top:6px;display:flex;align-items:center;gap:8px">
         <span style="font-size:12px;font-weight:700">⏱️ Scrub Video:</span>
@@ -187,7 +187,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>सड़क चौड़ाई व स्पीड फिक्स:</b> 35+ रोड्स, 20+ थीम्स, और मास्टर 1-क्लिक PNG अपलोडर एक्टिवेटेड!</div>
+    <div class="note"><b>सड़क चौड़ाई व स्पीड फिक्स:</b> 35+ रोड्स, 20+ थीम्स, और मास्टर कलर-बेस्ड PNG अपलोडर एक्टिवेटेड!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -647,37 +647,38 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 
     <details class="drag-card" id="card_rows" open>
       <summary>
-        <span>🚦 5 Fixed Rows + Master PNG Batch Controller</span>
+        <span>🚦 5 Fixed Rows + Master Color PNG Batch Controller</span>
         <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
       <div class="rowbar">
         <span class="small">5 main rows with custom color pickers & live size values + Stationary Boss.</span>
         
+        <!-- 🌟 SMART COLOR-BASED MASTER BATCH PNG UPLOADER -->
         <div style="width:100%;background:#101318;padding:12px;border:1px solid #3c4454;border-radius:12px;display:grid;gap:10px;margin-top:6px">
           <div style="font-weight:900;font-size:13px;color:var(--accent);display:flex;align-items:center;gap:6px">
-            <span>⚡ Master Left & Right PNG (Apply to All 5 Rows with 1-Click)</span>
+            <span>⚡ Smart Master Color PNG (Applies by Color, NOT Straight Line!)</span>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:10px">
             <div style="background:#191d24;padding:9px;border-radius:9px;display:grid;gap:6px">
-              <b style="font-size:11px;color:#2aff84">MASTER LEFT (GREEN) PNG</b>
+              <b style="font-size:11px;color:#2aff84">MASTER GREEN PADS PNG (All Green Pads)</b>
               <div class="file-wrap">
-                <div class="thumb-box" id="thumb_master_left"><span>None</span><img src=""></div>
-                <input id="master_left_file" type="file" accept="image/png,image/webp,image/jpeg">
-                <button type="button" class="clear-btn" id="master_left_clear">✕ Clear</button>
+                <div class="thumb-box" id="thumb_master_green"><span>None</span><img src=""></div>
+                <input id="master_green_file" type="file" accept="image/png,image/webp,image/jpeg">
+                <button type="button" class="clear-btn" id="master_green_clear">✕ Clear</button>
               </div>
-              <div class="toggle"><input id="master_left_rm" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+              <div class="toggle"><input id="master_green_rm" type="checkbox" checked><span class="small">Auto remove bg</span></div>
             </div>
             <div style="background:#191d24;padding:9px;border-radius:9px;display:grid;gap:6px">
-              <b style="font-size:11px;color:#ff4d4d">MASTER RIGHT (RED) PNG</b>
+              <b style="font-size:11px;color:#ff4d4d">MASTER RED PADS PNG (All Red Pads)</b>
               <div class="file-wrap">
-                <div class="thumb-box" id="thumb_master_right"><span>None</span><img src=""></div>
-                <input id="master_right_file" type="file" accept="image/png,image/webp,image/jpeg">
-                <button type="button" class="clear-btn" id="master_right_clear">✕ Clear</button>
+                <div class="thumb-box" id="thumb_master_red"><span>None</span><img src=""></div>
+                <input id="master_red_file" type="file" accept="image/png,image/webp,image/jpeg">
+                <button type="button" class="clear-btn" id="master_red_clear">✕ Clear</button>
               </div>
-              <div class="toggle"><input id="master_right_rm" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+              <div class="toggle"><input id="master_red_rm" type="checkbox" checked><span class="small">Auto remove bg</span></div>
             </div>
           </div>
-          <span class="small" style="color:var(--muted)">💡 Tip: Yahan ek baar photo daaloge to 5 ke 5 rows mein wahi photo set ho jayegi! Neeche se kisi ek row ko alag bhi kar sakte ho.</span>
+          <span class="small" style="color:var(--muted)">💡 फिक्स: अब ग्रीन वाली फोटो चाहे लेफ्ट हो या राइट, सिर्फ हरे पैड्स में ही लगेगी! लाल वाली सिर्फ लाल पैड्स में लगेगी।</span>
         </div>
 
         <div style="width:100%;margin-top:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
@@ -848,7 +849,6 @@ var state={
   opponent:{src:null, img:null, removeBg:true, size:220}
 };
 
-// 🌟 20+ COMPLETE BACKGROUND THEMES
 var bgColors = {
   black: ['#000000', '#050505'],
   midnight: ['#000000', '#05070c'],
@@ -1063,13 +1063,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v22', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v23', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v22');
+    var raw = localStorage.getItem('runner_studio_saved_v23');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1080,6 +1080,14 @@ function readFile(file){
     fr.onload=function(){resolve(fr.result);};
     fr.onerror=reject;
     fr.readAsDataURL(file);
+  });
+}
+function dataToImage(src){
+  return new Promise(function(resolve,reject){
+    var im=new Image();
+    im.onload=function(){resolve(im);};
+    im.onerror=reject;
+    im.src=src;
   });
 }
 function processImageDataUrl(dataUrl, removeBg){
@@ -1480,117 +1488,149 @@ function addRow(saved){
   if(row.rightSrc) dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){ row.rightImg=im; updateThumbBox(thumbRight, im.src); });
 }
 
+// 🌟 SMART COLOR-BASED MASTER BATCH SETUP (CHECKS PAD COLOR, NOT JUST LEFT/RIGHT)
 function setupMasterBatchUploaders(){
-  var mLeftInp = $('master_left_file');
-  var mLeftClr = $('master_left_clear');
-  var mLeftBox = $('thumb_master_left');
-  var mLeftRm = $('master_left_rm');
+  var mGreenInp = $('master_green_file');
+  var mGreenClr = $('master_green_clear');
+  var mGreenBox = $('thumb_master_green');
+  var mGreenRm = $('master_green_rm');
 
-  var mRightInp = $('master_right_file');
-  var mRightClr = $('master_right_clear');
-  var mRightBox = $('thumb_master_right');
-  var mRightRm = $('master_right_rm');
+  var mRedInp = $('master_red_file');
+  var mRedClr = $('master_red_clear');
+  var mRedBox = $('thumb_master_red');
+  var mRedRm = $('master_red_rm');
 
-  function applyMasterLeft(src, removeBg){
-    updateThumbBox(mLeftBox, src);
+  function isGreenPad(hex){
+    var h = (hex || '').toLowerCase();
+    return h.indexOf('2a') !== -1 || h.indexOf('00') !== -1 || h.indexOf('green') !== -1;
+  }
+
+  function applyMasterGreen(src, removeBg){
+    updateThumbBox(mGreenBox, src);
     if(!src){
       state.rows.forEach(function(r, idx){
-        r.leftSrc = null; r.leftImg = null;
+        var isLeftGreen = isGreenPad(r.leftColor);
+        if(isLeftGreen){ r.leftSrc = null; r.leftImg = null; }
+        else { r.rightSrc = null; r.rightImg = null; }
         var rEl = document.querySelectorAll('.row')[idx];
         if(rEl){
-          rEl.querySelector('.leftInput').value = '';
-          updateThumbBox(rEl.querySelector('.thumb-left'), null);
+          if(isLeftGreen){ rEl.querySelector('.leftInput').value = ''; updateThumbBox(rEl.querySelector('.thumb-left'), null); }
+          else { rEl.querySelector('.rightInput').value = ''; updateThumbBox(rEl.querySelector('.thumb-right'), null); }
         }
       });
       return;
     }
     dataToProcessedImage(src, removeBg).then(function(im){
       state.rows.forEach(function(r, idx){
-        r.leftSrc = src;
-        r.leftImg = im;
-        r.leftRemove = removeBg;
+        var isLeftGreen = isGreenPad(r.leftColor);
         var rEl = document.querySelectorAll('.row')[idx];
-        if(rEl){
-          rEl.querySelector('.leftRemove').checked = removeBg;
-          updateThumbBox(rEl.querySelector('.thumb-left'), im.src);
+        if(isLeftGreen){
+          r.leftSrc = src;
+          r.leftImg = im;
+          r.leftRemove = removeBg;
+          if(rEl){
+            rEl.querySelector('.leftRemove').checked = removeBg;
+            updateThumbBox(rEl.querySelector('.thumb-left'), im.src);
+          }
+        } else {
+          r.rightSrc = src;
+          r.rightImg = im;
+          r.rightRemove = removeBg;
+          if(rEl){
+            rEl.querySelector('.rightRemove').checked = removeBg;
+            updateThumbBox(rEl.querySelector('.thumb-right'), im.src);
+          }
         }
       });
       autoSaveStudio();
     });
   }
 
-  function applyMasterRight(src, removeBg){
-    updateThumbBox(mRightBox, src);
+  function applyMasterRed(src, removeBg){
+    updateThumbBox(mRedBox, src);
     if(!src){
       state.rows.forEach(function(r, idx){
-        r.rightSrc = null; r.rightImg = null;
+        var isLeftRed = !isGreenPad(r.leftColor);
+        if(isLeftRed){ r.leftSrc = null; r.leftImg = null; }
+        else { r.rightSrc = null; r.rightImg = null; }
         var rEl = document.querySelectorAll('.row')[idx];
         if(rEl){
-          rEl.querySelector('.rightInput').value = '';
-          updateThumbBox(rEl.querySelector('.thumb-right'), null);
+          if(isLeftRed){ rEl.querySelector('.leftInput').value = ''; updateThumbBox(rEl.querySelector('.thumb-left'), null); }
+          else { rEl.querySelector('.rightInput').value = ''; updateThumbBox(rEl.querySelector('.thumb-right'), null); }
         }
       });
       return;
     }
     dataToProcessedImage(src, removeBg).then(function(im){
       state.rows.forEach(function(r, idx){
-        r.rightSrc = src;
-        r.rightImg = im;
-        r.rightRemove = removeBg;
+        var isLeftRed = !isGreenPad(r.leftColor);
         var rEl = document.querySelectorAll('.row')[idx];
-        if(rEl){
-          rEl.querySelector('.rightRemove').checked = removeBg;
-          updateThumbBox(rEl.querySelector('.thumb-right'), im.src);
+        if(isLeftRed){
+          r.leftSrc = src;
+          r.leftImg = im;
+          r.leftRemove = removeBg;
+          if(rEl){
+            rEl.querySelector('.leftRemove').checked = removeBg;
+            updateThumbBox(rEl.querySelector('.thumb-left'), im.src);
+          }
+        } else {
+          r.rightSrc = src;
+          r.rightImg = im;
+          r.rightRemove = removeBg;
+          if(rEl){
+            rEl.querySelector('.rightRemove').checked = removeBg;
+            updateThumbBox(rEl.querySelector('.thumb-right'), im.src);
+          }
         }
       });
       autoSaveStudio();
     });
   }
 
-  var curMasterLeftSrc = null;
-  var curMasterRightSrc = null;
+  var curMasterGreenSrc = null;
+  var curMasterRedSrc = null;
 
-  if(mLeftInp){
-    mLeftInp.onchange = function(e){
+  if(mGreenInp){
+    mGreenInp.onchange = function(e){
       var f = e.target.files[0]; if(!f) return;
       readFile(f).then(function(src){
-        curMasterLeftSrc = src;
-        applyMasterLeft(src, mLeftRm.checked);
+        curMasterGreenSrc = src;
+        applyMasterGreen(src, mGreenRm.checked);
       });
     };
   }
-  if(mLeftRm){
-    mLeftRm.onchange = function(){
-      if(curMasterLeftSrc) applyMasterLeft(curMasterLeftSrc, mLeftRm.checked);
+  if(mGreenRm){
+    mGreenRm.onchange = function(){
+      if(curMasterGreenSrc) applyMasterGreen(curMasterGreenSrc, mGreenRm.checked);
     };
   }
-  if(mLeftClr){
-    mLeftClr.onclick = function(){
-      if(mLeftInp) mLeftInp.value = '';
-      curMasterLeftSrc = null;
-      applyMasterLeft(null, true);
+  if(mGreenClr){
+    mGreenClr.onclick = function(){
+      if(mGreenInp) mGreenInp.value = '';
+      curMasterGreenSrc = null;
+      applyMasterGreen(null, true);
     };
   }
 
-  if(mRightInp){
-    mRightInp.onchange = function(e){
+  if(mRedInp){
+    mRedInp.onchange = function(e){
       var f = e.target.files[0]; if(!f) return;
       readFile(f).then(function(src){
-        curMasterRightSrc = src;
-        applyMasterRight(src, mRightRm.checked);
+        curMasterRedSrc = src;
+        applyMasterRed(src, mRedRm.checked);
       });
     };
   }
-  if(mRightRm){
-    mRightRm.onchange = function(){
-      if(curMasterRightSrc) applyMasterRight(curMasterRightSrc, mRightRm.checked);
+  if(mRedRm){
+    mRedRm.onchange = function(){
+      if(curMasterRedSrc) applyMasterRed(curMasterRedSrc, mRedRm.checked);
     };
   }
-  if(mRightClr){
-    mRightClr.onclick = function(){
-      if(mRightInp) mRightInp.value = '';
-      curMasterRightSrc = null;
-      applyMasterRight(null, true);
+  if(mRedClr){
+    mRedClr.onclick = function(){
+      if(mRedInp) mRedInp.value = '';
+      curMasterRedSrc = null;
+      applyMasterRed(null, true);
     };
   }
 }
@@ -1877,7 +1917,6 @@ function drawBackground(){
   }
 }
 
-// 🌟 35+ ROAD RENDERERS
 function rClassic(){
   fillRoadBase('#7c8591','#454c57');
   drawRoadTexture(.028);
@@ -2217,14 +2256,12 @@ function drawImageFit(im, x, y, boxW, boxH, anchor){
   ctx.drawImage(im,dx,dy,dw,dh);
 }
 
-// 🌟 PROCEDURAL ELEMENTAL ICONS (FLAME, DROPLET, DIAMOND, BOLT)
 function drawFlameIcon(cx, cy, s){
   ctx.save();
   ctx.translate(cx, cy);
   var sc = s / 70;
   ctx.scale(sc, sc);
 
-  // Outer Flame
   var gf = ctx.createLinearGradient(0, -26, 0, 24);
   gf.addColorStop(0, '#ffff55'); gf.addColorStop(0.4, '#ff7700'); gf.addColorStop(1, '#ff1a00');
   ctx.fillStyle = gf;
@@ -2235,7 +2272,6 @@ function drawFlameIcon(cx, cy, s){
   ctx.bezierCurveTo(-26, 4, -14, -14, 0, -28);
   ctx.fill();
 
-  // Inner Core Flame
   ctx.fillStyle = '#fff9a6';
   ctx.beginPath();
   ctx.moveTo(0, -8);
@@ -2262,7 +2298,6 @@ function drawDropletIcon(cx, cy, s){
   ctx.bezierCurveTo(-22, 16, -18, -4, 0, -26);
   ctx.fill();
 
-  // Droplet Specular Shine
   ctx.fillStyle = 'rgba(255,255,255,0.75)';
   ctx.beginPath();
   ctx.ellipse(-6, 2, 4, 9, -0.4, 0, Math.PI*2);
@@ -2291,7 +2326,6 @@ function drawDiamondIcon(cx, cy, s){
   ctx.lineWidth = 2.5;
   ctx.stroke();
 
-  // Facet Lines
   ctx.beginPath();
   ctx.moveTo(-24, 0); ctx.lineTo(24, 0);
   ctx.moveTo(0, -26); ctx.lineTo(0, 26);
@@ -2323,13 +2357,11 @@ function drawBoltIcon(cx, cy, s){
   ctx.restore();
 }
 
-// 🌟 ULTRA-ATTRACTIVE BOX VFX (ELEMENTAL & 10+ VIRAL QUESTION THEMES)
 function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, popAge){
   ctx.save();
   var cx = bx + size/2;
   var cy = by + size/2;
 
-  // Custom Burst Particles
   if(isPopping && popAge < 0.40){
     var progress = popAge / 0.40;
     var alpha = Math.max(0, 1 - progress);
@@ -2354,7 +2386,6 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
     ctx.restore();
   }
 
-  // Scale Bounce
   ctx.translate(cx, cy);
   ctx.scale(popScale, popScale);
   ctx.translate(-cx, -cy);
@@ -2369,7 +2400,6 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
     drawImageFit(activeImg, cx, by + size - 6, size * 0.88, size * 0.88, 'bottom');
     ctx.restore();
   } else {
-    // 🎨 STYLES RENDERING
     var qThemes = {
       royal3DGold:    { border:'#ff9900', face:'#fde047', stroke:'#451a03', text:'#451a03', glow:'rgba(255,190,26,0.85)' },
       royalAmber:     { border:'#d97706', face:'#fbbf24', stroke:'#451a03', text:'#451a03', glow:'rgba(251,191,36,0.8)' },
@@ -2386,7 +2416,6 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
     };
 
     if(style === 'fireInferno'){
-      // 🔥 Burning Fire Icon
       var gf = ctx.createLinearGradient(bx, by, bx + size, by + size);
       gf.addColorStop(0, '#ff1a00'); gf.addColorStop(0.5, '#ff7700'); gf.addColorStop(1, '#ffdd00');
       ctx.shadowColor = '#ff4400'; ctx.shadowBlur = 18;
@@ -2398,7 +2427,6 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
       drawFlameIcon(cx, cy, size * 0.65);
 
     } else if(style === 'waterCrystal'){
-      // 💧 Aqua Crystal Drop
       var gw = ctx.createLinearGradient(bx, by, bx, by + size);
       gw.addColorStop(0, '#00f0ff'); gw.addColorStop(0.7, '#0077ff'); gw.addColorStop(1, '#0033aa');
       ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 18;
@@ -2410,7 +2438,6 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
       drawDropletIcon(cx, cy, size * 0.65);
 
     } else if(style === 'amethystGem'){
-      // 💎 Faceted Gem Diamond
       ctx.shadowColor = '#c084fc'; ctx.shadowBlur = 18;
       ctx.fillStyle = '#7e22ce'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
 
@@ -2420,7 +2447,6 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
       drawDiamondIcon(cx, cy, size * 0.65);
 
     } else if(style === 'electricThunder'){
-      // ⚡ Neon Lightning Bolt
       ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 18;
       ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
 
@@ -2430,7 +2456,6 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
       drawBoltIcon(cx, cy, size * 0.65);
 
     } else {
-      // ❓ 10+ Classic & Viral Question Marks
       var th = qThemes[style] || qThemes.royal3DGold;
 
       ctx.shadowColor = th.glow; ctx.shadowBlur = 14;
@@ -2618,14 +2643,12 @@ function drawRows(){
 
   activePads.sort(function(a, b){ return a.rawZ - b.rawZ; });
 
-  // 1. Pads behind player
   activePads.forEach(function(item){
     if(item.rawZ < pZ){
       drawSinglePadRow(item);
     }
   });
 
-  // Stationary Boss
   var pad5WorldElapsed = roadTime - initialDelay - 4 * state.padDelay;
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossWorldElapsed = pad5WorldElapsed - bDist;
@@ -2644,10 +2667,8 @@ function drawRows(){
     drawImageFit(state.opponent.img, W/2, op.y + 4, bossSize, bossSize, 'bottom');
   }
 
-  // 2. Runner Character
   drawRunnerBehind();
 
-  // 3. Pads in front/above player
   activePads.forEach(function(item){
     if(item.rawZ >= pZ){
       drawSinglePadRow(item);
@@ -2710,7 +2731,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v22'); 
+    localStorage.removeItem('runner_studio_saved_v23'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
@@ -2719,7 +2740,7 @@ $('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'
 
 $('exportBtn').onclick = function(){
   if (recorder) return;
-  var sec = Math.max(2, Math.min(60, +$('recordSec').value || 15));
+  var sec = Math.max(2, Math.min(60, +$('recordSec').value || 20));
   
   var stream = canvas.captureStream(60);
   var mime = 'video/webm;codecs=vp8';
