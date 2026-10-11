@@ -150,12 +150,12 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">STRAIGHT ROAD 60FPS</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">1080P FULL HD 60FPS</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
   <section class="preview">
-    <div class="shell"><div class="stageWrap"><canvas id="stage" width="720" height="1280"></canvas></div></div>
+    <div class="shell"><div class="stageWrap"><canvas id="stage" width="1080" height="1920"></canvas></div></div>
 
     <div class="steer-box">
       <div class="steer-header">
@@ -178,7 +178,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       <button class="primary" id="playBtn">Pause</button>
       <button id="resetBtn">Reset Time</button>
       <label>Record sec <input id="recordSec" type="number" min="2" max="60" value="20"></label>
-      <button id="exportBtn">Export 60FPS Video</button>
+      <button id="exportBtn">Export 1080P 60FPS</button>
       <div style="width:100%;margin-top:6px;display:flex;align-items:center;gap:8px">
         <span style="font-size:12px;font-weight:700">⏱️ Scrub Video:</span>
         <div class="range-wrap" style="flex:1">
@@ -187,7 +187,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>सड़क चौड़ाई व स्पीड फिक्स:</b> 35+ रोड्स, 20+ थीम्स, और मास्टर कलर-बेस्ड PNG अपलोडर एक्टिवेटेड!</div>
+    <div class="note"><b>⚡ 1080p Full HD Engine Active:</b> 55+ रोड्स, 20+ थीम्स, 20 स्पेशल डे-लाइट व V6 वेरिएंट्स साइड सेलेक्टर में एक्टिवेटेड!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -227,26 +227,26 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
 
         <label>
-          <span class="label-head"><span>HUD Y-Position</span><span class="val-badge gold" id="v_hudY">105</span></span>
+          <span class="label-head"><span>HUD Y-Position</span><span class="val-badge gold" id="v_hudY">155</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="hudY" data-dir="-1">◀</button>
-            <input id="hudY" type="range" min="30" max="300" value="105">
+            <input id="hudY" type="range" min="30" max="450" value="155">
             <button type="button" class="step-btn" data-step-for="hudY" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Box Size</span><span class="val-badge gold" id="v_hudBoxSize">88</span></span>
+          <span class="label-head"><span>Box Size</span><span class="val-badge gold" id="v_hudBoxSize">132</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="hudBoxSize" data-dir="-1">◀</button>
-            <input id="hudBoxSize" type="range" min="45" max="140" value="88">
+            <input id="hudBoxSize" type="range" min="50" max="220" value="132">
             <button type="button" class="step-btn" data-step-for="hudBoxSize" data-dir="1">▶</button>
           </div>
         </label>
         <label style="grid-column:1/-1">
-          <span class="label-head"><span>Box Spacing</span><span class="val-badge gold" id="v_hudSpacing">12</span></span>
+          <span class="label-head"><span>Box Spacing</span><span class="val-badge gold" id="v_hudSpacing">18</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="hudSpacing" data-dir="-1">◀</button>
-            <input id="hudSpacing" type="range" min="6" max="40" value="12">
+            <input id="hudSpacing" type="range" min="6" max="60" value="18">
             <button type="button" class="step-btn" data-step-for="hudSpacing" data-dir="1">▶</button>
           </div>
         </label>
@@ -310,10 +310,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <div class="toggle"><input id="pRemove_0" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
-          <span class="label-head"><span>Stage 0 Base Size</span><span class="val-badge" id="v_pSize_0">145</span></span>
+          <span class="label-head"><span>Stage 0 Base Size</span><span class="val-badge" id="v_pSize_0">215</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="pSize_0" data-dir="-1">◀</button>
-            <input id="pSize_0" type="range" min="40" max="800" value="145">
+            <input id="pSize_0" type="range" min="60" max="1200" value="215">
             <button type="button" class="step-btn" data-step-for="pSize_0" data-dir="1">▶</button>
           </div>
         </label>
@@ -345,10 +345,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <div class="toggle"><input id="gRemove_1" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
-          <span class="label-head"><span>Green 1 Size</span><span class="val-badge" id="v_gSize_1">165</span></span>
+          <span class="label-head"><span>Green 1 Size</span><span class="val-badge" id="v_gSize_1">245</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="gSize_1" data-dir="-1">◀</button>
-            <input id="gSize_1" type="range" min="40" max="800" value="165">
+            <input id="gSize_1" type="range" min="60" max="1200" value="245">
             <button type="button" class="step-btn" data-step-for="gSize_1" data-dir="1">▶</button>
           </div>
         </label>
@@ -362,10 +362,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <div class="toggle"><input id="gRemove_2" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
-          <span class="label-head"><span>Green 2 Size</span><span class="val-badge" id="v_gSize_2">190</span></span>
+          <span class="label-head"><span>Green 2 Size</span><span class="val-badge" id="v_gSize_2">285</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="gSize_2" data-dir="-1">◀</button>
-            <input id="gSize_2" type="range" min="40" max="800" value="190">
+            <input id="gSize_2" type="range" min="60" max="1200" value="285">
             <button type="button" class="step-btn" data-step-for="gSize_2" data-dir="1">▶</button>
           </div>
         </label>
@@ -379,10 +379,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <div class="toggle"><input id="gRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
-          <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">220</span></span>
+          <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">330</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="gSize_3" data-dir="-1">◀</button>
-            <input id="gSize_3" type="range" min="40" max="800" value="220">
+            <input id="gSize_3" type="range" min="60" max="1200" value="330">
             <button type="button" class="step-btn" data-step-for="gSize_3" data-dir="1">▶</button>
           </div>
         </label>
@@ -396,10 +396,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <div class="toggle"><input id="gRemove_4" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
-          <span class="label-head"><span>Green 4 Size</span><span class="val-badge" id="v_gSize_4">255</span></span>
+          <span class="label-head"><span>Green 4 Size</span><span class="val-badge" id="v_gSize_4">380</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="gSize_4" data-dir="-1">◀</button>
-            <input id="gSize_4" type="range" min="40" max="800" value="255">
+            <input id="gSize_4" type="range" min="60" max="1200" value="380">
             <button type="button" class="step-btn" data-step-for="gSize_4" data-dir="1">▶</button>
           </div>
         </label>
@@ -413,10 +413,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <div class="toggle"><input id="gRemove_5" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
-          <span class="label-head"><span>Green 5 Size</span><span class="val-badge" id="v_gSize_5">290</span></span>
+          <span class="label-head"><span>Green 5 Size</span><span class="val-badge" id="v_gSize_5">435</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="gSize_5" data-dir="-1">◀</button>
-            <input id="gSize_5" type="range" min="40" max="800" value="290">
+            <input id="gSize_5" type="range" min="60" max="1200" value="435">
             <button type="button" class="step-btn" data-step-for="gSize_5" data-dir="1">▶</button>
           </div>
         </label>
@@ -431,10 +431,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <div class="toggle"><input id="rRemove_1" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
-          <span class="label-head"><span>Red 1 Size</span><span class="val-badge red" id="v_rSize_1">130</span></span>
+          <span class="label-head"><span>Red 1 Size</span><span class="val-badge red" id="v_rSize_1">195</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="rSize_1" data-dir="-1">◀</button>
-            <input id="rSize_1" type="range" min="40" max="800" value="130">
+            <input id="rSize_1" type="range" min="60" max="1200" value="195">
             <button type="button" class="step-btn" data-step-for="rSize_1" data-dir="1">▶</button>
           </div>
         </label>
@@ -448,10 +448,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <div class="toggle"><input id="rRemove_2" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
-          <span class="label-head"><span>Red 2 Size</span><span class="val-badge red" id="v_rSize_2">115</span></span>
+          <span class="label-head"><span>Red 2 Size</span><span class="val-badge red" id="v_rSize_2">170</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="rSize_2" data-dir="-1">◀</button>
-            <input id="rSize_2" type="range" min="40" max="800" value="115">
+            <input id="rSize_2" type="range" min="60" max="1200" value="170">
             <button type="button" class="step-btn" data-step-for="rSize_2" data-dir="1">▶</button>
           </div>
         </label>
@@ -465,10 +465,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <div class="toggle"><input id="rRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
-          <span class="label-head"><span>Red 3 Size</span><span class="val-badge red" id="v_rSize_3">100</span></span>
+          <span class="label-head"><span>Red 3 Size</span><span class="val-badge red" id="v_rSize_3">150</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="rSize_3" data-dir="-1">◀</button>
-            <input id="rSize_3" type="range" min="40" max="800" value="100">
+            <input id="rSize_3" type="range" min="60" max="1200" value="150">
             <button type="button" class="step-btn" data-step-for="rSize_3" data-dir="1">▶</button>
           </div>
         </label>
@@ -482,10 +482,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <div class="toggle"><input id="rRemove_4" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
-          <span class="label-head"><span>Red 4 Size</span><span class="val-badge red" id="v_rSize_4">85</span></span>
+          <span class="label-head"><span>Red 4 Size</span><span class="val-badge red" id="v_rSize_4">130</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="rSize_4" data-dir="-1">◀</button>
-            <input id="rSize_4" type="range" min="40" max="800" value="85">
+            <input id="rSize_4" type="range" min="60" max="1200" value="130">
             <button type="button" class="step-btn" data-step-for="rSize_4" data-dir="1">▶</button>
           </div>
         </label>
@@ -499,10 +499,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <div class="toggle"><input id="rRemove_5" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
-          <span class="label-head"><span>Red 5 Size</span><span class="val-badge red" id="v_rSize_5">75</span></span>
+          <span class="label-head"><span>Red 5 Size</span><span class="val-badge red" id="v_rSize_5">110</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="rSize_5" data-dir="-1">◀</button>
-            <input id="rSize_5" type="range" min="40" max="800" value="75">
+            <input id="rSize_5" type="range" min="60" max="1200" value="110">
             <button type="button" class="step-btn" data-step-for="rSize_5" data-dir="1">▶</button>
           </div>
         </label>
@@ -564,14 +564,71 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Pad glow base</span><span class="val-badge" id="v_padThickness">15</span></span>
+          <span class="label-head"><span>Pad glow base</span><span class="val-badge" id="v_padThickness">22</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="padThickness" data-dir="-1">◀</button>
-            <input id="padThickness" type="range" min="6" max="28" value="15">
+            <input id="padThickness" type="range" min="8" max="42" value="22">
             <button type="button" class="step-btn" data-step-for="padThickness" data-dir="1">▶</button>
           </div>
         </label>
-        <label>Road style (35+ Real Roads) <select id="roadVariant">
+
+        <!-- 🌟 DEDICATED SEPARATE OPTION FOR NEW DAY-LIGHT & V6 EDITIONS -->
+        <label style="border:1px solid #61f0a6;padding:8px;border-radius:10px;background:#0d1813">
+          <span style="color:#61f0a6;font-weight:900">🌟 Quick Selector: 20 New Day-Light & V6 Editions</span>
+          <select id="newRoadSelector">
+            <option value="" selected>-- 🚀 Choose from 20 New Roads Directly --</option>
+            <optgroup label="--- 🦁 5 Classic V6 Special Variants (Same HD Look) ---">
+              <option value="v6Gold">👑 1. Classic V6 Gold Edition (Championship)</option>
+              <option value="v6CyberBlue">⚡ 2. Classic V6 Cyber-Blue (Electric Rumble)</option>
+              <option value="v6LimeBeast">🦖 3. Classic V6 Lime Beast (Monster Track)</option>
+              <option value="v6SunsetOrange">🔥 4. Classic V6 Sunset Orange (Hyper Curve)</option>
+              <option value="v6Monza">🏎️ 5. Classic V6 Formula Monza (Yellow/Black)</option>
+            </optgroup>
+            <optgroup label="--- ☀️ 15 Ultra-Clean Day-Light Roads ---">
+              <option value="sunnyDesert">☀️ 6. Sunny Desert Highway (Sandy Gold)</option>
+              <option value="miamiBeach">🌴 7. Miami Beach Coastal Drive (Turquoise)</option>
+              <option value="greenMeadow">🍃 8. Fresh Green Meadow Track (Nature)</option>
+              <option value="tokyoDay">🏙️ 9. Tokyo City Day Asphalt (Modern Pro)</option>
+              <option value="californiaSunset">🌅 10. California Golden Hour (Warm Glow)</option>
+              <option value="redClayTrail">🏜️ 11. Grand Canyon Red Clay Trail</option>
+              <option value="monacoF1">🏁 12. Monaco F1 Grand Prix Track</option>
+              <option value="nordicSnow">❄️ 13. Nordic Snow Valley Road (Crisp Blue)</option>
+              <option value="studioPaperWhite">⚪ 14. Studio Minimalist Paper White (4K Pop)</option>
+              <option value="autumnMaple">🍁 15. Autumn Maple Highway (Amber)</option>
+              <option value="skyRainbow">🌈 16. Sky High Rainbow Bridge (Bright)</option>
+              <option value="goldenSands">🏖️ 17. Golden Sands Coastline</option>
+              <option value="alpineMountain">🏔️ 18. Alpine Mountain Pass (Slate Crisp)</option>
+              <option value="neonDaylight">🔮 19. Cyberpunk Daylight (Day-Glo)</option>
+              <option value="emeraldGolfway">⛳ 20. Emerald Golfway Asphalt (Royal)</option>
+            </optgroup>
+          </select>
+        </label>
+
+        <label>Master Road Style (All 55+ Roads) <select id="roadVariant">
+          <optgroup label="--- 🌟 5 New Classic V6 Editions ---">
+            <option value="v6Gold">👑 V6 Gold Edition (Championship)</option>
+            <option value="v6CyberBlue">⚡ V6 Cyber-Blue (Electric Rumble)</option>
+            <option value="v6LimeBeast">🦖 V6 Lime Beast (Monster Track)</option>
+            <option value="v6SunsetOrange">🔥 V6 Sunset Orange (Hyper Curve)</option>
+            <option value="v6Monza">🏎️ V6 Formula Monza (Yellow/Black)</option>
+          </optgroup>
+          <optgroup label="--- ☀️ 15 New Day-Light Roads ---">
+            <option value="sunnyDesert">☀️ Sunny Desert Highway</option>
+            <option value="miamiBeach">🌴 Miami Beach Coastal</option>
+            <option value="greenMeadow">🍃 Fresh Green Meadow</option>
+            <option value="tokyoDay">🏙️ Tokyo City Day Asphalt</option>
+            <option value="californiaSunset">🌅 California Golden Hour</option>
+            <option value="redClayTrail">🏜️ Grand Canyon Red Clay</option>
+            <option value="monacoF1">🏁 Monaco F1 Grand Prix</option>
+            <option value="nordicSnow">❄️ Nordic Snow Valley</option>
+            <option value="studioPaperWhite">⚪ Studio Minimalist White</option>
+            <option value="autumnMaple">🍁 Autumn Maple Highway</option>
+            <option value="skyRainbow">🌈 Sky High Rainbow Bridge</option>
+            <option value="goldenSands">🏖️ Golden Sands Coastline</option>
+            <option value="alpineMountain">🏔️ Alpine Mountain Pass</option>
+            <option value="neonDaylight">🔮 Cyberpunk Daylight</option>
+            <option value="emeraldGolfway">⛳ Emerald Golfway Asphalt</option>
+          </optgroup>
           <optgroup label="--- Classic & Highway ---">
             <option value="classic" selected>1. Classic V6 (Lion Challenge)</option>
             <option value="twinStripe">2. Twin Yellow Stripes</option>
@@ -614,6 +671,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <option value="darkObsidian">35. Dark Obsidian Deep</option>
           </optgroup>
         </select></label>
+
         <label style="grid-column:1/-1">Background Theme (20+ Stunning Moods) <select id="bgMode">
           <optgroup label="--- Dark & Cinematic Moods ---">
             <option value="black" selected>1. Pitch Black (Pure Focus)</option>
@@ -653,7 +711,6 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
       <div class="rowbar">
         <span class="small">5 main rows with custom color pickers & live size values + Stationary Boss.</span>
         
-        <!-- 🌟 SMART COLOR-BASED MASTER BATCH PNG UPLOADER -->
         <div style="width:100%;background:#101318;padding:12px;border:1px solid #3c4454;border-radius:12px;display:grid;gap:10px;margin-top:6px">
           <div style="font-weight:900;font-size:13px;color:var(--accent);display:flex;align-items:center;gap:6px">
             <span>⚡ Smart Master Color PNG (Applies by Color, NOT Straight Line!)</span>
@@ -685,10 +742,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           <span style="font-weight:bold;font-size:12px;color:var(--accent)">⚡ Master All Pads PNG Size:</span>
           <div class="range-wrap" style="flex:1;min-width:140px">
             <button type="button" class="step-btn" data-step-for="masterPadPngSize" data-dir="-1">◀</button>
-            <input id="masterPadPngSize" type="range" min="45" max="450" value="95">
+            <input id="masterPadPngSize" type="range" min="60" max="650" value="142">
             <button type="button" class="step-btn" data-step-for="masterPadPngSize" data-dir="1">▶</button>
           </div>
-          <span class="val-badge" id="v_masterPadPngSize">95</span>
+          <span class="val-badge" id="v_masterPadPngSize">142</span>
         </div>
 
         <div style="width:100%;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap">
@@ -729,10 +786,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
         <label class="toggle"><input class="leftRemove" type="checkbox" checked> Auto remove bg</label>
         <label>
-          <span class="label-head"><span>Size</span><span class="val-badge leftSizeVal">95</span></span>
+          <span class="label-head"><span>Size</span><span class="val-badge leftSizeVal">142</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn step-left-minus">◀</button>
-            <input class="leftSize" type="range" min="45" max="450" value="95">
+            <input class="leftSize" type="range" min="60" max="650" value="142">
             <button type="button" class="step-btn step-left-plus">▶</button>
           </div>
         </label>
@@ -754,10 +811,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         </label>
         <label class="toggle"><input class="rightRemove" type="checkbox" checked> Auto remove bg</label>
         <label>
-          <span class="label-head"><span>Size</span><span class="val-badge rightSizeVal">95</span></span>
+          <span class="label-head"><span>Size</span><span class="val-badge rightSizeVal">142</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn step-right-minus">◀</button>
-            <input class="rightSize" type="range" min="45" max="450" value="95">
+            <input class="rightSize" type="range" min="60" max="650" value="142">
             <button type="button" class="step-right-plus step-btn">▶</button>
           </div>
         </label>
@@ -787,7 +844,10 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 <script>
 (function(){
 var canvas=document.getElementById('stage');
-var ctx=canvas.getContext('2d', { alpha: false });
+var ctx=canvas.getContext('2d', { alpha: false, desynchronized: true });
+ctx.imageSmoothingEnabled = true;
+ctx.imageSmoothingQuality = 'high';
+
 var W=canvas.width, H=canvas.height;
 var $=function(id){ return document.getElementById(id); };
 
@@ -811,7 +871,7 @@ var state={
   bottomWidth:0.98,
   camHeight:0.95,
   padDelay:2.40,
-  padThickness:15,
+  padThickness:22,
   bossDistance:2.8,
   roadVariant:'classic',
   bgMode:'black',
@@ -820,33 +880,33 @@ var state={
   showHud:true,
   autoCollectHud:true,
   hudStyle:'fireInferno',
-  hudY:105,
-  hudBoxSize:88,
-  hudSpacing:12,
+  hudY:155,
+  hudBoxSize:132,
+  hudSpacing:18,
   steerOffset:-1.0,
-  baseStage: {img:null, raw:null, removeBg:true, size:145},
+  baseStage: {img:null, raw:null, removeBg:true, size:215},
   greenStages:[
     null,
-    {img:null, raw:null, removeBg:true, size:165},
-    {img:null, raw:null, removeBg:true, size:190},
-    {img:null, raw:null, removeBg:true, size:220},
-    {img:null, raw:null, removeBg:true, size:255},
-    {img:null, raw:null, removeBg:true, size:290}
+    {img:null, raw:null, removeBg:true, size:245},
+    {img:null, raw:null, removeBg:true, size:285},
+    {img:null, raw:null, removeBg:true, size:330},
+    {img:null, raw:null, removeBg:true, size:380},
+    {img:null, raw:null, removeBg:true, size:435}
   ],
   redStages:[
     null,
+    {img:null, raw:null, removeBg:true, size:195},
+    {img:null, raw:null, removeBg:true, size:170},
+    {img:null, raw:null, removeBg:true, size:150},
     {img:null, raw:null, removeBg:true, size:130},
-    {img:null, raw:null, removeBg:true, size:115},
-    {img:null, raw:null, removeBg:true, size:100},
-    {img:null, raw:null, removeBg:true, size:85},
-    {img:null, raw:null, removeBg:true, size:75}
+    {img:null, raw:null, removeBg:true, size:110}
   ],
   playerZ:0.86,
   playerLane:'slider',
   playerX:W/2,
   currentLane:'left',
   rows:[],
-  opponent:{src:null, img:null, removeBg:true, size:220}
+  opponent:{src:null, img:null, removeBg:true, size:330}
 };
 
 var bgColors = {
@@ -1063,13 +1123,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v23', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v24', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v23');
+    var raw = localStorage.getItem('runner_studio_saved_v24') || localStorage.getItem('runner_studio_saved_v23');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1080,14 +1140,6 @@ function readFile(file){
     fr.onload=function(){resolve(fr.result);};
     fr.onerror=reject;
     fr.readAsDataURL(file);
-  });
-}
-function dataToImage(src){
-  return new Promise(function(resolve,reject){
-    var im=new Image();
-    im.onload=function(){resolve(im);};
-    im.onerror=reject;
-    im.src=src;
   });
 }
 function processImageDataUrl(dataUrl, removeBg){
@@ -1342,7 +1394,20 @@ if($('masterPadPngSize')){
   };
 }
 
-if($('roadVariant')) $('roadVariant').onchange=function(e){state.roadVariant=e.target.value; autoSaveStudio();};
+if($('roadVariant')) $('roadVariant').onchange=function(e){
+  state.roadVariant=e.target.value; 
+  if($('newRoadSelector')) $('newRoadSelector').value = e.target.value;
+  autoSaveStudio();
+};
+
+if($('newRoadSelector')) $('newRoadSelector').onchange=function(e){
+  if(e.target.value){
+    state.roadVariant = e.target.value;
+    if($('roadVariant')) $('roadVariant').value = e.target.value;
+    autoSaveStudio();
+  }
+};
+
 if($('speedLines')) $('speedLines').onchange=function(e){state.speedLines=e.target.checked; autoSaveStudio();};
 if($('roadShine')) $('roadShine').onchange=function(e){state.roadShine=e.target.checked; autoSaveStudio();};
 if($('bgMode')) $('bgMode').onchange=function(e){state.bgMode=e.target.value; autoSaveStudio();};
@@ -1352,12 +1417,13 @@ function makeId(){ return String(Date.now()+Math.random()); }
 
 function addRow(saved){
   saved = saved || {};
+  var defSize = 142;
   var row={
     id:makeId(),
     leftColor: (saved.leftColor && saved.leftColor.charAt(0)==='#') ? saved.leftColor : '#2aff84', 
     rightColor: (saved.rightColor && saved.rightColor.charAt(0)==='#') ? saved.rightColor : '#ff323a',
-    leftSize: Number(saved.leftSize) || 95, 
-    rightSize: Number(saved.rightSize) || 95,
+    leftSize: Number(saved.leftSize) || defSize, 
+    rightSize: Number(saved.rightSize) || defSize,
     leftSrc: saved.leftSrc || null, 
     rightSrc: saved.rightSrc || null,
     leftImg: null, 
@@ -1488,7 +1554,6 @@ function addRow(saved){
   if(row.rightSrc) dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){ row.rightImg=im; updateThumbBox(thumbRight, im.src); });
 }
 
-// 🌟 SMART COLOR-BASED MASTER BATCH SETUP (CHECKS PAD COLOR, NOT JUST LEFT/RIGHT)
 function setupMasterBatchUploaders(){
   var mGreenInp = $('master_green_file');
   var mGreenClr = $('master_green_clear');
@@ -1690,7 +1755,11 @@ function initRows(){
         }
       });
     }
-    if(savedData.roadVariant && $('roadVariant')){ state.roadVariant = savedData.roadVariant; $('roadVariant').value = savedData.roadVariant; }
+    if(savedData.roadVariant && $('roadVariant')){ 
+      state.roadVariant = savedData.roadVariant; 
+      $('roadVariant').value = savedData.roadVariant; 
+      if($('newRoadSelector')) $('newRoadSelector').value = savedData.roadVariant;
+    }
     if(savedData.bgMode && $('bgMode')){ state.bgMode = savedData.bgMode; $('bgMode').value = savedData.bgMode; }
     if(savedData.playerLane && $('playerLane')){ state.playerLane = savedData.playerLane; $('playerLane').value = savedData.playerLane; }
     if(savedData.speedLines !== undefined && $('speedLines')){ state.speedLines = Boolean(savedData.speedLines); $('speedLines').checked = state.speedLines; }
@@ -1823,7 +1892,7 @@ function drawCenterDashed(offsetRatio,color,widthBase,widthGrow,len,density,spee
     ctx.save();
     ctx.strokeStyle=color;
     ctx.lineCap='round';
-    ctx.lineWidth=widthBase+widthGrow*a.e;
+    ctx.lineWidth=(widthBase+widthGrow*a.e)*1.5;
     ctx.beginPath();
     ctx.moveTo(x0,a.y);
     ctx.lineTo(x1,b.y);
@@ -1840,9 +1909,9 @@ function drawCenterPulseDots(offsetRatio,color,sizeBase,sizeGrow,count,speedFact
     ctx.save();
     ctx.fillStyle=color;
     ctx.shadowColor=color;
-    ctx.shadowBlur=10+18*p.e;
+    ctx.shadowBlur=12+24*p.e;
     ctx.beginPath();
-    ctx.arc(x,p.y,sizeBase+sizeGrow*p.e,0,Math.PI*2);
+    ctx.arc(x,p.y,(sizeBase+sizeGrow*p.e)*1.5,0,Math.PI*2);
     ctx.fill();
     ctx.restore();
   }
@@ -1853,7 +1922,7 @@ function drawRoadTexture(strength){
     var z=(i*.13 + roadTime*state.speed*TRACK_MOTION_SCALE*1.08)%1;
     if(z<.15) continue;
     var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
-    var alpha=.012+strength*a.e;
+    var alpha=.015+strength*a.e;
     drawPoly(quad(a,b),'rgba(255,255,255,'+alpha+')');
   }
   ctx.restore();
@@ -1866,7 +1935,7 @@ function drawRoadShineSeries(color,alphaMul){
     var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.09));
     var xA=W/2 + (i%2?-1:1)*a.half*(.32+.18*(i%3));
     var xB=W/2 + (i%2?-1:1)*b.half*(.32+.18*(i%3));
-    ctx.globalAlpha=(.16+.45*z)*alphaMul;ctx.lineWidth=2+5*z;
+    ctx.globalAlpha=(.16+.45*z)*alphaMul;ctx.lineWidth=(2+5*z)*1.5;
     ctx.beginPath();ctx.moveTo(xA,a.y);ctx.lineTo(xB,b.y);ctx.stroke();
   }
   ctx.restore();
@@ -1881,14 +1950,14 @@ function drawSideRails(color){
     if(z1>1 || z0<.06) continue;
     var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
     ctx.globalAlpha=.14+.42*a.e;
-    ctx.lineWidth=2+6*a.e;
+    ctx.lineWidth=(2+6*a.e)*1.5;
     ctx.beginPath();
-    ctx.moveTo(a.l+12+a.e*8,a.y);
-    ctx.lineTo(b.l+12+b.e*8,b.y);
+    ctx.moveTo(a.l+18+a.e*12,a.y);
+    ctx.lineTo(b.l+18+b.e*12,b.y);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(a.r-12-a.e*8,a.y);
-    ctx.lineTo(b.r-12-b.e*8,b.y);
+    ctx.moveTo(a.r-18-a.e*12,a.y);
+    ctx.lineTo(b.r-18-b.e*12,b.y);
     ctx.stroke();
   }
   ctx.restore();
@@ -1907,26 +1976,174 @@ function drawBackground(){
     for(var i=0;i<16;i++){
       var sideDir=i%2===0?-1:1;
       var phase=(i*.09 + roadTime*state.speed*TRACK_MOTION_SCALE*.95)%1;
-      var y=(H*(state.horizon || 0.42))-220 + phase*400;
-      var x=sideDir<0 ? 30+phase*100 : W-30-phase*100;
-      var len=30+phase*110;
-      ctx.globalAlpha=.12+.42*phase;ctx.lineWidth=2.5+3.5*phase;
-      ctx.beginPath();ctx.moveTo(x,y-len*.55);ctx.lineTo(x+sideDir*18*phase,y+len*.45);ctx.stroke();
+      var y=(H*(state.horizon || 0.42))-320 + phase*600;
+      var x=sideDir<0 ? 40+phase*150 : W-40-phase*150;
+      var len=45+phase*160;
+      ctx.globalAlpha=.12+.42*phase;ctx.lineWidth=(2.5+3.5*phase)*1.5;
+      ctx.beginPath();ctx.moveTo(x,y-len*.55);ctx.lineTo(x+sideDir*24*phase,y+len*.45);ctx.stroke();
     }
     ctx.restore();
   }
 }
 
+/* ================= 5 NEW CLASSIC V6 EDITIONS ================= */
+function rV6Gold(){
+  fillRoadBase('#7c8591','#454c57');
+  drawRoadTexture(.028);
+  drawEdgeStripSeries(18,.85,8,42,'#ffb703','#ffffff');
+  if(state.roadShine) drawRoadShineSeries('rgba(255,225,120,.45)',1.0);
+}
+function rV6CyberBlue(){
+  fillRoadBase('#75808f','#3f4652');
+  drawRoadTexture(.028);
+  drawEdgeStripSeries(18,.85,8,42,'#00b4d8','#ffffff');
+  if(state.roadShine) drawRoadShineSeries('rgba(140,225,255,.42)',1.0);
+}
+function rV6LimeBeast(){
+  fillRoadBase('#6d7785','#3c434f');
+  drawRoadTexture(.028);
+  drawEdgeStripSeries(18,.85,8,42,'#2aff84','#111111');
+  if(state.roadShine) drawRoadShineSeries('rgba(120,255,180,.40)',1.0);
+}
+function rV6SunsetOrange(){
+  fillRoadBase('#788290','#424a56');
+  drawRoadTexture(.028);
+  drawEdgeStripSeries(18,.85,8,42,'#ff6b35','#ffffff');
+  if(state.roadShine) drawRoadShineSeries('rgba(255,180,120,.42)',1.0);
+}
+function rV6Monza(){
+  fillRoadBase('#707b8a','#3e4550');
+  drawRoadTexture(.028);
+  drawEdgeStripSeries(18,.85,8,42,'#ffd000','#111111');
+  if(state.roadShine) drawRoadShineSeries('rgba(255,240,150,.45)',1.0);
+}
+
+/* ================= 15 NEW ULTRA-CLEAN DAY-LIGHT ROADS ================= */
+function rSunnyDesert(){
+  fillRoadBase('#d4a373','#8d5b36');
+  drawRoadTexture(.024);
+  drawEdgeStripSeries(18,.85,8,42,'#ff8800','#fff1e6');
+  drawCenterDashed(0,'rgba(255,255,255,.95)',3,7,.12,10,.85,.12);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,245,210,.55)',1.1);
+}
+function rMiamiBeach(){
+  fillRoadBase('#8097a8','#4a6070');
+  drawRoadTexture(.022);
+  drawEdgeStripSeries(18,.85,8,42,'#00f0ff','#ffffff');
+  drawCenterDashed(-.05,'rgba(255,255,255,.9)',2.5,5.5,.09,10,.84,.14);
+  drawCenterDashed(.05,'rgba(255,255,255,.9)',2.5,5.5,.09,10,.84,.14);
+  if(state.roadShine) drawRoadShineSeries('rgba(180,250,255,.50)',1.0);
+}
+function rGreenMeadow(){
+  fillRoadBase('#606d5c','#3a4436');
+  drawRoadTexture(.026);
+  drawEdgeStripSeries(18,.85,8,42,'#38ef7d','#11998e');
+  drawCenterDashed(0,'rgba(255,255,255,.95)',3,6.5,.11,10,.85,.12);
+  if(state.roadShine) drawRoadShineSeries('rgba(200,255,220,.45)',1.0);
+}
+function rTokyoDay(){
+  fillRoadBase('#5a6068','#2c3035');
+  drawRoadTexture(.032);
+  drawEdgeStripSeries(20,.9,8,42,'#ffffff','#ff2a2a');
+  drawCenterDashed(0,'rgba(255,255,255,.98)',3.5,8,.14,12,.9,.1);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.55)',1.15);
+}
+function rCaliforniaSunset(){
+  fillRoadBase('#8a5a44','#4a2818');
+  drawRoadTexture(.025);
+  drawEdgeStripSeries(18,.82,8,42,'#ff7b00','#ffea00');
+  drawCenterDashed(-.06,'#ffe49e',2.5,5.5,.09,10,.85,.14);
+  drawCenterDashed(.06,'#ffe49e',2.5,5.5,.09,10,.85,.14);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,200,100,.6)',1.2);
+}
+function rRedClayTrail(){
+  fillRoadBase('#9c4a3b','#5e251b');
+  drawRoadTexture(.035);
+  drawEdgeStripSeries(18,.84,8,42,'#fdf0d5','#c1121f');
+  drawCenterDashed(0,'rgba(255,245,230,.9)',3,6.5,.1,10,.84,.12);
+}
+function rMonacoF1(){
+  fillRoadBase('#454950','#232529');
+  drawRoadTexture(.03);
+  drawEdgeStripSeries(20,.95,8,44,'#e63946','#f1faee');
+  drawCenterDashed(0,'#ffd166',3,7,.12,11,.92,.1);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.5)',1.1);
+}
+function rNordicSnow(){
+  fillRoadBase('#8896a6','#4f5c6b');
+  drawRoadTexture(.022);
+  drawEdgeStripSeries(18,.82,8,42,'#e0fbfc','#3d5a80');
+  drawCenterDashed(-.05,'#ffffff',2.5,5.5,.09,10,.84,.14);
+  drawCenterDashed(.05,'#ffffff',2.5,5.5,.09,10,.84,.14);
+  if(state.roadShine) drawRoadShineSeries('rgba(220,245,255,.6)',1.1);
+}
+function rStudioPaperWhite(){
+  fillRoadBase('#e9ecef','#adb5bd');
+  drawRoadTexture(.018);
+  drawEdgeStripSeries(18,.82,8,40,'#212529','#ffffff');
+  drawCenterDashed(0,'#212529',3,6,.1,10,.84,.14);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.8)',1.3);
+}
+function rAutumnMaple(){
+  fillRoadBase('#7a5843','#3f2619');
+  drawRoadTexture(.028);
+  drawEdgeStripSeries(18,.82,8,42,'#d90429','#ffb703');
+  drawCenterDashed(0,'#ffe3a8',3,6.5,.11,10,.85,.12);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,210,140,.5)',1.0);
+}
+function rSkyRainbow(){
+  fillRoadBase('#6c757d','#343a40');
+  var rainColors=['#ff4d6d','#ff9e00','#ffd60a','#38b000','#00b4d8','#7209b7'];
+  for(var i=0;i<18;i++){
+    var z0=(i/18 + roadTime*state.speed*TRACK_MOTION_SCALE*.85)%1;
+    var z1=z0+.055;
+    if(z1>1) continue;
+    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
+    var col=rainColors[i%rainColors.length];
+    drawPoly([[a.l,a.y],[a.l+12+a.e*28,a.y],[b.l+12+b.e*28,b.y],[b.l,b.y]],col);
+    drawPoly([[a.r-12-a.e*28,a.y],[a.r,a.y],[b.r,b.y],[b.r-12-b.e*28,b.y]],col);
+  }
+  drawCenterDashed(0,'#ffffff',3,7,.1,10,.85,.12);
+}
+function rGoldenSands(){
+  fillRoadBase('#c29b68','#6e4e2a');
+  drawRoadTexture(.024);
+  drawEdgeStripSeries(18,.85,8,42,'#ffbe0b','#003566');
+  drawCenterDashed(0,'rgba(255,255,255,.92)',3,6.5,.12,10,.85,.12);
+}
+function rAlpineMountain(){
+  fillRoadBase('#68717d','#39404a');
+  drawRoadTexture(.03);
+  drawEdgeStripSeries(18,.85,8,42,'#f8f9fa','#ffc300');
+  drawCenterDashed(0,'#ffc300',3,7,.12,10,.85,.14);
+  drawSideRails('rgba(255,255,255,.7)');
+}
+function rNeonDaylight(){
+  fillRoadBase('#7b4b94','#3b1d4c');
+  drawRoadTexture(.025);
+  drawEdgeStripSeries(18,.85,8,42,'#00f5d4','#fee440');
+  drawCenterDashed(-.06,'#f72585',2.5,5.5,.09,10,.88,.12);
+  drawCenterDashed(.06,'#f72585',2.5,5.5,.09,10,.88,.12);
+}
+function rEmeraldGolfway(){
+  fillRoadBase('#415a51','#1e3029');
+  drawRoadTexture(.026);
+  drawEdgeStripSeries(18,.85,8,42,'#52b788','#d8f3dc');
+  drawCenterDashed(0,'#d8f3dc',3,6.5,.1,10,.85,.12);
+  if(state.roadShine) drawRoadShineSeries('rgba(180,255,210,.45)',1.0);
+}
+
+/* ================= ORIGINAL ROADS ================= */
 function rClassic(){
   fillRoadBase('#7c8591','#454c57');
   drawRoadTexture(.028);
-  drawEdgeStripSeries(18,.85,5,28,'#ff1f32','#ffffff');
+  drawEdgeStripSeries(18,.85,8,42,'#ff1f32','#ffffff');
   if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.38)',1.0);
 }
 function rTwinStripe(){
   fillRoadBase('#4a5665','#202731');
   drawRoadTexture(.026);
-  drawEdgeStripSeries(18,.82,4,20,'#ffffff','#b6bcc6');
+  drawEdgeStripSeries(18,.82,6,30,'#ffffff','#b6bcc6');
   drawCenterDashed(-.04,'rgba(255,216,82,.98)',2,5,.10,10,.84,.14);
   drawCenterDashed(.04,'rgba(255,216,82,.98)',2,5,.10,10,.84,.14);
   if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.28)',.85);
@@ -1934,7 +2151,7 @@ function rTwinStripe(){
 function rTripleLane(){
   fillRoadBase('#46505c','#1f262f');
   drawRoadTexture(.024);
-  drawEdgeStripSeries(18,.82,4,20,'#ff2333','#ffffff');
+  drawEdgeStripSeries(18,.82,6,30,'#ff2333','#ffffff');
   drawCenterDashed(-.26,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
   drawCenterDashed(0,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
   drawCenterDashed(.26,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
@@ -1943,21 +2160,21 @@ function rTripleLane(){
 function rAsphaltSpeed(){
   fillRoadBase('#2b2e34','#14161a');
   drawRoadTexture(.045);
-  drawEdgeStripSeries(20,.95,4,24,'#ffd000','#111111');
+  drawEdgeStripSeries(20,.95,6,36,'#ffd000','#111111');
   drawCenterDashed(0,'rgba(255,255,255,.9)',3,6,.14,12,.95,.10);
   if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.45)',1.1);
 }
 function rMidnightHighway(){
   fillRoadBase('#1a1e28','#0c0e14');
   drawRoadTexture(.02);
-  drawEdgeStripSeries(18,.8,3,18,'#3b82f6','#ffffff');
+  drawEdgeStripSeries(18,.8,5,28,'#3b82f6','#ffffff');
   drawCenterDashed(0,'rgba(96,165,250,.9)',2,5,.09,9,.82,.15);
   drawSideRails('rgba(59,130,246,.4)');
 }
 function rNeonPulse(){
   fillRoadBase('#29193d','#12071f');
   drawRoadTexture(.030);
-  drawEdgeStripSeries(18,.82,4,20,'#ff0055','#00ffff');
+  drawEdgeStripSeries(18,.82,6,30,'#ff0055','#00ffff');
   drawCenterDashed(-.04,'rgba(0,255,255,.95)',2,5,.08,11,.88,.15);
   drawCenterDashed(.04,'rgba(0,255,255,.95)',2,5,.08,11,.88,.15);
   drawCenterPulseDots(0,'rgba(255,0,128,.95)',2,6,9,1.12,.18);
@@ -1966,7 +2183,7 @@ function rNeonPulse(){
 function rEdgeGlow(){
   fillRoadBase('#1a2c26','#0c1813');
   drawRoadTexture(.022);
-  drawEdgeStripSeries(18,.84,4,20,'#00ff66','#003314');
+  drawEdgeStripSeries(18,.84,6,30,'#00ff66','#003314');
   drawSideRails('rgba(0,255,102,.6)');
   drawCenterDashed(0,'rgba(0,255,102,.5)',1.5,3.5,.08,9,.82,.2);
 }
@@ -1980,11 +2197,11 @@ function rArcadeGrid(){
     drawPoly(quad(a,b),'rgba(0,255,255,'+(.02+.06*a.e)+')');
     for(var j=1;j<4;j++){
       var x0=lerp(a.l,a.r,j/4), x1=lerp(b.l,b.r,j/4);
-      ctx.save();ctx.strokeStyle='rgba(0,255,255,'+(.08+.2*a.e)+')';ctx.lineWidth=1.2+2.4*a.e;
+      ctx.save();ctx.strokeStyle='rgba(0,255,255,'+(.08+.2*a.e)+')';ctx.lineWidth=(1.2+2.4*a.e)*1.5;
       ctx.beginPath();ctx.moveTo(x0,a.y);ctx.lineTo(x1,b.y);ctx.stroke();ctx.restore();
     }
   }
-  drawEdgeStripSeries(18,.80,4,20,'#ff007f','#00ffff');
+  drawEdgeStripSeries(18,.80,6,30,'#ff007f','#00ffff');
 }
 function rRailRunner(){
   fillRoadBase('#222630','#0e1015');
@@ -1995,87 +2212,87 @@ function rRailRunner(){
 }
 function rChevronRush(){
   fillRoadBase('#2a2a38','#12121a');
-  drawEdgeStripSeries(18,.82,4,20,'#ff3366','#ffffff');
+  drawEdgeStripSeries(18,.82,6,30,'#ff3366','#ffffff');
   for(var i=0;i<10;i++){
     var z=(i/10 + roadTime*state.speed*TRACK_MOTION_SCALE*.92)%1;
     if(z<.15 || z>.96) continue;
     var p=roadBoundsAtZ(z);
-    var span=20+p.e*95, lift=10+p.e*44;
-    ctx.save();ctx.strokeStyle='rgba(255,51,102,'+(.25+.5*p.e)+')';ctx.lineWidth=2+5*p.e;ctx.lineCap='round';
+    var span=30+p.e*140, lift=15+p.e*65;
+    ctx.save();ctx.strokeStyle='rgba(255,51,102,'+(.25+.5*p.e)+')';ctx.lineWidth=(2+5*p.e)*1.5;ctx.lineCap='round';
     ctx.beginPath();ctx.moveTo(W/2-span,p.y-lift);ctx.lineTo(W/2,p.y);ctx.lineTo(W/2+span,p.y-lift);ctx.stroke();ctx.restore();
   }
 }
 function rCyberViolet(){
   fillRoadBase('#30123f','#14041c');
-  drawEdgeStripSeries(18,.85,4,22,'#c026d3','#a855f7');
+  drawEdgeStripSeries(18,.85,6,32,'#c026d3','#a855f7');
   drawCenterDashed(0,'rgba(232,121,249,.95)',3,6,.12,11,.9,.12);
   drawSideRails('rgba(192,38,211,.6)');
 }
 function rLaserCyan(){
   fillRoadBase('#082f49','#02131f');
-  drawEdgeStripSeries(18,.85,5,25,'#06b6d4','#38bdf8');
+  drawEdgeStripSeries(18,.85,7,36,'#06b6d4','#38bdf8');
   drawCenterDashed(-.08,'#38bdf8',2,5,.1,10,.88,.15);
   drawCenterDashed(.08,'#38bdf8',2,5,.1,10,.88,.15);
 }
 function rMatrixCode(){
   fillRoadBase('#052e16','#021409');
   drawRoadTexture(.05);
-  drawEdgeStripSeries(18,.8,4,20,'#22c55e','#14532d');
+  drawEdgeStripSeries(18,.8,6,30,'#22c55e','#14532d');
   drawCenterDashed(0,'rgba(34,197,94,.9)',2.5,5,.07,14,1.1,.1);
 }
 function rPlasmaPink(){
   fillRoadBase('#4a044e','#1f0122');
-  drawEdgeStripSeries(18,.85,5,24,'#f43f5e','#fda4af');
+  drawEdgeStripSeries(18,.85,7,36,'#f43f5e','#fda4af');
   drawCenterDashed(0,'rgba(244,63,94,.9)',3,6,.1,10,.85,.15);
 }
 function rOverdriveSynth(){
   fillRoadBase('#3b0764','#18022b');
-  drawEdgeStripSeries(18,.85,5,26,'#ec4899','#8b5cf6');
+  drawEdgeStripSeries(18,.85,7,38,'#ec4899','#8b5cf6');
   drawCenterPulseDots(0,'#f43f5e',2,6,11,1.05,.15);
   drawSideRails('rgba(236,72,153,.7)');
 }
 function rLavaCrack(){
   fillRoadBase('#450a0a','#1f0404');
-  drawEdgeStripSeries(16,.75,5,28,'#ea580c','#7f1d1d');
+  drawEdgeStripSeries(16,.75,7,40,'#ea580c','#7f1d1d');
   drawCenterDashed(0,'rgba(251,146,60,.95)',4,8,.15,8,.75,.15);
   drawRoadTexture(.06);
 }
 function rIceCrystal(){
   fillRoadBase('#083344','#03151d');
-  drawEdgeStripSeries(18,.82,4,24,'#e0f2fe','#38bdf8');
+  drawEdgeStripSeries(18,.82,6,36,'#e0f2fe','#38bdf8');
   drawCenterDashed(-.05,'#bae6fd',2,5,.08,10,.85,.15);
   drawCenterDashed(.05,'#bae6fd',2,5,.08,10,.85,.15);
   drawSideRails('rgba(224,242,254,.7)');
 }
 function rGoldenPath(){
   fillRoadBase('#422006','#1a0c02');
-  drawEdgeStripSeries(18,.82,5,25,'#eab308','#fef08a');
+  drawEdgeStripSeries(18,.82,7,36,'#eab308','#fef08a');
   drawCenterDashed(0,'rgba(234,179,8,.95)',3,7,.11,10,.84,.14);
 }
 function rToxicHazard(){
   fillRoadBase('#1a2e05','#0a1401');
-  drawEdgeStripSeries(18,.88,5,25,'#84cc16','#000000');
+  drawEdgeStripSeries(18,.88,7,36,'#84cc16','#000000');
   drawCenterDashed(0,'rgba(132,204,22,.95)',3,6,.1,10,.88,.12);
 }
 function rCosmicVoid(){
   fillRoadBase('#180d2e','#080313');
   drawCenterPulseDots(-.15,'#a855f7',1.5,4,12,.95,.1);
   drawCenterPulseDots(.15,'#38bdf8',1.5,4,12,.95,.1);
-  drawEdgeStripSeries(18,.8,4,22,'#c084fc','#38bdf8');
+  drawEdgeStripSeries(18,.8,6,32,'#c084fc','#38bdf8');
 }
 function rAmethystPath(){
   fillRoadBase('#3b0764','#150125');
-  drawEdgeStripSeries(18,.85,4,24,'#a855f7','#f3e8ff');
+  drawEdgeStripSeries(18,.85,6,36,'#a855f7','#f3e8ff');
   drawCenterDashed(0,'#d8b4fe',2,5,.1,10,.82,.14);
 }
 function rInfernoFire(){
   fillRoadBase('#500724','#20010d');
-  drawEdgeStripSeries(18,.85,5,26,'#ef4444','#fb923c');
+  drawEdgeStripSeries(18,.85,7,38,'#ef4444','#fb923c');
   drawCenterDashed(0,'#f97316',3,7,.12,9,.82,.15);
 }
 function rElectricThunder(){
   fillRoadBase('#0c4a6e','#041c2c');
-  drawEdgeStripSeries(18,.9,5,26,'#38bdf8','#ffffff');
+  drawEdgeStripSeries(18,.9,7,38,'#38bdf8','#ffffff');
   drawSideRails('rgba(56,189,248,.8)');
   drawCenterDashed(0,'#7dd3fc',2.5,5.5,.08,12,.95,.12);
 }
@@ -2088,41 +2305,41 @@ function rRainbowPrism(){
     if(z1>1) continue;
     var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
     var col=colors[i%colors.length];
-    drawPoly([[a.l,a.y],[a.l+8+a.e*18,a.y],[b.l+8+b.e*18,b.y],[b.l,b.y]],col);
-    drawPoly([[a.r-8-a.e*18,a.y],[a.r,a.y],[b.r,b.y],[b.r-8-b.e*18,b.y]],col);
+    drawPoly([[a.l,a.y],[a.l+12+a.e*26,a.y],[b.l+12+b.e*26,b.y],[b.l,b.y]],col);
+    drawPoly([[a.r-12-a.e*26,a.y],[a.r,a.y],[b.r,b.y],[b.r-12-b.e*26,b.y]],col);
   }
   drawCenterDashed(0,'#ffffff',2,5,.09,10,.85,.15);
 }
 function rSunsetBoulevard(){
   fillRoadBase('#7c2d12','#361005');
-  drawEdgeStripSeries(18,.82,5,24,'#f97316','#fde047');
+  drawEdgeStripSeries(18,.82,7,36,'#f97316','#fde047');
   drawCenterDashed(-.05,'#fed7aa',2,4.5,.08,10,.85,.15);
   drawCenterDashed(.05,'#fed7aa',2,4.5,.08,10,.85,.15);
 }
 function rPastelDream(){
   fillRoadBase('#701a75','#3b0764');
-  drawEdgeStripSeries(18,.8,5,22,'#f472b6','#38bdf8');
+  drawEdgeStripSeries(18,.8,7,34,'#f472b6','#38bdf8');
   drawCenterDashed(0,'#fbcfe8',2,5,.09,10,.82,.14);
 }
 function rEmeraldCity(){
   fillRoadBase('#064e3b','#022c22');
-  drawEdgeStripSeries(18,.85,5,25,'#34d399','#a7f3d0');
-  drawCenterDashed(0,'#6ee7b7',3,6,.1,10,.85,.15);
+  drawEdgeStripSeries(18,.85,7,36,'#34d399','#a7f3d0');
+  drawCenterDashed(0,'#6ee7b7',3,6,.1,10,.85,.12);
 }
 function rRubyRoyale(){
   fillRoadBase('#881337','#4c0519');
-  drawEdgeStripSeries(18,.85,5,26,'#fb7185','#ffe4e6');
+  drawEdgeStripSeries(18,.85,7,38,'#fb7185','#ffe4e6');
   drawCenterDashed(0,'#fda4af',3,6.5,.11,10,.85,.15);
 }
 function rCleanWhiteTrack(){
   fillRoadBase('#cbd5e1','#94a3b8');
-  drawEdgeStripSeries(18,.82,4,22,'#0f172a','#ffffff');
+  drawEdgeStripSeries(18,.82,6,32,'#0f172a','#ffffff');
   drawCenterDashed(0,'#0f172a',2.5,5,.1,10,.85,.14);
 }
 function rDarkObsidian(){
   fillRoadBase('#0f172a','#020617');
   drawRoadTexture(.035);
-  drawEdgeStripSeries(18,.75,3,16,'#334155','#0f172a');
+  drawEdgeStripSeries(18,.75,5,24,'#334155','#0f172a');
   drawCenterDashed(0,'rgba(148,163,184,.6)',1.5,3.5,.08,9,.8,.2);
 }
 function rCarbonTrack(){
@@ -2135,26 +2352,26 @@ function rCarbonTrack(){
     var insetA=a.half*.08, insetB=b.half*.08;
     drawPoly([[a.l+insetA,a.y],[a.r-insetA,a.y],[b.r-insetB,b.y],[b.l+insetB,b.y]], i%2===0?'rgba(255,255,255,.05)':'rgba(0,0,0,.09)');
   }
-  drawEdgeStripSeries(18,.78,4,18,'#ff8f29','#ffffff');
+  drawEdgeStripSeries(18,.78,6,28,'#ff8f29','#ffffff');
   drawCenterDashed(0,'rgba(255,171,85,.75)',2,4,.07,10,.90,.18);
 }
 function rDiamondFlow(){
   fillRoadBase('#414b59','#1c232c');
   drawRoadTexture(.020);
-  drawEdgeStripSeries(18,.82,4,20,'#ff3347','#ffffff');
+  drawEdgeStripSeries(18,.82,6,30,'#ff3347','#ffffff');
   for(var i=0;i<8;i++){
     var z=(i/8 + roadTime*state.speed*TRACK_MOTION_SCALE*.88)%1;
     if(z<.15 || z>.94) continue;
     var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
     var midY=(a.y+b.y)/2;
-    var w=12+a.e*56, h=6+a.e*32;
+    var w=18+a.e*80, h=9+a.e*48;
     ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
     ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
   }
 }
 function rMinimalGrey(){
   fillRoadBase('#475569','#1e293b');
-  drawEdgeStripSeries(18,.8,4,20,'#ffffff','#64748b');
+  drawEdgeStripSeries(18,.8,6,30,'#ffffff','#64748b');
   drawCenterDashed(0,'rgba(255,255,255,.7)',2,4,.1,10,.8,.15);
 }
 function rHyperSpace(){
@@ -2166,13 +2383,38 @@ function rHyperSpace(){
 }
 function rRetroSun(){
   fillRoadBase('#4a044e','#1c021f');
-  drawEdgeStripSeries(18,.85,4,22,'#facc15','#ec4899');
+  drawEdgeStripSeries(18,.85,6,32,'#facc15','#ec4899');
   drawSideRails('#ec4899');
   drawCenterDashed(0,'#fde047',3,6,.12,9,.84,.15);
 }
 
 function drawRoad(){
   var dict={
+    // 5 New V6 Special Editions
+    v6Gold: rV6Gold,
+    v6CyberBlue: rV6CyberBlue,
+    v6LimeBeast: rV6LimeBeast,
+    v6SunsetOrange: rV6SunsetOrange,
+    v6Monza: rV6Monza,
+
+    // 15 New Day-Light Roads
+    sunnyDesert: rSunnyDesert,
+    miamiBeach: rMiamiBeach,
+    greenMeadow: rGreenMeadow,
+    tokyoDay: rTokyoDay,
+    californiaSunset: rCaliforniaSunset,
+    redClayTrail: rRedClayTrail,
+    monacoF1: rMonacoF1,
+    nordicSnow: rNordicSnow,
+    studioPaperWhite: rStudioPaperWhite,
+    autumnMaple: rAutumnMaple,
+    skyRainbow: rSkyRainbow,
+    goldenSands: rGoldenSands,
+    alpineMountain: rAlpineMountain,
+    neonDaylight: rNeonDaylight,
+    emeraldGolfway: rEmeraldGolfway,
+
+    // Original Roads
     classic: rClassic,
     twinStripe: rTwinStripe,
     tripleLane: rTripleLane,
@@ -2216,8 +2458,8 @@ function drawRoad(){
 function drawRaisedPad(z, side, hexColor){
   var p=roadBoundsAtZ(z), e=p.e;
   var laneCenter=side==='left' ? W/2-p.half*.50 : W/2+p.half*.50;
-  var width=Math.max(16, p.half*.96);
-  var height=Math.max(18, width * 0.60);
+  var width=Math.max(24, p.half*.96);
+  var height=Math.max(26, width * 0.60);
   var baseY=p.y + 1;
   var topY=baseY - height;
   
@@ -2228,8 +2470,8 @@ function drawRaisedPad(z, side, hexColor){
   var darkB = Math.max(0, Math.floor(c.r * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
-  ctx.save();ctx.fillStyle='rgba(0,0,0,.28)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+4,width*.48,5+8*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
-  ctx.save();ctx.fillStyle='rgba('+dark+',.85)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-(state.padThickness||15)*.45,width,state.padThickness||15,6);ctx.fill();ctx.restore();
+  ctx.save();ctx.fillStyle='rgba(0,0,0,.28)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+6,width*.48,7+12*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
+  ctx.save();ctx.fillStyle='rgba('+dark+',.85)';ctx.beginPath();ctx.roundRect(laneCenter-width/2,baseY-(state.padThickness||22)*.45,width,state.padThickness||22,8);ctx.fill();ctx.restore();
   
   var g=ctx.createLinearGradient(0,baseY,0,topY);
   g.addColorStop(0,'rgba('+rgb+',.92)');
@@ -2237,10 +2479,10 @@ function drawRaisedPad(z, side, hexColor){
   g.addColorStop(.75,'rgba('+rgb+',.25)');
   g.addColorStop(1,'rgba('+rgb+',0)');
   
-  ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=18+26*e;ctx.fillStyle=g;
-  ctx.beginPath();ctx.roundRect(laneCenter-width/2,topY,width,height,8);ctx.fill();ctx.restore();
+  ctx.save();ctx.shadowColor='rgb('+rgb+')';ctx.shadowBlur=24+36*e;ctx.fillStyle=g;
+  ctx.beginPath();ctx.roundRect(laneCenter-width/2,topY,width,height,10);ctx.fill();ctx.restore();
   
-  ctx.save();ctx.strokeStyle='rgba('+rgb+',.98)';ctx.lineWidth=2.5+2.5*e;ctx.beginPath();ctx.moveTo(laneCenter-width*.49,baseY-1);ctx.lineTo(laneCenter+width*.49,baseY-1);ctx.stroke();ctx.restore();
+  ctx.save();ctx.strokeStyle='rgba('+rgb+',.98)';ctx.lineWidth=(2.5+2.5*e)*1.5;ctx.beginPath();ctx.moveTo(laneCenter-width*.49,baseY-1);ctx.lineTo(laneCenter+width*.49,baseY-1);ctx.stroke();ctx.restore();
   
   return {center:[laneCenter,baseY-height*.43], baseY:baseY, topY:topY, width:width, height:height, e:e};
 }
@@ -2323,14 +2565,14 @@ function drawDiamondIcon(cx, cy, s){
   ctx.fill();
 
   ctx.strokeStyle = 'rgba(255,255,255,0.85)';
-  ctx.lineWidth = 2.5;
+  ctx.lineWidth = 3;
   ctx.stroke();
 
   ctx.beginPath();
   ctx.moveTo(-24, 0); ctx.lineTo(24, 0);
   ctx.moveTo(0, -26); ctx.lineTo(0, 26);
   ctx.strokeStyle = 'rgba(255,255,255,0.45)';
-  ctx.lineWidth = 1.5;
+  ctx.lineWidth = 2;
   ctx.stroke();
   ctx.restore();
 }
@@ -2344,7 +2586,7 @@ function drawBoltIcon(cx, cy, s){
   var gb = ctx.createLinearGradient(0, -26, 0, 26);
   gb.addColorStop(0, '#ffffff'); gb.addColorStop(0.4, '#fde047'); gb.addColorStop(1, '#eab308');
   ctx.fillStyle = gb;
-  ctx.shadowColor = '#facc15'; ctx.shadowBlur = 14;
+  ctx.shadowColor = '#facc15'; ctx.shadowBlur = 18;
   ctx.beginPath();
   ctx.moveTo(4, -28);
   ctx.lineTo(-16, 2);
@@ -2372,15 +2614,15 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
         var ang = (f / 6) * Math.PI*2 + progress * 2;
         var r = (size * 0.4) + progress * (size * 0.65);
         ctx.fillStyle = f % 2 ? 'rgba(255,100,0,'+alpha+')' : 'rgba(255,220,50,'+alpha+')';
-        ctx.beginPath(); ctx.arc(cx + Math.cos(ang)*r, cy + Math.sin(ang)*r - progress*18, 4 + 4*alpha, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + Math.cos(ang)*r, cy + Math.sin(ang)*r - progress*25, 6 + 6*alpha, 0, Math.PI*2); ctx.fill();
       }
     } else if(style === 'waterCrystal'){
       ctx.strokeStyle = 'rgba(0,210,255,'+alpha+')';
-      ctx.lineWidth = 3.5 * alpha;
+      ctx.lineWidth = 5 * alpha;
       ctx.beginPath(); ctx.arc(cx, cy, (size * 0.5) + progress * (size * 0.7), 0, Math.PI*2); ctx.stroke();
     } else {
       ctx.strokeStyle = 'rgba(255,215,0,'+alpha+')';
-      ctx.lineWidth = 4 * alpha;
+      ctx.lineWidth = 5.5 * alpha;
       ctx.beginPath(); ctx.arc(cx, cy, (size * 0.5) + progress * (size * 0.6), 0, Math.PI*2); ctx.stroke();
     }
     ctx.restore();
@@ -2393,11 +2635,11 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
   if(activeImg){
     ctx.save();
     ctx.fillStyle = 'rgba(0,0,0,0.58)';
-    ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 3.5; ctx.stroke();
 
-    ctx.shadowColor = '#61f0a6'; ctx.shadowBlur = 18;
-    drawImageFit(activeImg, cx, by + size - 6, size * 0.88, size * 0.88, 'bottom');
+    ctx.shadowColor = '#61f0a6'; ctx.shadowBlur = 24;
+    drawImageFit(activeImg, cx, by + size - 8, size * 0.88, size * 0.88, 'bottom');
     ctx.restore();
   } else {
     var qThemes = {
@@ -2418,56 +2660,56 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
     if(style === 'fireInferno'){
       var gf = ctx.createLinearGradient(bx, by, bx + size, by + size);
       gf.addColorStop(0, '#ff1a00'); gf.addColorStop(0.5, '#ff7700'); gf.addColorStop(1, '#ffdd00');
-      ctx.shadowColor = '#ff4400'; ctx.shadowBlur = 18;
-      ctx.fillStyle = gf; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+      ctx.shadowColor = '#ff4400'; ctx.shadowBlur = 24;
+      ctx.fillStyle = gf; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
 
-      ctx.fillStyle = '#380500'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
-      ctx.strokeStyle = '#ff9900'; ctx.lineWidth = 3; ctx.stroke();
+      ctx.fillStyle = '#380500'; ctx.beginPath(); ctx.roundRect(bx+5, by+5, size-10, size-10, 14); ctx.fill();
+      ctx.strokeStyle = '#ff9900'; ctx.lineWidth = 4; ctx.stroke();
 
       drawFlameIcon(cx, cy, size * 0.65);
 
     } else if(style === 'waterCrystal'){
       var gw = ctx.createLinearGradient(bx, by, bx, by + size);
       gw.addColorStop(0, '#00f0ff'); gw.addColorStop(0.7, '#0077ff'); gw.addColorStop(1, '#0033aa');
-      ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 18;
-      ctx.fillStyle = gw; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+      ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 24;
+      ctx.fillStyle = gw; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
 
-      ctx.fillStyle = '#02183a'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
-      ctx.strokeStyle = '#67e8f9'; ctx.lineWidth = 3; ctx.stroke();
+      ctx.fillStyle = '#02183a'; ctx.beginPath(); ctx.roundRect(bx+5, by+5, size-10, size-10, 14); ctx.fill();
+      ctx.strokeStyle = '#67e8f9'; ctx.lineWidth = 4; ctx.stroke();
 
       drawDropletIcon(cx, cy, size * 0.65);
 
     } else if(style === 'amethystGem'){
-      ctx.shadowColor = '#c084fc'; ctx.shadowBlur = 18;
-      ctx.fillStyle = '#7e22ce'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+      ctx.shadowColor = '#c084fc'; ctx.shadowBlur = 24;
+      ctx.fillStyle = '#7e22ce'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
 
-      ctx.fillStyle = '#220638'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
-      ctx.strokeStyle = '#d8b4fe'; ctx.lineWidth = 3; ctx.stroke();
+      ctx.fillStyle = '#220638'; ctx.beginPath(); ctx.roundRect(bx+5, by+5, size-10, size-10, 14); ctx.fill();
+      ctx.strokeStyle = '#d8b4fe'; ctx.lineWidth = 4; ctx.stroke();
 
       drawDiamondIcon(cx, cy, size * 0.65);
 
     } else if(style === 'electricThunder'){
-      ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 18;
-      ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+      ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 24;
+      ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
 
-      ctx.fillStyle = '#082f49'; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
-      ctx.strokeStyle = '#facc15'; ctx.lineWidth = 3; ctx.stroke();
+      ctx.fillStyle = '#082f49'; ctx.beginPath(); ctx.roundRect(bx+5, by+5, size-10, size-10, 14); ctx.fill();
+      ctx.strokeStyle = '#facc15'; ctx.lineWidth = 4; ctx.stroke();
 
       drawBoltIcon(cx, cy, size * 0.65);
 
     } else {
       var th = qThemes[style] || qThemes.royal3DGold;
 
-      ctx.shadowColor = th.glow; ctx.shadowBlur = 14;
-      ctx.fillStyle = th.border; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 14); ctx.fill();
+      ctx.shadowColor = th.glow; ctx.shadowBlur = 18;
+      ctx.fillStyle = th.border; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
 
-      ctx.fillStyle = th.face; ctx.beginPath(); ctx.roundRect(bx+4, by+4, size-8, size-8, 10); ctx.fill();
-      ctx.strokeStyle = th.stroke; ctx.lineWidth = 3; ctx.stroke();
+      ctx.fillStyle = th.face; ctx.beginPath(); ctx.roundRect(bx+5, by+5, size-10, size-10, 14); ctx.fill();
+      ctx.strokeStyle = th.stroke; ctx.lineWidth = 4; ctx.stroke();
 
       ctx.fillStyle = th.text;
       ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('?', cx, cy + 2);
+      ctx.fillText('?', cx, cy + 3);
     }
   }
 
@@ -2478,11 +2720,11 @@ function drawMysteryHUD(){
   if(!state.showHud) return;
 
   var count = 5;
-  var boxS = state.hudBoxSize || 88;
-  var gap = state.hudSpacing || 12;
+  var boxS = state.hudBoxSize || 132;
+  var gap = state.hudSpacing || 18;
   var totalW = count * boxS + (count - 1) * gap;
   var startX = (W - totalW) / 2;
-  var hudY = state.hudY || 105;
+  var hudY = state.hudY || 155;
 
   for(var b = 0; b < count; b++){
     var bx = startX + b * (boxS + gap);
@@ -2502,13 +2744,13 @@ function drawMysteryHUD(){
 
 function getActiveRunnerInfo(){
   var curImg = null;
-  var curSize = 145;
+  var curSize = 215;
 
   if(currentPath === 'green' && currentStageLevel > 0){
     for(var g = currentStageLevel; g >= 1; g--){
       if(state.greenStages[g] && state.greenStages[g].img){
         curImg = state.greenStages[g].img;
-        curSize = state.greenStages[g].size || 165;
+        curSize = state.greenStages[g].size || 245;
         break;
       }
     }
@@ -2516,7 +2758,7 @@ function getActiveRunnerInfo(){
     for(var r = currentStageLevel; r >= 1; r--){
       if(state.redStages[r] && state.redStages[r].img){
         curImg = state.redStages[r].img;
-        curSize = state.redStages[r].size || 130;
+        curSize = state.redStages[r].size || 195;
         break;
       }
     }
@@ -2524,7 +2766,7 @@ function getActiveRunnerInfo(){
 
   if(!curImg){
     curImg = state.baseStage.img;
-    curSize = state.baseStage.size || 145;
+    curSize = state.baseStage.size || 215;
   }
 
   return { img: curImg, size: curSize };
@@ -2551,7 +2793,7 @@ function drawRunnerBehind(){
   state.playerX = state.playerX || (W/2);
   state.playerX += (targetX - state.playerX) * 0.35;
 
-  drawImageFit(rInfo.img, state.playerX, p.y + 4, pSize, pSize, 'bottom');
+  drawImageFit(rInfo.img, state.playerX, p.y + 6, pSize, pSize, 'bottom');
 }
 
 function syncStateFromTime(t){
@@ -2590,8 +2832,8 @@ function drawSinglePadRow(item){
   var pngScale=.18+0.95*left.e;
   var leftSize=Math.min(item.row.leftSize*pngScale,left.width*.92);
   var rightSize=Math.min(item.row.rightSize*pngScale,right.width*.92);
-  if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-6,leftSize,leftSize,'bottom');
-  if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-6,rightSize,rightSize,'bottom');
+  if(item.row.leftImg) drawImageFit(item.row.leftImg,left.center[0],left.baseY-8,leftSize,leftSize,'bottom');
+  if(item.row.rightImg) drawImageFit(item.row.rightImg,right.center[0],right.baseY-8,rightSize,rightSize,'bottom');
 }
 
 function drawRows(){
@@ -2661,10 +2903,10 @@ function drawRows(){
     var op = roadBoundsAtZ(bossZ);
 
     var rInfo = getActiveRunnerInfo();
-    var dynamicBossBase = (rInfo.size || 145) * 1.18;
+    var dynamicBossBase = (rInfo.size || 215) * 1.18;
     var bossSize = dynamicBossBase * (0.3 + 0.7 * op.e);
 
-    drawImageFit(state.opponent.img, W/2, op.y + 4, bossSize, bossSize, 'bottom');
+    drawImageFit(state.opponent.img, W/2, op.y + 6, bossSize, bossSize, 'bottom');
   }
 
   drawRunnerBehind();
@@ -2731,6 +2973,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
+    localStorage.removeItem('runner_studio_saved_v24'); 
     localStorage.removeItem('runner_studio_saved_v23'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
@@ -2743,13 +2986,14 @@ $('exportBtn').onclick = function(){
   var sec = Math.max(2, Math.min(60, +$('recordSec').value || 20));
   
   var stream = canvas.captureStream(60);
-  var mime = 'video/webm;codecs=vp8';
+  var mime = 'video/webm;codecs=vp9';
+  if (!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm;codecs=vp8';
   if (!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm';
   
   var chunks = [];
   recorder = new MediaRecorder(stream, { 
     mimeType: mime, 
-    videoBitsPerSecond: 16000000 
+    videoBitsPerSecond: 28000000 
   });
   
   recorder.ondataavailable = function(e){ if (e.data.size) chunks.push(e.data); };
@@ -2757,14 +3001,14 @@ $('exportBtn').onclick = function(){
     var blob = new Blob(chunks, { type: mime });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'runner-straight-road-60fps.webm';
+    a.download = 'runner-1080p-fullhd-60fps.webm';
     a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); }, 5000);
     recorder = null;
-    $('exportBtn').textContent = 'Export 60FPS Video';
+    $('exportBtn').textContent = 'Export 1080P 60FPS';
   };
   recorder.start(100);
-  $('exportBtn').textContent = 'Recording 60 FPS...';
+  $('exportBtn').textContent = 'Recording 1080P 60FPS...';
   setTimeout(function(){ if (recorder && recorder.state !== 'inactive') recorder.stop(); }, sec * 1000);
 };
 })();
@@ -2827,4 +3071,4 @@ const server = http.createServer(function(req, res){
 server.keepAliveTimeout = 65000;
 server.headersTimeout = 66000;
 
-server.listen(PORT, function(){ console.log('Straight Highway Server running on port ' + PORT); });
+server.listen(PORT, function(){ console.log('Straight Highway 1080P Server running on port ' + PORT); });
