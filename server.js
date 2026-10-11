@@ -187,7 +187,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>⚡ 1080p Full HD Engine Active:</b> 55+ रोड्स, 20+ थीम्स, 20 स्पेशल डे-लाइट व V6 वेरिएंट्स साइड सेलेक्टर में एक्टिवेटेड!</div>
+    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> फ्लिकरिंग फिक्स एक्टिवेटेड, 55+ रोड्स और 20 नए डे-लाइट व V6 ऑप्शन्स रेडी!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -572,7 +572,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </div>
         </label>
 
-        <!-- 🌟 DEDICATED SEPARATE OPTION FOR NEW DAY-LIGHT & V6 EDITIONS -->
+        <!-- 🌟 DEDICATED SEPARATE QUICK SELECTOR FOR NEW ROADS -->
         <label style="border:1px solid #61f0a6;padding:8px;border-radius:10px;background:#0d1813">
           <span style="color:#61f0a6;font-weight:900">🌟 Quick Selector: 20 New Day-Light & V6 Editions</span>
           <select id="newRoadSelector">
@@ -844,9 +844,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
 <script>
 (function(){
 var canvas=document.getElementById('stage');
-var ctx=canvas.getContext('2d', { alpha: false, desynchronized: true });
-ctx.imageSmoothingEnabled = true;
-ctx.imageSmoothingQuality = 'high';
+var ctx=canvas.getContext('2d', { alpha: false });
 
 var W=canvas.width, H=canvas.height;
 var $=function(id){ return document.getElementById(id); };
