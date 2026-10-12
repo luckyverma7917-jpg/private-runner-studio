@@ -282,7 +282,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_3">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="hudRemove_4" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="toggle"><input id="hudRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label style="grid-column:1/-1">Box 5 PNG
           <div class="file-wrap">
@@ -841,7 +841,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
     <div class="rowhead"><strong style="color:#61f0a6">&#128293; Opponent Boss</strong><span class="small">Stationary at Road End</span></div>
     <div class="side" style="grid-column:span 2">
       <b>OPPONENT CHARACTER PNG</b>
-      <label>PNG (Pad 2 क्रॉस होते ही दिखेगा और कैरेक्टर इसके ऊपर टच करेगा)
+      <label>PNG (सड़क के अंत में खंभे की तरह रहेगा और 5वें पैड के बाद रनर से टकराएगा)
         <div class="file-wrap">
           <div class="thumb-box" id="thumb_oppImg"><span>None</span><img src=""></div>
           <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg">
@@ -849,7 +849,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         </div>
       </label>
       <label class="toggle"><input class="oppRemove" type="checkbox" checked> Auto remove bg</label>
-      <div class="small" style="color:var(--accent);margin-top:4px">⚡ Size automatically runner se thoda sa bada (1.18x) lock rahega!</div>
+      <div class="small" style="color:var(--accent);margin-top:4px">⚡ Size एकदम स्टेबल लॉक रहेगा, रनर के साइज से फ्लक्चुएट नहीं करेगा!</div>
     </div>
   </div>
 </template>
@@ -922,13 +922,13 @@ var state={
 
 var bgColors = {
   // 🌟 10 VIRAL SHORTS STUDIO BACKDROPS (TryLoxy Inspired)
-  studioSkyCyan:    ['#0096c7', '#03045e', '#48cae4'], // फोटो 1
-  studioLimePop:    ['#70e000', '#38b000', '#9ef01a'], // फोटो 2 & 6
-  studioPaperSlate: ['#6c757d', '#343a40', '#adb5bd'], // फोटो 3 (कागज़ जैसा मैट)
-  studioWarmSand:   ['#d4a373', '#8d5b4c', '#faedcd'], // फोटो 4
-  studioSunsetAmber:['#f77f00', '#d62828', '#fcbf49'], // फोटो 7
-  studioCrimsonRuby:['#9d0208', '#370617', '#dc2f02'], // फोटो 5
-  studioSoftPearl:  ['#dee2e6', '#ced4da', '#f8f9fa'], // कोमल ऑफ-व्हाइट
+  studioSkyCyan:    ['#0096c7', '#03045e', '#48cae4'], 
+  studioLimePop:    ['#70e000', '#38b000', '#9ef01a'], 
+  studioPaperSlate: ['#6c757d', '#343a40', '#adb5bd'], 
+  studioWarmSand:   ['#d4a373', '#8d5b4c', '#faedcd'], 
+  studioSunsetAmber:['#f77f00', '#d62828', '#fcbf49'], 
+  studioCrimsonRuby:['#9d0208', '#370617', '#dc2f02'], 
+  studioSoftPearl:  ['#dee2e6', '#ced4da', '#f8f9fa'], 
   studioCandyViolet:['#7209b7', '#3a0ca3', '#b5179e'], 
   studioMintFresh:  ['#2ec4b6', '#011627', '#cbf3f0'], 
   studioRoyalCobalt:['#1d3557', '#03045e', '#457b9d'], 
@@ -1993,15 +1993,13 @@ function drawBackground(){
   var theme = bgColors[state.bgMode] || bgColors.studioSkyCyan;
   
   if(theme.length === 3){
-    // 🌟 STUDIO MATTE BACKDROP (Rich Center Focus with Smooth Vignette)
     var rad = ctx.createRadialGradient(W/2, H*0.35, W*0.08, W/2, H*0.40, W*0.85);
-    rad.addColorStop(0, theme[2]); // Bright Center Glow
-    rad.addColorStop(0.55, theme[0]); // Base Studio Color
-    rad.addColorStop(1, theme[1]); // Subtle Edge Vignette
+    rad.addColorStop(0, theme[2]);
+    rad.addColorStop(0.55, theme[0]);
+    rad.addColorStop(1, theme[1]);
     ctx.fillStyle = rad;
     ctx.fillRect(0, 0, W, H);
   } else {
-    // Standard Linear Backdrops
     var g = ctx.createLinearGradient(0, 0, 0, H);
     g.addColorStop(0, theme[0]);
     g.addColorStop(1, theme[1]);
@@ -2907,34 +2905,52 @@ function drawRows(){
     state.currentLane = isGreenLane ? 'left' : 'right';
   }
 
+  // 1. Z-सॉर्टिंग: सभी पैड्स दूर से पास के क्रम में ड्रा होंगे
   activePads.sort(function(a, b){ return a.rawZ - b.rawZ; });
 
+  // 2. 🌟 FIXED: बॉस की पोजीशन और टाइमिंग लॉजिक
+  // जब तक 5वां पैड रनर को पार नहीं कर जाता, बॉस सड़क के आखिरी छोर (z=0.01) पर खंभे की तरह रहेगा।
+  // जैसे ही 5वां पैड निकल जाएगा, बॉस वॉक डिस्टेंस (2.8s) के अनुसार आगे बढ़ेगा।
+  var pad5CrossTime = initialDelay + 4 * state.padDelay + (pZ / (state.speed * 1.28 * TRACK_MOTION_SCALE));
+  var bDist = Math.max(1.0, state.bossDistance || 2.8);
+  var bossZ = 0.01;
+
+  if (roadTime > pad5CrossTime) {
+    var walkProgress = Math.min(1.0, (roadTime - pad5CrossTime) / bDist);
+    bossZ = 0.01 + (pZ - 0.01) * walkProgress;
+  }
+
+  // 3. 🌟 FIXED: बॉस का स्थिर आकार (रनर के साइज पर निर्भर नहीं रहेगा)
+  // स्टेज 5 के ग्रीन साइज पर लॉक, ताकि बीच के किसी स्टेज में फ्लक्चुएट न हो
+  var staticBaseSize = (state.greenStages[5] && state.greenStages[5].size) ? state.greenStages[5].size : 435;
+  var lockedBossBase = staticBaseSize * 1.18;
+
+  // 4. 🌟 FIXED: परफेक्ट लेयरिंग (बॉस हमेशा पैड्स के पीछे रहेगा)
+  // पहले वो सारे पैड्स ड्रा करो जो बॉस से भी ज्यादा दूर हैं (अगर कोई हो)
   activePads.forEach(function(item){
-    if(item.rawZ < pZ){
+    if(item.rawZ < bossZ){
       drawSinglePadRow(item);
     }
   });
 
-  var pad5WorldElapsed = roadTime - initialDelay - 4 * state.padDelay;
-  var bDist = Math.max(1.0, state.bossDistance || 2.8);
-  var bossWorldElapsed = pad5WorldElapsed - bDist;
-  var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
-
-  var pad2Finished = processedPads[1] === true;
-
-  if(pad2Finished && state.opponent.img){
-    var bossZ = Math.max(0.01, Math.min(pZ, bossRawZ));
+  // अब बॉस को ड्रा करो (सड़क के एंड पर, पैड्स के ठीक पीछे)
+  if(state.opponent.img){
     var op = roadBoundsAtZ(bossZ);
-
-    var rInfo = getActiveRunnerInfo();
-    var dynamicBossBase = (rInfo.size || 215) * 1.18;
-    var bossSize = dynamicBossBase * (0.3 + 0.7 * op.e);
-
+    var bossSize = lockedBossBase * (0.3 + 0.7 * op.e);
     drawImageFit(state.opponent.img, W/2, op.y + 6, bossSize, bossSize, 'bottom');
   }
 
+  // अब वो सारे पैड्स ड्रा करो जो बॉस के आगे हैं (रनर तक)
+  activePads.forEach(function(item){
+    if(item.rawZ >= bossZ && item.rawZ < pZ){
+      drawSinglePadRow(item);
+    }
+  });
+
+  // रनर को ड्रा करो
   drawRunnerBehind();
 
+  // जो पैड्स रनर से भी आगे निकल चुके हैं उन्हें सबसे ऊपर ड्रा करो
   activePads.forEach(function(item){
     if(item.rawZ >= pZ){
       drawSinglePadRow(item);
@@ -2962,12 +2978,10 @@ function frame(now){
   if(delta > 0.1) delta = FIXED_TIMESTEP;
   last = now;
 
-  var pad5WorldElapsed = roadTime - 0.85 - 4 * state.padDelay;
+  var pZ = state.playerZ || 0.86;
+  var pad5CrossTime = 0.85 + 4 * state.padDelay + (pZ / (state.speed * 1.28 * TRACK_MOTION_SCALE));
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
-  var bossWorldElapsed = pad5WorldElapsed - bDist;
-  var bossRawZ = bossWorldElapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
-
-  var isTouching = processedPads[4] && bossRawZ >= (state.playerZ || 0.86);
+  var isTouching = processedPads[4] && roadTime >= (pad5CrossTime + bDist);
 
   if(running && !isTouching && !isScrubbing){
     roadTime += delta;
@@ -3066,7 +3080,7 @@ const server = http.createServer(function(req, res){
           var sig = crypto.createHmac('sha256', SESSION_SECRET).update(payload).digest('hex');
           var token = payload + '.' + sig;
           res.writeHead(200, {
-            'Set-Cookie': 'runner_session=' + token + '; Path=/; HttpOnly; SameSite=Lax',
+            'Set-Cookie': 'runner_session=' + token + '; Path=/; Exit; SameSite=Lax',
             'Content-Type': 'text/plain',
             'Connection': 'keep-alive'
           });
