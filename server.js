@@ -187,7 +187,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> फ्लिकरिंग फिक्स एक्टिवेटेड, 55+ रोड्स और 20 नए डे-लाइट व V6 ऑप्शन्स रेडी!</div>
+    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> 55+ रोड्स और नए 'Viral Shorts Studio' बैकड्रॉप्स एक्टिवेटेड!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -282,7 +282,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
             <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_3">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="hudRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="toggle"><input id="hudRemove_4" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label style="grid-column:1/-1">Box 5 PNG
           <div class="file-wrap">
@@ -672,30 +672,43 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </optgroup>
         </select></label>
 
-        <label style="grid-column:1/-1">Background Theme (20+ Stunning Moods) <select id="bgMode">
+        <!-- 🌟 UPDATED WITH 10 NEW VIRAL SHORTS STUDIO BACKDROPS -->
+        <label style="grid-column:1/-1">Background Theme (30+ HD Moods) <select id="bgMode">
+          <optgroup label="--- 🌟 Viral Shorts Studio Backdrops (TryLoxy Style) ---">
+            <option value="studioSkyCyan" selected>🎨 1. Sky Cyan Studio (Viral Shorts)</option>
+            <option value="studioLimePop">🎨 2. Lime Pop Studio (Cartoons & SpongeBob)</option>
+            <option value="studioPaperSlate">🎨 3. Paper Slate Grey (Matte Clean)</option>
+            <option value="studioWarmSand">🎨 4. Warm Sand Studio (Paper Cream)</option>
+            <option value="studioSunsetAmber">🎨 5. Sunset Amber Studio (Warm Orange)</option>
+            <option value="studioCrimsonRuby">🎨 6. Crimson Ruby Studio (Rich Red)</option>
+            <option value="studioSoftPearl">🎨 7. Soft Pearl Studio (Gentle Off-White)</option>
+            <option value="studioCandyViolet">🎨 8. Candy Violet Studio (Pastel)</option>
+            <option value="studioMintFresh">🎨 9. Mint Fresh Studio (Soft Green)</option>
+            <option value="studioRoyalCobalt">🎨 10. Royal Cobalt Studio (Electric Blue)</option>
+          </optgroup>
           <optgroup label="--- Dark & Cinematic Moods ---">
-            <option value="black" selected>1. Pitch Black (Pure Focus)</option>
-            <option value="midnight">2. Midnight Void</option>
-            <option value="obsidian">3. Obsidian Matte (High Contrast)</option>
-            <option value="deepSpace">4. Deep Space Abyss</option>
-            <option value="cyberDark">5. Cyber Dark Purple</option>
-            <option value="matrixBlack">6. Matrix Deep Green</option>
-            <option value="lavaAbyss">7. Volcanic Lava Abyss</option>
-            <option value="royalNavy">8. Royal Navy Dark</option>
-            <option value="carbonDark">9. Carbon Industrial Dark</option>
-            <option value="crimsonDark">10. Crimson Night Dark</option>
+            <option value="black">11. Pitch Black (Pure Focus)</option>
+            <option value="midnight">12. Midnight Void</option>
+            <option value="obsidian">13. Obsidian Matte (High Contrast)</option>
+            <option value="deepSpace">14. Deep Space Abyss</option>
+            <option value="cyberDark">15. Cyber Dark Purple</option>
+            <option value="matrixBlack">16. Matrix Deep Green</option>
+            <option value="lavaAbyss">17. Volcanic Lava Abyss</option>
+            <option value="royalNavy">18. Royal Navy Dark</option>
+            <option value="carbonDark">19. Carbon Industrial Dark</option>
+            <option value="crimsonDark">20. Crimson Night Dark</option>
           </optgroup>
           <optgroup label="--- Light & Studio Moods ---">
-            <option value="cleanWhite">☀️ 11. Clean Studio White</option>
-            <option value="softSilver">☀️ 12. Soft Silver Mist</option>
-            <option value="cloudGrey">☀️ 13. Cloud Grey Minimal</option>
-            <option value="skyBlueLight">☀️ 14. Clear Sky Blue</option>
-            <option value="cyanBreeze">☀️ 15. Light Cyan Breeze</option>
-            <option value="mintFresh">☀️ 16. Fresh Mint Pastel</option>
-            <option value="pastelLavender">☀️ 17. Pastel Lavender</option>
-            <option value="sunsetWarm">☀️ 18. Sunset Warm Peach</option>
-            <option value="goldAura">☀️ 19. Golden Aura Light</option>
-            <option value="pureSlate">☀️ 20. Crisp Slate Light</option>
+            <option value="cleanWhite">☀️ 21. Clean Studio White</option>
+            <option value="softSilver">☀️ 22. Soft Silver Mist</option>
+            <option value="cloudGrey">☀️ 23. Cloud Grey Minimal</option>
+            <option value="skyBlueLight">☀️ 24. Clear Sky Blue</option>
+            <option value="cyanBreeze">☀️ 25. Light Cyan Breeze</option>
+            <option value="mintFresh">☀️ 26. Fresh Mint Pastel</option>
+            <option value="pastelLavender">☀️ 27. Pastel Lavender</option>
+            <option value="sunsetWarm">☀️ 28. Sunset Warm Peach</option>
+            <option value="goldAura">☀️ 29. Golden Aura Light</option>
+            <option value="pureSlate">☀️ 30. Crisp Slate Light</option>
           </optgroup>
         </select></label>
         <label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks (YouTube speed)</label>
@@ -872,7 +885,7 @@ var state={
   padThickness:22,
   bossDistance:2.8,
   roadVariant:'classic',
-  bgMode:'black',
+  bgMode:'studioSkyCyan',
   speedLines:true,
   roadShine:true,
   showHud:true,
@@ -908,6 +921,19 @@ var state={
 };
 
 var bgColors = {
+  // 🌟 10 VIRAL SHORTS STUDIO BACKDROPS (TryLoxy Inspired)
+  studioSkyCyan:    ['#0096c7', '#03045e', '#48cae4'], // फोटो 1
+  studioLimePop:    ['#70e000', '#38b000', '#9ef01a'], // फोटो 2 & 6
+  studioPaperSlate: ['#6c757d', '#343a40', '#adb5bd'], // फोटो 3 (कागज़ जैसा मैट)
+  studioWarmSand:   ['#d4a373', '#8d5b4c', '#faedcd'], // फोटो 4
+  studioSunsetAmber:['#f77f00', '#d62828', '#fcbf49'], // फोटो 7
+  studioCrimsonRuby:['#9d0208', '#370617', '#dc2f02'], // फोटो 5
+  studioSoftPearl:  ['#dee2e6', '#ced4da', '#f8f9fa'], // कोमल ऑफ-व्हाइट
+  studioCandyViolet:['#7209b7', '#3a0ca3', '#b5179e'], 
+  studioMintFresh:  ['#2ec4b6', '#011627', '#cbf3f0'], 
+  studioRoyalCobalt:['#1d3557', '#03045e', '#457b9d'], 
+
+  // Dark & Cinematic Moods
   black: ['#000000', '#050505'],
   midnight: ['#000000', '#05070c'],
   obsidian: ['#090a0f', '#12141c'],
@@ -918,6 +944,8 @@ var bgColors = {
   royalNavy: ['#020b18', '#07162c'],
   carbonDark: ['#0d0f12', '#181b20'],
   crimsonDark: ['#150005', '#2c040d'],
+
+  // Light & Studio Moods
   cleanWhite: ['#ffffff', '#f1f3f5'],
   softSilver: ['#f8f9fa', '#e9ecef'],
   cloudGrey: ['#edf2f7', '#cbd5e1'],
@@ -1121,13 +1149,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v24', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v25', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v24') || localStorage.getItem('runner_studio_saved_v23');
+    var raw = localStorage.getItem('runner_studio_saved_v25') || localStorage.getItem('runner_studio_saved_v24');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1962,25 +1990,23 @@ function drawSideRails(color){
 }
 
 function drawBackground(){
-  var pair = bgColors[state.bgMode] || ['#000000', '#050505'];
-  var g = ctx.createLinearGradient(0, 0, 0, H);
-  g.addColorStop(0, pair[0]);
-  g.addColorStop(1, pair[1]);
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, W, H);
-
-  if(state.speedLines){
-    ctx.save();ctx.strokeStyle='rgba(255,255,255,.45)';ctx.lineCap='round';
-    for(var i=0;i<16;i++){
-      var sideDir=i%2===0?-1:1;
-      var phase=(i*.09 + roadTime*state.speed*TRACK_MOTION_SCALE*.95)%1;
-      var y=(H*(state.horizon || 0.42))-320 + phase*600;
-      var x=sideDir<0 ? 40+phase*150 : W-40-phase*150;
-      var len=45+phase*160;
-      ctx.globalAlpha=.12+.42*phase;ctx.lineWidth=(2.5+3.5*phase)*1.5;
-      ctx.beginPath();ctx.moveTo(x,y-len*.55);ctx.lineTo(x+sideDir*24*phase,y+len*.45);ctx.stroke();
-    }
-    ctx.restore();
+  var theme = bgColors[state.bgMode] || bgColors.studioSkyCyan;
+  
+  if(theme.length === 3){
+    // 🌟 STUDIO MATTE BACKDROP (Rich Center Focus with Smooth Vignette)
+    var rad = ctx.createRadialGradient(W/2, H*0.35, W*0.08, W/2, H*0.40, W*0.85);
+    rad.addColorStop(0, theme[2]); // Bright Center Glow
+    rad.addColorStop(0.55, theme[0]); // Base Studio Color
+    rad.addColorStop(1, theme[1]); // Subtle Edge Vignette
+    ctx.fillStyle = rad;
+    ctx.fillRect(0, 0, W, H);
+  } else {
+    // Standard Linear Backdrops
+    var g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, theme[0]);
+    g.addColorStop(1, theme[1]);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
   }
 }
 
@@ -2667,7 +2693,7 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
       drawFlameIcon(cx, cy, size * 0.65);
 
     } else if(style === 'waterCrystal'){
-      var gw = ctx.createLinearGradient(bx, by, bx, by + size);
+      var gw = ctx.createLinearGradient(bx, by, bx + size);
       gw.addColorStop(0, '#00f0ff'); gw.addColorStop(0.7, '#0077ff'); gw.addColorStop(1, '#0033aa');
       ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 24;
       ctx.fillStyle = gw; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
@@ -2971,6 +2997,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
+    localStorage.removeItem('runner_studio_saved_v25'); 
     localStorage.removeItem('runner_studio_saved_v24'); 
     localStorage.removeItem('runner_studio_saved_v23'); 
     localStorage.removeItem('runner_studio_panel_order');
