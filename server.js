@@ -128,7 +128,7 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .thumb-box{width:44px;height:44px;border-radius:8px;border:1px dashed #404859;background:#0d0f14;display:grid;place-items:center;overflow:hidden;flex-shrink:0;position:relative}
 .thumb-box img{width:100%;height:100%;object-fit:contain;display:none}
 .thumb-box span{font-size:10px;color:#6b7280;font-weight:bold}
-.clear-btn{border:1px solid #ff4d4d77;background:#2b1216;color:#ff9e9e;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:bold;cursor:pointer;flex-shrink:0;transition:0.1s all}
+.clear-btn{border:1px solid #ff4d4d77;background:#2b1216;color:#ff9e9e;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:bold;cursor:flex;flex-shrink:0;transition:0.1s all}
 .clear-btn:hover{background:#45141c;color:#fff;border-color:var(--red)}
 
 input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px;width:100%}
@@ -1426,7 +1426,19 @@ function bindRange(id,key){
     autoSaveStudio();
   });
 }
-['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing','t1_y','t1_size','t1_duration','t2_y','t2_size','t2_duration'].forEach(function(id){ bindRange(id,id); });
+
+// Fixed Clean Binding (No crashing)
+['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
+
+// Text 1 Sliders
+if($('t1_duration')) $('t1_duration').oninput = function(e){ state.t1_duration = Number(e.target.value); updateBadge('t1_duration', e.target.value); autoSaveStudio(); };
+if($('t1_y')) $('t1_y').oninput = function(e){ state.t1_y = Number(e.target.value); updateBadge('t1_y', e.target.value); autoSaveStudio(); };
+if($('t1_size')) $('t1_size').oninput = function(e){ state.t1_size = Number(e.target.value); updateBadge('t1_size', e.target.value); autoSaveStudio(); };
+
+// Text 2 Sliders
+if($('t2_duration')) $('t2_duration').oninput = function(e){ state.t2_duration = Number(e.target.value); updateBadge('t2_duration', e.target.value); autoSaveStudio(); };
+if($('t2_y')) $('t2_y').oninput = function(e){ state.t2_y = Number(e.target.value); updateBadge('t2_y', e.target.value); autoSaveStudio(); };
+if($('t2_size')) $('t2_size').oninput = function(e){ state.t2_size = Number(e.target.value); updateBadge('t2_size', e.target.value); autoSaveStudio(); };
 
 if($('showHud')){ $('showHud').onchange = function(e){ state.showHud = e.target.checked; autoSaveStudio(); }; }
 if($('autoCollectHud')){ $('autoCollectHud').onchange = function(e){ state.autoCollectHud = e.target.checked; autoSaveStudio(); }; }
@@ -1956,7 +1968,7 @@ function initRows(){
   
   var savedData = getSavedSettings();
   if(savedData && typeof savedData === 'object'){
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing','t1_y','t1_size','t1_duration','t2_y','t2_size','t2_duration'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       if(savedData[id] !== undefined && $(id)){
         state[id] = Number(savedData[id]);
         $(id).value = savedData[id];
@@ -1970,6 +1982,9 @@ function initRows(){
     if(savedData.t1_style && $('t1_style')){ state.t1_style = savedData.t1_style; $('t1_style').value = state.t1_style; }
     if(savedData.t1_inAnim && $('t1_inAnim')){ state.t1_inAnim = savedData.t1_inAnim; $('t1_inAnim').value = state.t1_inAnim; }
     if(savedData.t1_outAnim && $('t1_outAnim')){ state.t1_outAnim = savedData.t1_outAnim; $('t1_outAnim').value = state.t1_outAnim; }
+    if(savedData.t1_duration !== undefined && $('t1_duration')){ state.t1_duration = Number(savedData.t1_duration); $('t1_duration').value = state.t1_duration; updateBadge('t1_duration', state.t1_duration); }
+    if(savedData.t1_y !== undefined && $('t1_y')){ state.t1_y = Number(savedData.t1_y); $('t1_y').value = state.t1_y; updateBadge('t1_y', state.t1_y); }
+    if(savedData.t1_size !== undefined && $('t1_size')){ state.t1_size = Number(savedData.t1_size); $('t1_size').value = state.t1_size; updateBadge('t1_size', state.t1_size); }
 
     // Restore Text 2
     if(savedData.t2_show !== undefined && $('t2_show')){ state.t2_show = Boolean(savedData.t2_show); $('t2_show').checked = state.t2_show; }
@@ -1978,6 +1993,9 @@ function initRows(){
     if(savedData.t2_style && $('t2_style')){ state.t2_style = savedData.t2_style; $('t2_style').value = state.t2_style; }
     if(savedData.t2_inAnim && $('t2_inAnim')){ state.t2_inAnim = savedData.t2_inAnim; $('t2_inAnim').value = state.t2_inAnim; }
     if(savedData.t2_outAnim && $('t2_outAnim')){ state.t2_outAnim = savedData.t2_outAnim; $('t2_outAnim').value = state.t2_outAnim; }
+    if(savedData.t2_duration !== undefined && $('t2_duration')){ state.t2_duration = Number(savedData.t2_duration); $('t2_duration').value = state.t2_duration; updateBadge('t2_duration', state.t2_duration); }
+    if(savedData.t2_y !== undefined && $('t2_y')){ state.t2_y = Number(savedData.t2_y); $('t2_y').value = state.t2_y; updateBadge('t2_y', state.t2_y); }
+    if(savedData.t2_size !== undefined && $('t2_size')){ state.t2_size = Number(savedData.t2_size); $('t2_size').value = state.t2_size; updateBadge('t2_size', state.t2_size); }
 
     if(savedData.showHud !== undefined && $('showHud')){
       state.showHud = Boolean(savedData.showHud);
@@ -2040,9 +2058,16 @@ function initRows(){
     ];
     rowList.forEach(addRow);
   } else {
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing','t1_y','t1_size','t1_duration','t2_y','t2_size','t2_duration'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       updateBadge(id, state[id]);
     });
+    updateBadge('t1_duration', state.t1_duration);
+    updateBadge('t1_y', state.t1_y);
+    updateBadge('t1_size', state.t1_size);
+    updateBadge('t2_duration', state.t2_duration);
+    updateBadge('t2_y', state.t2_y);
+    updateBadge('t2_size', state.t2_size);
+
     updateBadge('pSize_0', state.baseStage.size);
     for(var i=1;i<=5;i++){
       updateBadge('gSize_' + i, state.greenStages[i].size);
@@ -3004,7 +3029,6 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
   var elapsed = roadTime - startTime;
   if(elapsed < 0 || elapsed > duration) return;
 
-  var progress = elapsed / duration;
   var inDur = 0.35;
   var outDur = 0.35;
   var remain = duration - elapsed;
@@ -3043,7 +3067,7 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
 
   // EXIT ANIMATION
   if(remain <= outDur){
-    var tOut = (outDur - remain) / outDur; // 0 to 1
+    var tOut = (outDur - remain) / outDur;
     if(outAnim === 'shrinkPop'){
       scale = 1.0 - 0.8 * Math.sin(tOut * Math.PI * 0.5);
       alpha = Math.max(0, 1.0 - tOut * 1.2);
@@ -3069,14 +3093,11 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
 
   // 15+ EYE-CATCHING STYLES PRESETS
   if(style === 'dualWinLose'){
-    // Special Half-Green Half-Red for WIN OR LOSE
-    var parts = text.split(/(\sor\s|\sOR\s|\/)/i);
-    var strokeW = Math.floor(fSize * 0.22);
     ctx.shadowColor = 'rgba(0,0,0,0.7)';
     ctx.shadowBlur = 24;
 
     ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = strokeW;
+    ctx.lineWidth = Math.floor(fSize * 0.22);
     ctx.lineJoin = 'round';
     ctx.strokeText(text, 0, 0);
 
@@ -3202,7 +3223,6 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.fillText(text, 0, 0);
 
   } else {
-    // Clean White / Universal fallback
     ctx.shadowColor = 'rgba(0,0,0,0.85)';
     ctx.shadowBlur = 25;
     ctx.strokeStyle = '#090d16';
