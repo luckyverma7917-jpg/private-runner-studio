@@ -131,7 +131,7 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .clear-btn{border:1px solid #ff4d4d77;background:#2b1216;color:#ff9e9e;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:bold;cursor:pointer;flex-shrink:0;transition:0.1s all}
 .clear-btn:hover{background:#45141c;color:#fff;border-color:var(--red)}
 
-select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px;width:100%}
+input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px;width:100%}
 .toggle{display:flex!important;align-items:center;gap:8px!important}
 .rowbar{padding:11px 13px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .rows{padding:11px;display:grid;gap:10px}.row{border:1px solid var(--line);border-radius:13px;padding:10px;background:#101318}.rowhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -187,10 +187,179 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> 55+ रोड्स और नए 'Viral Shorts Studio' बैकड्रॉप्स एक्टिवेटेड!</div>
+    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Dual-Chain Intro Texts ("LET'S GO" + "WIN OR LOSE"), 55+ Roads Active!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
+
+    <!-- 🌟 CARD 1: SCREEN INTRO TEXT 1 (LET'S GO) -->
+    <details class="drag-card" id="card_intro_text1" open>
+      <summary>
+        <span>🚀 Screen Intro Text 1: LET'S GO</span>
+        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
+      </summary>
+      <div class="grid two">
+        <label class="toggle" style="grid-column:1/-1">
+          <input id="t1_show" type="checkbox" checked> <b>Show Intro Text 1 ("LET'S GO")</b>
+        </label>
+        <label style="grid-column:1/-1">Text Message
+          <input id="t1_val" type="text" value="LET'S GO" placeholder="e.g. LET'S GO">
+        </label>
+
+        <label>Visual Style
+          <select id="t1_style">
+            <option value="tryloxyRed" selected>🔴 1. TryLoxy Classic Red & White</option>
+            <option value="arcadeGold">👑 2. 3D Arcade Gold & Yellow</option>
+            <option value="cyberCyan">⚡ 3. Cyber Neon Cyan (Electric)</option>
+            <option value="infernoFire">🔥 4. Inferno Blaze Orange</option>
+            <option value="monsterLime">🦖 5. Monster Neon Lime</option>
+            <option value="plasmaPink">💖 6. Plasma Cyber Pink</option>
+            <option value="cleanWhite">⚪ 7. Minimal Bold White (Dark Outline)</option>
+            <option value="synthViolet">🟣 8. Synthwave Violet Sunset</option>
+            <option value="toxicAcid">☣️ 9. Toxic Biohazard Lime</option>
+            <option value="pureYellow">⭐ 10. Bright Arcade Yellow</option>
+            <option value="royalAmber">👑 11. Royal Amber Orange</option>
+            <option value="iceFrost">❄️ 12. Frozen Ice Crystal Blue</option>
+            <option value="stealthDark">🖤 13. Stealth Matte Charcoal</option>
+            <option value="candyPop">🍭 14. Candy Pastel Multi-Glow</option>
+            <option value="laserCrimson">🛑 15. Laser Crimson Warning</option>
+          </select>
+        </label>
+
+        <label>In-Animation (Entry)
+          <select id="t1_inAnim">
+            <option value="elasticPunch" selected>💥 1. Elastic Mega-Punch (Zoom & Bounce)</option>
+            <option value="slamImpact">🔨 2. Comic Slam Impact (Drop & Shake)</option>
+            <option value="jelloBounce">🍮 3. Wobbly Jello Pop</option>
+            <option value="speedWarp">⚡ 4. Speed Warp Flash In</option>
+            <option value="dropSpring">🚀 5. Drop & Spring</option>
+            <option value="static">⏸️ 6. Static Pop (Instant)</option>
+          </select>
+        </label>
+
+        <label>Out-Animation (Exit)
+          <select id="t1_outAnim">
+            <option value="shrinkPop" selected>🫧 1. Shrink & Bubble Pop Away</option>
+            <option value="flyUp">🚀 2. Rocket Fly Up</option>
+            <option value="flashFade">✨ 3. Smooth Glow Flash Fade</option>
+            <option value="instantCut">✂️ 4. Instant Cut Out</option>
+          </select>
+        </label>
+
+        <label>
+          <span class="label-head"><span>Duration (0.5s - 10.0s)</span><span class="val-badge gold" id="v_t1_duration">2.2s</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="t1_duration" data-dir="-1">◀</button>
+            <input id="t1_duration" type="range" min="0.5" max="10.0" step="0.1" value="2.2">
+            <button type="button" class="step-btn" data-step-for="t1_duration" data-dir="1">▶</button>
+          </div>
+        </label>
+
+        <label>
+          <span class="label-head"><span>Text Y-Position</span><span class="val-badge gold" id="v_t1_y">430</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="t1_y" data-dir="-1">◀</button>
+            <input id="t1_y" type="range" min="150" max="950" value="430">
+            <button type="button" class="step-btn" data-step-for="t1_y" data-dir="1">▶</button>
+          </div>
+        </label>
+
+        <label>
+          <span class="label-head"><span>Font Size</span><span class="val-badge gold" id="v_t1_size">110</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="t1_size" data-dir="-1">◀</button>
+            <input id="t1_size" type="range" min="40" max="220" value="110">
+            <button type="button" class="step-btn" data-step-for="t1_size" data-dir="1">▶</button>
+          </div>
+        </label>
+      </div>
+    </details>
+
+    <!-- 🌟 CARD 2: SCREEN INTRO TEXT 2 (WIN OR LOSE) -->
+    <details class="drag-card" id="card_intro_text2" open>
+      <summary>
+        <span>⚡ Screen Intro Text 2: WIN OR LOSE</span>
+        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
+      </summary>
+      <div class="grid two">
+        <label class="toggle" style="grid-column:1/-1">
+          <input id="t2_show" type="checkbox" checked> <b>Show Intro Text 2 ("WIN OR LOSE!")</b>
+        </label>
+        <label class="toggle" style="grid-column:1/-1">
+          <input id="t2_chainWithT1" type="checkbox" checked> <span style="color:var(--accent);font-weight:700">⚡ Start Immediately After Text 1 Exits (Auto-Chain)</span>
+        </label>
+        <label style="grid-column:1/-1">Text Message
+          <input id="t2_val" type="text" value="Win or Lose!" placeholder="e.g. Win or Lose!">
+        </label>
+
+        <label>Visual Style
+          <select id="t2_style">
+            <option value="arcadeGold" selected>👑 1. 3D Championship Gold (Viral)</option>
+            <option value="dualWinLose">🌓 2. Split Dual-Tone (Green WIN / Red LOSE)</option>
+            <option value="cyberYellow">⚡ 3. Cyber Neon Yellow Alert</option>
+            <option value="tryloxyRed">🔴 4. TryLoxy Bold Red & White</option>
+            <option value="comicLime">🦖 5. Comic Pop Lime Beast</option>
+            <option value="electricCyan">🔵 6. Electric Blue Thunder</option>
+            <option value="fireInferno">🔥 7. Burning Inferno Heatwave</option>
+            <option value="synthPurple">🟣 8. Synthwave Glow Violet</option>
+            <option value="candyRainbow">🍭 9. Candy Rainbow Celebration</option>
+            <option value="laserRedWarning">🛑 10. Red Danger Hazard Alert</option>
+            <option value="cleanWhite">⚪ 11. Minimal Clean Paper White</option>
+            <option value="frozenFrost">❄️ 12. Sub-Zero Crystal Cyan</option>
+            <option value="deepAmethyst">💎 13. Deep Amethyst Royale</option>
+            <option value="stealthCharcoal">🖤 14. Stealth Gunmetal Outline</option>
+            <option value="sunsetTrophy">🌅 15. Sunset Amber Trophy</option>
+          </select>
+        </label>
+
+        <label>In-Animation (Entry)
+          <select id="t2_inAnim">
+            <option value="slamImpact" selected>🔨 1. Comic Slam Impact (Drop & Shake)</option>
+            <option value="elasticPunch">💥 2. Elastic Mega-Punch (Pop & Zoom)</option>
+            <option value="jelloBounce">🍮 3. Wobbly Jello Pop</option>
+            <option value="speedWarp">⚡ 4. Speed Warp Flash In</option>
+            <option value="dropSpring">🚀 5. Drop & Spring</option>
+            <option value="static">⏸️ 6. Static Pop (Instant)</option>
+          </select>
+        </label>
+
+        <label>Out-Animation (Exit)
+          <select id="t2_outAnim">
+            <option value="shrinkPop" selected>🫧 1. Shrink & Bubble Pop Away</option>
+            <option value="flyUp">🚀 2. Rocket Fly Up</option>
+            <option value="flashFade">✨ 3. Smooth Glow Flash Fade</option>
+            <option value="instantCut">✂️ 4. Instant Cut Out</option>
+          </select>
+        </label>
+
+        <label>
+          <span class="label-head"><span>Duration (0.5s - 10.0s)</span><span class="val-badge gold" id="v_t2_duration">3.5s</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="t2_duration" data-dir="-1">◀</button>
+            <input id="t2_duration" type="range" min="0.5" max="10.0" step="0.1" value="3.5">
+            <button type="button" class="step-btn" data-step-for="t2_duration" data-dir="1">▶</button>
+          </div>
+        </label>
+
+        <label>
+          <span class="label-head"><span>Text Y-Position</span><span class="val-badge gold" id="v_t2_y">430</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="t2_y" data-dir="-1">◀</button>
+            <input id="t2_y" type="range" min="150" max="950" value="430">
+            <button type="button" class="step-btn" data-step-for="t2_y" data-dir="1">▶</button>
+          </div>
+        </label>
+
+        <label>
+          <span class="label-head"><span>Font Size</span><span class="val-badge gold" id="v_t2_size">105</span></span>
+          <div class="range-wrap">
+            <button type="button" class="step-btn" data-step-for="t2_size" data-dir="-1">◀</button>
+            <input id="t2_size" type="range" min="40" max="220" value="105">
+            <button type="button" class="step-btn" data-step-for="t2_size" data-dir="1">▶</button>
+          </div>
+        </label>
+      </div>
+    </details>
 
     <details class="drag-card" id="card_hud" open>
       <summary>
@@ -672,7 +841,7 @@ select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);b
           </optgroup>
         </select></label>
 
-        <!-- 🌟 UPDATED WITH 10 NEW VIRAL SHORTS STUDIO BACKDROPS -->
+        <!-- 🌟 10 VIRAL SHORTS STUDIO BACKDROPS -->
         <label style="grid-column:1/-1">Background Theme (30+ HD Moods) <select id="bgMode">
           <optgroup label="--- 🌟 Viral Shorts Studio Backdrops (TryLoxy Style) ---">
             <option value="studioSkyCyan" selected>🎨 1. Sky Cyan Studio (Viral Shorts)</option>
@@ -894,6 +1063,28 @@ var state={
   hudY:155,
   hudBoxSize:132,
   hudSpacing:18,
+  
+  // 🌟 TEXT 1 STATE (LET'S GO)
+  t1_show: true,
+  t1_val: "LET'S GO",
+  t1_style: 'tryloxyRed',
+  t1_inAnim: 'elasticPunch',
+  t1_outAnim: 'shrinkPop',
+  t1_y: 430,
+  t1_size: 110,
+  t1_duration: 2.2,
+
+  // 🌟 TEXT 2 STATE (WIN OR LOSE)
+  t2_show: true,
+  t2_chainWithT1: true,
+  t2_val: "Win or Lose!",
+  t2_style: 'arcadeGold',
+  t2_inAnim: 'slamImpact',
+  t2_outAnim: 'shrinkPop',
+  t2_y: 430,
+  t2_size: 105,
+  t2_duration: 3.5,
+
   steerOffset:-1.0,
   baseStage: {img:null, raw:null, removeBg:true, size:215},
   greenStages:[
@@ -921,7 +1112,6 @@ var state={
 };
 
 var bgColors = {
-  // 🌟 10 VIRAL SHORTS STUDIO BACKDROPS (TryLoxy Inspired)
   studioSkyCyan:    ['#0096c7', '#03045e', '#48cae4'], 
   studioLimePop:    ['#70e000', '#38b000', '#9ef01a'], 
   studioPaperSlate: ['#6c757d', '#343a40', '#adb5bd'], 
@@ -933,7 +1123,6 @@ var bgColors = {
   studioMintFresh:  ['#2ec4b6', '#011627', '#cbf3f0'], 
   studioRoyalCobalt:['#1d3557', '#03045e', '#457b9d'], 
 
-  // Dark & Cinematic Moods
   black: ['#000000', '#050505'],
   midnight: ['#000000', '#05070c'],
   obsidian: ['#090a0f', '#12141c'],
@@ -945,7 +1134,6 @@ var bgColors = {
   carbonDark: ['#0d0f12', '#181b20'],
   crimsonDark: ['#150005', '#2c040d'],
 
-  // Light & Studio Moods
   cleanWhite: ['#ffffff', '#f1f3f5'],
   softSilver: ['#f8f9fa', '#e9ecef'],
   cloudGrey: ['#edf2f7', '#cbd5e1'],
@@ -969,7 +1157,7 @@ function hexToRgb(hex){
 function updateBadge(key, val){
   var el = $('v_' + key);
   if(el){
-    if(key === 'bossDistance' || key === 'scrubBar') el.textContent = val + 's';
+    if(key === 'bossDistance' || key === 'scrubBar' || key === 't1_duration' || key === 't2_duration') el.textContent = val + 's';
     else el.textContent = val;
   }
 }
@@ -1131,6 +1319,26 @@ function autoSaveStudio(){
       hudY: state.hudY,
       hudBoxSize: state.hudBoxSize,
       hudSpacing: state.hudSpacing,
+      
+      t1_show: state.t1_show,
+      t1_val: state.t1_val,
+      t1_style: state.t1_style,
+      t1_inAnim: state.t1_inAnim,
+      t1_outAnim: state.t1_outAnim,
+      t1_y: state.t1_y,
+      t1_size: state.t1_size,
+      t1_duration: state.t1_duration,
+
+      t2_show: state.t2_show,
+      t2_chainWithT1: state.t2_chainWithT1,
+      t2_val: state.t2_val,
+      t2_style: state.t2_style,
+      t2_inAnim: state.t2_inAnim,
+      t2_outAnim: state.t2_outAnim,
+      t2_y: state.t2_y,
+      t2_size: state.t2_size,
+      t2_duration: state.t2_duration,
+
       playerZ: state.playerZ,
       playerLane: state.playerLane,
       steerOffset: state.steerOffset,
@@ -1149,13 +1357,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v25', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v27', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v25') || localStorage.getItem('runner_studio_saved_v24');
+    var raw = localStorage.getItem('runner_studio_saved_v27') || localStorage.getItem('runner_studio_saved_v26') || localStorage.getItem('runner_studio_saved_v25');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1218,11 +1426,26 @@ function bindRange(id,key){
     autoSaveStudio();
   });
 }
-['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
+['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing','t1_y','t1_size','t1_duration','t2_y','t2_size','t2_duration'].forEach(function(id){ bindRange(id,id); });
 
 if($('showHud')){ $('showHud').onchange = function(e){ state.showHud = e.target.checked; autoSaveStudio(); }; }
 if($('autoCollectHud')){ $('autoCollectHud').onchange = function(e){ state.autoCollectHud = e.target.checked; autoSaveStudio(); }; }
 if($('hudStyle')){ $('hudStyle').onchange = function(e){ state.hudStyle = e.target.value; autoSaveStudio(); }; }
+
+// 🌟 TEXT 1 BINDINGS
+if($('t1_show')) $('t1_show').onchange = function(e){ state.t1_show = e.target.checked; autoSaveStudio(); };
+if($('t1_val')) $('t1_val').oninput = function(e){ state.t1_val = e.target.value; autoSaveStudio(); };
+if($('t1_style')) $('t1_style').onchange = function(e){ state.t1_style = e.target.value; autoSaveStudio(); };
+if($('t1_inAnim')) $('t1_inAnim').onchange = function(e){ state.t1_inAnim = e.target.value; autoSaveStudio(); };
+if($('t1_outAnim')) $('t1_outAnim').onchange = function(e){ state.t1_outAnim = e.target.value; autoSaveStudio(); };
+
+// 🌟 TEXT 2 BINDINGS
+if($('t2_show')) $('t2_show').onchange = function(e){ state.t2_show = e.target.checked; autoSaveStudio(); };
+if($('t2_chainWithT1')) $('t2_chainWithT1').onchange = function(e){ state.t2_chainWithT1 = e.target.checked; autoSaveStudio(); };
+if($('t2_val')) $('t2_val').oninput = function(e){ state.t2_val = e.target.value; autoSaveStudio(); };
+if($('t2_style')) $('t2_style').onchange = function(e){ state.t2_style = e.target.value; autoSaveStudio(); };
+if($('t2_inAnim')) $('t2_inAnim').onchange = function(e){ state.t2_inAnim = e.target.value; autoSaveStudio(); };
+if($('t2_outAnim')) $('t2_outAnim').onchange = function(e){ state.t2_outAnim = e.target.value; autoSaveStudio(); };
 
 for(var h=0; h<5; h++){
   (function(bIdx){
@@ -1733,13 +1956,29 @@ function initRows(){
   
   var savedData = getSavedSettings();
   if(savedData && typeof savedData === 'object'){
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing','t1_y','t1_size','t1_duration','t2_y','t2_size','t2_duration'].forEach(function(id){
       if(savedData[id] !== undefined && $(id)){
         state[id] = Number(savedData[id]);
         $(id).value = savedData[id];
         updateBadge(id, savedData[id]);
       }
     });
+
+    // Restore Text 1
+    if(savedData.t1_show !== undefined && $('t1_show')){ state.t1_show = Boolean(savedData.t1_show); $('t1_show').checked = state.t1_show; }
+    if(savedData.t1_val !== undefined && $('t1_val')){ state.t1_val = savedData.t1_val; $('t1_val').value = state.t1_val; }
+    if(savedData.t1_style && $('t1_style')){ state.t1_style = savedData.t1_style; $('t1_style').value = state.t1_style; }
+    if(savedData.t1_inAnim && $('t1_inAnim')){ state.t1_inAnim = savedData.t1_inAnim; $('t1_inAnim').value = state.t1_inAnim; }
+    if(savedData.t1_outAnim && $('t1_outAnim')){ state.t1_outAnim = savedData.t1_outAnim; $('t1_outAnim').value = state.t1_outAnim; }
+
+    // Restore Text 2
+    if(savedData.t2_show !== undefined && $('t2_show')){ state.t2_show = Boolean(savedData.t2_show); $('t2_show').checked = state.t2_show; }
+    if(savedData.t2_chainWithT1 !== undefined && $('t2_chainWithT1')){ state.t2_chainWithT1 = Boolean(savedData.t2_chainWithT1); $('t2_chainWithT1').checked = state.t2_chainWithT1; }
+    if(savedData.t2_val !== undefined && $('t2_val')){ state.t2_val = savedData.t2_val; $('t2_val').value = state.t2_val; }
+    if(savedData.t2_style && $('t2_style')){ state.t2_style = savedData.t2_style; $('t2_style').value = state.t2_style; }
+    if(savedData.t2_inAnim && $('t2_inAnim')){ state.t2_inAnim = savedData.t2_inAnim; $('t2_inAnim').value = state.t2_inAnim; }
+    if(savedData.t2_outAnim && $('t2_outAnim')){ state.t2_outAnim = savedData.t2_outAnim; $('t2_outAnim').value = state.t2_outAnim; }
+
     if(savedData.showHud !== undefined && $('showHud')){
       state.showHud = Boolean(savedData.showHud);
       $('showHud').checked = state.showHud;
@@ -1801,7 +2040,7 @@ function initRows(){
     ];
     rowList.forEach(addRow);
   } else {
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing','t1_y','t1_size','t1_duration','t2_y','t2_size','t2_duration'].forEach(function(id){
       updateBadge(id, state[id]);
     });
     updateBadge('pSize_0', state.baseStage.size);
@@ -1991,7 +2230,6 @@ function drawSideRails(color){
 
 function drawBackground(){
   var theme = bgColors[state.bgMode] || bgColors.studioSkyCyan;
-  
   if(theme.length === 3){
     var rad = ctx.createRadialGradient(W/2, H*0.35, W*0.08, W/2, H*0.40, W*0.85);
     rad.addColorStop(0, theme[2]);
@@ -2327,8 +2565,8 @@ function rRainbowPrism(){
     if(z1>1) continue;
     var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
     var col=colors[i%colors.length];
-    drawPoly([[a.l,a.y],[a.l+12+a.e*26,a.y],[b.l+12+b.e*26,b.y],[b.l,b.y]],col);
-    drawPoly([[a.r-12-a.e*26,a.y],[a.r,a.y],[b.r,b.y],[b.r-12-b.e*26,b.y]],col);
+    drawPoly([[a.l,a.y],[a.l+12+a.e*28,a.y],[b.l+12+b.e*28,b.y],[b.l,b.y]],col);
+    drawPoly([[a.r-12-a.e*28,a.y],[a.r,a.y],[b.r,b.y],[b.r-12-b.e*28,b.y]],col);
   }
   drawCenterDashed(0,'#ffffff',2,5,.09,10,.85,.15);
 }
@@ -2412,14 +2650,12 @@ function rRetroSun(){
 
 function drawRoad(){
   var dict={
-    // 5 New V6 Special Editions
     v6Gold: rV6Gold,
     v6CyberBlue: rV6CyberBlue,
     v6LimeBeast: rV6LimeBeast,
     v6SunsetOrange: rV6SunsetOrange,
     v6Monza: rV6Monza,
 
-    // 15 New Day-Light Roads
     sunnyDesert: rSunnyDesert,
     miamiBeach: rMiamiBeach,
     greenMeadow: rGreenMeadow,
@@ -2436,7 +2672,6 @@ function drawRoad(){
     neonDaylight: rNeonDaylight,
     emeraldGolfway: rEmeraldGolfway,
 
-    // Original Roads
     classic: rClassic,
     twinStripe: rTwinStripe,
     tripleLane: rTripleLane,
@@ -2764,6 +2999,242 @@ function drawMysteryHUD(){
   }
 }
 
+// 🌟 MASTER ANIMATED TEXT RENDERER (IN / OUT ENGINE)
+function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startTime, duration){
+  var elapsed = roadTime - startTime;
+  if(elapsed < 0 || elapsed > duration) return;
+
+  var progress = elapsed / duration;
+  var inDur = 0.35;
+  var outDur = 0.35;
+  var remain = duration - elapsed;
+
+  var scale = 1.0;
+  var alpha = 1.0;
+  var curY = targetY;
+
+  // ENTRY ANIMATION
+  if(elapsed < inDur){
+    var tIn = elapsed / inDur;
+    if(inAnim === 'elasticPunch'){
+      scale = 0.2 + 0.8 * Math.sin(tIn * Math.PI * 0.7);
+      if(tIn > 0.65) scale += Math.sin((tIn - 0.65) / 0.35 * Math.PI) * 0.22;
+    } else if(inAnim === 'slamImpact'){
+      scale = 2.4 - 1.4 * tIn;
+      curY = (targetY - 140) + 140 * tIn;
+      if(tIn > 0.85){
+        curY += Math.sin((tIn - 0.85) * 40) * 8;
+      }
+    } else if(inAnim === 'jelloBounce'){
+      scale = 0.4 + 0.6 * Math.sin(tIn * Math.PI);
+      curY = targetY + Math.sin(tIn * Math.PI * 3) * 14;
+    } else if(inAnim === 'speedWarp'){
+      scale = 0.1 + 0.9 * tIn;
+      alpha = tIn;
+      curY = targetY + (1 - tIn) * 80;
+    } else if(inAnim === 'dropSpring'){
+      curY = (targetY - 200) + 200 * Math.sin(tIn * Math.PI * 0.5);
+      scale = 0.8 + 0.2 * Math.sin(tIn * Math.PI);
+    }
+  } else if(remain > outDur){
+    // IDLE BREATHING / PULSE
+    scale = 1.0 + Math.sin(elapsed * 4.2) * 0.03;
+  }
+
+  // EXIT ANIMATION
+  if(remain <= outDur){
+    var tOut = (outDur - remain) / outDur; // 0 to 1
+    if(outAnim === 'shrinkPop'){
+      scale = 1.0 - 0.8 * Math.sin(tOut * Math.PI * 0.5);
+      alpha = Math.max(0, 1.0 - tOut * 1.2);
+    } else if(outAnim === 'flyUp'){
+      curY = targetY - (tOut * tOut * 240);
+      alpha = Math.max(0, 1.0 - tOut);
+    } else if(outAnim === 'flashFade'){
+      scale = 1.0 + tOut * 0.3;
+      alpha = Math.max(0, 1.0 - tOut);
+    } else if(outAnim === 'instantCut'){
+      alpha = remain > 0.05 ? 1.0 : 0.0;
+    }
+  }
+
+  ctx.save();
+  ctx.globalAlpha = Math.max(0, Math.min(1.0, alpha));
+  ctx.translate(W / 2, curY);
+  ctx.scale(scale, scale);
+
+  ctx.font = '900 ' + fSize + 'px "Arial Black", Impact, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  // 15+ EYE-CATCHING STYLES PRESETS
+  if(style === 'dualWinLose'){
+    // Special Half-Green Half-Red for WIN OR LOSE
+    var parts = text.split(/(\sor\s|\sOR\s|\/)/i);
+    var strokeW = Math.floor(fSize * 0.22);
+    ctx.shadowColor = 'rgba(0,0,0,0.7)';
+    ctx.shadowBlur = 24;
+
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = strokeW;
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    var grad = ctx.createLinearGradient(-fSize*2, 0, fSize*2, 0);
+    grad.addColorStop(0, '#2aff84');
+    grad.addColorStop(0.45, '#2aff84');
+    grad.addColorStop(0.55, '#ff323a');
+    grad.addColorStop(1, '#ff323a');
+    ctx.fillStyle = grad;
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'arcadeGold'){
+    ctx.shadowColor = 'rgba(255,180,0,0.85)';
+    ctx.shadowBlur = 28;
+    ctx.strokeStyle = '#3e1a00';
+    ctx.lineWidth = Math.floor(fSize * 0.22);
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    var gg = ctx.createLinearGradient(0, -fSize/2, 0, fSize/2);
+    gg.addColorStop(0, '#fff385');
+    gg.addColorStop(0.5, '#ffb703');
+    gg.addColorStop(1, '#d47a00');
+    ctx.fillStyle = gg;
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'tryloxyRed'){
+    ctx.shadowColor = 'rgba(0,0,0,0.6)';
+    ctx.shadowBlur = 24;
+    ctx.shadowOffsetY = 8;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = Math.floor(fSize * 0.22);
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    ctx.fillStyle = '#ff1133';
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'cyberCyan'){
+    ctx.shadowColor = '#00f5ff';
+    ctx.shadowBlur = 32;
+    ctx.strokeStyle = '#041f35';
+    ctx.lineWidth = Math.floor(fSize * 0.20);
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    ctx.fillStyle = '#00f5ff';
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'cyberYellow'){
+    ctx.shadowColor = '#ffd000';
+    ctx.shadowBlur = 28;
+    ctx.strokeStyle = '#181200';
+    ctx.lineWidth = Math.floor(fSize * 0.22);
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    ctx.fillStyle = '#ffea00';
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'infernoFire'){
+    ctx.shadowColor = '#ff3300';
+    ctx.shadowBlur = 30;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = Math.floor(fSize * 0.20);
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    var gFire = ctx.createLinearGradient(0, -fSize/2, 0, fSize/2);
+    gFire.addColorStop(0, '#ffff00');
+    gFire.addColorStop(0.5, '#ff6600');
+    gFire.addColorStop(1, '#ff0033');
+    ctx.fillStyle = gFire;
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'monsterLime' || style === 'comicLime'){
+    ctx.shadowColor = 'rgba(42,255,132,0.8)';
+    ctx.shadowBlur = 24;
+    ctx.strokeStyle = '#052b12';
+    ctx.lineWidth = Math.floor(fSize * 0.20);
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    ctx.fillStyle = '#2aff84';
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'plasmaPink'){
+    ctx.shadowColor = '#ff007f';
+    ctx.shadowBlur = 28;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = Math.floor(fSize * 0.20);
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    ctx.fillStyle = '#ff007f';
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'synthViolet' || style === 'synthPurple'){
+    ctx.shadowColor = '#a855f7';
+    ctx.shadowBlur = 26;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = Math.floor(fSize * 0.20);
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    ctx.fillStyle = '#c026d3';
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'candyRainbow' || style === 'candyPop'){
+    ctx.shadowColor = '#ffffff';
+    ctx.shadowBlur = 24;
+    ctx.strokeStyle = '#2b0938';
+    ctx.lineWidth = Math.floor(fSize * 0.22);
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    var gCandy = ctx.createLinearGradient(-fSize*2, 0, fSize*2, 0);
+    gCandy.addColorStop(0, '#ff4d6d');
+    gCandy.addColorStop(0.33, '#ffd166');
+    gCandy.addColorStop(0.66, '#06d6a0');
+    gCandy.addColorStop(1, '#118ab2');
+    ctx.fillStyle = gCandy;
+    ctx.fillText(text, 0, 0);
+
+  } else {
+    // Clean White / Universal fallback
+    ctx.shadowColor = 'rgba(0,0,0,0.85)';
+    ctx.shadowBlur = 25;
+    ctx.strokeStyle = '#090d16';
+    ctx.lineWidth = Math.floor(fSize * 0.22);
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(text, 0, 0);
+  }
+
+  ctx.restore();
+}
+
+// 🌟 DUAL-CHAIN TEXT SEQUENCER
+function drawDualChainIntroTexts(){
+  var t1Start = 0.0;
+  var t1Dur = Math.max(0.5, state.t1_duration || 2.2);
+
+  // Render Text 1
+  if(state.t1_show && state.t1_val && state.t1_val.trim()){
+    renderAnimatedText(state.t1_val.trim(), state.t1_style, state.t1_inAnim, state.t1_outAnim, state.t1_y, state.t1_size, t1Start, t1Dur);
+  }
+
+  // Render Text 2
+  if(state.t2_show && state.t2_val && state.t2_val.trim()){
+    var t2Start = (state.t2_chainWithT1 && state.t1_show) ? t1Dur : 0.0;
+    var t2Dur = Math.max(0.5, state.t2_duration || 3.5);
+    renderAnimatedText(state.t2_val.trim(), state.t2_style, state.t2_inAnim, state.t2_outAnim, state.t2_y, state.t2_size, t2Start, t2Dur);
+  }
+}
+
 function getActiveRunnerInfo(){
   var curImg = null;
   var curSize = 215;
@@ -2905,12 +3376,8 @@ function drawRows(){
     state.currentLane = isGreenLane ? 'left' : 'right';
   }
 
-  // 1. Z-सॉर्टिंग: सभी पैड्स दूर से पास के क्रम में ड्रा होंगे
   activePads.sort(function(a, b){ return a.rawZ - b.rawZ; });
 
-  // 2. 🌟 FIXED: बॉस की पोजीशन और टाइमिंग लॉजिक
-  // जब तक 5वां पैड रनर को पार नहीं कर जाता, बॉस सड़क के आखिरी छोर (z=0.01) पर खंभे की तरह रहेगा।
-  // जैसे ही 5वां पैड निकल जाएगा, बॉस वॉक डिस्टेंस (2.8s) के अनुसार आगे बढ़ेगा।
   var pad5CrossTime = initialDelay + 4 * state.padDelay + (pZ / (state.speed * 1.28 * TRACK_MOTION_SCALE));
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossZ = 0.01;
@@ -2920,37 +3387,29 @@ function drawRows(){
     bossZ = 0.01 + (pZ - 0.01) * walkProgress;
   }
 
-  // 3. 🌟 FIXED: बॉस का स्थिर आकार (रनर के साइज पर निर्भर नहीं रहेगा)
-  // स्टेज 5 के ग्रीन साइज पर लॉक, ताकि बीच के किसी स्टेज में फ्लक्चुएट न हो
   var staticBaseSize = (state.greenStages[5] && state.greenStages[5].size) ? state.greenStages[5].size : 435;
   var lockedBossBase = staticBaseSize * 1.18;
 
-  // 4. 🌟 FIXED: परफेक्ट लेयरिंग (बॉस हमेशा पैड्स के पीछे रहेगा)
-  // पहले वो सारे पैड्स ड्रा करो जो बॉस से भी ज्यादा दूर हैं (अगर कोई हो)
   activePads.forEach(function(item){
     if(item.rawZ < bossZ){
       drawSinglePadRow(item);
     }
   });
 
-  // अब बॉस को ड्रा करो (सड़क के एंड पर, पैड्स के ठीक पीछे)
   if(state.opponent.img){
     var op = roadBoundsAtZ(bossZ);
     var bossSize = lockedBossBase * (0.3 + 0.7 * op.e);
     drawImageFit(state.opponent.img, W/2, op.y + 6, bossSize, bossSize, 'bottom');
   }
 
-  // अब वो सारे पैड्स ड्रा करो जो बॉस के आगे हैं (रनर तक)
   activePads.forEach(function(item){
     if(item.rawZ >= bossZ && item.rawZ < pZ){
       drawSinglePadRow(item);
     }
   });
 
-  // रनर को ड्रा करो
   drawRunnerBehind();
 
-  // जो पैड्स रनर से भी आगे निकल चुके हैं उन्हें सबसे ऊपर ड्रा करो
   activePads.forEach(function(item){
     if(item.rawZ >= pZ){
       drawSinglePadRow(item);
@@ -2995,6 +3454,7 @@ function frame(now){
   drawRoad();
   drawRows();
   drawMysteryHUD();
+  drawDualChainIntroTexts(); // 🌟 Renders Text 1 + Text 2 Smoothly
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
@@ -3011,9 +3471,10 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
+    localStorage.removeItem('runner_studio_saved_v27'); 
+    localStorage.removeItem('runner_studio_saved_v26'); 
     localStorage.removeItem('runner_studio_saved_v25'); 
     localStorage.removeItem('runner_studio_saved_v24'); 
-    localStorage.removeItem('runner_studio_saved_v23'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
@@ -3080,7 +3541,7 @@ const server = http.createServer(function(req, res){
           var sig = crypto.createHmac('sha256', SESSION_SECRET).update(payload).digest('hex');
           var token = payload + '.' + sig;
           res.writeHead(200, {
-            'Set-Cookie': 'runner_session=' + token + '; Path=/; Exit; SameSite=Lax',
+            'Set-Cookie': 'runner_session=' + token + '; Path=/; SameSite=Lax',
             'Content-Type': 'text/plain',
             'Connection': 'keep-alive'
           });
