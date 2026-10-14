@@ -187,7 +187,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Fixed Locked Boss, All 15 Styles Active!</div>
+    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Electric Lightning & Smoke VFX, Dual Text Engine!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -358,6 +358,26 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <button type="button" class="step-btn" data-step-for="t2_size" data-dir="1">▶</button>
           </div>
         </label>
+      </div>
+    </details>
+
+    <!-- 🌟 NEW CARD: RUNNER IMPACT VFX (LIGHTNING & SMOKE) -->
+    <details class="drag-card" id="card_impact_vfx" open>
+      <summary>
+        <span>⚡ Runner Transformation VFX (Lightning & Smoke)</span>
+        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
+      </summary>
+      <div class="grid two">
+        <label class="toggle" style="grid-column:1/-1">
+          <input id="enableVfx" type="checkbox" checked> <b>Enable Pad Hit VFX & Transformation Aura</b>
+        </label>
+        <label class="toggle">
+          <input id="vfxScreenShake" type="checkbox" checked> <b>Screen Punch / Shake on Hit</b>
+        </label>
+        <div class="small" style="grid-column:1/-1;color:var(--muted)">
+          ⚡ <b>Green Pad Hit:</b> Super Saiyan Electric Lightning Sparks + Expanding Shockwave Ring + Micro Bounce.<br>
+          💀 <b>Red Pad Hit:</b> Dark Crimson Poison Smoke Burst + Downgrade Stumble Shake.
+        </div>
       </div>
     </details>
 
@@ -741,7 +761,6 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
 
-        <!-- 🌟 DEDICATED SEPARATE QUICK SELECTOR FOR NEW ROADS -->
         <label style="border:1px solid #61f0a6;padding:8px;border-radius:10px;background:#0d1813">
           <span style="color:#61f0a6;font-weight:900">🌟 Quick Selector: 20 New Day-Light & V6 Editions</span>
           <select id="newRoadSelector">
@@ -841,7 +860,6 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </optgroup>
         </select></label>
 
-        <!-- 🌟 10 VIRAL SHORTS STUDIO BACKDROPS -->
         <label style="grid-column:1/-1">Background Theme (30+ HD Moods) <select id="bgMode">
           <optgroup label="--- 🌟 Viral Shorts Studio Backdrops (TryLoxy Style) ---">
             <option value="studioSkyCyan" selected>🎨 1. Sky Cyan Studio (Viral Shorts)</option>
@@ -1044,6 +1062,11 @@ var manualHudImgs = [null, null, null, null, null];
 var manualHudRaw = [null, null, null, null, null];
 var manualHudRemove = [true, true, true, true, true];
 
+// 🌟 IMPACT VFX PARTICLES & TIMING ENGINE
+var lastImpactType = null;
+var lastImpactTime = -999;
+var vfxParticles = [];
+
 var state={
   speed:0.24,
   horizon:0.42,
@@ -1082,6 +1105,9 @@ var state={
   t2_y: 430,
   t2_size: 105,
   t2_duration: 3.5,
+
+  enableVfx: true,
+  vfxScreenShake: true,
 
   steerOffset:-1.0,
   baseStage: {img:null, raw:null, removeBg:true, size:215},
@@ -1337,6 +1363,9 @@ function autoSaveStudio(){
       t2_size: state.t2_size,
       t2_duration: state.t2_duration,
 
+      enableVfx: state.enableVfx,
+      vfxScreenShake: state.vfxScreenShake,
+
       playerZ: state.playerZ,
       playerLane: state.playerLane,
       steerOffset: state.steerOffset,
@@ -1355,13 +1384,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v29', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v30', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v29') || localStorage.getItem('runner_studio_saved_v28') || localStorage.getItem('runner_studio_saved_v27') || localStorage.getItem('runner_studio_saved_v26') || localStorage.getItem('runner_studio_saved_v25');
+    var raw = localStorage.getItem('runner_studio_saved_v30') || localStorage.getItem('runner_studio_saved_v29') || localStorage.getItem('runner_studio_saved_v28') || localStorage.getItem('runner_studio_saved_v27');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1451,6 +1480,9 @@ if($('t2_val')) $('t2_val').oninput = function(e){ state.t2_val = e.target.value
 if($('t2_style')) $('t2_style').onchange = function(e){ state.t2_style = e.target.value; autoSaveStudio(); };
 if($('t2_inAnim')) $('t2_inAnim').onchange = function(e){ state.t2_inAnim = e.target.value; autoSaveStudio(); };
 if($('t2_outAnim')) $('t2_outAnim').onchange = function(e){ state.t2_outAnim = e.target.value; autoSaveStudio(); };
+
+if($('enableVfx')) $('enableVfx').onchange = function(e){ state.enableVfx = e.target.checked; autoSaveStudio(); };
+if($('vfxScreenShake')) $('vfxScreenShake').onchange = function(e){ state.vfxScreenShake = e.target.checked; autoSaveStudio(); };
 
 for(var h=0; h<5; h++){
   (function(bIdx){
@@ -1988,6 +2020,9 @@ function initRows(){
     if(savedData.t2_y !== undefined && $('t2_y')){ state.t2_y = Number(savedData.t2_y); $('t2_y').value = state.t2_y; updateBadge('t2_y', state.t2_y); }
     if(savedData.t2_size !== undefined && $('t2_size')){ state.t2_size = Number(savedData.t2_size); $('t2_size').value = state.t2_size; updateBadge('t2_size', state.t2_size); }
 
+    if(savedData.enableVfx !== undefined && $('enableVfx')){ state.enableVfx = Boolean(savedData.enableVfx); $('enableVfx').checked = state.enableVfx; }
+    if(savedData.vfxScreenShake !== undefined && $('vfxScreenShake')){ state.vfxScreenShake = Boolean(savedData.vfxScreenShake); $('vfxScreenShake').checked = state.vfxScreenShake; }
+
     if(savedData.showHud !== undefined && $('showHud')){
       state.showHud = Boolean(savedData.showHud);
       $('showHud').checked = state.showHud;
@@ -2505,7 +2540,7 @@ function rLaserCyan(){
   fillRoadBase('#082f49','#02131f');
   drawEdgeStripSeries(18,.85,7,36,'#06b6d4','#38bdf8');
   drawCenterDashed(-.08,'#38bdf8',2,5,.1,10,.88,.15);
-  drawCenterDashed(.08,'#38bdf8',2,5,.1,10,.88,.15);
+  drawCenterDashed(.08,'#38bdf8',2,5,.08,10,.88,.15);
 }
 function rMatrixCode(){
   fillRoadBase('#052e16','#021409');
@@ -2639,7 +2674,7 @@ function rDiamondFlow(){
     var midY=(a.y+b.y)/2;
     var w=18+a.e*80, h=9+a.e*48;
     ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();ctx.moveTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.lineTo(W/2-w,midY);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.moveTo(W/2-w,midY);ctx.lineTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2,midY+h);ctx.closePath();ctx.fill();ctx.restore();
   }
 }
 function rMinimalGrey(){
@@ -3080,7 +3115,6 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
 
   var strokeW = Math.floor(fSize * 0.22);
 
-  // 🌟 FULLY DEFINED 15 INDIVIDUAL STYLES
   if(style === 'dualWinLose'){
     ctx.shadowColor = 'rgba(0,0,0,0.75)';
     ctx.shadowBlur = 24;
@@ -3211,7 +3245,6 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.fillText(text, 0, 0);
 
   } else if(style === 'royalAmber' || style === 'sunsetTrophy'){
-    // 🌟 Rich Amber Bronze Gold
     ctx.shadowColor = 'rgba(255,130,0,0.85)';
     ctx.shadowBlur = 26;
     ctx.strokeStyle = '#381600';
@@ -3227,7 +3260,6 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.fillText(text, 0, 0);
 
   } else if(style === 'iceFrost' || style === 'frozenFrost'){
-    // 🌟 Sub-Zero Frozen Ice Crystal
     ctx.shadowColor = '#00f0ff';
     ctx.shadowBlur = 32;
     ctx.strokeStyle = '#052a42';
@@ -3243,7 +3275,6 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.fillText(text, 0, 0);
 
   } else if(style === 'stealthDark' || style === 'stealthCharcoal'){
-    // 🌟 Stealth Gunmetal Outline
     ctx.shadowColor = 'rgba(0,0,0,0.95)';
     ctx.shadowBlur = 28;
     ctx.strokeStyle = '#ffffff';
@@ -3255,7 +3286,6 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.fillText(text, 0, 0);
 
   } else if(style === 'laserCrimson' || style === 'laserRedWarning'){
-    // 🌟 Red Hazard Neon Alert
     ctx.shadowColor = '#ff0033';
     ctx.shadowBlur = 34;
     ctx.strokeStyle = '#280006';
@@ -3267,7 +3297,6 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.fillText(text, 0, 0);
 
   } else if(style === 'deepAmethyst'){
-    // 🌟 Faceted Amethyst Royal Glow
     ctx.shadowColor = '#d946ef';
     ctx.shadowBlur = 30;
     ctx.strokeStyle = '#2e0854';
@@ -3277,13 +3306,12 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
 
     var gGem = ctx.createLinearGradient(0, -fSize/2, 0, fSize/2);
     gGem.addColorStop(0, '#fae8ff');
-    gGem.addColorStop(0.5, '#c026d3');
+    gGem.addColorStop(0.5, '#c084fc');
     gGem.addColorStop(1, '#701a75');
     ctx.fillStyle = gGem;
     ctx.fillText(text, 0, 0);
 
   } else if(style === 'electricCyan'){
-    // 🌟 Deep Electric Blue Strike
     ctx.shadowColor = '#0077ff';
     ctx.shadowBlur = 30;
     ctx.strokeStyle = '#021028';
@@ -3295,7 +3323,6 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.fillText(text, 0, 0);
 
   } else {
-    // ⚪ Clean White with Crisp Dark Outline
     ctx.shadowColor = 'rgba(0,0,0,0.85)';
     ctx.shadowBlur = 24;
     ctx.strokeStyle = '#090d16';
@@ -3355,6 +3382,29 @@ function getActiveRunnerInfo(){
   return { img: curImg, size: curSize };
 }
 
+// 🌟 TRIGGER TRANSFORMATION VFX (ELECTRIC LIGHTNING OR DARK SMOKE)
+function triggerImpactVfx(isGreen, rx, ry){
+  lastImpactType = isGreen ? 'green' : 'red';
+  lastImpactTime = roadTime;
+
+  var count = isGreen ? 24 : 30;
+  for(var i = 0; i < count; i++){
+    var angle = Math.random() * Math.PI * 2;
+    var spd = isGreen ? (80 + Math.random() * 260) : (40 + Math.random() * 160);
+    vfxParticles.push({
+      x: rx,
+      y: ry - 40 - Math.random() * 60,
+      vx: Math.cos(angle) * spd,
+      vy: Math.sin(angle) * spd - (isGreen ? 80 : 30),
+      life: 0,
+      maxLife: isGreen ? (0.28 + Math.random() * 0.22) : (0.45 + Math.random() * 0.35),
+      size: isGreen ? (4 + Math.random() * 7) : (12 + Math.random() * 22),
+      isGreen: isGreen
+    });
+  }
+}
+
+// 🌟 DRAW RUNNER WITH LIGHTNING AURA, PUNCH BOUNCE, AND SMOKE
 function drawRunnerBehind(){
   var rInfo = getActiveRunnerInfo();
   if(!rInfo.img) return;
@@ -3376,7 +3426,107 @@ function drawRunnerBehind(){
   state.playerX = state.playerX || (W/2);
   state.playerX += (targetX - state.playerX) * 0.35;
 
-  drawImageFit(rInfo.img, state.playerX, p.y + 6, pSize, pSize, 'bottom');
+  var drawX = state.playerX;
+  var drawY = p.y + 6;
+  var scaleMul = 1.0;
+
+  var hitAge = roadTime - lastImpactTime;
+
+  // Stumble shake & punch bounce
+  if(state.enableVfx && hitAge >= 0 && hitAge < 0.40){
+    var progress = hitAge / 0.40;
+    if(lastImpactType === 'green'){
+      scaleMul = 1.0 + Math.sin(progress * Math.PI) * 0.16; // Micro-Punch Bounce
+    } else if(lastImpactType === 'red'){
+      drawX += Math.sin(hitAge * 60) * Math.max(0, 14 * (1 - progress)); // Glitch Shake
+    }
+  }
+
+  var finalW = pSize * scaleMul;
+  var finalH = pSize * scaleMul;
+
+  ctx.save();
+
+  // ⚡ SUPER SAIYAN NEON ELECTRIC AURA (GREEN HIT)
+  if(state.enableVfx && lastImpactType === 'green' && hitAge >= 0 && hitAge < 0.45){
+    var auraProgress = hitAge / 0.45;
+    var auraAlpha = Math.max(0, 1.0 - auraProgress);
+
+    // Expanding Shockwave Ring
+    ctx.save();
+    ctx.strokeStyle = 'rgba(42,255,132,' + (auraAlpha * 0.9) + ')';
+    ctx.lineWidth = 6 * auraAlpha;
+    ctx.shadowColor = '#00f5ff';
+    ctx.shadowBlur = 24;
+    ctx.beginPath();
+    ctx.ellipse(drawX, drawY - finalH * 0.45, (finalW * 0.55) + auraProgress * (finalW * 0.75), 18 + auraProgress * 55, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+
+    // Jagged Lightning Sparks around character
+    ctx.save();
+    ctx.strokeStyle = Math.random() > 0.4 ? '#2aff84' : '#00f5ff';
+    ctx.shadowColor = '#2aff84';
+    ctx.shadowBlur = 28;
+    ctx.lineWidth = 4 * auraAlpha;
+    ctx.lineCap = 'round';
+    for(var l = 0; l < 4; l++){
+      ctx.beginPath();
+      var lx = drawX + (Math.random() - 0.5) * finalW * 1.1;
+      var ly = drawY - Math.random() * finalH;
+      ctx.moveTo(lx, ly);
+      for(var seg = 0; seg < 3; seg++){
+        lx += (Math.random() - 0.5) * 36;
+        ly += (Math.random() - 0.5) * 36;
+        ctx.lineTo(lx, ly);
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // Draw Runner Image
+  drawImageFit(rInfo.img, drawX, drawY, finalW, finalH, 'bottom');
+
+  ctx.restore();
+}
+
+// 🌟 RENDER FLOATING PARTICLES (ELECTRIC SPARKS & POISON SMOKE)
+function updateAndDrawVfx(delta){
+  if(!state.enableVfx || vfxParticles.length === 0) return;
+
+  for(var i = vfxParticles.length - 1; i >= 0; i--){
+    var p = vfxParticles[i];
+    p.life += delta;
+    if(p.life >= p.maxLife){
+      vfxParticles.splice(i, 1);
+      continue;
+    }
+
+    var progress = p.life / p.maxLife;
+    p.x += p.vx * delta;
+    p.y += p.vy * delta;
+
+    ctx.save();
+    if(p.isGreen){
+      // Electric Sparkle
+      var a = Math.max(0, 1.0 - progress);
+      ctx.fillStyle = progress < 0.5 ? '#00f5ff' : '#2aff84';
+      ctx.shadowColor = '#2aff84';
+      ctx.shadowBlur = 18;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * (1.0 - progress * 0.5), 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      // Poison Smoke
+      var sa = Math.max(0, (1.0 - progress) * 0.45);
+      ctx.fillStyle = progress < 0.4 ? 'rgba(40,4,8,' + sa + ')' : 'rgba(200,20,30,' + sa + ')';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * (1.0 + progress * 1.8), 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
 }
 
 function syncStateFromTime(t){
@@ -3386,6 +3536,7 @@ function syncStateFromTime(t){
   collectedTimes = [-999, -999, -999, -999, -999];
   currentPath = 'base';
   currentStageLevel = 0;
+  vfxParticles = [];
   
   var initialDelay = 0.85;
   var pZ = state.playerZ || 0.86;
@@ -3445,12 +3596,12 @@ function drawRows(){
       }
       
       var isGreen = (padHex.indexOf('2a') !== -1 || padHex.indexOf('00') !== -1 || padHex.indexOf('green') !== -1);
-      if(isGreen){
-        currentPath = 'green';
-      } else {
-        currentPath = 'red';
-      }
+      currentPath = isGreen ? 'green' : 'red';
       currentStageLevel = i + 1;
+
+      // ⚡ TRIGGER VFX ON PAD TOUCH
+      var p = roadBoundsAtZ(pZ);
+      triggerImpactVfx(isGreen, state.playerX, p.y);
     }
 
     if(zz > closestActiveZ && zz < pZ + 0.15){
@@ -3468,13 +3619,12 @@ function drawRows(){
 
   activePads.sort(function(a, b){ return a.rawZ - b.rawZ; });
 
-  // 🌟 100% FIXED: STABLE ABSOLUTE LOCKED BOSS (सड़क के छोर पर फिक्स, 5वें पैड तक 1mm भी नहीं हिलेगा)
+  // 🌟 ABSOLUTE LOCKED BOSS (सड़क के छोर पर फिक्स, 5वें पैड तक 1mm भी नहीं हिलेगा)
   var initialBossZ = 0.20;
   var pad5CrossTime = initialDelay + 4 * state.padDelay + (pZ / (state.speed * 1.28 * TRACK_MOTION_SCALE));
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossZ = initialBossZ;
 
-  // केवल 5वां पैड पार होने के बाद ही वॉक आगे बढ़ेगा
   if (roadTime > pad5CrossTime) {
     var walkProgress = Math.min(1.0, (roadTime - pad5CrossTime) / bDist);
     bossZ = initialBossZ + (pZ - initialBossZ) * walkProgress;
@@ -3512,6 +3662,7 @@ function drawRows(){
     }
   });
 
+  // रनर
   drawRunnerBehind();
 
   // रनर के आगे वाले पैड्स
@@ -3558,6 +3709,7 @@ function frame(now){
   drawBackground();
   drawRoad();
   drawRows();
+  updateAndDrawVfx(delta); // 🌟 Draws Flying Electric & Smoke Particles
   drawMysteryHUD();
   drawDualChainIntroTexts();
   requestAnimationFrame(frame);
@@ -3576,11 +3728,10 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
+    localStorage.removeItem('runner_studio_saved_v30'); 
     localStorage.removeItem('runner_studio_saved_v29'); 
     localStorage.removeItem('runner_studio_saved_v28'); 
     localStorage.removeItem('runner_studio_saved_v27'); 
-    localStorage.removeItem('runner_studio_saved_v26'); 
-    localStorage.removeItem('runner_studio_saved_v25'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
