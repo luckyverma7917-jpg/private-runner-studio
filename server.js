@@ -128,7 +128,7 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .thumb-box{width:44px;height:44px;border-radius:8px;border:1px dashed #404859;background:#0d0f14;display:grid;place-items:center;overflow:hidden;flex-shrink:0;position:relative}
 .thumb-box img{width:100%;height:100%;object-fit:contain;display:none}
 .thumb-box span{font-size:10px;color:#6b7280;font-weight:bold}
-.clear-btn{border:1px solid #ff4d4d77;background:#2b1216;color:#ff9e9e;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:bold;cursor:flex;flex-shrink:0;transition:0.1s all}
+.clear-btn{border:1px solid #ff4d4d77;background:#2b1216;color:#ff9e9e;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:bold;cursor:pointer;flex-shrink:0;transition:0.1s all}
 .clear-btn:hover{background:#45141c;color:#fff;border-color:var(--red)}
 
 input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px;width:100%}
@@ -187,7 +187,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Dual-Chain Intro Texts ("LET'S GO" + "WIN OR LOSE"), 55+ Roads Active!</div>
+    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Dual-Chain Intro Texts ("LET'S GO" + "WIN OR LOSE"), Grounded Boss!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -545,7 +545,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="gImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_3">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="gRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="toggle"><input id="gRemove_2" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">330</span></span>
@@ -1018,7 +1018,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         </div>
       </label>
       <label class="toggle"><input class="oppRemove" type="checkbox" checked> Auto remove bg</label>
-      <div class="small" style="color:var(--accent);margin-top:4px">⚡ Size एकदम स्टेबल लॉक रहेगा, रनर के साइज से फ्लक्चुएट नहीं करेगा!</div>
+      <div class="small" style="color:var(--accent);margin-top:4px">⚡ Grounded on Road: पैरों के नीचे 3D शैडो और सड़क पर परफेक्ट लॉकिंग!</div>
     </div>
   </div>
 </template>
@@ -1064,7 +1064,7 @@ var state={
   hudBoxSize:132,
   hudSpacing:18,
   
-  // 🌟 TEXT 1 STATE (LET'S GO)
+  // TEXT 1 STATE
   t1_show: true,
   t1_val: "LET'S GO",
   t1_style: 'tryloxyRed',
@@ -1074,7 +1074,7 @@ var state={
   t1_size: 110,
   t1_duration: 2.2,
 
-  // 🌟 TEXT 2 STATE (WIN OR LOSE)
+  // TEXT 2 STATE
   t2_show: true,
   t2_chainWithT1: true,
   t2_val: "Win or Lose!",
@@ -1357,13 +1357,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v27', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v28', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v27') || localStorage.getItem('runner_studio_saved_v26') || localStorage.getItem('runner_studio_saved_v25');
+    var raw = localStorage.getItem('runner_studio_saved_v28') || localStorage.getItem('runner_studio_saved_v27') || localStorage.getItem('runner_studio_saved_v26') || localStorage.getItem('runner_studio_saved_v25');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1427,7 +1427,6 @@ function bindRange(id,key){
   });
 }
 
-// Fixed Clean Binding (No crashing)
 ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
 
 // Text 1 Sliders
@@ -1444,14 +1443,14 @@ if($('showHud')){ $('showHud').onchange = function(e){ state.showHud = e.target.
 if($('autoCollectHud')){ $('autoCollectHud').onchange = function(e){ state.autoCollectHud = e.target.checked; autoSaveStudio(); }; }
 if($('hudStyle')){ $('hudStyle').onchange = function(e){ state.hudStyle = e.target.value; autoSaveStudio(); }; }
 
-// 🌟 TEXT 1 BINDINGS
+// TEXT 1 BINDINGS
 if($('t1_show')) $('t1_show').onchange = function(e){ state.t1_show = e.target.checked; autoSaveStudio(); };
 if($('t1_val')) $('t1_val').oninput = function(e){ state.t1_val = e.target.value; autoSaveStudio(); };
 if($('t1_style')) $('t1_style').onchange = function(e){ state.t1_style = e.target.value; autoSaveStudio(); };
 if($('t1_inAnim')) $('t1_inAnim').onchange = function(e){ state.t1_inAnim = e.target.value; autoSaveStudio(); };
 if($('t1_outAnim')) $('t1_outAnim').onchange = function(e){ state.t1_outAnim = e.target.value; autoSaveStudio(); };
 
-// 🌟 TEXT 2 BINDINGS
+// TEXT 2 BINDINGS
 if($('t2_show')) $('t2_show').onchange = function(e){ state.t2_show = e.target.checked; autoSaveStudio(); };
 if($('t2_chainWithT1')) $('t2_chainWithT1').onchange = function(e){ state.t2_chainWithT1 = e.target.checked; autoSaveStudio(); };
 if($('t2_val')) $('t2_val').oninput = function(e){ state.t2_val = e.target.value; autoSaveStudio(); };
@@ -1976,7 +1975,6 @@ function initRows(){
       }
     });
 
-    // Restore Text 1
     if(savedData.t1_show !== undefined && $('t1_show')){ state.t1_show = Boolean(savedData.t1_show); $('t1_show').checked = state.t1_show; }
     if(savedData.t1_val !== undefined && $('t1_val')){ state.t1_val = savedData.t1_val; $('t1_val').value = state.t1_val; }
     if(savedData.t1_style && $('t1_style')){ state.t1_style = savedData.t1_style; $('t1_style').value = state.t1_style; }
@@ -1986,7 +1984,6 @@ function initRows(){
     if(savedData.t1_y !== undefined && $('t1_y')){ state.t1_y = Number(savedData.t1_y); $('t1_y').value = state.t1_y; updateBadge('t1_y', state.t1_y); }
     if(savedData.t1_size !== undefined && $('t1_size')){ state.t1_size = Number(savedData.t1_size); $('t1_size').value = state.t1_size; updateBadge('t1_size', state.t1_size); }
 
-    // Restore Text 2
     if(savedData.t2_show !== undefined && $('t2_show')){ state.t2_show = Boolean(savedData.t2_show); $('t2_show').checked = state.t2_show; }
     if(savedData.t2_chainWithT1 !== undefined && $('t2_chainWithT1')){ state.t2_chainWithT1 = Boolean(savedData.t2_chainWithT1); $('t2_chainWithT1').checked = state.t2_chainWithT1; }
     if(savedData.t2_val !== undefined && $('t2_val')){ state.t2_val = savedData.t2_val; $('t2_val').value = state.t2_val; }
@@ -3024,7 +3021,7 @@ function drawMysteryHUD(){
   }
 }
 
-// 🌟 MASTER ANIMATED TEXT RENDERER (IN / OUT ENGINE)
+// MASTER ANIMATED TEXT RENDERER
 function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startTime, duration){
   var elapsed = roadTime - startTime;
   if(elapsed < 0 || elapsed > duration) return;
@@ -3061,7 +3058,6 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
       scale = 0.8 + 0.2 * Math.sin(tIn * Math.PI);
     }
   } else if(remain > outDur){
-    // IDLE BREATHING / PULSE
     scale = 1.0 + Math.sin(elapsed * 4.2) * 0.03;
   }
 
@@ -3091,7 +3087,6 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  // 15+ EYE-CATCHING STYLES PRESETS
   if(style === 'dualWinLose'){
     ctx.shadowColor = 'rgba(0,0,0,0.7)';
     ctx.shadowBlur = 24;
@@ -3237,17 +3232,15 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
   ctx.restore();
 }
 
-// 🌟 DUAL-CHAIN TEXT SEQUENCER
+// DUAL-CHAIN TEXT SEQUENCER
 function drawDualChainIntroTexts(){
   var t1Start = 0.0;
   var t1Dur = Math.max(0.5, state.t1_duration || 2.2);
 
-  // Render Text 1
   if(state.t1_show && state.t1_val && state.t1_val.trim()){
     renderAnimatedText(state.t1_val.trim(), state.t1_style, state.t1_inAnim, state.t1_outAnim, state.t1_y, state.t1_size, t1Start, t1Dur);
   }
 
-  // Render Text 2
   if(state.t2_show && state.t2_val && state.t2_val.trim()){
     var t2Start = (state.t2_chainWithT1 && state.t1_show) ? t1Dur : 0.0;
     var t2Dur = Math.max(0.5, state.t2_duration || 3.5);
@@ -3398,38 +3391,55 @@ function drawRows(){
 
   activePads.sort(function(a, b){ return a.rawZ - b.rawZ; });
 
+  // 🌟 FIXED: सड़क पर सटीक ग्राउंडिंग (z=0.20 सड़क के अंदर दोनों पट्टियों के बीच)
+  var initialBossZ = 0.20;
   var pad5CrossTime = initialDelay + 4 * state.padDelay + (pZ / (state.speed * 1.28 * TRACK_MOTION_SCALE));
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
-  var bossZ = 0.01;
+  var bossZ = initialBossZ;
 
   if (roadTime > pad5CrossTime) {
     var walkProgress = Math.min(1.0, (roadTime - pad5CrossTime) / bDist);
-    bossZ = 0.01 + (pZ - 0.01) * walkProgress;
+    bossZ = initialBossZ + (pZ - initialBossZ) * walkProgress;
   }
 
   var staticBaseSize = (state.greenStages[5] && state.greenStages[5].size) ? state.greenStages[5].size : 435;
   var lockedBossBase = staticBaseSize * 1.18;
 
+  // बॉस से पीछे वाले पैड्स
   activePads.forEach(function(item){
     if(item.rawZ < bossZ){
       drawSinglePadRow(item);
     }
   });
 
+  // 🌟 FIXED: सड़क पर 3D ग्राउंड शैडो + परफेक्ट रोड अलाइनमेंट
   if(state.opponent.img){
     var op = roadBoundsAtZ(bossZ);
-    var bossSize = lockedBossBase * (0.3 + 0.7 * op.e);
-    drawImageFit(state.opponent.img, W/2, op.y + 6, bossSize, bossSize, 'bottom');
+    var bossSize = lockedBossBase * (0.32 + 0.68 * op.e);
+
+    // 1. ज़मीन पर शैडो (Contact Shadow) ताकि हवा में न लगे
+    ctx.save();
+    ctx.fillStyle = 'rgba(0,0,0,0.38)';
+    ctx.beginPath();
+    ctx.ellipse(W/2, op.y + 4, bossSize * 0.36, 6 + 10 * op.e, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // 2. बॉस का कैरेक्टर सड़क की सतह पर
+    drawImageFit(state.opponent.img, W/2, op.y + 4, bossSize, bossSize, 'bottom');
   }
 
+  // बॉस और रनर के बीच वाले पैड्स
   activePads.forEach(function(item){
     if(item.rawZ >= bossZ && item.rawZ < pZ){
       drawSinglePadRow(item);
     }
   });
 
+  // रनर
   drawRunnerBehind();
 
+  // रनर के आगे वाले पैड्स
   activePads.forEach(function(item){
     if(item.rawZ >= pZ){
       drawSinglePadRow(item);
@@ -3474,7 +3484,7 @@ function frame(now){
   drawRoad();
   drawRows();
   drawMysteryHUD();
-  drawDualChainIntroTexts(); // 🌟 Renders Text 1 + Text 2 Smoothly
+  drawDualChainIntroTexts();
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
@@ -3491,10 +3501,10 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
+    localStorage.removeItem('runner_studio_saved_v28'); 
     localStorage.removeItem('runner_studio_saved_v27'); 
     localStorage.removeItem('runner_studio_saved_v26'); 
     localStorage.removeItem('runner_studio_saved_v25'); 
-    localStorage.removeItem('runner_studio_saved_v24'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
