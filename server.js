@@ -187,7 +187,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Dual-Chain Intro Texts ("LET'S GO" + "WIN OR LOSE"), Grounded Boss!</div>
+    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Fixed Locked Boss, All 15 Styles Active!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -545,7 +545,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="gImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_3">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="gRemove_2" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="toggle"><input id="gRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
         </label>
         <label>
           <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">330</span></span>
@@ -1018,7 +1018,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         </div>
       </label>
       <label class="toggle"><input class="oppRemove" type="checkbox" checked> Auto remove bg</label>
-      <div class="small" style="color:var(--accent);margin-top:4px">⚡ Grounded on Road: पैरों के नीचे 3D शैडो और सड़क पर परफेक्ट लॉकिंग!</div>
+      <div class="small" style="color:var(--accent);margin-top:4px">⚡ Absolute Stable Lock: 5वें पैड तक पीछे स्थिर, फिर 2.8s वॉक!</div>
     </div>
   </div>
 </template>
@@ -1064,7 +1064,6 @@ var state={
   hudBoxSize:132,
   hudSpacing:18,
   
-  // TEXT 1 STATE
   t1_show: true,
   t1_val: "LET'S GO",
   t1_style: 'tryloxyRed',
@@ -1074,7 +1073,6 @@ var state={
   t1_size: 110,
   t1_duration: 2.2,
 
-  // TEXT 2 STATE
   t2_show: true,
   t2_chainWithT1: true,
   t2_val: "Win or Lose!",
@@ -1357,13 +1355,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v28', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v29', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v28') || localStorage.getItem('runner_studio_saved_v27') || localStorage.getItem('runner_studio_saved_v26') || localStorage.getItem('runner_studio_saved_v25');
+    var raw = localStorage.getItem('runner_studio_saved_v29') || localStorage.getItem('runner_studio_saved_v28') || localStorage.getItem('runner_studio_saved_v27') || localStorage.getItem('runner_studio_saved_v26') || localStorage.getItem('runner_studio_saved_v25');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1429,12 +1427,10 @@ function bindRange(id,key){
 
 ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
 
-// Text 1 Sliders
 if($('t1_duration')) $('t1_duration').oninput = function(e){ state.t1_duration = Number(e.target.value); updateBadge('t1_duration', e.target.value); autoSaveStudio(); };
 if($('t1_y')) $('t1_y').oninput = function(e){ state.t1_y = Number(e.target.value); updateBadge('t1_y', e.target.value); autoSaveStudio(); };
 if($('t1_size')) $('t1_size').oninput = function(e){ state.t1_size = Number(e.target.value); updateBadge('t1_size', e.target.value); autoSaveStudio(); };
 
-// Text 2 Sliders
 if($('t2_duration')) $('t2_duration').oninput = function(e){ state.t2_duration = Number(e.target.value); updateBadge('t2_duration', e.target.value); autoSaveStudio(); };
 if($('t2_y')) $('t2_y').oninput = function(e){ state.t2_y = Number(e.target.value); updateBadge('t2_y', e.target.value); autoSaveStudio(); };
 if($('t2_size')) $('t2_size').oninput = function(e){ state.t2_size = Number(e.target.value); updateBadge('t2_size', e.target.value); autoSaveStudio(); };
@@ -1443,14 +1439,12 @@ if($('showHud')){ $('showHud').onchange = function(e){ state.showHud = e.target.
 if($('autoCollectHud')){ $('autoCollectHud').onchange = function(e){ state.autoCollectHud = e.target.checked; autoSaveStudio(); }; }
 if($('hudStyle')){ $('hudStyle').onchange = function(e){ state.hudStyle = e.target.value; autoSaveStudio(); }; }
 
-// TEXT 1 BINDINGS
 if($('t1_show')) $('t1_show').onchange = function(e){ state.t1_show = e.target.checked; autoSaveStudio(); };
 if($('t1_val')) $('t1_val').oninput = function(e){ state.t1_val = e.target.value; autoSaveStudio(); };
 if($('t1_style')) $('t1_style').onchange = function(e){ state.t1_style = e.target.value; autoSaveStudio(); };
 if($('t1_inAnim')) $('t1_inAnim').onchange = function(e){ state.t1_inAnim = e.target.value; autoSaveStudio(); };
 if($('t1_outAnim')) $('t1_outAnim').onchange = function(e){ state.t1_outAnim = e.target.value; autoSaveStudio(); };
 
-// TEXT 2 BINDINGS
 if($('t2_show')) $('t2_show').onchange = function(e){ state.t2_show = e.target.checked; autoSaveStudio(); };
 if($('t2_chainWithT1')) $('t2_chainWithT1').onchange = function(e){ state.t2_chainWithT1 = e.target.checked; autoSaveStudio(); };
 if($('t2_val')) $('t2_val').oninput = function(e){ state.t2_val = e.target.value; autoSaveStudio(); };
@@ -2268,7 +2262,6 @@ function drawBackground(){
   }
 }
 
-/* ================= 5 NEW CLASSIC V6 EDITIONS ================= */
 function rV6Gold(){
   fillRoadBase('#7c8591','#454c57');
   drawRoadTexture(.028);
@@ -2300,7 +2293,6 @@ function rV6Monza(){
   if(state.roadShine) drawRoadShineSeries('rgba(255,240,150,.45)',1.0);
 }
 
-/* ================= 15 NEW ULTRA-CLEAN DAY-LIGHT ROADS ================= */
 function rSunnyDesert(){
   fillRoadBase('#d4a373','#8d5b36');
   drawRoadTexture(.024);
@@ -2415,7 +2407,6 @@ function rEmeraldGolfway(){
   if(state.roadShine) drawRoadShineSeries('rgba(180,255,210,.45)',1.0);
 }
 
-/* ================= ORIGINAL ROADS ================= */
 function rClassic(){
   fillRoadBase('#7c8591','#454c57');
   drawRoadTexture(.028);
@@ -3021,7 +3012,7 @@ function drawMysteryHUD(){
   }
 }
 
-// MASTER ANIMATED TEXT RENDERER
+// 🌟 COMPLETE VISUAL STYLES ENGINE (ALL 15 DEDICATED PRESETS)
 function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startTime, duration){
   var elapsed = roadTime - startTime;
   if(elapsed < 0 || elapsed > duration) return;
@@ -3087,19 +3078,21 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  if(style === 'dualWinLose'){
-    ctx.shadowColor = 'rgba(0,0,0,0.7)';
-    ctx.shadowBlur = 24;
+  var strokeW = Math.floor(fSize * 0.22);
 
+  // 🌟 FULLY DEFINED 15 INDIVIDUAL STYLES
+  if(style === 'dualWinLose'){
+    ctx.shadowColor = 'rgba(0,0,0,0.75)';
+    ctx.shadowBlur = 24;
     ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = Math.floor(fSize * 0.22);
+    ctx.lineWidth = strokeW;
     ctx.lineJoin = 'round';
     ctx.strokeText(text, 0, 0);
 
     var grad = ctx.createLinearGradient(-fSize*2, 0, fSize*2, 0);
     grad.addColorStop(0, '#2aff84');
-    grad.addColorStop(0.45, '#2aff84');
-    grad.addColorStop(0.55, '#ff323a');
+    grad.addColorStop(0.48, '#2aff84');
+    grad.addColorStop(0.52, '#ff323a');
     grad.addColorStop(1, '#ff323a');
     ctx.fillStyle = grad;
     ctx.fillText(text, 0, 0);
@@ -3108,7 +3101,7 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.shadowColor = 'rgba(255,180,0,0.85)';
     ctx.shadowBlur = 28;
     ctx.strokeStyle = '#3e1a00';
-    ctx.lineWidth = Math.floor(fSize * 0.22);
+    ctx.lineWidth = strokeW;
     ctx.lineJoin = 'round';
     ctx.strokeText(text, 0, 0);
 
@@ -3120,11 +3113,11 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.fillText(text, 0, 0);
 
   } else if(style === 'tryloxyRed'){
-    ctx.shadowColor = 'rgba(0,0,0,0.6)';
+    ctx.shadowColor = 'rgba(0,0,0,0.65)';
     ctx.shadowBlur = 24;
-    ctx.shadowOffsetY = 8;
+    ctx.shadowOffsetY = 6;
     ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = Math.floor(fSize * 0.22);
+    ctx.lineWidth = strokeW;
     ctx.lineJoin = 'round';
     ctx.strokeText(text, 0, 0);
 
@@ -3135,29 +3128,29 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.shadowColor = '#00f5ff';
     ctx.shadowBlur = 32;
     ctx.strokeStyle = '#041f35';
-    ctx.lineWidth = Math.floor(fSize * 0.20);
+    ctx.lineWidth = strokeW;
     ctx.lineJoin = 'round';
     ctx.strokeText(text, 0, 0);
 
     ctx.fillStyle = '#00f5ff';
     ctx.fillText(text, 0, 0);
 
-  } else if(style === 'cyberYellow'){
+  } else if(style === 'cyberYellow' || style === 'pureYellow'){
     ctx.shadowColor = '#ffd000';
     ctx.shadowBlur = 28;
     ctx.strokeStyle = '#181200';
-    ctx.lineWidth = Math.floor(fSize * 0.22);
+    ctx.lineWidth = strokeW;
     ctx.lineJoin = 'round';
     ctx.strokeText(text, 0, 0);
 
-    ctx.fillStyle = '#ffea00';
+    ctx.fillStyle = '#ffe600';
     ctx.fillText(text, 0, 0);
 
   } else if(style === 'infernoFire'){
     ctx.shadowColor = '#ff3300';
     ctx.shadowBlur = 30;
     ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = Math.floor(fSize * 0.20);
+    ctx.lineWidth = strokeW;
     ctx.lineJoin = 'round';
     ctx.strokeText(text, 0, 0);
 
@@ -3168,11 +3161,11 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.fillStyle = gFire;
     ctx.fillText(text, 0, 0);
 
-  } else if(style === 'monsterLime' || style === 'comicLime'){
-    ctx.shadowColor = 'rgba(42,255,132,0.8)';
-    ctx.shadowBlur = 24;
+  } else if(style === 'monsterLime' || style === 'comicLime' || style === 'toxicAcid'){
+    ctx.shadowColor = 'rgba(42,255,132,0.85)';
+    ctx.shadowBlur = 26;
     ctx.strokeStyle = '#052b12';
-    ctx.lineWidth = Math.floor(fSize * 0.20);
+    ctx.lineWidth = strokeW;
     ctx.lineJoin = 'round';
     ctx.strokeText(text, 0, 0);
 
@@ -3183,7 +3176,7 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.shadowColor = '#ff007f';
     ctx.shadowBlur = 28;
     ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = Math.floor(fSize * 0.20);
+    ctx.lineWidth = strokeW;
     ctx.lineJoin = 'round';
     ctx.strokeText(text, 0, 0);
 
@@ -3192,9 +3185,9 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
 
   } else if(style === 'synthViolet' || style === 'synthPurple'){
     ctx.shadowColor = '#a855f7';
-    ctx.shadowBlur = 26;
+    ctx.shadowBlur = 28;
     ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = Math.floor(fSize * 0.20);
+    ctx.lineWidth = strokeW;
     ctx.lineJoin = 'round';
     ctx.strokeText(text, 0, 0);
 
@@ -3205,7 +3198,7 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.shadowColor = '#ffffff';
     ctx.shadowBlur = 24;
     ctx.strokeStyle = '#2b0938';
-    ctx.lineWidth = Math.floor(fSize * 0.22);
+    ctx.lineWidth = strokeW;
     ctx.lineJoin = 'round';
     ctx.strokeText(text, 0, 0);
 
@@ -3217,11 +3210,96 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
     ctx.fillStyle = gCandy;
     ctx.fillText(text, 0, 0);
 
+  } else if(style === 'royalAmber' || style === 'sunsetTrophy'){
+    // 🌟 Rich Amber Bronze Gold
+    ctx.shadowColor = 'rgba(255,130,0,0.85)';
+    ctx.shadowBlur = 26;
+    ctx.strokeStyle = '#381600';
+    ctx.lineWidth = strokeW;
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    var gAmber = ctx.createLinearGradient(0, -fSize/2, 0, fSize/2);
+    gAmber.addColorStop(0, '#ffe8a3');
+    gAmber.addColorStop(0.5, '#ff9e00');
+    gAmber.addColorStop(1, '#d84a00');
+    ctx.fillStyle = gAmber;
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'iceFrost' || style === 'frozenFrost'){
+    // 🌟 Sub-Zero Frozen Ice Crystal
+    ctx.shadowColor = '#00f0ff';
+    ctx.shadowBlur = 32;
+    ctx.strokeStyle = '#052a42';
+    ctx.lineWidth = strokeW;
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    var gIce = ctx.createLinearGradient(0, -fSize/2, 0, fSize/2);
+    gIce.addColorStop(0, '#ffffff');
+    gIce.addColorStop(0.45, '#a5f3fc');
+    gIce.addColorStop(1, '#0284c7');
+    ctx.fillStyle = gIce;
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'stealthDark' || style === 'stealthCharcoal'){
+    // 🌟 Stealth Gunmetal Outline
+    ctx.shadowColor = 'rgba(0,0,0,0.95)';
+    ctx.shadowBlur = 28;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = strokeW;
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    ctx.fillStyle = '#1e293b';
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'laserCrimson' || style === 'laserRedWarning'){
+    // 🌟 Red Hazard Neon Alert
+    ctx.shadowColor = '#ff0033';
+    ctx.shadowBlur = 34;
+    ctx.strokeStyle = '#280006';
+    ctx.lineWidth = strokeW;
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    ctx.fillStyle = '#ff1744';
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'deepAmethyst'){
+    // 🌟 Faceted Amethyst Royal Glow
+    ctx.shadowColor = '#d946ef';
+    ctx.shadowBlur = 30;
+    ctx.strokeStyle = '#2e0854';
+    ctx.lineWidth = strokeW;
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    var gGem = ctx.createLinearGradient(0, -fSize/2, 0, fSize/2);
+    gGem.addColorStop(0, '#fae8ff');
+    gGem.addColorStop(0.5, '#c026d3');
+    gGem.addColorStop(1, '#701a75');
+    ctx.fillStyle = gGem;
+    ctx.fillText(text, 0, 0);
+
+  } else if(style === 'electricCyan'){
+    // 🌟 Deep Electric Blue Strike
+    ctx.shadowColor = '#0077ff';
+    ctx.shadowBlur = 30;
+    ctx.strokeStyle = '#021028';
+    ctx.lineWidth = strokeW;
+    ctx.lineJoin = 'round';
+    ctx.strokeText(text, 0, 0);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.fillText(text, 0, 0);
+
   } else {
+    // ⚪ Clean White with Crisp Dark Outline
     ctx.shadowColor = 'rgba(0,0,0,0.85)';
-    ctx.shadowBlur = 25;
+    ctx.shadowBlur = 24;
     ctx.strokeStyle = '#090d16';
-    ctx.lineWidth = Math.floor(fSize * 0.22);
+    ctx.lineWidth = strokeW;
     ctx.lineJoin = 'round';
     ctx.strokeText(text, 0, 0);
 
@@ -3232,7 +3310,6 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
   ctx.restore();
 }
 
-// DUAL-CHAIN TEXT SEQUENCER
 function drawDualChainIntroTexts(){
   var t1Start = 0.0;
   var t1Dur = Math.max(0.5, state.t1_duration || 2.2);
@@ -3391,12 +3468,13 @@ function drawRows(){
 
   activePads.sort(function(a, b){ return a.rawZ - b.rawZ; });
 
-  // 🌟 FIXED: सड़क पर सटीक ग्राउंडिंग (z=0.20 सड़क के अंदर दोनों पट्टियों के बीच)
+  // 🌟 100% FIXED: STABLE ABSOLUTE LOCKED BOSS (सड़क के छोर पर फिक्स, 5वें पैड तक 1mm भी नहीं हिलेगा)
   var initialBossZ = 0.20;
   var pad5CrossTime = initialDelay + 4 * state.padDelay + (pZ / (state.speed * 1.28 * TRACK_MOTION_SCALE));
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossZ = initialBossZ;
 
+  // केवल 5वां पैड पार होने के बाद ही वॉक आगे बढ़ेगा
   if (roadTime > pad5CrossTime) {
     var walkProgress = Math.min(1.0, (roadTime - pad5CrossTime) / bDist);
     bossZ = initialBossZ + (pZ - initialBossZ) * walkProgress;
@@ -3412,12 +3490,11 @@ function drawRows(){
     }
   });
 
-  // 🌟 FIXED: सड़क पर 3D ग्राउंड शैडो + परफेक्ट रोड अलाइनमेंट
+  // बॉस कैरेक्टर + सड़क की जमीन पर चिपकी हुई शैडो
   if(state.opponent.img){
     var op = roadBoundsAtZ(bossZ);
     var bossSize = lockedBossBase * (0.32 + 0.68 * op.e);
 
-    // 1. ज़मीन पर शैडो (Contact Shadow) ताकि हवा में न लगे
     ctx.save();
     ctx.fillStyle = 'rgba(0,0,0,0.38)';
     ctx.beginPath();
@@ -3425,7 +3502,6 @@ function drawRows(){
     ctx.fill();
     ctx.restore();
 
-    // 2. बॉस का कैरेक्टर सड़क की सतह पर
     drawImageFit(state.opponent.img, W/2, op.y + 4, bossSize, bossSize, 'bottom');
   }
 
@@ -3436,7 +3512,6 @@ function drawRows(){
     }
   });
 
-  // रनर
   drawRunnerBehind();
 
   // रनर के आगे वाले पैड्स
@@ -3501,6 +3576,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
+    localStorage.removeItem('runner_studio_saved_v29'); 
     localStorage.removeItem('runner_studio_saved_v28'); 
     localStorage.removeItem('runner_studio_saved_v27'); 
     localStorage.removeItem('runner_studio_saved_v26'); 
