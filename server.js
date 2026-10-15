@@ -187,7 +187,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> 100% Locked Boss Anchor + Smooth 60FPS Engine!</div>
+    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Ground Contact Shadow + Solid Continuous Highway!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -1065,7 +1065,7 @@ var $=function(id){ return document.getElementById(id); };
 
 var running=true, last=performance.now(), roadTime=0, recorder=null, rowCounter=0;
 var isScrubbing = false;
-var frameCount = 0; // 🌟 Throttle counter for DOM updates
+var frameCount = 0;
 
 var currentPath = 'base';
 var currentStageLevel = 0;
@@ -2199,6 +2199,8 @@ function drawPoly(pts, fill){
   ctx.fill();
 }
 function quad(a,b){return [[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]];}
+
+// 🌟 SOLID CONTINUOUS HIGHWAY: सड़क पहले से ही क्षितिज तक पूरी बिछी रहेगी
 function fillRoadBase(topColor,bottomColor){
   var top=roadBoundsAtZ(0), bottom=roadBoundsAtZ(1);
   var g=ctx.createLinearGradient(0,top.y,0,H);
@@ -3360,11 +3362,10 @@ function getActiveRunnerInfo(){
   return { img: curImg, size: curSize };
 }
 
-// 🌟 OPTIMIZED VFX POOL (NO MEMORY LEAKS)
 function triggerImpactVfx(isGreen, rx, ry){
   lastImpactType = isGreen ? 'green' : 'red';
   lastImpactTime = roadTime;
-  vfxParticles.length = 0; // Clear old garbage instantly
+  vfxParticles.length = 0;
 
   var count = isGreen ? 18 : 22;
   var spreadMul = state.vfxAuraSpread || 0.85;
@@ -3385,6 +3386,7 @@ function triggerImpactVfx(isGreen, rx, ry){
   }
 }
 
+// 🌟 DRAW RUNNER WITH REAL CONTACT GROUND SHADOW (जमीन से चिपका हुआ लुक)
 function drawRunnerBehind(){
   var rInfo = getActiveRunnerInfo();
   if(!rInfo.img) return;
@@ -3427,6 +3429,15 @@ function drawRunnerBehind(){
 
   ctx.save();
 
+  // 🌟 RUNNER CONTACT GROUND SHADOW: पैरों के नीचे ठोस 3D शैडो (ताकि हवा में न उड़े)
+  ctx.save();
+  ctx.fillStyle = 'rgba(0,0,0,0.48)';
+  ctx.beginPath();
+  ctx.ellipse(drawX, drawY + 2, finalW * 0.38, 9 + 14 * p.e, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // LIGHTNING VFX
   if(state.enableVfx && lastImpactType === 'green' && hitAge >= 0 && hitAge < 0.38){
     var auraProgress = hitAge / 0.38;
     var auraAlpha = Math.max(0, 1.0 - auraProgress);
@@ -3459,6 +3470,7 @@ function drawRunnerBehind(){
     ctx.restore();
   }
 
+  // Draw Runner Image
   drawImageFit(rInfo.img, drawX, drawY, finalW, finalH, 'bottom');
 
   ctx.restore();
@@ -3563,7 +3575,11 @@ function drawRows(){
       }
       
       var isGreen = (padHex.indexOf('2a') !== -1 || padHex.indexOf('00') !== -1 || padHex.indexOf('green') !== -1);
-      currentPath = isGreen ? 'green' : 'red';
+      if(isGreen){
+        currentPath = 'green';
+      } else {
+        currentPath = 'red';
+      }
       currentStageLevel = i + 1;
 
       var p = roadBoundsAtZ(pZ);
@@ -3651,7 +3667,7 @@ var FIXED_TIMESTEP = 1 / 60;
 
 function frame(now){
   var delta = (now - last) / 1000;
-  if(delta > 0.05) delta = FIXED_TIMESTEP; // Smooth lock
+  if(delta > 0.05) delta = FIXED_TIMESTEP;
   last = now;
 
   var pZ = state.playerZ || 0.86;
@@ -3662,7 +3678,6 @@ function frame(now){
   if(running && !isTouching && !isScrubbing){
     roadTime += delta;
     
-    // 🌟 PERFORMANCE FIX: Update DOM only every 6 frames (Smooth, no lag)
     frameCount++;
     if(frameCount % 6 === 0 && scrubber){
       scrubber.value = roadTime.toFixed(2);
