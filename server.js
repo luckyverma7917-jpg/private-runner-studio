@@ -131,6 +131,10 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .clear-btn{border:1px solid #ff4d4d77;background:#2b1216;color:#ff9e9e;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:bold;cursor:pointer;flex-shrink:0;transition:0.1s all}
 .clear-btn:hover{background:#45141c;color:#fff;border-color:var(--red)}
 
+.cutout-ctrl{display:flex;align-items:center;gap:8px;margin-top:4px;padding:4px 8px;background:#101318;border-radius:8px;border:1px solid #232832}
+.cutout-ctrl span{font-size:11px;color:var(--muted);white-space:nowrap}
+.cutout-ctrl input[type=range]{height:5px;flex:1}
+
 input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px solid var(--line);border-radius:8px;width:100%}
 .toggle{display:flex!important;align-items:center;gap:8px!important}
 .rowbar{padding:11px 13px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -187,7 +191,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Ground Contact Shadow + Solid Continuous Highway!</div>
+    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Ground Contact Shadow + Live Cutout Sensitivity!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -460,7 +464,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="hudImg_0" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_0">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="hudRemove_0" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="hudRemove_0" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="hudTol_0" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_hudTol_0">32</span>
+          </div>
         </label>
         <label>Box 2 PNG
           <div class="file-wrap">
@@ -468,7 +476,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="hudImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_1">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="hudRemove_1" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="hudRemove_1" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="hudTol_1" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_hudTol_1">32</span>
+          </div>
         </label>
         <label>Box 3 PNG
           <div class="file-wrap">
@@ -476,7 +488,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="hudImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_2">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="hudRemove_2" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="hudRemove_2" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="hudTol_2" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_hudTol_2">32</span>
+          </div>
         </label>
         <label>Box 4 PNG
           <div class="file-wrap">
@@ -484,7 +500,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_3">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="hudRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="hudRemove_3" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="hudTol_3" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_hudTol_3">32</span>
+          </div>
         </label>
         <label style="grid-column:1/-1">Box 5 PNG
           <div class="file-wrap">
@@ -492,7 +512,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="hudImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_hud_4">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="hudRemove_4" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="hudRemove_4" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="hudTol_4" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_hudTol_4">32</span>
+          </div>
         </label>
       </div>
     </details>
@@ -509,7 +533,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="pImg_0" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_pImg_0">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="pRemove_0" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="pRemove_0" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="pTol_0" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_pTol_0">32</span>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Stage 0 Base Size</span><span class="val-badge" id="v_pSize_0">215</span></span>
@@ -544,7 +572,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="gImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_1">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="gRemove_1" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="gRemove_1" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="gTol_1" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_gTol_1">32</span>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Green 1 Size</span><span class="val-badge" id="v_gSize_1">245</span></span>
@@ -561,7 +593,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="gImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_2">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="gRemove_2" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="gRemove_2" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="gTol_2" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_gTol_2">32</span>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Green 2 Size</span><span class="val-badge" id="v_gSize_2">285</span></span>
@@ -578,7 +614,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="gImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_3">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="gRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="gRemove_3" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="gTol_3" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_gTol_3">32</span>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">330</span></span>
@@ -595,7 +635,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="gImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_4">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="gRemove_4" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="gRemove_4" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="gTol_4" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_gTol_4">32</span>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Green 4 Size</span><span class="val-badge" id="v_gSize_4">380</span></span>
@@ -612,7 +656,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="gImg_5" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_gImg_5">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="gRemove_5" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="gRemove_5" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="gTol_5" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_gTol_5">32</span>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Green 5 Size</span><span class="val-badge" id="v_gSize_5">435</span></span>
@@ -630,7 +678,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="rImg_1" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_1">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="rRemove_1" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="rRemove_1" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="rTol_1" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_rTol_1">32</span>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Red 1 Size</span><span class="val-badge red" id="v_rSize_1">195</span></span>
@@ -647,7 +699,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="rImg_2" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_2">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="rRemove_2" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="rRemove_2" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="rTol_2" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_rTol_2">32</span>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Red 2 Size</span><span class="val-badge red" id="v_rSize_2">170</span></span>
@@ -664,7 +720,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="rImg_3" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_3">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="rRemove_3" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="rRemove_3" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="rTol_3" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_rTol_3">32</span>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Red 3 Size</span><span class="val-badge red" id="v_rSize_3">150</span></span>
@@ -681,7 +741,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="rImg_4" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_4">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="rRemove_4" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="rRemove_4" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="rTol_4" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_rTol_4">32</span>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Red 4 Size</span><span class="val-badge red" id="v_rSize_4">130</span></span>
@@ -698,7 +762,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <input id="rImg_5" type="file" accept="image/png,image/webp,image/jpeg">
             <button type="button" class="clear-btn" id="clear_rImg_5">✕ Clear</button>
           </div>
-          <div class="toggle"><input id="rRemove_5" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+          <div class="cutout-ctrl">
+            <input id="rRemove_5" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="rTol_5" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+            <span class="val-badge" id="v_rTol_5">32</span>
+          </div>
         </label>
         <label>
           <span class="label-head"><span>Red 5 Size</span><span class="val-badge red" id="v_rSize_5">110</span></span>
@@ -937,7 +1005,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
                 <input id="master_green_file" type="file" accept="image/png,image/webp,image/jpeg">
                 <button type="button" class="clear-btn" id="master_green_clear">✕ Clear</button>
               </div>
-              <div class="toggle"><input id="master_green_rm" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+              <div class="cutout-ctrl">
+                <input id="master_green_rm" type="checkbox" checked><span class="small">Auto Cut</span>
+                <input id="master_green_tol" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+                <span class="val-badge" id="v_master_green_tol">32</span>
+              </div>
             </div>
             <div style="background:#191d24;padding:9px;border-radius:9px;display:grid;gap:6px">
               <b style="font-size:11px;color:#ff4d4d">MASTER RED PADS PNG (All Red Pads)</b>
@@ -946,7 +1018,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
                 <input id="master_red_file" type="file" accept="image/png,image/webp,image/jpeg">
                 <button type="button" class="clear-btn" id="master_red_clear">✕ Clear</button>
               </div>
-              <div class="toggle"><input id="master_red_rm" type="checkbox" checked><span class="small">Auto remove bg</span></div>
+              <div class="cutout-ctrl">
+                <input id="master_red_rm" type="checkbox" checked><span class="small">Auto Cut</span>
+                <input id="master_red_tol" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+                <span class="val-badge" id="v_master_red_tol">32</span>
+              </div>
             </div>
           </div>
           <span class="small" style="color:var(--muted)">💡 फिक्स: अब ग्रीन वाली फोटो चाहे लेफ्ट हो या राइट, सिर्फ हरे पैड्स में ही लगेगी! लाल वाली सिर्फ लाल पैड्स में लगेगी।</span>
@@ -998,7 +1074,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <button type="button" class="clear-btn clear-left">✕ Clear</button>
           </div>
         </label>
-        <label class="toggle"><input class="leftRemove" type="checkbox" checked> Auto remove bg</label>
+        <div class="cutout-ctrl">
+          <input class="leftRemove" type="checkbox" checked><span class="small">Auto Cut</span>
+          <input class="leftTol" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+          <span class="val-badge leftTolVal">32</span>
+        </div>
         <label>
           <span class="label-head"><span>Size</span><span class="val-badge leftSizeVal">142</span></span>
           <div class="range-wrap">
@@ -1023,7 +1103,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <button type="button" class="clear-btn clear-right">✕ Clear</button>
           </div>
         </label>
-        <label class="toggle"><input class="rightRemove" type="checkbox" checked> Auto remove bg</label>
+        <div class="cutout-ctrl">
+          <input class="rightRemove" type="checkbox" checked><span class="small">Auto Cut</span>
+          <input class="rightTol" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+          <span class="val-badge rightTolVal">32</span>
+        </div>
         <label>
           <span class="label-head"><span>Size</span><span class="val-badge rightSizeVal">142</span></span>
           <div class="range-wrap">
@@ -1049,7 +1133,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <button type="button" class="clear-btn" id="clear_oppImg">✕ Clear</button>
         </div>
       </label>
-      <label class="toggle"><input class="oppRemove" type="checkbox" checked> Auto remove bg</label>
+      <div class="cutout-ctrl">
+        <input class="oppRemove" type="checkbox" checked><span class="small">Auto Cut</span>
+        <input id="oppTol" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+        <span class="val-badge" id="v_oppTol">32</span>
+      </div>
       <div class="small" style="color:var(--accent);margin-top:4px">⚡ Absolute Fixed Lock: 5वें पैड तक पीछे स्थिर, फिर 2.8s वॉक!</div>
     </div>
   </div>
@@ -1076,6 +1164,7 @@ var collectedTimes = [-999, -999, -999, -999, -999];
 var manualHudImgs = [null, null, null, null, null];
 var manualHudRaw = [null, null, null, null, null];
 var manualHudRemove = [true, true, true, true, true];
+var manualHudTol = [32, 32, 32, 32, 32];
 
 var lastImpactType = null;
 var lastImpactTime = -999;
@@ -1125,29 +1214,29 @@ var state={
   vfxAuraSpread: 0.85,
 
   steerOffset:-1.0,
-  baseStage: {img:null, raw:null, removeBg:true, size:215},
+  baseStage: {img:null, raw:null, removeBg:true, tol:32, size:215},
   greenStages:[
     null,
-    {img:null, raw:null, removeBg:true, size:245},
-    {img:null, raw:null, removeBg:true, size:285},
-    {img:null, raw:null, removeBg:true, size:330},
-    {img:null, raw:null, removeBg:true, size:380},
-    {img:null, raw:null, removeBg:true, size:435}
+    {img:null, raw:null, removeBg:true, tol:32, size:245},
+    {img:null, raw:null, removeBg:true, tol:32, size:285},
+    {img:null, raw:null, removeBg:true, tol:32, size:330},
+    {img:null, raw:null, removeBg:true, tol:32, size:380},
+    {img:null, raw:null, removeBg:true, tol:32, size:435}
   ],
   redStages:[
     null,
-    {img:null, raw:null, removeBg:true, size:195},
-    {img:null, raw:null, removeBg:true, size:170},
-    {img:null, raw:null, removeBg:true, size:150},
-    {img:null, raw:null, removeBg:true, size:130},
-    {img:null, raw:null, removeBg:true, size:110}
+    {img:null, raw:null, removeBg:true, tol:32, size:195},
+    {img:null, raw:null, removeBg:true, tol:32, size:170},
+    {img:null, raw:null, removeBg:true, tol:32, size:150},
+    {img:null, raw:null, removeBg:true, tol:32, size:130},
+    {img:null, raw:null, removeBg:true, tol:32, size:110}
   ],
   playerZ:0.86,
   playerLane:'slider',
   playerX:W/2,
   currentLane:'left',
   rows:[],
-  opponent:{src:null, img:null, removeBg:true, size:330}
+  opponent:{src:null, img:null, removeBg:true, tol:32, size:330}
 };
 
 var bgColors = {
@@ -1419,7 +1508,10 @@ function readFile(file){
     fr.readAsDataURL(file);
   });
 }
-function processImageDataUrl(dataUrl, removeBg){
+
+// 🌟 SMART CUTOUT ENGINE WITH DYNAMIC TOLERANCE
+function processImageDataUrl(dataUrl, removeBg, tolerance){
+  tolerance = (tolerance !== undefined) ? Number(tolerance) : 32;
   return new Promise(function(resolve,reject){
     var img=new Image();
     img.onload=function(){
@@ -1435,12 +1527,19 @@ function processImageDataUrl(dataUrl, removeBg){
       var sr=0,sg=0,sb=0;
       pts.forEach(function(pt){var rgb=sample(pt[0],pt[1]);sr+=rgb[0];sg+=rgb[1];sb+=rgb[2];});
       var br=sr/pts.length,bg=sg/pts.length,bb=sb/pts.length;
+      
+      var tol1 = tolerance;
+      var tol2 = tolerance * 1.45;
+
       for(var i=0;i<d.length;i+=4){
         var dr=d[i]-br,dg=d[i+1]-bg,db=d[i+2]-bb;
         var dist=Math.sqrt(dr*dr+dg*dg+db*db);
         var bright=(d[i]+d[i+1]+d[i+2])/3;
-        if(dist<28 || bright>248){d[i+3]=0;}
-        else if(dist<42){d[i+3]=Math.min(d[i+3],110);}
+        if(dist < tol1 || bright > (255 - tolerance*0.35)){
+          d[i+3]=0;
+        } else if(dist < tol2){
+          d[i+3]=Math.min(d[i+3], 110);
+        }
       }
       cx.putImageData(id,0,0);
       resolve(c.toDataURL('image/png'));
@@ -1449,8 +1548,8 @@ function processImageDataUrl(dataUrl, removeBg){
     img.src=dataUrl;
   });
 }
-function dataToProcessedImage(src, removeBg){
-  return processImageDataUrl(src, removeBg).then(function(cleanSrc){
+function dataToProcessedImage(src, removeBg, tolerance){
+  return processImageDataUrl(src, removeBg, tolerance).then(function(cleanSrc){
     return new Promise(function(res, rej){
       var im = new Image();
       im.onload = function(){ res(im); };
@@ -1508,10 +1607,11 @@ for(var h=0; h<5; h++){
     var clr = $('clear_hud_' + bIdx);
     var box = $('thumb_hud_' + bIdx);
     var chk = $('hudRemove_' + bIdx);
+    var tolInp = $('hudTol_' + bIdx);
 
     function reprocessHud(){
       if(!manualHudRaw[bIdx]){ manualHudImgs[bIdx]=null; updateThumbBox(box, null); return; }
-      dataToProcessedImage(manualHudRaw[bIdx], manualHudRemove[bIdx]).then(function(im){
+      dataToProcessedImage(manualHudRaw[bIdx], manualHudRemove[bIdx], manualHudTol[bIdx]).then(function(im){
         manualHudImgs[bIdx] = im;
         updateThumbBox(box, im.src);
       });
@@ -1520,6 +1620,13 @@ for(var h=0; h<5; h++){
     if(chk){
       chk.onchange = function(e){
         manualHudRemove[bIdx] = e.target.checked;
+        reprocessHud();
+      };
+    }
+    if(tolInp){
+      tolInp.oninput = function(e){
+        manualHudTol[bIdx] = Number(e.target.value);
+        updateBadge('hudTol_' + bIdx, e.target.value);
         reprocessHud();
       };
     }
@@ -1573,7 +1680,19 @@ if($('pRemove_0')){
   $('pRemove_0').onchange = function(e){
     state.baseStage.removeBg = e.target.checked;
     if(state.baseStage.raw){
-      dataToProcessedImage(state.baseStage.raw, state.baseStage.removeBg).then(function(im){
+      dataToProcessedImage(state.baseStage.raw, state.baseStage.removeBg, state.baseStage.tol).then(function(im){
+        state.baseStage.img = im;
+        updateThumbBox($('thumb_pImg_0'), im.src);
+      });
+    }
+  };
+}
+if($('pTol_0')){
+  $('pTol_0').oninput = function(e){
+    state.baseStage.tol = Number(e.target.value);
+    updateBadge('pTol_0', e.target.value);
+    if(state.baseStage.raw){
+      dataToProcessedImage(state.baseStage.raw, state.baseStage.removeBg, state.baseStage.tol).then(function(im){
         state.baseStage.img = im;
         updateThumbBox($('thumb_pImg_0'), im.src);
       });
@@ -1585,7 +1704,7 @@ if($('pImg_0')){
     var f=e.target.files[0]; if(!f) return;
     readFile(f).then(function(src){
       state.baseStage.raw = src;
-      dataToProcessedImage(src, state.baseStage.removeBg).then(function(im){
+      dataToProcessedImage(src, state.baseStage.removeBg, state.baseStage.tol).then(function(im){
         state.baseStage.img = im;
         updateThumbBox($('thumb_pImg_0'), im.src);
       });
@@ -1614,7 +1733,19 @@ for(var k=1; k<=5; k++){
       $('gRemove_' + idx).onchange = function(e){
         state.greenStages[idx].removeBg = e.target.checked;
         if(state.greenStages[idx].raw){
-          dataToProcessedImage(state.greenStages[idx].raw, state.greenStages[idx].removeBg).then(function(im){
+          dataToProcessedImage(state.greenStages[idx].raw, state.greenStages[idx].removeBg, state.greenStages[idx].tol).then(function(im){
+            state.greenStages[idx].img = im;
+            updateThumbBox($('thumb_gImg_' + idx), im.src);
+          });
+        }
+      };
+    }
+    if($('gTol_' + idx)){
+      $('gTol_' + idx).oninput = function(e){
+        state.greenStages[idx].tol = Number(e.target.value);
+        updateBadge('gTol_' + idx, e.target.value);
+        if(state.greenStages[idx].raw){
+          dataToProcessedImage(state.greenStages[idx].raw, state.greenStages[idx].removeBg, state.greenStages[idx].tol).then(function(im){
             state.greenStages[idx].img = im;
             updateThumbBox($('thumb_gImg_' + idx), im.src);
           });
@@ -1626,7 +1757,7 @@ for(var k=1; k<=5; k++){
         var f=e.target.files[0]; if(!f) return;
         readFile(f).then(function(src){
           state.greenStages[idx].raw = src;
-          dataToProcessedImage(src, state.greenStages[idx].removeBg).then(function(im){
+          dataToProcessedImage(src, state.greenStages[idx].removeBg, state.greenStages[idx].tol).then(function(im){
             state.greenStages[idx].img = im;
             updateThumbBox($('thumb_gImg_' + idx), im.src);
           });
@@ -1652,7 +1783,19 @@ for(var k=1; k<=5; k++){
       $('rRemove_' + idx).onchange = function(e){
         state.redStages[idx].removeBg = e.target.checked;
         if(state.redStages[idx].raw){
-          dataToProcessedImage(state.redStages[idx].raw, state.redStages[idx].removeBg).then(function(im){
+          dataToProcessedImage(state.redStages[idx].raw, state.redStages[idx].removeBg, state.redStages[idx].tol).then(function(im){
+            state.redStages[idx].img = im;
+            updateThumbBox($('thumb_rImg_' + idx), im.src);
+          });
+        }
+      };
+    }
+    if($('rTol_' + idx)){
+      $('rTol_' + idx).oninput = function(e){
+        state.redStages[idx].tol = Number(e.target.value);
+        updateBadge('rTol_' + idx, e.target.value);
+        if(state.redStages[idx].raw){
+          dataToProcessedImage(state.redStages[idx].raw, state.redStages[idx].removeBg, state.redStages[idx].tol).then(function(im){
             state.redStages[idx].img = im;
             updateThumbBox($('thumb_rImg_' + idx), im.src);
           });
@@ -1664,7 +1807,7 @@ for(var k=1; k<=5; k++){
         var f=e.target.files[0]; if(!f) return;
         readFile(f).then(function(src){
           state.redStages[idx].raw = src;
-          dataToProcessedImage(src, state.redStages[idx].removeBg).then(function(im){
+          dataToProcessedImage(src, state.redStages[idx].removeBg, state.redStages[idx].tol).then(function(im){
             state.redStages[idx].img = im;
             updateThumbBox($('thumb_rImg_' + idx), im.src);
           });
@@ -1733,7 +1876,9 @@ function addRow(saved){
     leftImg: null, 
     rightImg: null,
     leftRemove: saved.leftRemove!==false, 
-    rightRemove: saved.rightRemove!==false
+    rightRemove: saved.rightRemove!==false,
+    leftTol: Number(saved.leftTol) || 32,
+    rightTol: Number(saved.rightTol) || 32
   };
   state.rows.push(row);
   var el=$('rowTemplate').content.firstElementChild.cloneNode(true);
@@ -1760,6 +1905,11 @@ function addRow(saved){
   var thumbLeft = el.querySelector('.thumb-left');
   var thumbRight = el.querySelector('.thumb-right');
 
+  var leftTolInp = el.querySelector('.leftTol');
+  var rightTolInp = el.querySelector('.rightTol');
+  var leftTolVal = el.querySelector('.leftTolVal');
+  var rightTolVal = el.querySelector('.rightTolVal');
+
   leftColorInput.value=row.leftColor;
   rightColorInput.value=row.rightColor;
   if(leftColorVal) leftColorVal.textContent=row.leftColor;
@@ -1769,6 +1919,11 @@ function addRow(saved){
   rightSizeInput.value=row.rightSize;
   if(leftSizeVal) leftSizeVal.textContent=row.leftSize;
   if(rightSizeVal) rightSizeVal.textContent=row.rightSize;
+
+  leftTolInp.value = row.leftTol;
+  rightTolInp.value = row.rightTol;
+  if(leftTolVal) leftTolVal.textContent = row.leftTol;
+  if(rightTolVal) rightTolVal.textContent = row.rightTol;
 
   stepLeftMinus.onclick = function(){ stepSlider(leftSizeInput, -1); };
   stepLeftPlus.onclick = function(){ stepSlider(leftSizeInput, 1); };
@@ -1790,6 +1945,28 @@ function addRow(saved){
 
   el.querySelector('.leftRemove').checked=row.leftRemove;
   el.querySelector('.rightRemove').checked=row.rightRemove;
+
+  leftTolInp.oninput = function(e){
+    row.leftTol = Number(e.target.value);
+    if(leftTolVal) leftTolVal.textContent = e.target.value;
+    if(row.leftSrc){
+      dataToProcessedImage(row.leftSrc, row.leftRemove, row.leftTol).then(function(im){
+        row.leftImg = im;
+        updateThumbBox(thumbLeft, im.src);
+      });
+    }
+  };
+
+  rightTolInp.oninput = function(e){
+    row.rightTol = Number(e.target.value);
+    if(rightTolVal) rightTolVal.textContent = e.target.value;
+    if(row.rightSrc){
+      dataToProcessedImage(row.rightSrc, row.rightRemove, row.rightTol).then(function(im){
+        row.rightImg = im;
+        updateThumbBox(thumbRight, im.src);
+      });
+    }
+  };
 
   leftColorInput.oninput=function(e){
     row.leftColor=e.target.value;
@@ -1816,7 +1993,7 @@ function addRow(saved){
     row.leftRemove=e.target.checked; 
     autoSaveStudio(); 
     if(row.leftSrc){
-      dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){
+      dataToProcessedImage(row.leftSrc, row.leftRemove, row.leftTol).then(function(im){
         row.leftImg=im;
         updateThumbBox(thumbLeft, im.src);
       });
@@ -1826,7 +2003,7 @@ function addRow(saved){
     row.rightRemove=e.target.checked; 
     autoSaveStudio(); 
     if(row.rightSrc){
-      dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){
+      dataToProcessedImage(row.rightSrc, row.rightRemove, row.rightTol).then(function(im){
         row.rightImg=im;
         updateThumbBox(thumbRight, im.src);
       });
@@ -1836,7 +2013,7 @@ function addRow(saved){
     var f=e.target.files[0];if(!f)return;
     readFile(f).then(function(src){
       row.leftSrc=src;
-      dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){
+      dataToProcessedImage(row.leftSrc, row.leftRemove, row.leftTol).then(function(im){
         row.leftImg=im;
         updateThumbBox(thumbLeft, im.src);
       });
@@ -1846,7 +2023,7 @@ function addRow(saved){
     var f=e.target.files[0];if(!f)return;
     readFile(f).then(function(src){
       row.rightSrc=src;
-      dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){
+      dataToProcessedImage(row.rightSrc, row.rightRemove, row.rightTol).then(function(im){
         row.rightImg=im;
         updateThumbBox(thumbRight, im.src);
       });
@@ -1854,8 +2031,8 @@ function addRow(saved){
   };
   
   $('rows').appendChild(el);
-  if(row.leftSrc) dataToProcessedImage(row.leftSrc,row.leftRemove).then(function(im){ row.leftImg=im; updateThumbBox(thumbLeft, im.src); });
-  if(row.rightSrc) dataToProcessedImage(row.rightSrc,row.rightRemove).then(function(im){ row.rightImg=im; updateThumbBox(thumbRight, im.src); });
+  if(row.leftSrc) dataToProcessedImage(row.leftSrc, row.leftRemove, row.leftTol).then(function(im){ row.leftImg=im; updateThumbBox(thumbLeft, im.src); });
+  if(row.rightSrc) dataToProcessedImage(row.rightSrc, row.rightRemove, row.rightTol).then(function(im){ row.rightImg=im; updateThumbBox(thumbRight, im.src); });
 }
 
 function setupMasterBatchUploaders(){
@@ -1863,18 +2040,20 @@ function setupMasterBatchUploaders(){
   var mGreenClr = $('master_green_clear');
   var mGreenBox = $('thumb_master_green');
   var mGreenRm = $('master_green_rm');
+  var mGreenTol = $('master_green_tol');
 
   var mRedInp = $('master_red_file');
   var mRedClr = $('master_red_clear');
   var mRedBox = $('thumb_master_red');
   var mRedRm = $('master_red_rm');
+  var mRedTol = $('master_red_tol');
 
   function isGreenPad(hex){
     var h = (hex || '').toLowerCase();
     return h.indexOf('2a') !== -1 || h.indexOf('00') !== -1 || h.indexOf('green') !== -1;
   }
 
-  function applyMasterGreen(src, removeBg){
+  function applyMasterGreen(src, removeBg, tol){
     updateThumbBox(mGreenBox, src);
     if(!src){
       state.rows.forEach(function(r, idx){
@@ -1889,7 +2068,7 @@ function setupMasterBatchUploaders(){
       });
       return;
     }
-    dataToProcessedImage(src, removeBg).then(function(im){
+    dataToProcessedImage(src, removeBg, tol).then(function(im){
       state.rows.forEach(function(r, idx){
         var isLeftGreen = isGreenPad(r.leftColor);
         var rEl = document.querySelectorAll('.row')[idx];
@@ -1897,16 +2076,22 @@ function setupMasterBatchUploaders(){
           r.leftSrc = src;
           r.leftImg = im;
           r.leftRemove = removeBg;
+          r.leftTol = tol;
           if(rEl){
             rEl.querySelector('.leftRemove').checked = removeBg;
+            rEl.querySelector('.leftTol').value = tol;
+            rEl.querySelector('.leftTolVal').textContent = tol;
             updateThumbBox(rEl.querySelector('.thumb-left'), im.src);
           }
         } else {
           r.rightSrc = src;
           r.rightImg = im;
           r.rightRemove = removeBg;
+          r.rightTol = tol;
           if(rEl){
             rEl.querySelector('.rightRemove').checked = removeBg;
+            rEl.querySelector('.rightTol').value = tol;
+            rEl.querySelector('.rightTolVal').textContent = tol;
             updateThumbBox(rEl.querySelector('.thumb-right'), im.src);
           }
         }
@@ -1915,7 +2100,7 @@ function setupMasterBatchUploaders(){
     });
   }
 
-  function applyMasterRed(src, removeBg){
+  function applyMasterRed(src, removeBg, tol){
     updateThumbBox(mRedBox, src);
     if(!src){
       state.rows.forEach(function(r, idx){
@@ -1930,7 +2115,7 @@ function setupMasterBatchUploaders(){
       });
       return;
     }
-    dataToProcessedImage(src, removeBg).then(function(im){
+    dataToProcessedImage(src, removeBg, tol).then(function(im){
       state.rows.forEach(function(r, idx){
         var isLeftRed = !isGreenPad(r.leftColor);
         var rEl = document.querySelectorAll('.row')[idx];
@@ -1938,16 +2123,22 @@ function setupMasterBatchUploaders(){
           r.leftSrc = src;
           r.leftImg = im;
           r.leftRemove = removeBg;
+          r.leftTol = tol;
           if(rEl){
             rEl.querySelector('.leftRemove').checked = removeBg;
+            rEl.querySelector('.leftTol').value = tol;
+            rEl.querySelector('.leftTolVal').textContent = tol;
             updateThumbBox(rEl.querySelector('.thumb-left'), im.src);
           }
         } else {
           r.rightSrc = src;
           r.rightImg = im;
           r.rightRemove = removeBg;
+          r.rightTol = tol;
           if(rEl){
             rEl.querySelector('.rightRemove').checked = removeBg;
+            rEl.querySelector('.rightTol').value = tol;
+            rEl.querySelector('.rightTolVal').textContent = tol;
             updateThumbBox(rEl.querySelector('.thumb-right'), im.src);
           }
         }
@@ -1964,20 +2155,26 @@ function setupMasterBatchUploaders(){
       var f = e.target.files[0]; if(!f) return;
       readFile(f).then(function(src){
         curMasterGreenSrc = src;
-        applyMasterGreen(src, mGreenRm.checked);
+        applyMasterGreen(src, mGreenRm.checked, Number(mGreenTol.value));
       });
+    };
+  }
+  if(mGreenTol){
+    mGreenTol.oninput = function(e){
+      updateBadge('master_green_tol', e.target.value);
+      if(curMasterGreenSrc) applyMasterGreen(curMasterGreenSrc, mGreenRm.checked, Number(e.target.value));
     };
   }
   if(mGreenRm){
     mGreenRm.onchange = function(){
-      if(curMasterGreenSrc) applyMasterGreen(curMasterGreenSrc, mGreenRm.checked);
+      if(curMasterGreenSrc) applyMasterGreen(curMasterGreenSrc, mGreenRm.checked, Number(mGreenTol.value));
     };
   }
   if(mGreenClr){
     mGreenClr.onclick = function(){
       if(mGreenInp) mGreenInp.value = '';
       curMasterGreenSrc = null;
-      applyMasterGreen(null, true);
+      applyMasterGreen(null, true, 32);
     };
   }
 
@@ -1986,20 +2183,26 @@ function setupMasterBatchUploaders(){
       var f = e.target.files[0]; if(!f) return;
       readFile(f).then(function(src){
         curMasterRedSrc = src;
-        applyMasterRed(src, mRedRm.checked);
+        applyMasterRed(src, mRedRm.checked, Number(mRedTol.value));
       });
+    };
+  }
+  if(mRedTol){
+    mRedTol.oninput = function(e){
+      updateBadge('master_red_tol', e.target.value);
+      if(curMasterRedSrc) applyMasterRed(curMasterRedSrc, mRedRm.checked, Number(e.target.value));
     };
   }
   if(mRedRm){
     mRedRm.onchange = function(){
-      if(curMasterRedSrc) applyMasterRed(curMasterRedSrc, mRedRm.checked);
+      if(curMasterRedSrc) applyMasterRed(curMasterRedSrc, mRedRm.checked, Number(mRedTol.value));
     };
   }
   if(mRedClr){
     mRedClr.onclick = function(){
       if(mRedInp) mRedInp.value = '';
       curMasterRedSrc = null;
-      applyMasterRed(null, true);
+      applyMasterRed(null, true, 32);
     };
   }
 }
@@ -2131,17 +2334,31 @@ function initRows(){
     state.opponent.removeBg=e.target.checked; 
     autoSaveStudio(); 
     if(state.opponent.src){
-      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){
+      dataToProcessedImage(state.opponent.src, state.opponent.removeBg, state.opponent.tol).then(function(im){
         state.opponent.img=im;
         updateThumbBox($('thumb_oppImg'), im.src);
       });
     }
   };
+  var oppTolInp = oppEl.querySelector('#oppTol');
+  if(oppTolInp){
+    oppTolInp.oninput = function(e){
+      state.opponent.tol = Number(e.target.value);
+      updateBadge('oppTol', e.target.value);
+      if(state.opponent.src){
+        dataToProcessedImage(state.opponent.src, state.opponent.removeBg, state.opponent.tol).then(function(im){
+          state.opponent.img=im;
+          updateThumbBox($('thumb_oppImg'), im.src);
+        });
+      }
+    };
+  }
+
   oppEl.querySelector('.oppInput').onchange=function(e){
     var f=e.target.files[0];if(!f)return;
     readFile(f).then(function(src){
       state.opponent.src=src;
-      dataToProcessedImage(state.opponent.src,state.opponent.removeBg).then(function(im){
+      dataToProcessedImage(state.opponent.src, state.opponent.removeBg, state.opponent.tol).then(function(im){
         state.opponent.img=im;
         updateThumbBox($('thumb_oppImg'), im.src);
       });
@@ -2200,7 +2417,6 @@ function drawPoly(pts, fill){
 }
 function quad(a,b){return [[a.l,a.y],[a.r,a.y],[b.r,b.y],[b.l,b.y]];}
 
-// 🌟 SOLID CONTINUOUS HIGHWAY: सड़क पहले से ही क्षितिज तक पूरी बिछी रहेगी
 function fillRoadBase(topColor,bottomColor){
   var top=roadBoundsAtZ(0), bottom=roadBoundsAtZ(1);
   var g=ctx.createLinearGradient(0,top.y,0,H);
@@ -3386,7 +3602,6 @@ function triggerImpactVfx(isGreen, rx, ry){
   }
 }
 
-// 🌟 DRAW RUNNER WITH REAL CONTACT GROUND SHADOW (जमीन से चिपका हुआ लुक)
 function drawRunnerBehind(){
   var rInfo = getActiveRunnerInfo();
   if(!rInfo.img) return;
@@ -3429,7 +3644,7 @@ function drawRunnerBehind(){
 
   ctx.save();
 
-  // 🌟 RUNNER CONTACT GROUND SHADOW: पैरों के नीचे ठोस 3D शैडो (ताकि हवा में न उड़े)
+  // 🌟 RUNNER CONTACT GROUND SHADOW (सड़क से चिपका हुआ लुक)
   ctx.save();
   ctx.fillStyle = 'rgba(0,0,0,0.48)';
   ctx.beginPath();
