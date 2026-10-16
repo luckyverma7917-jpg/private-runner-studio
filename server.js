@@ -191,7 +191,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Parallel Straight Highway + Pre-Spawned Static Pads!</div>
+    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Ground Contact Shadow + Live Cutout Sensitivity!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -681,7 +681,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_1" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_1" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge red" id="v_rTol_1">32</span>
+            <span class="val-badge" id="v_rTol_1">32</span>
           </div>
         </label>
         <label>
@@ -702,7 +702,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_2" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_2" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge red" id="v_rTol_2">32</span>
+            <span class="val-badge" id="v_rTol_2">32</span>
           </div>
         </label>
         <label>
@@ -723,7 +723,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_3" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_3" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge red" id="v_rTol_3">32</span>
+            <span class="val-badge" id="v_rTol_3">32</span>
           </div>
         </label>
         <label>
@@ -744,7 +744,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_4" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_4" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge red" id="v_rTol_4">32</span>
+            <span class="val-badge" id="v_rTol_4">32</span>
           </div>
         </label>
         <label>
@@ -765,7 +765,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_5" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_5" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge red" id="v_rTol_5">32</span>
+            <span class="val-badge" id="v_rTol_5">32</span>
           </div>
         </label>
         <label>
@@ -802,10 +802,10 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Top Width (सीधा समानांतर ट्रैक)</span><span class="val-badge" id="v_topWidth">0.35</span></span>
+          <span class="label-head"><span>Top Width (सीधी सड़क की चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.17</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="-1">◀</button>
-            <input id="topWidth" type="range" min="0.10" max="0.95" step="0.01" value="0.35">
+            <input id="topWidth" type="range" min="0.04" max="0.35" step="0.005" value="0.17">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="1">▶</button>
           </div>
         </label>
@@ -826,10 +826,10 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Pad Spacing (पैड्स का गैप)</span><span class="val-badge" id="v_padDelay">0.32</span></span>
+          <span class="label-head"><span>Pad delay</span><span class="val-badge" id="v_padDelay">2.40</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="padDelay" data-dir="-1">◀</button>
-            <input id="padDelay" type="range" min="0.15" max="0.60" step="0.01" value="0.32">
+            <input id="padDelay" type="range" min="1.10" max="3.50" step="0.05" value="2.40">
             <button type="button" class="step-btn" data-step-for="padDelay" data-dir="1">▶</button>
           </div>
         </label>
@@ -1173,10 +1173,10 @@ var vfxParticles = [];
 var state={
   speed:0.24,
   horizon:0.42,
-  topWidth:0.35,
+  topWidth:0.17,
   bottomWidth:0.98,
   camHeight:0.95,
-  padDelay:0.32,
+  padDelay:2.40,
   padThickness:22,
   bossDistance:2.8,
   roadVariant:'classic',
@@ -1509,6 +1509,7 @@ function readFile(file){
   });
 }
 
+// 🌟 SMART CUTOUT ENGINE WITH DYNAMIC TOLERANCE
 function processImageDataUrl(dataUrl, removeBg, tolerance){
   tolerance = (tolerance !== undefined) ? Number(tolerance) : 32;
   return new Promise(function(resolve,reject){
@@ -2384,7 +2385,6 @@ var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
 var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
-// 🌟 MATH FIX: Top Width अब केवल दूर की चौड़ाई नहीं, बल्कि पूरी सड़क के सीधेपन (Parallelism) को कंट्रोल करेगी
 function roadBoundsAtZ(z){
   var t = Math.max(0, z);
   var camH = Math.max(0.2, state.camHeight || 0.95);
@@ -2392,24 +2392,20 @@ function roadBoundsAtZ(z){
   var dynamicHorizon = H * (state.horizon || 0.42) + (1.0 - camH) * (H * 0.12);
   var dynamicHorizonY = Math.max(H * 0.15, Math.min(H * 0.75, dynamicHorizon));
 
-  var baseHalf = W * (state.bottomWidth || 0.98);
-  var straightFactor = Math.max(0.1, state.topWidth || 0.35);
+  var TOP_HALF = W * (state.topWidth || 0.17);
+  var BOTTOM_HALF = W * (state.bottomWidth || 0.98);
 
-  var zDistance = Math.max(0.01, (1.0 - t) * (14.0 / camH) + 0.70);
+  var zDistance = Math.max(0.01, (1.0 - t) * (11.0 / camH) + 0.85);
   var scale = 1.0 / zDistance;
-  var minScale = 1.0 / ((14.0 / camH) + 0.70);
-  var maxScale = 1.0 / 0.70;
+  var minScale = 1.0 / ((11.0 / camH) + 0.85);
+  var maxScale = 1.0 / 0.85;
   var depth = (scale - minScale) / (maxScale - minScale);
 
   var y = dynamicHorizonY + (H - dynamicHorizonY) * depth;
-  
-  // आगे जाकर ट्रायंगल न बने, बल्कि सीधी समानांतर लाइन में रहे
-  var minWidth = baseHalf * straightFactor;
-  var half = minWidth + (baseHalf - minWidth) * Math.pow(depth, 0.75);
+  var half = TOP_HALF + (BOTTOM_HALF - TOP_HALF) * depth;
 
   return {e:depth, y:y, l:W/2-half, r:W/2+half, half:half};
 }
-
 function lerp(a,b,t){return a+(b-a)*t;}
 function drawPoly(pts, fill){
   ctx.beginPath();
@@ -3648,7 +3644,7 @@ function drawRunnerBehind(){
 
   ctx.save();
 
-  // 🌟 RUNNER CONTACT GROUND SHADOW (सड़क से चिपका हुआ 3D लुक)
+  // 🌟 RUNNER CONTACT GROUND SHADOW (सड़क से चिपका हुआ लुक)
   ctx.save();
   ctx.fillStyle = 'rgba(0,0,0,0.48)';
   ctx.beginPath();
@@ -3727,14 +3723,6 @@ function updateAndDrawVfx(delta){
   }
 }
 
-// 🌟 PRE-SPAWNED STATIC PADS: पाँचों पैड्स पहले से ही सड़क पर अपनी निश्चित दूरी पर जमे हुए हैं
-function getPadZ(index){
-  var padBaseSpacing = state.padDelay || 0.32;
-  var initialZ = 0.86 - (index * padBaseSpacing);
-  var forwardDistance = roadTime * state.speed * 1.28 * TRACK_MOTION_SCALE;
-  return initialZ + forwardDistance;
-}
-
 function syncStateFromTime(t){
   roadTime = Math.max(0, t);
   processedPads = {};
@@ -3744,10 +3732,12 @@ function syncStateFromTime(t){
   currentStageLevel = 0;
   vfxParticles = [];
   
+  var initialDelay = 0.85;
   var pZ = state.playerZ || 0.86;
   
   state.rows.slice(0,5).forEach(function(row, i){
-    var z = getPadZ(i);
+    var elapsed = roadTime - initialDelay - i * state.padDelay;
+    var z = elapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
     if(z >= pZ - 0.02){
       processedPads[i] = true;
       var isPlayerOnRight = (state.steerOffset > 0);
@@ -3775,6 +3765,7 @@ function drawSinglePadRow(item){
 }
 
 function drawRows(){
+  var initialDelay=.85;
   var closestActiveZ = -1;
   var activeLaneColor = '#2aff84';
   var pZ = state.playerZ || 0.86;
@@ -3782,9 +3773,10 @@ function drawRows(){
   var activePads = [];
 
   state.rows.slice(0,5).forEach(function(row,i){
-    var z = getPadZ(i);
-    if(z < -0.1 || z > 1.25) return;
-    var zz = z;
+    var elapsed=roadTime-initialDelay-i*state.padDelay;
+    var z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
+    if(z<0 || z>1.15) return;
+    var zz=z;
 
     if(zz >= pZ - 0.02 && !processedPads[i]){
       processedPads[i] = true;
@@ -3824,11 +3816,9 @@ function drawRows(){
 
   activePads.sort(function(a, b){ return a.rawZ - b.rawZ; });
 
-  // 🌟 ABSOLUTE FIXED LOCKED ANCHOR: 5वें पैड तक पीछे स्थिर, फिर स्मूथ वॉक
+  // 🌟 ABSOLUTE FIXED LOCKED ANCHOR: 5वें पैड तक 1mm भी नहीं हिलेगा
   var initialBossZ = 0.08;
-  var padBaseSpacing = state.padDelay || 0.32;
-  var pad5InitialZ = 0.86 - (4 * padBaseSpacing);
-  var pad5CrossTime = Math.max(0, (pZ - pad5InitialZ) / (state.speed * 1.28 * TRACK_MOTION_SCALE));
+  var pad5CrossTime = initialDelay + 4 * state.padDelay + (pZ / (state.speed * 1.28 * TRACK_MOTION_SCALE));
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossZ = initialBossZ;
 
@@ -3896,9 +3886,7 @@ function frame(now){
   last = now;
 
   var pZ = state.playerZ || 0.86;
-  var padBaseSpacing = state.padDelay || 0.32;
-  var pad5InitialZ = 0.86 - (4 * padBaseSpacing);
-  var pad5CrossTime = Math.max(0, (pZ - pad5InitialZ) / (state.speed * 1.28 * TRACK_MOTION_SCALE));
+  var pad5CrossTime = 0.85 + 4 * state.padDelay + (pZ / (state.speed * 1.28 * TRACK_MOTION_SCALE));
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var isTouching = processedPads[4] && roadTime >= (pad5CrossTime + bDist);
 
