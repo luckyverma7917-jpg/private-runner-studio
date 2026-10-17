@@ -90,6 +90,8 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .val-badge.red{color:var(--red)}
 .val-badge.gold{color:var(--gold)}
 
+.unique-ctrl{grid-column:1/-1;background:linear-gradient(135deg,#13281d,#18212e);border:1.5px solid var(--accent);border-radius:12px;padding:10px 12px;box-shadow:0 0 15px rgba(97,240,166,0.15)}
+
 .range-wrap{display:flex;align-items:center;gap:6px;width:100%}
 .range-wrap input[type=range]{
   flex:1;
@@ -191,7 +193,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Ground Contact Shadow + Live Cutout Sensitivity!</div>
+    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Ground Stick Controller + Custom Y-Align!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -548,6 +550,22 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
 
+        <!-- 🌟 UNIQUE GROUND STICK CONTROLLER (जमीन से चिपकाने वाला मास्टर स्लाइडर) -->
+        <div class="unique-ctrl">
+          <label>
+            <div class="label-head">
+              <span style="font-weight:900;color:var(--accent);font-size:13px">⚡ Ground Stick / Y-Offset (जमीन से चिपकाएँ)</span>
+              <span class="val-badge gold" id="v_playerYOffset">+0px</span>
+            </div>
+            <div class="range-wrap">
+              <button type="button" class="step-btn" data-step-for="playerYOffset" data-dir="-2">◀</button>
+              <input id="playerYOffset" type="range" min="-180" max="180" step="2" value="0">
+              <button type="button" class="step-btn" data-step-for="playerYOffset" data-dir="2">▶</button>
+            </div>
+            <span class="small" style="color:#a6b4c9">💡 छोटी PNG हवा में उड़े तो स्लाइडर को <b>Left (Minus)</b> खिसकाएं, कैरेक्टर ज़मीन और शैडो से चिपक जाएगा!</span>
+          </label>
+        </div>
+
         <label>Runner Lane Mode
           <select id="playerLane">
             <option value="slider" selected>Manual Live Slider (Fastest)</option>
@@ -681,7 +699,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_1" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_1" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_rTol_1">32</span>
+            <span class="val-badge red" id="v_rTol_1">32</span>
           </div>
         </label>
         <label>
@@ -702,7 +720,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_2" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_2" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_rTol_2">32</span>
+            <span class="val-badge red" id="v_rTol_2">32</span>
           </div>
         </label>
         <label>
@@ -723,7 +741,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_3" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_3" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_rTol_3">32</span>
+            <span class="val-badge red" id="v_rTol_3">32</span>
           </div>
         </label>
         <label>
@@ -744,7 +762,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_4" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_4" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_rTol_4">32</span>
+            <span class="val-badge red" id="v_rTol_4">32</span>
           </div>
         </label>
         <label>
@@ -765,7 +783,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_5" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_5" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_rTol_5">32</span>
+            <span class="val-badge red" id="v_rTol_5">32</span>
           </div>
         </label>
         <label>
@@ -802,10 +820,10 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Top Width (सीधी सड़क की चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.17</span></span>
+          <span class="label-head"><span>Top Width (सीधा समानांतर ट्रैक)</span><span class="val-badge" id="v_topWidth">0.35</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="-1">◀</button>
-            <input id="topWidth" type="range" min="0.04" max="0.35" step="0.005" value="0.17">
+            <input id="topWidth" type="range" min="0.10" max="0.95" step="0.01" value="0.35">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="1">▶</button>
           </div>
         </label>
@@ -826,10 +844,10 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Pad delay</span><span class="val-badge" id="v_padDelay">2.40</span></span>
+          <span class="label-head"><span>Pad Spacing (पैड्स का गैप)</span><span class="val-badge" id="v_padDelay">0.32</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="padDelay" data-dir="-1">◀</button>
-            <input id="padDelay" type="range" min="1.10" max="3.50" step="0.05" value="2.40">
+            <input id="padDelay" type="range" min="0.15" max="0.60" step="0.01" value="0.32">
             <button type="button" class="step-btn" data-step-for="padDelay" data-dir="1">▶</button>
           </div>
         </label>
@@ -1173,10 +1191,10 @@ var vfxParticles = [];
 var state={
   speed:0.24,
   horizon:0.42,
-  topWidth:0.17,
+  topWidth:0.35,
   bottomWidth:0.98,
   camHeight:0.95,
-  padDelay:2.40,
+  padDelay:0.32,
   padThickness:22,
   bossDistance:2.8,
   roadVariant:'classic',
@@ -1214,6 +1232,8 @@ var state={
   vfxAuraSpread: 0.85,
 
   steerOffset:-1.0,
+  playerYOffset: 0, // 🌟 NEW: Ground Stick Offset (जमीन से चिपकाने के लिए)
+
   baseStage: {img:null, raw:null, removeBg:true, tol:32, size:215},
   greenStages:[
     null,
@@ -1286,6 +1306,7 @@ function updateBadge(key, val){
   var el = $('v_' + key);
   if(el){
     if(key === 'bossDistance' || key === 'scrubBar' || key === 't1_duration' || key === 't2_duration') el.textContent = val + 's';
+    else if(key === 'playerYOffset') el.textContent = (Number(val) > 0 ? '+' : '') + val + 'px';
     else el.textContent = val;
   }
 }
@@ -1472,6 +1493,7 @@ function autoSaveStudio(){
       vfxAuraSpread: state.vfxAuraSpread,
 
       playerZ: state.playerZ,
+      playerYOffset: state.playerYOffset,
       playerLane: state.playerLane,
       steerOffset: state.steerOffset,
       baseSize: state.baseStage.size,
@@ -1509,7 +1531,6 @@ function readFile(file){
   });
 }
 
-// 🌟 SMART CUTOUT ENGINE WITH DYNAMIC TOLERANCE
 function processImageDataUrl(dataUrl, removeBg, tolerance){
   tolerance = (tolerance !== undefined) ? Number(tolerance) : 32;
   return new Promise(function(resolve,reject){
@@ -1569,7 +1590,7 @@ function bindRange(id,key){
   });
 }
 
-['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
+['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','playerYOffset','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
 
 if($('t1_duration')) $('t1_duration').oninput = function(e){ state.t1_duration = Number(e.target.value); updateBadge('t1_duration', e.target.value); autoSaveStudio(); };
 if($('t1_y')) $('t1_y').oninput = function(e){ state.t1_y = Number(e.target.value); updateBadge('t1_y', e.target.value); autoSaveStudio(); };
@@ -2214,7 +2235,7 @@ function initRows(){
   
   var savedData = getSavedSettings();
   if(savedData && typeof savedData === 'object'){
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','playerYOffset','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       if(savedData[id] !== undefined && $(id)){
         state[id] = Number(savedData[id]);
         $(id).value = savedData[id];
@@ -2306,7 +2327,7 @@ function initRows(){
     ];
     rowList.forEach(addRow);
   } else {
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','playerYOffset','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       updateBadge(id, state[id]);
     });
     updateBadge('t1_duration', state.t1_duration);
@@ -2392,20 +2413,23 @@ function roadBoundsAtZ(z){
   var dynamicHorizon = H * (state.horizon || 0.42) + (1.0 - camH) * (H * 0.12);
   var dynamicHorizonY = Math.max(H * 0.15, Math.min(H * 0.75, dynamicHorizon));
 
-  var TOP_HALF = W * (state.topWidth || 0.17);
-  var BOTTOM_HALF = W * (state.bottomWidth || 0.98);
+  var baseHalf = W * (state.bottomWidth || 0.98);
+  var straightFactor = Math.max(0.1, state.topWidth || 0.35);
 
-  var zDistance = Math.max(0.01, (1.0 - t) * (11.0 / camH) + 0.85);
+  var zDistance = Math.max(0.01, (1.0 - t) * (14.0 / camH) + 0.70);
   var scale = 1.0 / zDistance;
-  var minScale = 1.0 / ((11.0 / camH) + 0.85);
-  var maxScale = 1.0 / 0.85;
+  var minScale = 1.0 / ((14.0 / camH) + 0.70);
+  var maxScale = 1.0 / 0.70;
   var depth = (scale - minScale) / (maxScale - minScale);
 
   var y = dynamicHorizonY + (H - dynamicHorizonY) * depth;
-  var half = TOP_HALF + (BOTTOM_HALF - TOP_HALF) * depth;
+  
+  var minWidth = baseHalf * straightFactor;
+  var half = minWidth + (baseHalf - minWidth) * Math.pow(depth, 0.75);
 
   return {e:depth, y:y, l:W/2-half, r:W/2+half, half:half};
 }
+
 function lerp(a,b,t){return a+(b-a)*t;}
 function drawPoly(pts, fill){
   ctx.beginPath();
@@ -3624,7 +3648,12 @@ function drawRunnerBehind(){
   state.playerX += (targetX - state.playerX) * 0.35;
 
   var drawX = state.playerX;
-  var drawY = p.y + 6;
+  
+  // 🌟 DYNAMIC GROUND STICK LOGIC: Y-Offset को सीधे जोड़कर जमीन पर चिपकाना
+  var yAdjust = (state.playerYOffset || 0) * (0.4 + 0.6 * p.e);
+  var groundY = p.y + 6;
+  var drawY = groundY + yAdjust;
+  
   var scaleMul = 1.0;
 
   var hitAge = roadTime - lastImpactTime;
@@ -3644,7 +3673,7 @@ function drawRunnerBehind(){
 
   ctx.save();
 
-  // 🌟 RUNNER CONTACT GROUND SHADOW (सड़क से चिपका हुआ लुक)
+  // 🌟 RUNNER CONTACT GROUND SHADOW (सड़क पर स्थिर शैडो)
   ctx.save();
   ctx.fillStyle = 'rgba(0,0,0,0.48)';
   ctx.beginPath();
@@ -3723,6 +3752,13 @@ function updateAndDrawVfx(delta){
   }
 }
 
+function getPadZ(index){
+  var padBaseSpacing = state.padDelay || 0.32;
+  var initialZ = 0.86 - (index * padBaseSpacing);
+  var forwardDistance = roadTime * state.speed * 1.28 * TRACK_MOTION_SCALE;
+  return initialZ + forwardDistance;
+}
+
 function syncStateFromTime(t){
   roadTime = Math.max(0, t);
   processedPads = {};
@@ -3732,12 +3768,10 @@ function syncStateFromTime(t){
   currentStageLevel = 0;
   vfxParticles = [];
   
-  var initialDelay = 0.85;
   var pZ = state.playerZ || 0.86;
   
   state.rows.slice(0,5).forEach(function(row, i){
-    var elapsed = roadTime - initialDelay - i * state.padDelay;
-    var z = elapsed * state.speed * 1.28 * TRACK_MOTION_SCALE;
+    var z = getPadZ(i);
     if(z >= pZ - 0.02){
       processedPads[i] = true;
       var isPlayerOnRight = (state.steerOffset > 0);
@@ -3765,7 +3799,6 @@ function drawSinglePadRow(item){
 }
 
 function drawRows(){
-  var initialDelay=.85;
   var closestActiveZ = -1;
   var activeLaneColor = '#2aff84';
   var pZ = state.playerZ || 0.86;
@@ -3773,10 +3806,9 @@ function drawRows(){
   var activePads = [];
 
   state.rows.slice(0,5).forEach(function(row,i){
-    var elapsed=roadTime-initialDelay-i*state.padDelay;
-    var z=elapsed*state.speed*1.28*TRACK_MOTION_SCALE;
-    if(z<0 || z>1.15) return;
-    var zz=z;
+    var z = getPadZ(i);
+    if(z < -0.1 || z > 1.25) return;
+    var zz = z;
 
     if(zz >= pZ - 0.02 && !processedPads[i]){
       processedPads[i] = true;
@@ -3816,9 +3848,10 @@ function drawRows(){
 
   activePads.sort(function(a, b){ return a.rawZ - b.rawZ; });
 
-  // 🌟 ABSOLUTE FIXED LOCKED ANCHOR: 5वें पैड तक 1mm भी नहीं हिलेगा
   var initialBossZ = 0.08;
-  var pad5CrossTime = initialDelay + 4 * state.padDelay + (pZ / (state.speed * 1.28 * TRACK_MOTION_SCALE));
+  var padBaseSpacing = state.padDelay || 0.32;
+  var pad5InitialZ = 0.86 - (4 * padBaseSpacing);
+  var pad5CrossTime = Math.max(0, (pZ - pad5InitialZ) / (state.speed * 1.28 * TRACK_MOTION_SCALE));
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var bossZ = initialBossZ;
 
@@ -3886,7 +3919,9 @@ function frame(now){
   last = now;
 
   var pZ = state.playerZ || 0.86;
-  var pad5CrossTime = 0.85 + 4 * state.padDelay + (pZ / (state.speed * 1.28 * TRACK_MOTION_SCALE));
+  var padBaseSpacing = state.padDelay || 0.32;
+  var pad5InitialZ = 0.86 - (4 * padBaseSpacing);
+  var pad5CrossTime = Math.max(0, (pZ - pad5InitialZ) / (state.speed * 1.28 * TRACK_MOTION_SCALE));
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
   var isTouching = processedPads[4] && roadTime >= (pad5CrossTime + bDist);
 
