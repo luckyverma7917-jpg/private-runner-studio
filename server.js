@@ -90,8 +90,6 @@ summary{padding:12px 14px;background:var(--panel2);font-weight:800;cursor:pointe
 .val-badge.red{color:var(--red)}
 .val-badge.gold{color:var(--gold)}
 
-.unique-ctrl{grid-column:1/-1;background:linear-gradient(135deg,#13281d,#18212e);border:1.5px solid var(--accent);border-radius:12px;padding:10px 12px;box-shadow:0 0 15px rgba(97,240,166,0.15)}
-
 .range-wrap{display:flex;align-items:center;gap:6px;width:100%}
 .range-wrap input[type=range]{
   flex:1;
@@ -550,22 +548,6 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
 
-        <!-- 🌟 UNIQUE GROUND STICK CONTROLLER (जमीन से चिपकाने वाला मास्टर स्लाइडर) -->
-        <div class="unique-ctrl">
-          <label>
-            <div class="label-head">
-              <span style="font-weight:900;color:var(--accent);font-size:13px">⚡ Ground Stick / Y-Offset (जमीन से चिपकाएँ)</span>
-              <span class="val-badge gold" id="v_playerYOffset">+0px</span>
-            </div>
-            <div class="range-wrap">
-              <button type="button" class="step-btn" data-step-for="playerYOffset" data-dir="-2">◀</button>
-              <input id="playerYOffset" type="range" min="-180" max="180" step="2" value="0">
-              <button type="button" class="step-btn" data-step-for="playerYOffset" data-dir="2">▶</button>
-            </div>
-            <span class="small" style="color:#a6b4c9">💡 छोटी PNG हवा में उड़े तो स्लाइडर को <b>Left (Minus)</b> खिसकाएं, कैरेक्टर ज़मीन और शैडो से चिपक जाएगा!</span>
-          </label>
-        </div>
-
         <label>Runner Lane Mode
           <select id="playerLane">
             <option value="slider" selected>Manual Live Slider (Fastest)</option>
@@ -699,7 +681,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_1" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_1" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge red" id="v_rTol_1">32</span>
+            <span class="val-badge" id="v_rTol_1">32</span>
           </div>
         </label>
         <label>
@@ -720,7 +702,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_2" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_2" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge red" id="v_rTol_2">32</span>
+            <span class="val-badge" id="v_rTol_2">32</span>
           </div>
         </label>
         <label>
@@ -741,7 +723,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_3" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_3" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge red" id="v_rTol_3">32</span>
+            <span class="val-badge" id="v_rTol_3">32</span>
           </div>
         </label>
         <label>
@@ -762,7 +744,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_4" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_4" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge red" id="v_rTol_4">32</span>
+            <span class="val-badge" id="v_rTol_4">32</span>
           </div>
         </label>
         <label>
@@ -783,7 +765,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           <div class="cutout-ctrl">
             <input id="rRemove_5" type="checkbox" checked><span class="small">Auto Cut</span>
             <input id="rTol_5" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge red" id="v_rTol_5">32</span>
+            <span class="val-badge" id="v_rTol_5">32</span>
           </div>
         </label>
         <label>
@@ -820,10 +802,10 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Top Width (सीधी सड़क की चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.35</span></span>
+          <span class="label-head"><span>Top Width (सीधी सड़क की चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.17</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="-1">◀</button>
-            <input id="topWidth" type="range" min="0.10" max="0.95" step="0.01" value="0.35">
+            <input id="topWidth" type="range" min="0.04" max="0.35" step="0.005" value="0.17">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="1">▶</button>
           </div>
         </label>
@@ -1191,7 +1173,7 @@ var vfxParticles = [];
 var state={
   speed:0.24,
   horizon:0.42,
-  topWidth:0.35,
+  topWidth:0.17,
   bottomWidth:0.98,
   camHeight:0.95,
   padDelay:2.40,
@@ -1232,8 +1214,6 @@ var state={
   vfxAuraSpread: 0.85,
 
   steerOffset:-1.0,
-  playerYOffset: 0, // 🌟 NEW: Ground Stick Offset (जमीन से चिपकाने के लिए)
-
   baseStage: {img:null, raw:null, removeBg:true, tol:32, size:215},
   greenStages:[
     null,
@@ -1306,7 +1286,6 @@ function updateBadge(key, val){
   var el = $('v_' + key);
   if(el){
     if(key === 'bossDistance' || key === 'scrubBar' || key === 't1_duration' || key === 't2_duration') el.textContent = val + 's';
-    else if(key === 'playerYOffset') el.textContent = (Number(val) > 0 ? '+' : '') + val + 'px';
     else el.textContent = val;
   }
 }
@@ -1493,7 +1472,6 @@ function autoSaveStudio(){
       vfxAuraSpread: state.vfxAuraSpread,
 
       playerZ: state.playerZ,
-      playerYOffset: state.playerYOffset,
       playerLane: state.playerLane,
       steerOffset: state.steerOffset,
       baseSize: state.baseStage.size,
@@ -1531,6 +1509,7 @@ function readFile(file){
   });
 }
 
+// 🌟 SMART CUTOUT ENGINE WITH DYNAMIC TOLERANCE
 function processImageDataUrl(dataUrl, removeBg, tolerance){
   tolerance = (tolerance !== undefined) ? Number(tolerance) : 32;
   return new Promise(function(resolve,reject){
@@ -1590,7 +1569,7 @@ function bindRange(id,key){
   });
 }
 
-['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','playerYOffset','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
+['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
 
 if($('t1_duration')) $('t1_duration').oninput = function(e){ state.t1_duration = Number(e.target.value); updateBadge('t1_duration', e.target.value); autoSaveStudio(); };
 if($('t1_y')) $('t1_y').oninput = function(e){ state.t1_y = Number(e.target.value); updateBadge('t1_y', e.target.value); autoSaveStudio(); };
@@ -2235,7 +2214,7 @@ function initRows(){
   
   var savedData = getSavedSettings();
   if(savedData && typeof savedData === 'object'){
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','playerYOffset','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       if(savedData[id] !== undefined && $(id)){
         state[id] = Number(savedData[id]);
         $(id).value = savedData[id];
@@ -2327,7 +2306,7 @@ function initRows(){
     ];
     rowList.forEach(addRow);
   } else {
-    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','playerYOffset','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       updateBadge(id, state[id]);
     });
     updateBadge('t1_duration', state.t1_duration);
@@ -2406,7 +2385,6 @@ var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
 var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
-// 🌟 MATH FIX: Top Width अब केवल दूर की चौड़ाई नहीं, बल्कि पूरी सड़क के सीधेपन (Parallelism) को कंट्रोल करेगी
 function roadBoundsAtZ(z){
   var t = Math.max(0, z);
   var camH = Math.max(0.2, state.camHeight || 0.95);
@@ -2414,24 +2392,20 @@ function roadBoundsAtZ(z){
   var dynamicHorizon = H * (state.horizon || 0.42) + (1.0 - camH) * (H * 0.12);
   var dynamicHorizonY = Math.max(H * 0.15, Math.min(H * 0.75, dynamicHorizon));
 
-  var baseHalf = W * (state.bottomWidth || 0.98);
-  var straightFactor = Math.max(0.1, state.topWidth || 0.35);
+  var TOP_HALF = W * (state.topWidth || 0.17);
+  var BOTTOM_HALF = W * (state.bottomWidth || 0.98);
 
-  var zDistance = Math.max(0.01, (1.0 - t) * (14.0 / camH) + 0.70);
+  var zDistance = Math.max(0.01, (1.0 - t) * (11.0 / camH) + 0.85);
   var scale = 1.0 / zDistance;
-  var minScale = 1.0 / ((14.0 / camH) + 0.70);
-  var maxScale = 1.0 / 0.70;
+  var minScale = 1.0 / ((11.0 / camH) + 0.85);
+  var maxScale = 1.0 / 0.85;
   var depth = (scale - minScale) / (maxScale - minScale);
 
   var y = dynamicHorizonY + (H - dynamicHorizonY) * depth;
-  
-  // आगे जाकर ट्रायंगल न बने, बल्कि सीधी समानांतर लाइन में रहे
-  var minWidth = baseHalf * straightFactor;
-  var half = minWidth + (baseHalf - minWidth) * Math.pow(depth, 0.75);
+  var half = TOP_HALF + (BOTTOM_HALF - TOP_HALF) * depth;
 
   return {e:depth, y:y, l:W/2-half, r:W/2+half, half:half};
 }
-
 function lerp(a,b,t){return a+(b-a)*t;}
 function drawPoly(pts, fill){
   ctx.beginPath();
@@ -3650,12 +3624,7 @@ function drawRunnerBehind(){
   state.playerX += (targetX - state.playerX) * 0.35;
 
   var drawX = state.playerX;
-  
-  // 🌟 DYNAMIC GROUND STICK LOGIC: Y-Offset को जोड़कर जमीन पर चिपकाना
-  var yAdjust = (state.playerYOffset || 0) * (0.4 + 0.6 * p.e);
-  var groundY = p.y + 6;
-  var drawY = groundY + yAdjust;
-  
+  var drawY = p.y + 6;
   var scaleMul = 1.0;
 
   var hitAge = roadTime - lastImpactTime;
