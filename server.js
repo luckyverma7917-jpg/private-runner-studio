@@ -46,7 +46,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio - 1080P Viral Edition</title>
+<title>Private Runner Studio - Straight YouTube Edition</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
@@ -154,7 +154,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
 </head>
 <body>
 <header class="top">
-  <div><strong>Private Runner Studio</strong><span class="badge">1080P FULL HD 60FPS</span></div>
+  <div><strong>Private Runner Studio</strong><span class="badge">1080P STRAIGHT HIGHWAY</span></div>
   <div class="top-actions"><button id="saveBtn">Save State</button><button id="resetStorageBtn">Reset UI</button><button id="logoutBtn">Logout</button></div>
 </header>
 <main class="studio">
@@ -191,7 +191,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Matte Studio Glow + 56 Eye-Comfort Roads!</div>
+    <div class="note"><b>⚡ Straight Highway Engine:</b> True Parallel Road (No Triangle) + Paper Slate HD!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
@@ -520,34 +520,34 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Horizon Height</span><span class="val-badge" id="v_horizon">0.42</span></span>
+          <span class="label-head"><span>Horizon Height (सड़क की लंबाई)</span><span class="val-badge" id="v_horizon">0.38</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="horizon" data-dir="-1">◀</button>
-            <input id="horizon" type="range" min="0.20" max="0.75" step="0.01" value="0.42">
+            <input id="horizon" type="range" min="0.20" max="0.65" step="0.01" value="0.38">
             <button type="button" class="step-btn" data-step-for="horizon" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Top Width (सीधी सड़क की चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.17</span></span>
+          <span class="label-head"><span>Top Width (सीधी सड़क की चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.38</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="-1">◀</button>
-            <input id="topWidth" type="range" min="0.04" max="0.35" step="0.005" value="0.17">
+            <input id="topWidth" type="range" min="0.15" max="0.60" step="0.005" value="0.38">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Bottom Width (निचली चौड़ाई)</span><span class="val-badge" id="v_bottomWidth">0.98</span></span>
+          <span class="label-head"><span>Bottom Width (निचली चौड़ाई - नो ट्रायंगल)</span><span class="val-badge" id="v_bottomWidth">0.65</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="-1">◀</button>
-            <input id="bottomWidth" type="range" min="0.50" max="1.15" step="0.02" value="0.98">
+            <input id="bottomWidth" type="range" min="0.40" max="0.95" step="0.01" value="0.65">
             <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Camera Height</span><span class="val-badge" id="v_camHeight">0.95</span></span>
+          <span class="label-head"><span>Camera Height</span><span class="val-badge" id="v_camHeight">1.05</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="camHeight" data-dir="-1">◀</button>
-            <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="0.95">
+            <input id="camHeight" type="range" min="0.5" max="3.0" step="0.05" value="1.05">
             <button type="button" class="step-btn" data-step-for="camHeight" data-dir="1">▶</button>
           </div>
         </label>
@@ -568,35 +568,35 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
 
-        <!-- 🌟 BACKGROUND THEME (NO BLACK, EYE-FRIENDLY SPOTLIGHTS) -->
+        <!-- BACKGROUND THEME -->
         <label style="grid-column:1/-1;border:1px solid #61f0a6;padding:10px;border-radius:12px;background:#0d1813">
-          <span style="color:#61f0a6;font-weight:900;font-size:14px">🎨 Eye-Comfort Studio Backdrops (Characters Pop 100% - No Eye Strain!)</span>
+          <span style="color:#61f0a6;font-weight:900;font-size:14px">🎨 Eye-Comfort Studio Backdrops</span>
           <select id="bgMode" style="margin-top:6px">
-            <optgroup label="--- ⭐ TOP FAVORITES (Ultra Clean & High Retention) ---">
+            <optgroup label="--- ⭐ TOP FAVORITES ---">
               <option value="studioPaperSlate" selected>👑 1. Paper Slate Grey (Most Recommended - Best HD Pop)</option>
               <option value="studioRoyalCobalt">👑 2. Royal Cobalt Studio (Deep Pro Navy Blue)</option>
               <option value="studioSkyCyan">👑 3. Sky Cyan Studio (Viral Shorts Classic)</option>
               <option value="studioNordicMist">👑 4. Nordic Mist Grey (Soft Silver Studio)</option>
             </optgroup>
-            <optgroup label="--- 🌿 Modern Aesthetic Studio Moods (Zero Glare) ---">
-              <option value="studioOceanTeal">🌊 5. Ocean Teal Studio (Smooth Cinematic)</option>
-              <option value="studioMintFresh">🍃 6. Pastel Mint Studio (Refreshing Clean)</option>
-              <option value="studioSageClean">🌿 7. Soft Sage Studio (Calm Natural)</option>
-              <option value="studioWarmSand">📜 8. Warm Paper Sand (Creamy Mocha)</option>
-              <option value="studioPeachySunset">🍑 9. Peachy Sunset Studio (Soft Warm, No Blinding)</option>
-              <option value="studioLavenderDusk">💜 10. Soft Lilac Studio (Pastel Periwinkle)</option>
-              <option value="studioRoseVelvet">🌸 11. Dusty Rose Velvet (Gentle Coral)</option>
-              <option value="studioBubblegum">🍭 12. Soft Bubblegum Studio (Kids Favorite)</option>
-              <option value="studioGraphiteMatte">🖤 13. Matte Graphite Studio (Pro Contrast - Not Harsh Black)</option>
-              <option value="studioDeepIndigo">🌌 14. Cinematic Deep Indigo (Soft Midnight Blue)</option>
-              <option value="studioSoftPearl">⚪ 15. Studio Soft Pearl (Off-White Minimal)</option>
+            <optgroup label="--- 🌿 Modern Aesthetic Moods ---">
+              <option value="studioOceanTeal">🌊 5. Ocean Teal Studio</option>
+              <option value="studioMintFresh">🍃 6. Pastel Mint Studio</option>
+              <option value="studioSageClean">🌿 7. Soft Sage Studio</option>
+              <option value="studioWarmSand">📜 8. Warm Paper Sand</option>
+              <option value="studioPeachySunset">🍑 9. Peachy Sunset Studio</option>
+              <option value="studioLavenderDusk">💜 10. Soft Lilac Studio</option>
+              <option value="studioRoseVelvet">🌸 11. Dusty Rose Velvet</option>
+              <option value="studioBubblegum">🍭 12. Soft Bubblegum Studio</option>
+              <option value="studioGraphiteMatte">🖤 13. Matte Graphite Studio</option>
+              <option value="studioDeepIndigo">🌌 14. Cinematic Deep Indigo</option>
+              <option value="studioSoftPearl">⚪ 15. Studio Soft Pearl</option>
             </optgroup>
           </select>
         </label>
 
-        <!-- 🌟 ALL 56 EYE-COMFORT ROADS -->
+        <!-- 56 ROADS -->
         <label style="grid-column:1/-1">
-          <span style="font-weight:900;color:var(--accent)">🛣️ Master Road Style (All 56 Balanced & Eye-Comfort Roads)</span>
+          <span style="font-weight:900;color:var(--accent)">🛣️ Master Road Style (All 56 Straight Highway Roads)</span>
           <select id="roadVariant">
             <optgroup label="--- 🏆 1. Viral YouTube Pro Racing (10 Roads) ---">
               <option value="classic" selected>1. Classic V6 Red/White Racing Kerbs</option>
@@ -636,7 +636,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
               <option value="hawaiianOcean">31. Pacific Deep Teal Coast</option>
               <option value="lavenderValley">32. French Lavender Slate Highway</option>
             </optgroup>
-            <optgroup label="--- ⚡ 4. Clean Cyber & Synth (Soft Glow, No Eye Strain) (12 Roads) ---">
+            <optgroup label="--- ⚡ 4. Clean Cyber & Synth (12 Roads) ---">
               <option value="neonPulse">33. Soft Magenta & Cyan Circuit</option>
               <option value="edgeGlow">34. Clean Emerald Edge Runner</option>
               <option value="arcadeGrid">35. Tron Electric Grid</option>
@@ -648,7 +648,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
               <option value="overdriveNeon">41. Synthwave Dusk Drive</option>
               <option value="hyperSpace">42. Deep Space Periwinkle</option>
               <option value="matrixCode">43. Clean Matrix Greenflow</option>
-              <option value="midnightHighway">44. Smooth Navy Midnight (Non-Black)</option>
+              <option value="midnightHighway">44. Smooth Navy Midnight</option>
             </optgroup>
             <optgroup label="--- 💎 5. Elemental & Crystal Worlds (12 Roads) ---">
               <option value="iceCrystal">45. Frozen Sub-Zero Crystal</option>
@@ -656,7 +656,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
               <option value="emeraldCity">47. Emerald Jade Highway</option>
               <option value="rubyRoyale">48. Royal Crimson Ruby Path</option>
               <option value="electricThunder">49. Storm Blue Lightning Dash</option>
-              <option value="infernoFire">50. Warm Magma Hearth (Balanced, No Glare)</option>
+              <option value="infernoFire">50. Warm Magma Hearth</option>
               <option value="lavaCrack">51. Deep Slate Lava Ridge</option>
               <option value="goldenPath">52. Royal Gold Treasury</option>
               <option value="toxicHazard">53. Bio-Lime Hazard Strip</option>
@@ -850,12 +850,13 @@ var lastImpactType = null;
 var lastImpactTime = -999;
 var vfxParticles = [];
 
+// 🌟 UPGRADED PROPORTIONS: Straight Road Like Tom Video (No Sharp Triangle)
 var state={
   speed:0.24,
-  horizon:0.42,
-  topWidth:0.17,
-  bottomWidth:0.98,
-  camHeight:0.95,
+  horizon:0.38,
+  topWidth:0.38,
+  bottomWidth:0.65,
+  camHeight:1.05,
   padDelay:2.40,
   padThickness:22,
   bossDistance:2.8,
@@ -919,7 +920,6 @@ var state={
   opponent:{src:null, img:null, removeBg:true, tol:32, size:330}
 };
 
-// 🌟 EYE-COMFORT STUDIO PALETTES (No Muddy Blacks, No Harsh Neons)
 var bgColors = {
   studioPaperSlate: ['#64748b', '#334155', '#94a3b8'], 
   studioRoyalCobalt:['#1e3a8a', '#0f172a', '#3b82f6'], 
@@ -1144,13 +1144,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v35', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v36', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v35') || localStorage.getItem('runner_studio_saved_v33');
+    var raw = localStorage.getItem('runner_studio_saved_v36');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1914,20 +1914,21 @@ var TRACK_Z_LENGTH=220;
 var BASE_TRACK_Z_LENGTH=125;
 var TRACK_MOTION_SCALE=BASE_TRACK_Z_LENGTH/TRACK_Z_LENGTH;
 
+// 🌟 MATHEMATICALLY BALANCED STRAIGHT HIGHWAY (TELEPHOTO RUNNER LOOK)
 function roadBoundsAtZ(z){
   var t = Math.max(0, z);
-  var camH = Math.max(0.2, state.camHeight || 0.95);
+  var camH = Math.max(0.4, state.camHeight || 1.05);
   
-  var dynamicHorizon = H * (state.horizon || 0.42) + (1.0 - camH) * (H * 0.12);
-  var dynamicHorizonY = Math.max(H * 0.15, Math.min(H * 0.75, dynamicHorizon));
+  var dynamicHorizon = H * (state.horizon || 0.38) + (1.0 - camH) * (H * 0.08);
+  var dynamicHorizonY = Math.max(H * 0.15, Math.min(H * 0.70, dynamicHorizon));
 
-  var TOP_HALF = W * (state.topWidth || 0.17);
-  var BOTTOM_HALF = W * (state.bottomWidth || 0.98);
+  var TOP_HALF = W * (state.topWidth || 0.38) * 0.50;
+  var BOTTOM_HALF = W * (state.bottomWidth || 0.65) * 0.50;
 
-  var zDistance = Math.max(0.01, (1.0 - t) * (11.0 / camH) + 0.85);
+  var zDistance = Math.max(0.01, (1.0 - t) * (5.5 / camH) + 1.25);
   var scale = 1.0 / zDistance;
-  var minScale = 1.0 / ((11.0 / camH) + 0.85);
-  var maxScale = 1.0 / 0.85;
+  var minScale = 1.0 / ((5.5 / camH) + 1.25);
+  var maxScale = 1.0 / 1.25;
   var depth = (scale - minScale) / (maxScale - minScale);
 
   var y = dynamicHorizonY + (H - dynamicHorizonY) * depth;
@@ -2037,7 +2038,6 @@ function drawRoadShineSeries(color,alphaMul){
   ctx.restore();
 }
 
-// 🌟 BACKGROUND DRAWING ENGINE (3-Stop Smooth Spotlight)
 function drawBackground(){
   var theme = bgColors[state.bgMode] || bgColors.studioPaperSlate;
   var rad = ctx.createRadialGradient(W/2, H*0.35, W*0.08, W/2, H*0.40, W*0.85);
@@ -2048,7 +2048,6 @@ function drawBackground(){
   ctx.fillRect(0, 0, W, H);
 }
 
-// 🌟 ALL 56 EYE-COMFORT ROAD FUNCTIONS (Pure HD, Zero Eye Strain)
 function makeRoad(baseT, baseB, curbA, curbB, dashColor, dualDash, railsColor){
   fillRoadBase(baseT, baseB);
   drawRoadTexture(0.024);
@@ -2063,7 +2062,7 @@ function makeRoad(baseT, baseB, curbA, curbB, dashColor, dualDash, railsColor){
   if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,0.30)', 1.0);
 }
 
-// Group 1: 🏆 YouTube Shorts Pro Racing (10 Roads)
+// 56 ROADS FUNCTIONS
 function rClassic(){ makeRoad('#64748b', '#334155', '#ff3344', '#ffffff', 'rgba(255,255,255,0.95)', false); }
 function rV6Gold(){ makeRoad('#6b7280', '#374151', '#f59e0b', '#ffffff', 'rgba(255,255,255,0.9)', false); }
 function rV6CyberBlue(){ makeRoad('#5a6b82', '#2d3748', '#0ea5e9', '#ffffff', '#38bdf8', false); }
@@ -2075,7 +2074,6 @@ function rTokyoDay(){ makeRoad('#4b5563', '#1f2937', '#ffffff', '#dc2626', '#fff
 function rStudioPaperWhite(){ makeRoad('#cbd5e1', '#94a3b8', '#334155', '#ffffff', '#334155', false); }
 function rCarbonTrack(){ makeRoad('#475569', '#1e293b', '#fb923c', '#ffffff', 'rgba(255,255,255,0.85)', false); }
 
-// Group 2: 🍭 Cartoon, Arcade & Candy Land (10 Roads)
 function rCandyPop(){ makeRoad('#6b7280', '#3b4252', '#f472b6', '#38bdf8', '#ffffff', true); }
 function rSkyRainbow(){
   fillRoadBase('#64748b', '#334155');
@@ -2099,7 +2097,6 @@ function rLemonLimeSpeed(){ makeRoad('#5a6c5b', '#2e3a2f', '#cbf3f0', '#2ec4b6',
 function rMintChoco(){ makeRoad('#526159', '#2d3832', '#a8dadc', '#1d3557', '#ffffff', false); }
 function rSunflowerMeadow(){ makeRoad('#636657', '#34382c', '#ffeaa7', '#55efc4', '#ffffff', false); }
 
-// Group 3: ☀️ Day-Light & Scenic Drives (12 Roads)
 function rSunnyDesert(){ makeRoad('#8a7561', '#4f3f31', '#f59e0b', '#fdf6e2', '#ffffff', false); }
 function rMiamiBeach(){ makeRoad('#586b7c', '#2c3c4a', '#06b6d4', '#ffffff', '#ffffff', true); }
 function rGreenMeadow(){ makeRoad('#536653', '#2b3b2b', '#22c55e', '#ecfdf5', '#ffffff', false); }
@@ -2113,7 +2110,6 @@ function rEmeraldGolfway(){ makeRoad('#4d6154', '#26332b', '#10b981', '#d1fae5',
 function rHawaiianOcean(){ makeRoad('#4b6670', '#23373e', '#14b8a6', '#f0fdfa', '#ffffff', true); }
 function rLavenderValley(){ makeRoad('#5d596b', '#302d3b', '#c084fc', '#faf5ff', '#ffffff', false); }
 
-// Group 4: ⚡ Clean Cyber & Synth (12 Roads)
 function rNeonPulse(){ makeRoad('#4b4257', '#251e2d', '#ec4899', '#06b6d4', '#ffffff', true); }
 function rEdgeGlow(){ makeRoad('#3d5248', '#1b2923', '#10b981', '#064e3b', '#6ee7b7', false, 'rgba(16,185,129,0.7)'); }
 function rArcadeGrid(){ makeRoad('#43495d', '#1f2331', '#f43f5e', '#38bdf8', '#38bdf8', false); }
@@ -2127,7 +2123,6 @@ function rHyperSpace(){ makeRoad('#464964', '#202235', '#818cf8', '#c7d2fe', '#f
 function rMatrixCode(){ makeRoad('#385342', '#182b1f', '#22c55e', '#14532d', '#86efac', false); }
 function rMidnightHighway(){ makeRoad('#3b4559', '#1a2233', '#60a5fa', '#93c5fd', '#ffffff', false, 'rgba(96,165,250,0.6)'); }
 
-// Group 5: 💎 Elemental & Crystal Worlds (12 Roads)
 function rIceCrystal(){ makeRoad('#4b6070', '#21303b', '#7dd3fc', '#f0f9ff', '#ffffff', true, 'rgba(125,211,252,0.7)'); }
 function rAmethystPath(){ makeRoad('#564468', '#2d1e3a', '#c084fc', '#f3e8ff', '#e9d5ff', false); }
 function rEmeraldCity(){ makeRoad('#3b5a4d', '#1a332a', '#34d399', '#d1fae5', '#a7f3d0', false); }
@@ -2641,7 +2636,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v35'); 
+    localStorage.removeItem('runner_studio_saved_v36'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
