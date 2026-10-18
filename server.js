@@ -46,7 +46,7 @@ const APP_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Private Runner Studio Straight Road Edition</title>
+<title>Private Runner Studio - 1080P Viral Edition</title>
 <style>
 :root{--bg:#0b0d10;--panel:#15181e;--panel2:#1b1f27;--text:#f6f8fb;--muted:#9ca5b2;--line:#2b303a;--accent:#61f0a6;--red:#ff4d4d;--gold:#ffbe1a;--blue:#38bdf8}
 *{box-sizing:border-box}
@@ -191,16 +191,16 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         <span class="val-badge gold" id="v_scrubBar">0.0s</span>
       </div>
     </div>
-    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Ground Contact Shadow + Live Cutout Sensitivity!</div>
+    <div class="note"><b>⚡ 1080p Ultra-Smooth Engine:</b> Matte Studio Glow + 56 Eye-Comfort Roads!</div>
   </section>
 
   <section class="controls" id="panelsContainer">
 
-    <!-- 🌟 CARD 1: SCREEN INTRO TEXT 1 (LET'S GO) -->
+    <!-- CARD 1: SCREEN INTRO TEXT 1 -->
     <details class="drag-card" id="card_intro_text1" open>
       <summary>
         <span>🚀 Screen Intro Text 1: LET'S GO</span>
-        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
+        <span class="drag-handle" draggable="true">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label class="toggle" style="grid-column:1/-1">
@@ -209,47 +209,36 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         <label style="grid-column:1/-1">Text Message
           <input id="t1_val" type="text" value="LET'S GO" placeholder="e.g. LET'S GO">
         </label>
-
         <label>Visual Style
           <select id="t1_style">
             <option value="tryloxyRed" selected>🔴 1. TryLoxy Classic Red & White</option>
             <option value="arcadeGold">👑 2. 3D Arcade Gold & Yellow</option>
-            <option value="cyberCyan">⚡ 3. Cyber Neon Cyan (Electric)</option>
+            <option value="cyberCyan">⚡ 3. Cyber Neon Cyan</option>
             <option value="infernoFire">🔥 4. Inferno Blaze Orange</option>
             <option value="monsterLime">🦖 5. Monster Neon Lime</option>
             <option value="plasmaPink">💖 6. Plasma Cyber Pink</option>
-            <option value="cleanWhite">⚪ 7. Minimal Bold White (Dark Outline)</option>
+            <option value="cleanWhite">⚪ 7. Minimal Bold White</option>
             <option value="synthViolet">🟣 8. Synthwave Violet Sunset</option>
-            <option value="toxicAcid">☣️ 9. Toxic Biohazard Lime</option>
-            <option value="pureYellow">⭐ 10. Bright Arcade Yellow</option>
-            <option value="royalAmber">👑 11. Royal Amber Orange</option>
-            <option value="iceFrost">❄️ 12. Frozen Ice Crystal Blue</option>
-            <option value="stealthDark">🖤 13. Stealth Matte Charcoal</option>
-            <option value="candyPop">🍭 14. Candy Pastel Multi-Glow</option>
-            <option value="laserCrimson">🛑 15. Laser Crimson Warning</option>
+            <option value="candyPop">🍭 9. Candy Pastel Multi-Glow</option>
           </select>
         </label>
-
-        <label>In-Animation (Entry)
+        <label>In-Animation
           <select id="t1_inAnim">
-            <option value="elasticPunch" selected>💥 1. Elastic Mega-Punch (Zoom & Bounce)</option>
-            <option value="slamImpact">🔨 2. Comic Slam Impact (Drop & Shake)</option>
-            <option value="jelloBounce">🍮 3. Wobbly Jello Pop</option>
-            <option value="speedWarp">⚡ 4. Speed Warp Flash In</option>
-            <option value="dropSpring">🚀 5. Drop & Spring</option>
-            <option value="static">⏸️ 6. Static Pop (Instant)</option>
+            <option value="elasticPunch" selected>💥 Elastic Punch</option>
+            <option value="slamImpact">🔨 Comic Slam Impact</option>
+            <option value="jelloBounce">🍮 Wobbly Jello Pop</option>
+            <option value="speedWarp">⚡ Speed Warp Flash In</option>
+            <option value="dropSpring">🚀 Drop & Spring</option>
           </select>
         </label>
-
-        <label>Out-Animation (Exit)
+        <label>Out-Animation
           <select id="t1_outAnim">
-            <option value="shrinkPop" selected>🫧 1. Shrink & Bubble Pop Away</option>
-            <option value="flyUp">🚀 2. Rocket Fly Up</option>
-            <option value="flashFade">✨ 3. Smooth Glow Flash Fade</option>
-            <option value="instantCut">✂️ 4. Instant Cut Out</option>
+            <option value="shrinkPop" selected>🫧 Shrink & Pop Away</option>
+            <option value="flyUp">🚀 Rocket Fly Up</option>
+            <option value="flashFade">✨ Glow Flash Fade</option>
+            <option value="instantCut">✂️ Instant Cut Out</option>
           </select>
         </label>
-
         <label>
           <span class="label-head"><span>Duration (0.5s - 10.0s)</span><span class="val-badge gold" id="v_t1_duration">2.2s</span></span>
           <div class="range-wrap">
@@ -258,7 +247,6 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <button type="button" class="step-btn" data-step-for="t1_duration" data-dir="1">▶</button>
           </div>
         </label>
-
         <label>
           <span class="label-head"><span>Text Y-Position</span><span class="val-badge gold" id="v_t1_y">430</span></span>
           <div class="range-wrap">
@@ -267,7 +255,6 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <button type="button" class="step-btn" data-step-for="t1_y" data-dir="1">▶</button>
           </div>
         </label>
-
         <label>
           <span class="label-head"><span>Font Size</span><span class="val-badge gold" id="v_t1_size">110</span></span>
           <div class="range-wrap">
@@ -279,72 +266,54 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
       </div>
     </details>
 
-    <!-- 🌟 CARD 2: SCREEN INTRO TEXT 2 (WIN OR LOSE) -->
+    <!-- CARD 2: SCREEN INTRO TEXT 2 -->
     <details class="drag-card" id="card_intro_text2" open>
       <summary>
         <span>⚡ Screen Intro Text 2: WIN OR LOSE</span>
-        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
+        <span class="drag-handle" draggable="true">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label class="toggle" style="grid-column:1/-1">
           <input id="t2_show" type="checkbox" checked> <b>Show Intro Text 2 ("WIN OR LOSE!")</b>
         </label>
         <label class="toggle" style="grid-column:1/-1">
-          <input id="t2_chainWithT1" type="checkbox" checked> <span style="color:var(--accent);font-weight:700">⚡ Start Immediately After Text 1 Exits (Auto-Chain)</span>
+          <input id="t2_chainWithT1" type="checkbox" checked> <span style="color:var(--accent);font-weight:700">⚡ Auto-Chain After Text 1</span>
         </label>
         <label style="grid-column:1/-1">Text Message
           <input id="t2_val" type="text" value="Win or Lose!" placeholder="e.g. Win or Lose!">
         </label>
-
         <label>Visual Style
           <select id="t2_style">
-            <option value="arcadeGold" selected>👑 1. 3D Championship Gold (Viral)</option>
-            <option value="dualWinLose">🌓 2. Split Dual-Tone (Green WIN / Red LOSE)</option>
-            <option value="cyberYellow">⚡ 3. Cyber Neon Yellow Alert</option>
-            <option value="tryloxyRed">🔴 4. TryLoxy Bold Red & White</option>
-            <option value="comicLime">🦖 5. Comic Pop Lime Beast</option>
-            <option value="electricCyan">🔵 6. Electric Blue Thunder</option>
-            <option value="fireInferno">🔥 7. Burning Inferno Heatwave</option>
-            <option value="synthPurple">🟣 8. Synthwave Glow Violet</option>
-            <option value="candyRainbow">🍭 9. Candy Rainbow Celebration</option>
-            <option value="laserRedWarning">🛑 10. Red Danger Hazard Alert</option>
-            <option value="cleanWhite">⚪ 11. Minimal Clean Paper White</option>
-            <option value="frozenFrost">❄️ 12. Sub-Zero Crystal Cyan</option>
-            <option value="deepAmethyst">💎 13. Deep Amethyst Royale</option>
-            <option value="stealthCharcoal">🖤 14. Stealth Gunmetal Outline</option>
-            <option value="sunsetTrophy">🌅 15. Sunset Amber Trophy</option>
+            <option value="arcadeGold" selected>👑 1. 3D Gold Trophy</option>
+            <option value="dualWinLose">🌓 2. Split (Green WIN / Red LOSE)</option>
+            <option value="tryloxyRed">🔴 3. TryLoxy Bold Red & White</option>
+            <option value="comicLime">🦖 4. Comic Lime Beast</option>
+            <option value="electricCyan">🔵 5. Electric Blue Thunder</option>
+            <option value="cleanWhite">⚪ 6. Clean Paper White</option>
           </select>
         </label>
-
-        <label>In-Animation (Entry)
+        <label>In-Animation
           <select id="t2_inAnim">
-            <option value="slamImpact" selected>🔨 1. Comic Slam Impact (Drop & Shake)</option>
-            <option value="elasticPunch">💥 2. Elastic Mega-Punch (Pop & Zoom)</option>
-            <option value="jelloBounce">🍮 3. Wobbly Jello Pop</option>
-            <option value="speedWarp">⚡ 4. Speed Warp Flash In</option>
-            <option value="dropSpring">🚀 5. Drop & Spring</option>
-            <option value="static">⏸️ 6. Static Pop (Instant)</option>
+            <option value="slamImpact" selected>🔨 Comic Slam Impact</option>
+            <option value="elasticPunch">💥 Elastic Mega-Punch</option>
+            <option value="jelloBounce">🍮 Wobbly Jello Pop</option>
           </select>
         </label>
-
-        <label>Out-Animation (Exit)
+        <label>Out-Animation
           <select id="t2_outAnim">
-            <option value="shrinkPop" selected>🫧 1. Shrink & Bubble Pop Away</option>
-            <option value="flyUp">🚀 2. Rocket Fly Up</option>
-            <option value="flashFade">✨ 3. Smooth Glow Flash Fade</option>
-            <option value="instantCut">✂️ 4. Instant Cut Out</option>
+            <option value="shrinkPop" selected>🫧 Shrink & Pop Away</option>
+            <option value="flyUp">🚀 Rocket Fly Up</option>
+            <option value="flashFade">✨ Glow Flash Fade</option>
           </select>
         </label>
-
         <label>
-          <span class="label-head"><span>Duration (0.5s - 10.0s)</span><span class="val-badge gold" id="v_t2_duration">3.5s</span></span>
+          <span class="label-head"><span>Duration</span><span class="val-badge gold" id="v_t2_duration">3.5s</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="t2_duration" data-dir="-1">◀</button>
             <input id="t2_duration" type="range" min="0.5" max="10.0" step="0.1" value="3.5">
             <button type="button" class="step-btn" data-step-for="t2_duration" data-dir="1">▶</button>
           </div>
         </label>
-
         <label>
           <span class="label-head"><span>Text Y-Position</span><span class="val-badge gold" id="v_t2_y">430</span></span>
           <div class="range-wrap">
@@ -353,7 +322,6 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <button type="button" class="step-btn" data-step-for="t2_y" data-dir="1">▶</button>
           </div>
         </label>
-
         <label>
           <span class="label-head"><span>Font Size</span><span class="val-badge gold" id="v_t2_size">105</span></span>
           <div class="range-wrap">
@@ -365,73 +333,56 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
       </div>
     </details>
 
-    <!-- 🌟 CARD 3: RUNNER IMPACT VFX WITH LIVE INTENSITY SLIDERS -->
+    <!-- CARD 3: RUNNER VFX -->
     <details class="drag-card" id="card_impact_vfx" open>
       <summary>
         <span>⚡ Runner Transformation VFX & Intensity</span>
-        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
+        <span class="drag-handle" draggable="true">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label class="toggle" style="grid-column:1/-1">
           <input id="enableVfx" type="checkbox" checked> <b>Enable Pad Hit VFX & Transformation Aura</b>
         </label>
-
         <label>
-          <span class="label-head"><span>VFX Scale/Bounce Jump</span><span class="val-badge gold" id="v_vfxScaleJump">0.08</span></span>
+          <span class="label-head"><span>VFX Scale Jump</span><span class="val-badge gold" id="v_vfxScaleJump">0.08</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="vfxScaleJump" data-dir="-1">◀</button>
             <input id="vfxScaleJump" type="range" min="0.0" max="0.30" step="0.01" value="0.08">
             <button type="button" class="step-btn" data-step-for="vfxScaleJump" data-dir="1">▶</button>
           </div>
-          <span class="small" style="color:var(--muted)">पैड छूते ही कैरेक्टर का उछाल (कम या ज्यादा)।</span>
         </label>
-
         <label>
-          <span class="label-head"><span>Glow & Lightning Spread</span><span class="val-badge gold" id="v_vfxAuraSpread">0.85</span></span>
+          <span class="label-head"><span>Glow & Aura Spread</span><span class="val-badge gold" id="v_vfxAuraSpread">0.85</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="vfxAuraSpread" data-dir="-1">◀</button>
             <input id="vfxAuraSpread" type="range" min="0.2" max="2.0" step="0.05" value="0.85">
             <button type="button" class="step-btn" data-step-for="vfxAuraSpread" data-dir="1">▶</button>
           </div>
-          <span class="small" style="color:var(--muted)">साइड में निकलने वाली बिजली और ऑरा का फैलाव।</span>
         </label>
       </div>
     </details>
 
+    <!-- CARD 4: HUD BOXES -->
     <details class="drag-card" id="card_hud" open>
       <summary>
-        <span>🎁 5 Mystery Boxes HUD (Elements & Question Themes)</span>
-        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
+        <span>🎁 5 Mystery Boxes HUD</span>
+        <span class="drag-handle" draggable="true">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label class="toggle"><input id="showHud" type="checkbox" checked> Show 5 Mystery Boxes</label>
         <label class="toggle"><input id="autoCollectHud" type="checkbox" checked> Auto Collect PNG from Pads</label>
-
-        <label style="grid-column:1/-1">Box VFX Style (Extreme Eye-Catching)
+        <label style="grid-column:1/-1">Box Style
           <select id="hudStyle">
-            <optgroup label="--- 🔥 Elemental Icons (No Question Mark) ---">
-              <option value="fireInferno" selected>🔥 1. Inferno Flame (Burning Fire Icon)</option>
-              <option value="waterCrystal">💧 2. Aqua Splash (Crystal Water Drop)</option>
-              <option value="amethystGem">💎 3. Faceted Diamond Gem (Magic Sparkle)</option>
-              <option value="electricThunder">⚡ 4. Neon Lightning Bolt (Thunder Zap)</option>
-            </optgroup>
-            <optgroup label="--- ❓ Classic & Viral Question Marks ---">
-              <option value="royal3DGold">👑 5. 3D Mario Classic Gold (?)</option>
-              <option value="royalAmber">👑 6. Royal Amber Gold (?)</option>
-              <option value="arcadeYellow">⭐ 7. 80s Arcade Bright Yellow (?)</option>
-              <option value="laserCrimson">🔴 8. Laser Crimson Red (?)</option>
-              <option value="cyberCyan">🔵 9. Cyber Cyan Circuit (?)</option>
-              <option value="neonGreen">🟢 10. Emerald Neon Pulse (?)</option>
-              <option value="plasmaPink">💖 11. Plasma Cyber Pink (?)</option>
-              <option value="electricBlue">⚡ 12. Electric Blue Thunder (?)</option>
-              <option value="synthwaveViolet">🟣 13. Synthwave Violet (?)</option>
-              <option value="toxicAcid">☣️ 14. Toxic Biohazard Lime (?)</option>
-              <option value="pureWhiteBox">⚪ 15. Clean Minimal Studio White (?)</option>
-              <option value="stealthCarbon">🖤 16. Stealth Carbon Matte (?)</option>
-            </optgroup>
+            <option value="fireInferno" selected>🔥 1. Inferno Flame</option>
+            <option value="waterCrystal">💧 2. Aqua Splash</option>
+            <option value="amethystGem">💎 3. Diamond Gem</option>
+            <option value="electricThunder">⚡ 4. Neon Lightning Bolt</option>
+            <option value="royal3DGold">👑 5. 3D Mario Classic Gold (?)</option>
+            <option value="laserCrimson">🔴 6. Laser Crimson Red (?)</option>
+            <option value="cyberCyan">🔵 7. Cyber Cyan Circuit (?)</option>
+            <option value="neonGreen">🟢 8. Emerald Neon Pulse (?)</option>
           </select>
         </label>
-
         <label>
           <span class="label-head"><span>HUD Y-Position</span><span class="val-badge gold" id="v_hudY">155</span></span>
           <div class="range-wrap">
@@ -456,75 +407,14 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <button type="button" class="step-btn" data-step-for="hudSpacing" data-dir="1">▶</button>
           </div>
         </label>
-
-        <div class="sub-title" style="color:var(--gold)">📁 Manual PNG Override for Boxes</div>
-        <label>Box 1 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_hud_0"><span>None</span><img src=""></div>
-            <input id="hudImg_0" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_hud_0">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="hudRemove_0" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="hudTol_0" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_hudTol_0">32</span>
-          </div>
-        </label>
-        <label>Box 2 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_hud_1"><span>None</span><img src=""></div>
-            <input id="hudImg_1" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_hud_1">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="hudRemove_1" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="hudTol_1" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_hudTol_1">32</span>
-          </div>
-        </label>
-        <label>Box 3 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_hud_2"><span>None</span><img src=""></div>
-            <input id="hudImg_2" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_hud_2">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="hudRemove_2" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="hudTol_2" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_hudTol_2">32</span>
-          </div>
-        </label>
-        <label>Box 4 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_hud_3"><span>None</span><img src=""></div>
-            <input id="hudImg_3" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_hud_3">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="hudRemove_3" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="hudTol_3" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_hudTol_3">32</span>
-          </div>
-        </label>
-        <label style="grid-column:1/-1">Box 5 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_hud_4"><span>None</span><img src=""></div>
-            <input id="hudImg_4" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_hud_4">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="hudRemove_4" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="hudTol_4" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_hudTol_4">32</span>
-          </div>
-        </label>
       </div>
     </details>
 
+    <!-- CARD 5: RUNNER EVOLUTION -->
     <details class="drag-card" id="card_runner" open>
       <summary>
-        <span>🏃 Runner Evolution Settings (Balanced Proportions)</span>
-        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
+        <span>🏃 Runner Evolution Settings</span>
+        <span class="drag-handle" draggable="true">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label>Base Start PNG (Stage 0)
@@ -547,7 +437,6 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <button type="button" class="step-btn" data-step-for="pSize_0" data-dir="1">▶</button>
           </div>
         </label>
-
         <label>Runner Lane Mode
           <select id="playerLane">
             <option value="slider" selected>Manual Live Slider (Fastest)</option>
@@ -565,224 +454,61 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
 
-        <div class="sub-title" style="color:#61f0a6">&#128170; GREEN PAD UPGRADES</div>
-        <label>Green Stage 1 PNG
+        <div class="sub-title" style="color:#61f0a6">&#128170; GREEN PAD UPGRADES (Stages 1 to 5)</div>
+        ${[1,2,3,4,5].map(i => `
+        <label>Green Stage ${i} PNG
           <div class="file-wrap">
-            <div class="thumb-box" id="thumb_gImg_1"><span>None</span><img src=""></div>
-            <input id="gImg_1" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_gImg_1">✕ Clear</button>
+            <div class="thumb-box" id="thumb_gImg_${i}"><span>None</span><img src=""></div>
+            <input id="gImg_${i}" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_gImg_${i}">✕ Clear</button>
           </div>
           <div class="cutout-ctrl">
-            <input id="gRemove_1" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="gTol_1" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_gTol_1">32</span>
+            <input id="gRemove_${i}" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="gTol_${i}" type="range" min="10" max="80" value="32">
+            <span class="val-badge" id="v_gTol_${i}">32</span>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Green 1 Size</span><span class="val-badge" id="v_gSize_1">245</span></span>
+          <span class="label-head"><span>Green ${i} Size</span><span class="val-badge" id="v_gSize_${i}">${200 + i*45}</span></span>
           <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="gSize_1" data-dir="-1">◀</button>
-            <input id="gSize_1" type="range" min="60" max="1200" value="245">
-            <button type="button" class="step-btn" data-step-for="gSize_1" data-dir="1">▶</button>
+            <button type="button" class="step-btn" data-step-for="gSize_${i}" data-dir="-1">◀</button>
+            <input id="gSize_${i}" type="range" min="60" max="1200" value="${200 + i*45}">
+            <button type="button" class="step-btn" data-step-for="gSize_${i}" data-dir="1">▶</button>
           </div>
         </label>
+        `).join('')}
 
-        <label>Green Stage 2 PNG
+        <div class="sub-title" style="color:#ff6b6b">&#128128; RED PAD DOWNGRADES (Stages 1 to 5)</div>
+        ${[1,2,3,4,5].map(i => `
+        <label>Red Stage ${i} PNG
           <div class="file-wrap">
-            <div class="thumb-box" id="thumb_gImg_2"><span>None</span><img src=""></div>
-            <input id="gImg_2" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_gImg_2">✕ Clear</button>
+            <div class="thumb-box" id="thumb_rImg_${i}"><span>None</span><img src=""></div>
+            <input id="rImg_${i}" type="file" accept="image/png,image/webp,image/jpeg">
+            <button type="button" class="clear-btn" id="clear_rImg_${i}">✕ Clear</button>
           </div>
           <div class="cutout-ctrl">
-            <input id="gRemove_2" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="gTol_2" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_gTol_2">32</span>
+            <input id="rRemove_${i}" type="checkbox" checked><span class="small">Auto Cut</span>
+            <input id="rTol_${i}" type="range" min="10" max="80" value="32">
+            <span class="val-badge" id="v_rTol_${i}">32</span>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Green 2 Size</span><span class="val-badge" id="v_gSize_2">285</span></span>
+          <span class="label-head"><span>Red ${i} Size</span><span class="val-badge red" id="v_rSize_${i}">${210 - i*20}</span></span>
           <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="gSize_2" data-dir="-1">◀</button>
-            <input id="gSize_2" type="range" min="60" max="1200" value="285">
-            <button type="button" class="step-btn" data-step-for="gSize_2" data-dir="1">▶</button>
+            <button type="button" class="step-btn" data-step-for="rSize_${i}" data-dir="-1">◀</button>
+            <input id="rSize_${i}" type="range" min="60" max="1200" value="${210 - i*20}">
+            <button type="button" class="step-btn" data-step-for="rSize_${i}" data-dir="1">▶</button>
           </div>
         </label>
-
-        <label>Green Stage 3 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_gImg_3"><span>None</span><img src=""></div>
-            <input id="gImg_3" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_gImg_3">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="gRemove_3" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="gTol_3" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_gTol_3">32</span>
-          </div>
-        </label>
-        <label>
-          <span class="label-head"><span>Green 3 Size</span><span class="val-badge" id="v_gSize_3">330</span></span>
-          <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="gSize_3" data-dir="-1">◀</button>
-            <input id="gSize_3" type="range" min="60" max="1200" value="330">
-            <button type="button" class="step-btn" data-step-for="gSize_3" data-dir="1">▶</button>
-          </div>
-        </label>
-
-        <label>Green Stage 4 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_gImg_4"><span>None</span><img src=""></div>
-            <input id="gImg_4" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_gImg_4">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="gRemove_4" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="gTol_4" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_gTol_4">32</span>
-          </div>
-        </label>
-        <label>
-          <span class="label-head"><span>Green 4 Size</span><span class="val-badge" id="v_gSize_4">380</span></span>
-          <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="gSize_4" data-dir="-1">◀</button>
-            <input id="gSize_4" type="range" min="60" max="1200" value="380">
-            <button type="button" class="step-btn" data-step-for="gSize_4" data-dir="1">▶</button>
-          </div>
-        </label>
-
-        <label>Green Stage 5 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_gImg_5"><span>None</span><img src=""></div>
-            <input id="gImg_5" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_gImg_5">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="gRemove_5" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="gTol_5" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_gTol_5">32</span>
-          </div>
-        </label>
-        <label>
-          <span class="label-head"><span>Green 5 Size</span><span class="val-badge" id="v_gSize_5">435</span></span>
-          <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="gSize_5" data-dir="-1">◀</button>
-            <input id="gSize_5" type="range" min="60" max="1200" value="435">
-            <button type="button" class="step-btn" data-step-for="gSize_5" data-dir="1">▶</button>
-          </div>
-        </label>
-
-        <div class="sub-title" style="color:#ff6b6b">&#128128; RED PAD DOWNGRADES</div>
-        <label>Red Stage 1 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_rImg_1"><span>None</span><img src=""></div>
-            <input id="rImg_1" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_rImg_1">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="rRemove_1" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="rTol_1" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_rTol_1">32</span>
-          </div>
-        </label>
-        <label>
-          <span class="label-head"><span>Red 1 Size</span><span class="val-badge red" id="v_rSize_1">195</span></span>
-          <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="rSize_1" data-dir="-1">◀</button>
-            <input id="rSize_1" type="range" min="60" max="1200" value="195">
-            <button type="button" class="step-btn" data-step-for="rSize_1" data-dir="1">▶</button>
-          </div>
-        </label>
-
-        <label>Red Stage 2 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_rImg_2"><span>None</span><img src=""></div>
-            <input id="rImg_2" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_rImg_2">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="rRemove_2" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="rTol_2" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_rTol_2">32</span>
-          </div>
-        </label>
-        <label>
-          <span class="label-head"><span>Red 2 Size</span><span class="val-badge red" id="v_rSize_2">170</span></span>
-          <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="rSize_2" data-dir="-1">◀</button>
-            <input id="rSize_2" type="range" min="60" max="1200" value="170">
-            <button type="button" class="step-btn" data-step-for="rSize_2" data-dir="1">▶</button>
-          </div>
-        </label>
-
-        <label>Red Stage 3 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_rImg_3"><span>None</span><img src=""></div>
-            <input id="rImg_3" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_rImg_3">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="rRemove_3" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="rTol_3" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_rTol_3">32</span>
-          </div>
-        </label>
-        <label>
-          <span class="label-head"><span>Red 3 Size</span><span class="val-badge red" id="v_rSize_3">150</span></span>
-          <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="rSize_3" data-dir="-1">◀</button>
-            <input id="rSize_3" type="range" min="60" max="1200" value="150">
-            <button type="button" class="step-btn" data-step-for="rSize_3" data-dir="1">▶</button>
-          </div>
-        </label>
-
-        <label>Red Stage 4 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_rImg_4"><span>None</span><img src=""></div>
-            <input id="rImg_4" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_rImg_4">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="rRemove_4" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="rTol_4" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_rTol_4">32</span>
-          </div>
-        </label>
-        <label>
-          <span class="label-head"><span>Red 4 Size</span><span class="val-badge red" id="v_rSize_4">130</span></span>
-          <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="rSize_4" data-dir="-1">◀</button>
-            <input id="rSize_4" type="range" min="60" max="1200" value="130">
-            <button type="button" class="step-btn" data-step-for="rSize_4" data-dir="1">▶</button>
-          </div>
-        </label>
-
-        <label>Red Stage 5 PNG
-          <div class="file-wrap">
-            <div class="thumb-box" id="thumb_rImg_5"><span>None</span><img src=""></div>
-            <input id="rImg_5" type="file" accept="image/png,image/webp,image/jpeg">
-            <button type="button" class="clear-btn" id="clear_rImg_5">✕ Clear</button>
-          </div>
-          <div class="cutout-ctrl">
-            <input id="rRemove_5" type="checkbox" checked><span class="small">Auto Cut</span>
-            <input id="rTol_5" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
-            <span class="val-badge" id="v_rTol_5">32</span>
-          </div>
-        </label>
-        <label>
-          <span class="label-head"><span>Red 5 Size</span><span class="val-badge red" id="v_rSize_5">110</span></span>
-          <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="rSize_5" data-dir="-1">◀</button>
-            <input id="rSize_5" type="range" min="60" max="1200" value="110">
-            <button type="button" class="step-btn" data-step-for="rSize_5" data-dir="1">▶</button>
-          </div>
-        </label>
+        `).join('')}
       </div>
     </details>
 
+    <!-- CARD 6: MOVING HIGHWAY & EYE-COMFORT THEMES -->
     <details class="drag-card" id="card_highway" open>
       <summary>
-        <span>🛣️ Moving Highway & Perspective (Straight YouTube Setup)</span>
-        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
+        <span>🛣️ Highway & Eye-Comfort Studio Backdrops</span>
+        <span class="drag-handle" draggable="true">⠿ Drag</span>
       </summary>
       <div class="grid two">
         <label>
@@ -842,164 +568,122 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
 
-        <label style="border:1px solid #61f0a6;padding:8px;border-radius:10px;background:#0d1813">
-          <span style="color:#61f0a6;font-weight:900">🌟 Quick Selector: 20 New Day-Light & V6 Editions</span>
-          <select id="newRoadSelector">
-            <option value="" selected>-- 🚀 Choose from 20 New Roads Directly --</option>
-            <optgroup label="--- 🦁 5 Classic V6 Special Variants (Same HD Look) ---">
-              <option value="v6Gold">👑 1. Classic V6 Gold Edition (Championship)</option>
-              <option value="v6CyberBlue">⚡ 2. Classic V6 Cyber-Blue (Electric Rumble)</option>
-              <option value="v6LimeBeast">🦖 3. Classic V6 Lime Beast (Monster Track)</option>
-              <option value="v6SunsetOrange">🔥 4. Classic V6 Sunset Orange (Hyper Curve)</option>
-              <option value="v6Monza">🏎️ 5. Classic V6 Formula Monza (Yellow/Black)</option>
+        <!-- 🌟 BACKGROUND THEME (NO BLACK, EYE-FRIENDLY SPOTLIGHTS) -->
+        <label style="grid-column:1/-1;border:1px solid #61f0a6;padding:10px;border-radius:12px;background:#0d1813">
+          <span style="color:#61f0a6;font-weight:900;font-size:14px">🎨 Eye-Comfort Studio Backdrops (Characters Pop 100% - No Eye Strain!)</span>
+          <select id="bgMode" style="margin-top:6px">
+            <optgroup label="--- ⭐ TOP FAVORITES (Ultra Clean & High Retention) ---">
+              <option value="studioPaperSlate" selected>👑 1. Paper Slate Grey (Most Recommended - Best HD Pop)</option>
+              <option value="studioRoyalCobalt">👑 2. Royal Cobalt Studio (Deep Pro Navy Blue)</option>
+              <option value="studioSkyCyan">👑 3. Sky Cyan Studio (Viral Shorts Classic)</option>
+              <option value="studioNordicMist">👑 4. Nordic Mist Grey (Soft Silver Studio)</option>
             </optgroup>
-            <optgroup label="--- ☀️ 15 Ultra-Clean Day-Light Roads ---">
-              <option value="sunnyDesert">☀️ 6. Sunny Desert Highway (Sandy Gold)</option>
-              <option value="miamiBeach">🌴 7. Miami Beach Coastal Drive (Turquoise)</option>
-              <option value="greenMeadow">🍃 8. Fresh Green Meadow Track (Nature)</option>
-              <option value="tokyoDay">🏙️ 9. Tokyo City Day Asphalt (Modern Pro)</option>
-              <option value="californiaSunset">🌅 10. California Golden Hour (Warm Glow)</option>
-              <option value="redClayTrail">🏜️ 11. Grand Canyon Red Clay Trail</option>
-              <option value="monacoF1">🏁 12. Monaco F1 Grand Prix Track</option>
-              <option value="nordicSnow">❄️ 13. Nordic Snow Valley Road (Crisp Blue)</option>
-              <option value="studioPaperWhite">⚪ 14. Studio Minimalist Paper White (4K Pop)</option>
-              <option value="autumnMaple">🍁 15. Autumn Maple Highway (Amber)</option>
-              <option value="skyRainbow">🌈 16. Sky High Rainbow Bridge (Bright)</option>
-              <option value="goldenSands">🏖️ 17. Golden Sands Coastline</option>
-              <option value="alpineMountain">🏔️ 18. Alpine Mountain Pass (Slate Crisp)</option>
-              <option value="neonDaylight">🔮 19. Cyberpunk Daylight (Day-Glo)</option>
-              <option value="emeraldGolfway">⛳ 20. Emerald Golfway Asphalt (Royal)</option>
+            <optgroup label="--- 🌿 Modern Aesthetic Studio Moods (Zero Glare) ---">
+              <option value="studioOceanTeal">🌊 5. Ocean Teal Studio (Smooth Cinematic)</option>
+              <option value="studioMintFresh">🍃 6. Pastel Mint Studio (Refreshing Clean)</option>
+              <option value="studioSageClean">🌿 7. Soft Sage Studio (Calm Natural)</option>
+              <option value="studioWarmSand">📜 8. Warm Paper Sand (Creamy Mocha)</option>
+              <option value="studioPeachySunset">🍑 9. Peachy Sunset Studio (Soft Warm, No Blinding)</option>
+              <option value="studioLavenderDusk">💜 10. Soft Lilac Studio (Pastel Periwinkle)</option>
+              <option value="studioRoseVelvet">🌸 11. Dusty Rose Velvet (Gentle Coral)</option>
+              <option value="studioBubblegum">🍭 12. Soft Bubblegum Studio (Kids Favorite)</option>
+              <option value="studioGraphiteMatte">🖤 13. Matte Graphite Studio (Pro Contrast - Not Harsh Black)</option>
+              <option value="studioDeepIndigo">🌌 14. Cinematic Deep Indigo (Soft Midnight Blue)</option>
+              <option value="studioSoftPearl">⚪ 15. Studio Soft Pearl (Off-White Minimal)</option>
             </optgroup>
           </select>
         </label>
 
-        <label>Master Road Style (All 55+ Roads) <select id="roadVariant">
-          <optgroup label="--- 🌟 5 New Classic V6 Editions ---">
-            <option value="v6Gold">👑 V6 Gold Edition (Championship)</option>
-            <option value="v6CyberBlue">⚡ V6 Cyber-Blue (Electric Rumble)</option>
-            <option value="v6LimeBeast">🦖 V6 Lime Beast (Monster Track)</option>
-            <option value="v6SunsetOrange">🔥 V6 Sunset Orange (Hyper Curve)</option>
-            <option value="v6Monza">🏎️ V6 Formula Monza (Yellow/Black)</option>
-          </optgroup>
-          <optgroup label="--- ☀️ 15 New Day-Light Roads ---">
-            <option value="sunnyDesert">☀️ Sunny Desert Highway</option>
-            <option value="miamiBeach">🌴 Miami Beach Coastal</option>
-            <option value="greenMeadow">🍃 Fresh Green Meadow</option>
-            <option value="tokyoDay">🏙️ Tokyo City Day Asphalt</option>
-            <option value="californiaSunset">🌅 California Golden Hour</option>
-            <option value="redClayTrail">🏜️ Grand Canyon Red Clay</option>
-            <option value="monacoF1">🏁 Monaco F1 Grand Prix</option>
-            <option value="nordicSnow">❄️ Nordic Snow Valley</option>
-            <option value="studioPaperWhite">⚪ Studio Minimalist White</option>
-            <option value="autumnMaple">🍁 Autumn Maple Highway</option>
-            <option value="skyRainbow">🌈 Sky High Rainbow Bridge</option>
-            <option value="goldenSands">🏖️ Golden Sands Coastline</option>
-            <option value="alpineMountain">🏔️ Alpine Mountain Pass</option>
-            <option value="neonDaylight">🔮 Cyberpunk Daylight</option>
-            <option value="emeraldGolfway">⛳ Emerald Golfway Asphalt</option>
-          </optgroup>
-          <optgroup label="--- Classic & Highway ---">
-            <option value="classic" selected>1. Classic V6 (Lion Challenge)</option>
-            <option value="twinStripe">2. Twin Yellow Stripes</option>
-            <option value="tripleLane">3. Triple Fast Lane</option>
-            <option value="asphaltSpeed">4. Speed Asphalt Pro</option>
-            <option value="midnightHighway">5. Midnight Highway</option>
-            <option value="carbonTrack">6. Carbon Track Pro</option>
-            <option value="diamondFlow">7. Diamond Flow Runner</option>
-            <option value="minimalGrey">8. Minimal Studio Grey</option>
-          </optgroup>
-          <optgroup label="--- Neon & Cyberpunk ---">
-            <option value="neonPulse">9. Neon Pulse Glow</option>
-            <option value="edgeGlow">10. Emerald Edge Glow</option>
-            <option value="arcadeGrid">11. Tron Arcade Grid</option>
-            <option value="railRunner">12. Rail Runner Lightbeam</option>
-            <option value="chevronRush">13. Chevron Rush Neon</option>
-            <option value="cyberViolet">14. Cyber Violet Drift</option>
-            <option value="laserCyan">15. Laser Cyan Circuit</option>
-            <option value="matrixCode">16. Matrix Green Codeflow</option>
-            <option value="plasmaPink">17. Plasma Pink Horizon</option>
-            <option value="overdriveNeon">18. Overdrive Synthwave</option>
-            <option value="hyperSpace">19. Hyper Space Neon</option>
-            <option value="retroSun">20. Retro 80s Sun Road</option>
-          </optgroup>
-          <optgroup label="--- Elements & Fantasy Themes ---">
-            <option value="lavaCrack">21. Molten Lava Cracks</option>
-            <option value="iceCrystal">22. Frozen Ice Crystal Road</option>
-            <option value="goldenPath">23. Golden Treasury Trail</option>
-            <option value="toxicHazard">24. Toxic Biohazard Grid</option>
-            <option value="cosmicVoid">25. Cosmic Star Void</option>
-            <option value="amethystPath">26. Royal Amethyst Glow</option>
-            <option value="infernoFire">27. Blazing Inferno Track</option>
-            <option value="electricThunder">28. Thunderstorm Blue Strike</option>
-            <option value="rainbowPrism">29. Rainbow Light Prism</option>
-            <option value="sunsetBoulevard">30. Sunset Boulevard Warm</option>
-            <option value="pastelDream">31. Pastel Dreamscape</option>
-            <option value="emeraldCity">32. Emerald City Highway</option>
-            <option value="rubyRoyale">33. Ruby Royale Glow</option>
-            <option value="cleanWhiteTrack">34. Clean White Modern</option>
-            <option value="darkObsidian">35. Dark Obsidian Deep</option>
-          </optgroup>
-        </select></label>
+        <!-- 🌟 ALL 56 EYE-COMFORT ROADS -->
+        <label style="grid-column:1/-1">
+          <span style="font-weight:900;color:var(--accent)">🛣️ Master Road Style (All 56 Balanced & Eye-Comfort Roads)</span>
+          <select id="roadVariant">
+            <optgroup label="--- 🏆 1. Viral YouTube Pro Racing (10 Roads) ---">
+              <option value="classic" selected>1. Classic V6 Red/White Racing Kerbs</option>
+              <option value="v6Gold">2. Championship Matte Gold & Slate</option>
+              <option value="v6CyberBlue">3. Cyber Blue Rumble Track</option>
+              <option value="v6LimeBeast">4. Lime & Slate Speed Track</option>
+              <option value="v6Monza">5. Formula Monza Yellow/Dark Curb</option>
+              <option value="monacoF1">6. Monaco GP Crimson/White</option>
+              <option value="asphaltSpeed">7. Pure Asphalt Speed Pro</option>
+              <option value="tokyoDay">8. Tokyo City Day Asphalt</option>
+              <option value="studioPaperWhite">9. Studio Minimalist White/Slate</option>
+              <option value="carbonTrack">10. Sport Carbon Slate</option>
+            </optgroup>
+            <optgroup label="--- 🍭 2. Cartoon, Arcade & Candy Land (10 Roads) ---">
+              <option value="candyPop">11. Bubblegum & Cyan Candy Road</option>
+              <option value="skyRainbow">12. Sky High Rainbow Ribbon</option>
+              <option value="marioKartCircuit">13. Kart Circuit Green & Curb</option>
+              <option value="toyTownBlock">14. Vibrant Toy Town Track</option>
+              <option value="pastelDream">15. Pastel Cotton Candy Highway</option>
+              <option value="donutDune">16. Sugar Frosting Peach Road</option>
+              <option value="retroPixel">17. 80s Arcade Pixel Runner</option>
+              <option value="lemonLimeSpeed">18. Fizzy Lemon-Lime Sprint</option>
+              <option value="mintChoco">19. Fresh Mint & Slate Road</option>
+              <option value="sunflowerMeadow">20. Cheerful Honey Yellow Dash</option>
+            </optgroup>
+            <optgroup label="--- ☀️ 3. Day-Light, Coastal & Scenic (12 Roads) ---">
+              <option value="sunnyDesert">21. Sunny Desert Sandstone</option>
+              <option value="miamiBeach">22. Miami Coastal Turquoise</option>
+              <option value="greenMeadow">23. Fresh Green Meadow Track</option>
+              <option value="californiaSunset">24. California Warm Amber Sunset</option>
+              <option value="redClayTrail">25. Grand Canyon Red Clay</option>
+              <option value="nordicSnow">26. Nordic Ice Slate Valley</option>
+              <option value="autumnMaple">27. Autumn Maple & Amber</option>
+              <option value="goldenSands">28. Coastal Golden Shore</option>
+              <option value="alpineMountain">29. Alpine Mountain Slate</option>
+              <option value="emeraldGolfway">30. Emerald Golfway Royal</option>
+              <option value="hawaiianOcean">31. Pacific Deep Teal Coast</option>
+              <option value="lavenderValley">32. French Lavender Slate Highway</option>
+            </optgroup>
+            <optgroup label="--- ⚡ 4. Clean Cyber & Synth (Soft Glow, No Eye Strain) (12 Roads) ---">
+              <option value="neonPulse">33. Soft Magenta & Cyan Circuit</option>
+              <option value="edgeGlow">34. Clean Emerald Edge Runner</option>
+              <option value="arcadeGrid">35. Tron Electric Grid</option>
+              <option value="railRunner">36. Dual Lightbeam Highway</option>
+              <option value="chevronRush">37. Arrow Chevron Sprint</option>
+              <option value="cyberViolet">38. Ultra Violet Drift</option>
+              <option value="laserCyan">39. Laser Cyan Circuit</option>
+              <option value="plasmaPink">40. Smooth Cyber Pink Wave</option>
+              <option value="overdriveNeon">41. Synthwave Dusk Drive</option>
+              <option value="hyperSpace">42. Deep Space Periwinkle</option>
+              <option value="matrixCode">43. Clean Matrix Greenflow</option>
+              <option value="midnightHighway">44. Smooth Navy Midnight (Non-Black)</option>
+            </optgroup>
+            <optgroup label="--- 💎 5. Elemental & Crystal Worlds (12 Roads) ---">
+              <option value="iceCrystal">45. Frozen Sub-Zero Crystal</option>
+              <option value="amethystPath">46. Royal Amethyst Gemstone</option>
+              <option value="emeraldCity">47. Emerald Jade Highway</option>
+              <option value="rubyRoyale">48. Royal Crimson Ruby Path</option>
+              <option value="electricThunder">49. Storm Blue Lightning Dash</option>
+              <option value="infernoFire">50. Warm Magma Hearth (Balanced, No Glare)</option>
+              <option value="lavaCrack">51. Deep Slate Lava Ridge</option>
+              <option value="goldenPath">52. Royal Gold Treasury</option>
+              <option value="toxicHazard">53. Bio-Lime Hazard Strip</option>
+              <option value="cosmicVoid">54. Cosmic Purple Galaxy</option>
+              <option value="cleanSlateMinimal">55. Crisp Studio Slate Grey</option>
+              <option value="twinStripe">56. Twin Yellow Classic Stripes</option>
+            </optgroup>
+          </select>
+        </label>
 
-        <!-- 🌟 10 VIRAL SHORTS STUDIO BACKDROPS -->
-        <label style="grid-column:1/-1">Background Theme (30+ HD Moods) <select id="bgMode">
-          <optgroup label="--- 🌟 Viral Shorts Studio Backdrops (TryLoxy Style) ---">
-            <option value="studioSkyCyan" selected>🎨 1. Sky Cyan Studio (Viral Shorts)</option>
-            <option value="studioLimePop">🎨 2. Lime Pop Studio (Cartoons & SpongeBob)</option>
-            <option value="studioPaperSlate">🎨 3. Paper Slate Grey (Matte Clean)</option>
-            <option value="studioWarmSand">🎨 4. Warm Sand Studio (Paper Cream)</option>
-            <option value="studioSunsetAmber">🎨 5. Sunset Amber Studio (Warm Orange)</option>
-            <option value="studioCrimsonRuby">🎨 6. Crimson Ruby Studio (Rich Red)</option>
-            <option value="studioSoftPearl">🎨 7. Soft Pearl Studio (Gentle Off-White)</option>
-            <option value="studioCandyViolet">🎨 8. Candy Violet Studio (Pastel)</option>
-            <option value="studioMintFresh">🎨 9. Mint Fresh Studio (Soft Green)</option>
-            <option value="studioRoyalCobalt">🎨 10. Royal Cobalt Studio (Electric Blue)</option>
-          </optgroup>
-          <optgroup label="--- Dark & Cinematic Moods ---">
-            <option value="black">11. Pitch Black (Pure Focus)</option>
-            <option value="midnight">12. Midnight Void</option>
-            <option value="obsidian">13. Obsidian Matte (High Contrast)</option>
-            <option value="deepSpace">14. Deep Space Abyss</option>
-            <option value="cyberDark">15. Cyber Dark Purple</option>
-            <option value="matrixBlack">16. Matrix Deep Green</option>
-            <option value="lavaAbyss">17. Volcanic Lava Abyss</option>
-            <option value="royalNavy">18. Royal Navy Dark</option>
-            <option value="carbonDark">19. Carbon Industrial Dark</option>
-            <option value="crimsonDark">20. Crimson Night Dark</option>
-          </optgroup>
-          <optgroup label="--- Light & Studio Moods ---">
-            <option value="cleanWhite">☀️ 21. Clean Studio White</option>
-            <option value="softSilver">☀️ 22. Soft Silver Mist</option>
-            <option value="cloudGrey">☀️ 23. Cloud Grey Minimal</option>
-            <option value="skyBlueLight">☀️ 24. Clear Sky Blue</option>
-            <option value="cyanBreeze">☀️ 25. Light Cyan Breeze</option>
-            <option value="mintFresh">☀️ 26. Fresh Mint Pastel</option>
-            <option value="pastelLavender">☀️ 27. Pastel Lavender</option>
-            <option value="sunsetWarm">☀️ 28. Sunset Warm Peach</option>
-            <option value="goldAura">☀️ 29. Golden Aura Light</option>
-            <option value="pureSlate">☀️ 30. Crisp Slate Light</option>
-          </optgroup>
-        </select></label>
         <label class="toggle"><input id="speedLines" type="checkbox" checked> Motion streaks (YouTube speed)</label>
         <label class="toggle"><input id="roadShine" type="checkbox" checked> Road highlights</label>
       </div>
     </details>
 
+    <!-- CARD 7: 5 ROWS CONTROLLER -->
     <details class="drag-card" id="card_rows" open>
       <summary>
-        <span>🚦 5 Fixed Rows + Master Color PNG Batch Controller</span>
-        <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
+        <span>🚦 5 Fixed Rows + Master Color Controller</span>
+        <span class="drag-handle" draggable="true">⠿ Drag</span>
       </summary>
       <div class="rowbar">
-        <span class="small">5 main rows with custom color pickers & live size values + Stationary Boss.</span>
-        
-        <div style="width:100%;background:#101318;padding:12px;border:1px solid #3c4454;border-radius:12px;display:grid;gap:10px;margin-top:6px">
-          <div style="font-weight:900;font-size:13px;color:var(--accent);display:flex;align-items:center;gap:6px">
-            <span>⚡ Smart Master Color PNG (Applies by Color, NOT Straight Line!)</span>
-          </div>
+        <div style="width:100%;background:#101318;padding:12px;border:1px solid #3c4454;border-radius:12px;display:grid;gap:10px">
+          <b style="color:var(--accent)">⚡ Smart Master Color PNG (Applies by Color, NOT Straight Line!)</b>
           <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:10px">
             <div style="background:#191d24;padding:9px;border-radius:9px;display:grid;gap:6px">
-              <b style="font-size:11px;color:#2aff84">MASTER GREEN PADS PNG (All Green Pads)</b>
+              <b style="font-size:11px;color:#2aff84">MASTER GREEN PADS PNG</b>
               <div class="file-wrap">
                 <div class="thumb-box" id="thumb_master_green"><span>None</span><img src=""></div>
                 <input id="master_green_file" type="file" accept="image/png,image/webp,image/jpeg">
@@ -1007,12 +691,12 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
               </div>
               <div class="cutout-ctrl">
                 <input id="master_green_rm" type="checkbox" checked><span class="small">Auto Cut</span>
-                <input id="master_green_tol" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+                <input id="master_green_tol" type="range" min="10" max="80" value="32">
                 <span class="val-badge" id="v_master_green_tol">32</span>
               </div>
             </div>
             <div style="background:#191d24;padding:9px;border-radius:9px;display:grid;gap:6px">
-              <b style="font-size:11px;color:#ff4d4d">MASTER RED PADS PNG (All Red Pads)</b>
+              <b style="font-size:11px;color:#ff4d4d">MASTER RED PADS PNG</b>
               <div class="file-wrap">
                 <div class="thumb-box" id="thumb_master_red"><span>None</span><img src=""></div>
                 <input id="master_red_file" type="file" accept="image/png,image/webp,image/jpeg">
@@ -1020,12 +704,11 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
               </div>
               <div class="cutout-ctrl">
                 <input id="master_red_rm" type="checkbox" checked><span class="small">Auto Cut</span>
-                <input id="master_red_tol" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+                <input id="master_red_tol" type="range" min="10" max="80" value="32">
                 <span class="val-badge" id="v_master_red_tol">32</span>
               </div>
             </div>
           </div>
-          <span class="small" style="color:var(--muted)">💡 फिक्स: अब ग्रीन वाली फोटो चाहे लेफ्ट हो या राइट, सिर्फ हरे पैड्स में ही लगेगी! लाल वाली सिर्फ लाल पैड्स में लगेगी।</span>
         </div>
 
         <div style="width:100%;margin-top:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
@@ -1046,7 +729,6 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
             <button type="button" class="step-btn" data-step-for="bossDistance" data-dir="1">▶</button>
           </div>
           <span class="val-badge gold" id="v_bossDistance">2.8s</span>
-          <div class="small" style="width:100%;color:var(--muted)">5वें पैड के जाने के बाद लड़ाई के बीच का गैप (सेकंड में)।</div>
         </div>
       </div>
       <div id="rows" class="rows"></div>
@@ -1076,7 +758,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         </label>
         <div class="cutout-ctrl">
           <input class="leftRemove" type="checkbox" checked><span class="small">Auto Cut</span>
-          <input class="leftTol" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+          <input class="leftTol" type="range" min="10" max="80" value="32">
           <span class="val-badge leftTolVal">32</span>
         </div>
         <label>
@@ -1105,7 +787,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         </label>
         <div class="cutout-ctrl">
           <input class="rightRemove" type="checkbox" checked><span class="small">Auto Cut</span>
-          <input class="rightTol" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+          <input class="rightTol" type="range" min="10" max="80" value="32">
           <span class="val-badge rightTolVal">32</span>
         </div>
         <label>
@@ -1126,7 +808,7 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
     <div class="rowhead"><strong style="color:#61f0a6">&#128293; Opponent Boss</strong><span class="small">Stationary at Road End</span></div>
     <div class="side" style="grid-column:span 2">
       <b>OPPONENT CHARACTER PNG</b>
-      <label>PNG (सड़क के अंत में खंभे की तरह रहेगा और 5वें पैड के बाद रनर से टकराएगा)
+      <label>PNG
         <div class="file-wrap">
           <div class="thumb-box" id="thumb_oppImg"><span>None</span><img src=""></div>
           <input class="oppInput" type="file" accept="image/png,image/webp,image/jpeg">
@@ -1135,10 +817,9 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
       </label>
       <div class="cutout-ctrl">
         <input class="oppRemove" type="checkbox" checked><span class="small">Auto Cut</span>
-        <input id="oppTol" type="range" min="10" max="80" value="32" title="Cutout Tolerance">
+        <input id="oppTol" type="range" min="10" max="80" value="32">
         <span class="val-badge" id="v_oppTol">32</span>
       </div>
-      <div class="small" style="color:var(--accent);margin-top:4px">⚡ Absolute Fixed Lock: 5वें पैड तक पीछे स्थिर, फिर 2.8s वॉक!</div>
     </div>
   </div>
 </template>
@@ -1147,7 +828,6 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
 (function(){
 var canvas=document.getElementById('stage');
 var ctx=canvas.getContext('2d', { alpha: false });
-
 var W=canvas.width, H=canvas.height;
 var $=function(id){ return document.getElementById(id); };
 
@@ -1180,7 +860,7 @@ var state={
   padThickness:22,
   bossDistance:2.8,
   roadVariant:'classic',
-  bgMode:'studioSkyCyan',
+  bgMode:'studioPaperSlate',
   speedLines:true,
   roadShine:true,
   showHud:true,
@@ -1239,39 +919,23 @@ var state={
   opponent:{src:null, img:null, removeBg:true, tol:32, size:330}
 };
 
+// 🌟 EYE-COMFORT STUDIO PALETTES (No Muddy Blacks, No Harsh Neons)
 var bgColors = {
-  studioSkyCyan:    ['#0096c7', '#03045e', '#48cae4'], 
-  studioLimePop:    ['#70e000', '#38b000', '#9ef01a'], 
-  studioPaperSlate: ['#6c757d', '#343a40', '#adb5bd'], 
-  studioWarmSand:   ['#d4a373', '#8d5b4c', '#faedcd'], 
-  studioSunsetAmber:['#f77f00', '#d62828', '#fcbf49'], 
-  studioCrimsonRuby:['#9d0208', '#370617', '#dc2f02'], 
-  studioSoftPearl:  ['#dee2e6', '#ced4da', '#f8f9fa'], 
-  studioCandyViolet:['#7209b7', '#3a0ca3', '#b5179e'], 
-  studioMintFresh:  ['#2ec4b6', '#011627', '#cbf3f0'], 
-  studioRoyalCobalt:['#1d3557', '#03045e', '#457b9d'], 
-
-  black: ['#000000', '#050505'],
-  midnight: ['#000000', '#05070c'],
-  obsidian: ['#090a0f', '#12141c'],
-  deepSpace: ['#010204', '#080c14'],
-  cyberDark: ['#08020e', '#180726'],
-  matrixBlack: ['#000502', '#021207'],
-  lavaAbyss: ['#120202', '#260505'],
-  royalNavy: ['#020b18', '#07162c'],
-  carbonDark: ['#0d0f12', '#181b20'],
-  crimsonDark: ['#150005', '#2c040d'],
-
-  cleanWhite: ['#ffffff', '#f1f3f5'],
-  softSilver: ['#f8f9fa', '#e9ecef'],
-  cloudGrey: ['#edf2f7', '#cbd5e1'],
-  skyBlueLight: ['#e0f2fe', '#bae6fd'],
-  cyanBreeze: ['#ecfeff', '#cffafe'],
-  mintFresh: ['#f0fdf4', '#dcfce7'],
-  pastelLavender: ['#f5f3ff', '#ede9fe'],
-  sunsetWarm: ['#fff7ed', '#ffedd5'],
-  goldAura: ['#fefce8', '#fef9c3'],
-  pureSlate: ['#f1f5f9', '#e2e8f0']
+  studioPaperSlate: ['#64748b', '#334155', '#94a3b8'], 
+  studioRoyalCobalt:['#1e3a8a', '#0f172a', '#3b82f6'], 
+  studioSkyCyan:    ['#0284c7', '#082f49', '#38bdf8'], 
+  studioNordicMist: ['#475569', '#1e293b', '#64748b'], 
+  studioOceanTeal:  ['#0d9488', '#042f2e', '#2dd4bf'], 
+  studioMintFresh:  ['#0d9488', '#083344', '#5eead4'], 
+  studioSageClean:  ['#059669', '#064e3b', '#34d399'], 
+  studioWarmSand:   ['#9a3412', '#431407', '#fdba74'], 
+  studioPeachySunset:['#ea580c', '#7c2d12', '#fdba74'], 
+  studioLavenderDusk:['#7c3aed', '#3b0764', '#a78bfa'], 
+  studioRoseVelvet: ['#db2777', '#831843', '#f472b6'], 
+  studioBubblegum:  ['#e11d48', '#881337', '#fb7185'], 
+  studioGraphiteMatte:['#374151', '#1f2937', '#4b5563'], 
+  studioDeepIndigo: ['#312e81', '#1e1b4b', '#4f46e5'], 
+  studioSoftPearl:  ['#cbd5e1', '#94a3b8', '#f8fafc']
 };
 
 function hexToRgb(hex){
@@ -1343,11 +1007,9 @@ function setRunnerLane(val, name){
 window.addEventListener('keydown', function(e){
   if(e.target.tagName === 'INPUT' && e.target.type !== 'range') return;
   var k = e.key.toLowerCase();
-  if(k === 'arrowleft' || k === 'a'){
-    setRunnerLane(-1.0, 'Left');
-  } else if(k === 'arrowright' || k === 'd'){
-    setRunnerLane(1.0, 'Right');
-  } else if(k === 'arrowdown' || k === 's' || k === ' '){
+  if(k === 'arrowleft' || k === 'a') setRunnerLane(-1.0, 'Left');
+  else if(k === 'arrowright' || k === 'd') setRunnerLane(1.0, 'Right');
+  else if(k === 'arrowdown' || k === 's' || k === ' '){
     e.preventDefault();
     setRunnerLane(0.0, 'Center');
   }
@@ -1395,11 +1057,8 @@ function setupDragAndDrop(){
       card.classList.remove('drag-over');
       var rect = card.getBoundingClientRect();
       var midY = rect.top + rect.height / 2;
-      if(e.clientY < midY){
-        container.insertBefore(draggedCard, card);
-      } else {
-        container.insertBefore(draggedCard, card.nextSibling);
-      }
+      if(e.clientY < midY) container.insertBefore(draggedCard, card);
+      else container.insertBefore(draggedCard, card.nextSibling);
       saveCardOrder();
     });
   });
@@ -1447,7 +1106,6 @@ function autoSaveStudio(){
       hudY: state.hudY,
       hudBoxSize: state.hudBoxSize,
       hudSpacing: state.hudSpacing,
-      
       t1_show: state.t1_show,
       t1_val: state.t1_val,
       t1_style: state.t1_style,
@@ -1456,7 +1114,6 @@ function autoSaveStudio(){
       t1_y: state.t1_y,
       t1_size: state.t1_size,
       t1_duration: state.t1_duration,
-
       t2_show: state.t2_show,
       t2_chainWithT1: state.t2_chainWithT1,
       t2_val: state.t2_val,
@@ -1466,11 +1123,9 @@ function autoSaveStudio(){
       t2_y: state.t2_y,
       t2_size: state.t2_size,
       t2_duration: state.t2_duration,
-
       enableVfx: state.enableVfx,
       vfxScaleJump: state.vfxScaleJump,
       vfxAuraSpread: state.vfxAuraSpread,
-
       playerZ: state.playerZ,
       playerLane: state.playerLane,
       steerOffset: state.steerOffset,
@@ -1489,13 +1144,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v33', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v35', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v33') || localStorage.getItem('runner_studio_saved_v32') || localStorage.getItem('runner_studio_saved_v31') || localStorage.getItem('runner_studio_saved_v30');
+    var raw = localStorage.getItem('runner_studio_saved_v35') || localStorage.getItem('runner_studio_saved_v33');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1509,7 +1164,6 @@ function readFile(file){
   });
 }
 
-// 🌟 SMART CUTOUT ENGINE WITH DYNAMIC TOLERANCE
 function processImageDataUrl(dataUrl, removeBg, tolerance){
   tolerance = (tolerance !== undefined) ? Number(tolerance) : 32;
   return new Promise(function(resolve,reject){
@@ -1548,6 +1202,7 @@ function processImageDataUrl(dataUrl, removeBg, tolerance){
     img.src=dataUrl;
   });
 }
+
 function dataToProcessedImage(src, removeBg, tolerance){
   return processImageDataUrl(src, removeBg, tolerance).then(function(cleanSrc){
     return new Promise(function(res, rej){
@@ -1574,7 +1229,6 @@ function bindRange(id,key){
 if($('t1_duration')) $('t1_duration').oninput = function(e){ state.t1_duration = Number(e.target.value); updateBadge('t1_duration', e.target.value); autoSaveStudio(); };
 if($('t1_y')) $('t1_y').oninput = function(e){ state.t1_y = Number(e.target.value); updateBadge('t1_y', e.target.value); autoSaveStudio(); };
 if($('t1_size')) $('t1_size').oninput = function(e){ state.t1_size = Number(e.target.value); updateBadge('t1_size', e.target.value); autoSaveStudio(); };
-
 if($('t2_duration')) $('t2_duration').oninput = function(e){ state.t2_duration = Number(e.target.value); updateBadge('t2_duration', e.target.value); autoSaveStudio(); };
 if($('t2_y')) $('t2_y').oninput = function(e){ state.t2_y = Number(e.target.value); updateBadge('t2_y', e.target.value); autoSaveStudio(); };
 if($('t2_size')) $('t2_size').oninput = function(e){ state.t2_size = Number(e.target.value); updateBadge('t2_size', e.target.value); autoSaveStudio(); };
@@ -1582,9 +1236,9 @@ if($('t2_size')) $('t2_size').oninput = function(e){ state.t2_size = Number(e.ta
 if($('vfxScaleJump')) $('vfxScaleJump').oninput = function(e){ state.vfxScaleJump = Number(e.target.value); updateBadge('vfxScaleJump', e.target.value); autoSaveStudio(); };
 if($('vfxAuraSpread')) $('vfxAuraSpread').oninput = function(e){ state.vfxAuraSpread = Number(e.target.value); updateBadge('vfxAuraSpread', e.target.value); autoSaveStudio(); };
 
-if($('showHud')){ $('showHud').onchange = function(e){ state.showHud = e.target.checked; autoSaveStudio(); }; }
-if($('autoCollectHud')){ $('autoCollectHud').onchange = function(e){ state.autoCollectHud = e.target.checked; autoSaveStudio(); }; }
-if($('hudStyle')){ $('hudStyle').onchange = function(e){ state.hudStyle = e.target.value; autoSaveStudio(); }; }
+if($('showHud')) $('showHud').onchange = function(e){ state.showHud = e.target.checked; autoSaveStudio(); };
+if($('autoCollectHud')) $('autoCollectHud').onchange = function(e){ state.autoCollectHud = e.target.checked; autoSaveStudio(); };
+if($('hudStyle')) $('hudStyle').onchange = function(e){ state.hudStyle = e.target.value; autoSaveStudio(); };
 
 if($('t1_show')) $('t1_show').onchange = function(e){ state.t1_show = e.target.checked; autoSaveStudio(); };
 if($('t1_val')) $('t1_val').oninput = function(e){ state.t1_val = e.target.value; autoSaveStudio(); };
@@ -1598,60 +1252,7 @@ if($('t2_val')) $('t2_val').oninput = function(e){ state.t2_val = e.target.value
 if($('t2_style')) $('t2_style').onchange = function(e){ state.t2_style = e.target.value; autoSaveStudio(); };
 if($('t2_inAnim')) $('t2_inAnim').onchange = function(e){ state.t2_inAnim = e.target.value; autoSaveStudio(); };
 if($('t2_outAnim')) $('t2_outAnim').onchange = function(e){ state.t2_outAnim = e.target.value; autoSaveStudio(); };
-
 if($('enableVfx')) $('enableVfx').onchange = function(e){ state.enableVfx = e.target.checked; autoSaveStudio(); };
-
-for(var h=0; h<5; h++){
-  (function(bIdx){
-    var inp = $('hudImg_' + bIdx);
-    var clr = $('clear_hud_' + bIdx);
-    var box = $('thumb_hud_' + bIdx);
-    var chk = $('hudRemove_' + bIdx);
-    var tolInp = $('hudTol_' + bIdx);
-
-    function reprocessHud(){
-      if(!manualHudRaw[bIdx]){ manualHudImgs[bIdx]=null; updateThumbBox(box, null); return; }
-      dataToProcessedImage(manualHudRaw[bIdx], manualHudRemove[bIdx], manualHudTol[bIdx]).then(function(im){
-        manualHudImgs[bIdx] = im;
-        updateThumbBox(box, im.src);
-      });
-    }
-
-    if(chk){
-      chk.onchange = function(e){
-        manualHudRemove[bIdx] = e.target.checked;
-        reprocessHud();
-      };
-    }
-    if(tolInp){
-      tolInp.oninput = function(e){
-        manualHudTol[bIdx] = Number(e.target.value);
-        updateBadge('hudTol_' + bIdx, e.target.value);
-        reprocessHud();
-      };
-    }
-
-    if(inp){
-      inp.onchange = function(e){
-        var f = e.target.files[0]; if(!f) return;
-        readFile(f).then(function(src){
-          manualHudRaw[bIdx] = src;
-          reprocessHud();
-        });
-      };
-    }
-    if(clr){
-      clr.onclick = function(){
-        if(inp) inp.value = '';
-        manualHudRaw[bIdx] = null;
-        manualHudImgs[bIdx] = null;
-        collectedHud[bIdx] = null;
-        collectedTimes[bIdx] = -999;
-        updateThumbBox(box, null);
-      };
-    }
-  })(h);
-}
 
 var steerInput = $('laneSteer');
 if(steerInput){
@@ -1772,6 +1373,7 @@ for(var k=1; k<=5; k++){
         updateThumbBox($('thumb_gImg_' + idx), null);
       };
     }
+
     if($('rSize_' + idx)){
       $('rSize_' + idx).oninput = function(e){
         state.redStages[idx].size = Number(e.target.value);
@@ -1843,16 +1445,7 @@ if($('masterPadPngSize')){
 
 if($('roadVariant')) $('roadVariant').onchange=function(e){
   state.roadVariant=e.target.value; 
-  if($('newRoadSelector')) $('newRoadSelector').value = e.target.value;
   autoSaveStudio();
-};
-
-if($('newRoadSelector')) $('newRoadSelector').onchange=function(e){
-  if(e.target.value){
-    state.roadVariant = e.target.value;
-    if($('roadVariant')) $('roadVariant').value = e.target.value;
-    autoSaveStudio();
-  }
 };
 
 if($('speedLines')) $('speedLines').onchange=function(e){state.speedLines=e.target.checked; autoSaveStudio();};
@@ -2225,8 +1818,6 @@ function initRows(){
     if(savedData.t1_show !== undefined && $('t1_show')){ state.t1_show = Boolean(savedData.t1_show); $('t1_show').checked = state.t1_show; }
     if(savedData.t1_val !== undefined && $('t1_val')){ state.t1_val = savedData.t1_val; $('t1_val').value = state.t1_val; }
     if(savedData.t1_style && $('t1_style')){ state.t1_style = savedData.t1_style; $('t1_style').value = state.t1_style; }
-    if(savedData.t1_inAnim && $('t1_inAnim')){ state.t1_inAnim = savedData.t1_inAnim; $('t1_inAnim').value = state.t1_inAnim; }
-    if(savedData.t1_outAnim && $('t1_outAnim')){ state.t1_outAnim = savedData.t1_outAnim; $('t1_outAnim').value = state.t1_outAnim; }
     if(savedData.t1_duration !== undefined && $('t1_duration')){ state.t1_duration = Number(savedData.t1_duration); $('t1_duration').value = state.t1_duration; updateBadge('t1_duration', state.t1_duration); }
     if(savedData.t1_y !== undefined && $('t1_y')){ state.t1_y = Number(savedData.t1_y); $('t1_y').value = state.t1_y; updateBadge('t1_y', state.t1_y); }
     if(savedData.t1_size !== undefined && $('t1_size')){ state.t1_size = Number(savedData.t1_size); $('t1_size').value = state.t1_size; updateBadge('t1_size', state.t1_size); }
@@ -2235,67 +1826,15 @@ function initRows(){
     if(savedData.t2_chainWithT1 !== undefined && $('t2_chainWithT1')){ state.t2_chainWithT1 = Boolean(savedData.t2_chainWithT1); $('t2_chainWithT1').checked = state.t2_chainWithT1; }
     if(savedData.t2_val !== undefined && $('t2_val')){ state.t2_val = savedData.t2_val; $('t2_val').value = state.t2_val; }
     if(savedData.t2_style && $('t2_style')){ state.t2_style = savedData.t2_style; $('t2_style').value = state.t2_style; }
-    if(savedData.t2_inAnim && $('t2_inAnim')){ state.t2_inAnim = savedData.t2_inAnim; $('t2_inAnim').value = state.t2_inAnim; }
-    if(savedData.t2_outAnim && $('t2_outAnim')){ state.t2_outAnim = savedData.t2_outAnim; $('t2_outAnim').value = state.t2_outAnim; }
     if(savedData.t2_duration !== undefined && $('t2_duration')){ state.t2_duration = Number(savedData.t2_duration); $('t2_duration').value = state.t2_duration; updateBadge('t2_duration', state.t2_duration); }
     if(savedData.t2_y !== undefined && $('t2_y')){ state.t2_y = Number(savedData.t2_y); $('t2_y').value = state.t2_y; updateBadge('t2_y', state.t2_y); }
     if(savedData.t2_size !== undefined && $('t2_size')){ state.t2_size = Number(savedData.t2_size); $('t2_size').value = state.t2_size; updateBadge('t2_size', state.t2_size); }
 
-    if(savedData.enableVfx !== undefined && $('enableVfx')){ state.enableVfx = Boolean(savedData.enableVfx); $('enableVfx').checked = state.enableVfx; }
-    if(savedData.vfxScaleJump !== undefined && $('vfxScaleJump')){ state.vfxScaleJump = Number(savedData.vfxScaleJump); $('vfxScaleJump').value = state.vfxScaleJump; updateBadge('vfxScaleJump', state.vfxScaleJump); }
-    if(savedData.vfxAuraSpread !== undefined && $('vfxAuraSpread')){ state.vfxAuraSpread = Number(savedData.vfxAuraSpread); $('vfxAuraSpread').value = state.vfxAuraSpread; updateBadge('vfxAuraSpread', state.vfxAuraSpread); }
-
-    if(savedData.showHud !== undefined && $('showHud')){
-      state.showHud = Boolean(savedData.showHud);
-      $('showHud').checked = state.showHud;
-    }
-    if(savedData.autoCollectHud !== undefined && $('autoCollectHud')){
-      state.autoCollectHud = Boolean(savedData.autoCollectHud);
-      $('autoCollectHud').checked = state.autoCollectHud;
-    }
-    if(savedData.hudStyle && $('hudStyle')){
-      state.hudStyle = savedData.hudStyle;
-      $('hudStyle').value = savedData.hudStyle;
-    }
-    if(savedData.steerOffset !== undefined){
-      state.steerOffset = Number(savedData.steerOffset);
-      if($('laneSteer')){
-        $('laneSteer').value = state.steerOffset;
-        var textVal = state.steerOffset <= -0.2 ? (state.steerOffset + ' (Left)') : (state.steerOffset >= 0.2 ? (state.steerOffset + ' (Right)') : '0.0 (Center)');
-        updateBadge('laneSteer', textVal);
-      }
-    }
-    if(savedData.baseSize && $('pSize_0')){
-      state.baseStage.size = Number(savedData.baseSize);
-      $('pSize_0').value = savedData.baseSize;
-      updateBadge('pSize_0', savedData.baseSize);
-    }
-    if(Array.isArray(savedData.gSizes)){
-      savedData.gSizes.forEach(function(sz, i){
-        if(i > 0 && state.greenStages[i]){
-          state.greenStages[i].size = Number(sz);
-          if($('gSize_' + i)){ $('gSize_' + i).value = sz; updateBadge('gSize_' + i, sz); }
-        }
-      });
-    }
-    if(Array.isArray(savedData.rSizes)){
-      savedData.rSizes.forEach(function(sz, i){
-        if(i > 0 && state.redStages[i]){
-          state.redStages[i].size = Number(sz);
-          if($('rSize_' + i)){ $('rSize_' + i).value = sz; updateBadge('rSize_' + i, sz); }
-        }
-      });
-    }
     if(savedData.roadVariant && $('roadVariant')){ 
       state.roadVariant = savedData.roadVariant; 
       $('roadVariant').value = savedData.roadVariant; 
-      if($('newRoadSelector')) $('newRoadSelector').value = savedData.roadVariant;
     }
     if(savedData.bgMode && $('bgMode')){ state.bgMode = savedData.bgMode; $('bgMode').value = savedData.bgMode; }
-    if(savedData.playerLane && $('playerLane')){ state.playerLane = savedData.playerLane; $('playerLane').value = savedData.playerLane; }
-    if(savedData.speedLines !== undefined && $('speedLines')){ state.speedLines = Boolean(savedData.speedLines); $('speedLines').checked = state.speedLines; }
-    if(savedData.roadShine !== undefined && $('roadShine')){ state.roadShine = Boolean(savedData.roadShine); $('roadShine').checked = state.roadShine; }
-    if(savedData.oppRemove !== undefined){ state.opponent.removeBg = Boolean(savedData.oppRemove); }
 
     var rowList = (Array.isArray(savedData.rows) && savedData.rows.length===5) ? savedData.rows : [
       {leftColor:'#2aff84', rightColor:'#ff323a'},
@@ -2309,16 +1848,6 @@ function initRows(){
     ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       updateBadge(id, state[id]);
     });
-    updateBadge('t1_duration', state.t1_duration);
-    updateBadge('t1_y', state.t1_y);
-    updateBadge('t1_size', state.t1_size);
-    updateBadge('t2_duration', state.t2_duration);
-    updateBadge('t2_y', state.t2_y);
-    updateBadge('t2_size', state.t2_size);
-
-    updateBadge('vfxScaleJump', state.vfxScaleJump);
-    updateBadge('vfxAuraSpread', state.vfxAuraSpread);
-
     updateBadge('pSize_0', state.baseStage.size);
     for(var i=1;i<=5;i++){
       updateBadge('gSize_' + i, state.greenStages[i].size);
@@ -2406,7 +1935,7 @@ function roadBoundsAtZ(z){
 
   return {e:depth, y:y, l:W/2-half, r:W/2+half, half:half};
 }
-function lerp(a,b,t){return a+(b-a)*t;}
+
 function drawPoly(pts, fill){
   ctx.beginPath();
   ctx.moveTo(pts[0][0],pts[0][1]);
@@ -2425,6 +1954,7 @@ function fillRoadBase(topColor,bottomColor){
   drawPoly([[top.l,top.y],[top.r,top.y],[bottom.r,H],[bottom.l,H]],g);
   return {top:top,bottom:bottom};
 }
+
 function drawEdgeStripSeries(count,speedFactor,widthA,widthB,colorA,colorB){
   for(var i=0;i<count;i++){
     var z0=(i/count + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1;
@@ -2437,6 +1967,7 @@ function drawEdgeStripSeries(count,speedFactor,widthA,widthB,colorA,colorB){
     drawPoly([[a.r-wa,a.y],[a.r,a.y],[b.r,b.y],[b.r-wb,b.y]],c);
   }
 }
+
 function drawCenterDashed(offsetRatio,color,widthBase,widthGrow,len,density,speedFactor,minZ){
   for(var i=0;i<density;i++){
     var z0=(i/density + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1;
@@ -2456,46 +1987,7 @@ function drawCenterDashed(offsetRatio,color,widthBase,widthGrow,len,density,spee
     ctx.restore();
   }
 }
-function drawCenterPulseDots(offsetRatio,color,sizeBase,sizeGrow,count,speedFactor,minZ){
-  for(var i=0;i<count;i++){
-    var z=(i/count + roadTime*state.speed*TRACK_MOTION_SCALE*speedFactor)%1;
-    if(z<minZ) continue;
-    var p=roadBoundsAtZ(z);
-    var x=W/2+p.half*offsetRatio;
-    ctx.save();
-    ctx.fillStyle=color;
-    ctx.shadowColor=color;
-    ctx.shadowBlur=12+24*p.e;
-    ctx.beginPath();
-    ctx.arc(x,p.y,(sizeBase+sizeGrow*p.e)*1.5,0,Math.PI*2);
-    ctx.fill();
-    ctx.restore();
-  }
-}
-function drawRoadTexture(strength){
-  ctx.save();
-  for(var i=0;i<9;i++){
-    var z=(i*.13 + roadTime*state.speed*TRACK_MOTION_SCALE*1.08)%1;
-    if(z<.15) continue;
-    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
-    var alpha=.015+strength*a.e;
-    drawPoly(quad(a,b),'rgba(255,255,255,'+alpha+')');
-  }
-  ctx.restore();
-}
-function drawRoadShineSeries(color,alphaMul){
-  ctx.save();ctx.strokeStyle=color;ctx.lineCap='round';
-  for(var i=0;i<7;i++){
-    var z=(i*.16 + roadTime*state.speed*TRACK_MOTION_SCALE*1.2)%1;
-    if(z<.22) continue;
-    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.09));
-    var xA=W/2 + (i%2?-1:1)*a.half*(.32+.18*(i%3));
-    var xB=W/2 + (i%2?-1:1)*b.half*(.32+.18*(i%3));
-    ctx.globalAlpha=(.16+.45*z)*alphaMul;ctx.lineWidth=(2+5*z)*1.5;
-    ctx.beginPath();ctx.moveTo(xA,a.y);ctx.lineTo(xB,b.y);ctx.stroke();
-  }
-  ctx.restore();
-}
+
 function drawSideRails(color){
   ctx.save();
   ctx.strokeStyle=color;
@@ -2519,455 +2011,170 @@ function drawSideRails(color){
   ctx.restore();
 }
 
-function drawBackground(){
-  var theme = bgColors[state.bgMode] || bgColors.studioSkyCyan;
-  if(theme.length === 3){
-    var rad = ctx.createRadialGradient(W/2, H*0.35, W*0.08, W/2, H*0.40, W*0.85);
-    rad.addColorStop(0, theme[2]);
-    rad.addColorStop(0.55, theme[0]);
-    rad.addColorStop(1, theme[1]);
-    ctx.fillStyle = rad;
-    ctx.fillRect(0, 0, W, H);
-  } else {
-    var g = ctx.createLinearGradient(0, 0, 0, H);
-    g.addColorStop(0, theme[0]);
-    g.addColorStop(1, theme[1]);
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, W, H);
+function drawRoadTexture(strength){
+  ctx.save();
+  for(var i=0;i<9;i++){
+    var z=(i*.13 + roadTime*state.speed*TRACK_MOTION_SCALE*1.08)%1;
+    if(z<.15) continue;
+    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
+    var alpha=.015+strength*a.e;
+    drawPoly(quad(a,b),'rgba(255,255,255,'+alpha+')');
   }
+  ctx.restore();
 }
 
-function rV6Gold(){
-  fillRoadBase('#7c8591','#454c57');
-  drawRoadTexture(.028);
-  drawEdgeStripSeries(18,.85,8,42,'#ffb703','#ffffff');
-  if(state.roadShine) drawRoadShineSeries('rgba(255,225,120,.45)',1.0);
-}
-function rV6CyberBlue(){
-  fillRoadBase('#75808f','#3f4652');
-  drawRoadTexture(.028);
-  drawEdgeStripSeries(18,.85,8,42,'#00b4d8','#ffffff');
-  if(state.roadShine) drawRoadShineSeries('rgba(140,225,255,.42)',1.0);
-}
-function rV6LimeBeast(){
-  fillRoadBase('#6d7785','#3c434f');
-  drawRoadTexture(.028);
-  drawEdgeStripSeries(18,.85,8,42,'#2aff84','#111111');
-  if(state.roadShine) drawRoadShineSeries('rgba(120,255,180,.40)',1.0);
-}
-function rV6SunsetOrange(){
-  fillRoadBase('#788290','#424a56');
-  drawRoadTexture(.028);
-  drawEdgeStripSeries(18,.85,8,42,'#ff6b35','#ffffff');
-  if(state.roadShine) drawRoadShineSeries('rgba(255,180,120,.42)',1.0);
-}
-function rV6Monza(){
-  fillRoadBase('#707b8a','#3e4550');
-  drawRoadTexture(.028);
-  drawEdgeStripSeries(18,.85,8,42,'#ffd000','#111111');
-  if(state.roadShine) drawRoadShineSeries('rgba(255,240,150,.45)',1.0);
+function drawRoadShineSeries(color,alphaMul){
+  ctx.save();ctx.strokeStyle=color;ctx.lineCap='round';
+  for(var i=0;i<7;i++){
+    var z=(i*.16 + roadTime*state.speed*TRACK_MOTION_SCALE*1.2)%1;
+    if(z<.22) continue;
+    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.09));
+    var xA=W/2 + (i%2?-1:1)*a.half*(.32+.18*(i%3));
+    var xB=W/2 + (i%2?-1:1)*b.half*(.32+.18*(i%3));
+    ctx.globalAlpha=(.16+.45*z)*alphaMul;ctx.lineWidth=(2+5*z)*1.5;
+    ctx.beginPath();ctx.moveTo(xA,a.y);ctx.lineTo(xB,b.y);ctx.stroke();
+  }
+  ctx.restore();
 }
 
-function rSunnyDesert(){
-  fillRoadBase('#d4a373','#8d5b36');
-  drawRoadTexture(.024);
-  drawEdgeStripSeries(18,.85,8,42,'#ff8800','#fff1e6');
-  drawCenterDashed(0,'rgba(255,255,255,.95)',3,7,.12,10,.85,.12);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,245,210,.55)',1.1);
+// 🌟 BACKGROUND DRAWING ENGINE (3-Stop Smooth Spotlight)
+function drawBackground(){
+  var theme = bgColors[state.bgMode] || bgColors.studioPaperSlate;
+  var rad = ctx.createRadialGradient(W/2, H*0.35, W*0.08, W/2, H*0.40, W*0.85);
+  rad.addColorStop(0, theme[2]);
+  rad.addColorStop(0.55, theme[0]);
+  rad.addColorStop(1, theme[1]);
+  ctx.fillStyle = rad;
+  ctx.fillRect(0, 0, W, H);
 }
-function rMiamiBeach(){
-  fillRoadBase('#8097a8','#4a6070');
-  drawRoadTexture(.022);
-  drawEdgeStripSeries(18,.85,8,42,'#00f0ff','#ffffff');
-  drawCenterDashed(-.05,'rgba(255,255,255,.9)',2.5,5.5,.09,10,.84,.14);
-  drawCenterDashed(.05,'rgba(255,255,255,.9)',2.5,5.5,.09,10,.84,.14);
-  if(state.roadShine) drawRoadShineSeries('rgba(180,250,255,.50)',1.0);
+
+// 🌟 ALL 56 EYE-COMFORT ROAD FUNCTIONS (Pure HD, Zero Eye Strain)
+function makeRoad(baseT, baseB, curbA, curbB, dashColor, dualDash, railsColor){
+  fillRoadBase(baseT, baseB);
+  drawRoadTexture(0.024);
+  drawEdgeStripSeries(18, 0.85, 8, 42, curbA, curbB);
+  if(dualDash){
+    drawCenterDashed(-0.05, dashColor, 2.5, 5.5, 0.09, 10, 0.85, 0.14);
+    drawCenterDashed(0.05, dashColor, 2.5, 5.5, 0.09, 10, 0.85, 0.14);
+  } else if(dashColor){
+    drawCenterDashed(0, dashColor, 3, 7, 0.12, 10, 0.85, 0.12);
+  }
+  if(railsColor) drawSideRails(railsColor);
+  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,0.30)', 1.0);
 }
-function rGreenMeadow(){
-  fillRoadBase('#606d5c','#3a4436');
-  drawRoadTexture(.026);
-  drawEdgeStripSeries(18,.85,8,42,'#38ef7d','#11998e');
-  drawCenterDashed(0,'rgba(255,255,255,.95)',3,6.5,.11,10,.85,.12);
-  if(state.roadShine) drawRoadShineSeries('rgba(200,255,220,.45)',1.0);
-}
-function rTokyoDay(){
-  fillRoadBase('#5a6068','#2c3035');
-  drawRoadTexture(.032);
-  drawEdgeStripSeries(20,.9,8,42,'#ffffff','#ff2a2a');
-  drawCenterDashed(0,'rgba(255,255,255,.98)',3.5,8,.14,12,.9,.1);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.55)',1.15);
-}
-function rCaliforniaSunset(){
-  fillRoadBase('#8a5a44','#4a2818');
-  drawRoadTexture(.025);
-  drawEdgeStripSeries(18,.82,8,42,'#ff7b00','#ffea00');
-  drawCenterDashed(-.06,'#ffe49e',2.5,5.5,.09,10,.85,.14);
-  drawCenterDashed(.06,'#ffe49e',2.5,5.5,.09,10,.85,.14);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,200,100,.6)',1.2);
-}
-function rRedClayTrail(){
-  fillRoadBase('#9c4a3b','#5e251b');
-  drawRoadTexture(.035);
-  drawEdgeStripSeries(18,.84,8,42,'#fdf0d5','#c1121f');
-  drawCenterDashed(0,'rgba(255,245,230,.9)',3,6.5,.1,10,.84,.12);
-}
-function rMonacoF1(){
-  fillRoadBase('#454950','#232529');
-  drawRoadTexture(.03);
-  drawEdgeStripSeries(20,.95,8,44,'#e63946','#f1faee');
-  drawCenterDashed(0,'#ffd166',3,7,.12,11,.92,.1);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.5)',1.1);
-}
-function rNordicSnow(){
-  fillRoadBase('#8896a6','#4f5c6b');
-  drawRoadTexture(.022);
-  drawEdgeStripSeries(18,.82,8,42,'#e0fbfc','#3d5a80');
-  drawCenterDashed(-.05,'#ffffff',2.5,5.5,.09,10,.84,.14);
-  drawCenterDashed(.05,'#ffffff',2.5,5.5,.09,10,.84,.14);
-  if(state.roadShine) drawRoadShineSeries('rgba(220,245,255,.6)',1.1);
-}
-function rStudioPaperWhite(){
-  fillRoadBase('#e9ecef','#adb5bd');
-  drawRoadTexture(.018);
-  drawEdgeStripSeries(18,.82,8,40,'#212529','#ffffff');
-  drawCenterDashed(0,'#212529',3,6,.1,10,.84,.14);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.8)',1.3);
-}
-function rAutumnMaple(){
-  fillRoadBase('#7a5843','#3f2619');
-  drawRoadTexture(.028);
-  drawEdgeStripSeries(18,.82,8,42,'#d90429','#ffb703');
-  drawCenterDashed(0,'#ffe3a8',3,6.5,.11,10,.85,.12);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,210,140,.5)',1.0);
-}
+
+// Group 1: 🏆 YouTube Shorts Pro Racing (10 Roads)
+function rClassic(){ makeRoad('#64748b', '#334155', '#ff3344', '#ffffff', 'rgba(255,255,255,0.95)', false); }
+function rV6Gold(){ makeRoad('#6b7280', '#374151', '#f59e0b', '#ffffff', 'rgba(255,255,255,0.9)', false); }
+function rV6CyberBlue(){ makeRoad('#5a6b82', '#2d3748', '#0ea5e9', '#ffffff', '#38bdf8', false); }
+function rV6LimeBeast(){ makeRoad('#566963', '#2a3b34', '#10b981', '#1f2937', '#6ee7b7', false); }
+function rV6Monza(){ makeRoad('#5b6470', '#2d333b', '#eab308', '#111827', '#fef08a', false); }
+function rMonacoF1(){ makeRoad('#52525b', '#27272a', '#ef4444', '#fafafa', '#ffffff', false); }
+function rAsphaltSpeed(){ makeRoad('#475569', '#1e293b', '#facc15', '#1e293b', 'rgba(255,255,255,0.95)', false); }
+function rTokyoDay(){ makeRoad('#4b5563', '#1f2937', '#ffffff', '#dc2626', '#ffffff', false); }
+function rStudioPaperWhite(){ makeRoad('#cbd5e1', '#94a3b8', '#334155', '#ffffff', '#334155', false); }
+function rCarbonTrack(){ makeRoad('#475569', '#1e293b', '#fb923c', '#ffffff', 'rgba(255,255,255,0.85)', false); }
+
+// Group 2: 🍭 Cartoon, Arcade & Candy Land (10 Roads)
+function rCandyPop(){ makeRoad('#6b7280', '#3b4252', '#f472b6', '#38bdf8', '#ffffff', true); }
 function rSkyRainbow(){
-  fillRoadBase('#6c757d','#343a40');
-  var rainColors=['#ff4d6d','#ff9e00','#ffd60a','#38b000','#00b4d8','#7209b7'];
+  fillRoadBase('#64748b', '#334155');
+  var rainColors=['#f43f5e','#fb923c','#facc15','#34d399','#38bdf8','#a855f7'];
   for(var i=0;i<18;i++){
     var z0=(i/18 + roadTime*state.speed*TRACK_MOTION_SCALE*.85)%1;
-    var z1=z0+.055;
-    if(z1>1) continue;
+    var z1=z0+.055; if(z1>1) continue;
     var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
     var col=rainColors[i%rainColors.length];
     drawPoly([[a.l,a.y],[a.l+12+a.e*28,a.y],[b.l+12+b.e*28,b.y],[b.l,b.y]],col);
     drawPoly([[a.r-12-a.e*28,a.y],[a.r,a.y],[b.r,b.y],[b.r-12-b.e*28,b.y]],col);
   }
-  drawCenterDashed(0,'#ffffff',3,7,.1,10,.85,.12);
+  drawCenterDashed(0, '#ffffff', 3, 7, 0.1, 10, 0.85, 0.12);
 }
-function rGoldenSands(){
-  fillRoadBase('#c29b68','#6e4e2a');
-  drawRoadTexture(.024);
-  drawEdgeStripSeries(18,.85,8,42,'#ffbe0b','#003566');
-  drawCenterDashed(0,'rgba(255,255,255,.92)',3,6.5,.12,10,.85,.12);
-}
-function rAlpineMountain(){
-  fillRoadBase('#68717d','#39404a');
-  drawRoadTexture(.03);
-  drawEdgeStripSeries(18,.85,8,42,'#f8f9fa','#ffc300');
-  drawCenterDashed(0,'#ffc300',3,7,.12,10,.85,.14);
-  drawSideRails('rgba(255,255,255,.7)');
-}
-function rNeonDaylight(){
-  fillRoadBase('#7b4b94','#3b1d4c');
-  drawRoadTexture(.025);
-  drawEdgeStripSeries(18,.85,8,42,'#00f5d4','#fee440');
-  drawCenterDashed(-.06,'#f72585',2.5,5.5,.09,10,.88,.12);
-  drawCenterDashed(.06,'#f72585',2.5,5.5,.09,10,.88,.12);
-}
-function rEmeraldGolfway(){
-  fillRoadBase('#415a51','#1e3029');
-  drawRoadTexture(.026);
-  drawEdgeStripSeries(18,.85,8,42,'#52b788','#d8f3dc');
-  drawCenterDashed(0,'#d8f3dc',3,6.5,.1,10,.85,.12);
-  if(state.roadShine) drawRoadShineSeries('rgba(180,255,210,.45)',1.0);
-}
+function rMarioKartCircuit(){ makeRoad('#57606f', '#2f3542', '#2ed573', '#ff4757', '#ffffff', false); }
+function rToyTownBlock(){ makeRoad('#5f6b7c', '#333e4f', '#ffa502', '#1e90ff', '#ffffff', true); }
+function rPastelDream(){ makeRoad('#6c7a89', '#3b444f', '#ff9ff3', '#54a0ff', '#ffffff', false); }
+function rDonutDune(){ makeRoad('#7a6f68', '#453d38', '#ff78b9', '#fbe7c6', '#ffffff', true); }
+function rRetroPixel(){ makeRoad('#505969', '#272d37', '#00d2d3', '#ff6b6b', '#ffffff', false); }
+function rLemonLimeSpeed(){ makeRoad('#5a6c5b', '#2e3a2f', '#cbf3f0', '#2ec4b6', '#ffffff', false); }
+function rMintChoco(){ makeRoad('#526159', '#2d3832', '#a8dadc', '#1d3557', '#ffffff', false); }
+function rSunflowerMeadow(){ makeRoad('#636657', '#34382c', '#ffeaa7', '#55efc4', '#ffffff', false); }
 
-function rClassic(){
-  fillRoadBase('#7c8591','#454c57');
-  drawRoadTexture(.028);
-  drawEdgeStripSeries(18,.85,8,42,'#ff1f32','#ffffff');
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.38)',1.0);
-}
-function rTwinStripe(){
-  fillRoadBase('#4a5665','#202731');
-  drawRoadTexture(.026);
-  drawEdgeStripSeries(18,.82,6,30,'#ffffff','#b6bcc6');
-  drawCenterDashed(-.04,'rgba(255,216,82,.98)',2,5,.10,10,.84,.14);
-  drawCenterDashed(.04,'rgba(255,216,82,.98)',2,5,.10,10,.84,.14);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.28)',.85);
-}
-function rTripleLane(){
-  fillRoadBase('#46505c','#1f262f');
-  drawRoadTexture(.024);
-  drawEdgeStripSeries(18,.82,6,30,'#ff2333','#ffffff');
-  drawCenterDashed(-.26,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
-  drawCenterDashed(0,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
-  drawCenterDashed(.26,'rgba(255,255,255,.85)',2,4,.085,10,.82,.14);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.26)',.72);
-}
-function rAsphaltSpeed(){
-  fillRoadBase('#2b2e34','#14161a');
-  drawRoadTexture(.045);
-  drawEdgeStripSeries(20,.95,6,36,'#ffd000','#111111');
-  drawCenterDashed(0,'rgba(255,255,255,.9)',3,6,.14,12,.95,.10);
-  if(state.roadShine) drawRoadShineSeries('rgba(255,255,255,.45)',1.1);
-}
-function rMidnightHighway(){
-  fillRoadBase('#1a1e28','#0c0e14');
-  drawRoadTexture(.02);
-  drawEdgeStripSeries(18,.8,5,28,'#3b82f6','#ffffff');
-  drawCenterDashed(0,'rgba(96,165,250,.9)',2,5,.09,9,.82,.15);
-  drawSideRails('rgba(59,130,246,.4)');
-}
-function rNeonPulse(){
-  fillRoadBase('#29193d','#12071f');
-  drawRoadTexture(.030);
-  drawEdgeStripSeries(18,.82,6,30,'#ff0055','#00ffff');
-  drawCenterDashed(-.04,'rgba(0,255,255,.95)',2,5,.08,11,.88,.15);
-  drawCenterDashed(.04,'rgba(0,255,255,.95)',2,5,.08,11,.88,.15);
-  drawCenterPulseDots(0,'rgba(255,0,128,.95)',2,6,9,1.12,.18);
-  if(state.roadShine) drawRoadShineSeries('rgba(0,255,255,.55)',1.15);
-}
-function rEdgeGlow(){
-  fillRoadBase('#1a2c26','#0c1813');
-  drawRoadTexture(.022);
-  drawEdgeStripSeries(18,.84,6,30,'#00ff66','#003314');
-  drawSideRails('rgba(0,255,102,.6)');
-  drawCenterDashed(0,'rgba(0,255,102,.5)',1.5,3.5,.08,9,.82,.2);
-}
-function rArcadeGrid(){
-  fillRoadBase('#151b30','#080a14');
-  for(var i=0;i<12;i++){
-    var z0=(i/12 + roadTime*state.speed*TRACK_MOTION_SCALE*.78)%1;
-    var z1=z0+.065;
-    if(z1>1 || z0<.15) continue;
-    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    drawPoly(quad(a,b),'rgba(0,255,255,'+(.02+.06*a.e)+')');
-    for(var j=1;j<4;j++){
-      var x0=lerp(a.l,a.r,j/4), x1=lerp(b.l,b.r,j/4);
-      ctx.save();ctx.strokeStyle='rgba(0,255,255,'+(.08+.2*a.e)+')';ctx.lineWidth=(1.2+2.4*a.e)*1.5;
-      ctx.beginPath();ctx.moveTo(x0,a.y);ctx.lineTo(x1,b.y);ctx.stroke();ctx.restore();
-    }
-  }
-  drawEdgeStripSeries(18,.80,6,30,'#ff007f','#00ffff');
-}
-function rRailRunner(){
-  fillRoadBase('#222630','#0e1015');
-  drawSideRails('rgba(0,229,255,.8)');
-  drawCenterDashed(-.12,'rgba(0,229,255,.9)',2,4,.07,10,.95,.16);
-  drawCenterDashed(.12,'rgba(0,229,255,.9)',2,4,.07,10,.95,.16);
-  drawCenterPulseDots(0,'#ffffff',1.8,4.5,10,1.04,.18);
-}
-function rChevronRush(){
-  fillRoadBase('#2a2a38','#12121a');
-  drawEdgeStripSeries(18,.82,6,30,'#ff3366','#ffffff');
-  for(var i=0;i<10;i++){
-    var z=(i/10 + roadTime*state.speed*TRACK_MOTION_SCALE*.92)%1;
-    if(z<.15 || z>.96) continue;
-    var p=roadBoundsAtZ(z);
-    var span=30+p.e*140, lift=15+p.e*65;
-    ctx.save();ctx.strokeStyle='rgba(255,51,102,'+(.25+.5*p.e)+')';ctx.lineWidth=(2+5*p.e)*1.5;ctx.lineCap='round';
-    ctx.beginPath();ctx.moveTo(W/2-span,p.y-lift);ctx.lineTo(W/2,p.y);ctx.lineTo(W/2+span,p.y-lift);ctx.stroke();ctx.restore();
-  }
-}
-function rCyberViolet(){
-  fillRoadBase('#30123f','#14041c');
-  drawEdgeStripSeries(18,.85,6,32,'#c026d3','#a855f7');
-  drawCenterDashed(0,'rgba(232,121,249,.95)',3,6,.12,11,.9,.12);
-  drawSideRails('rgba(192,38,211,.6)');
-}
-function rLaserCyan(){
-  fillRoadBase('#082f49','#02131f');
-  drawEdgeStripSeries(18,.85,7,36,'#06b6d4','#38bdf8');
-  drawCenterDashed(-.08,'#38bdf8',2,5,.1,10,.88,.15);
-  drawCenterDashed(.08,'#38bdf8',2,5,.08,10,.88,.15);
-}
-function rMatrixCode(){
-  fillRoadBase('#052e16','#021409');
-  drawRoadTexture(.05);
-  drawEdgeStripSeries(18,.8,6,30,'#22c55e','#14532d');
-  drawCenterDashed(0,'rgba(34,197,94,.9)',2.5,5,.07,14,1.1,.1);
-}
-function rPlasmaPink(){
-  fillRoadBase('#4a044e','#1f0122');
-  drawEdgeStripSeries(18,.85,7,36,'#f43f5e','#fda4af');
-  drawCenterDashed(0,'rgba(244,63,94,.9)',3,6,.1,10,.85,.15);
-}
-function rOverdriveSynth(){
-  fillRoadBase('#3b0764','#18022b');
-  drawEdgeStripSeries(18,.85,7,38,'#ec4899','#8b5cf6');
-  drawCenterPulseDots(0,'#f43f5e',2,6,11,1.05,.15);
-  drawSideRails('rgba(236,72,153,.7)');
-}
-function rLavaCrack(){
-  fillRoadBase('#450a0a','#1f0404');
-  drawEdgeStripSeries(16,.75,7,40,'#ea580c','#7f1d1d');
-  drawCenterDashed(0,'rgba(251,146,60,.95)',4,8,.15,8,.75,.15);
-  drawRoadTexture(.06);
-}
-function rIceCrystal(){
-  fillRoadBase('#083344','#03151d');
-  drawEdgeStripSeries(18,.82,6,36,'#e0f2fe','#38bdf8');
-  drawCenterDashed(-.05,'#bae6fd',2,5,.08,10,.85,.15);
-  drawCenterDashed(.05,'#bae6fd',2,5,.08,10,.85,.15);
-  drawSideRails('rgba(224,242,254,.7)');
-}
-function rGoldenPath(){
-  fillRoadBase('#422006','#1a0c02');
-  drawEdgeStripSeries(18,.82,7,36,'#eab308','#fef08a');
-  drawCenterDashed(0,'rgba(234,179,8,.95)',3,7,.11,10,.84,.14);
-}
-function rToxicHazard(){
-  fillRoadBase('#1a2e05','#0a1401');
-  drawEdgeStripSeries(18,.88,7,36,'#84cc16','#000000');
-  drawCenterDashed(0,'rgba(132,204,22,.95)',3,6,.1,10,.88,.12);
-}
-function rCosmicVoid(){
-  fillRoadBase('#180d2e','#080313');
-  drawCenterPulseDots(-.15,'#a855f7',1.5,4,12,.95,.1);
-  drawCenterPulseDots(.15,'#38bdf8',1.5,4,12,.95,.1);
-  drawEdgeStripSeries(18,.8,6,32,'#c084fc','#38bdf8');
-}
-function rAmethystPath(){
-  fillRoadBase('#3b0764','#150125');
-  drawEdgeStripSeries(18,.85,6,36,'#a855f7','#f3e8ff');
-  drawCenterDashed(0,'#d8b4fe',2,5,.1,10,.82,.14);
-}
-function rInfernoFire(){
-  fillRoadBase('#500724','#20010d');
-  drawEdgeStripSeries(18,.85,7,38,'#ef4444','#fb923c');
-  drawCenterDashed(0,'#f97316',3,7,.12,9,.82,.15);
-}
-function rElectricThunder(){
-  fillRoadBase('#0c4a6e','#041c2c');
-  drawEdgeStripSeries(18,.9,7,38,'#38bdf8','#ffffff');
-  drawSideRails('rgba(56,189,248,.8)');
-  drawCenterDashed(0,'#7dd3fc',2.5,5.5,.08,12,.95,.12);
-}
-function rRainbowPrism(){
-  fillRoadBase('#18181b','#09090b');
-  var colors=['#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#8b5cf6'];
-  for(var i=0;i<18;i++){
-    var z0=(i/18 + roadTime*state.speed*TRACK_MOTION_SCALE*.85)%1;
-    var z1=z0+.055;
-    if(z1>1) continue;
-    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    var col=colors[i%colors.length];
-    drawPoly([[a.l,a.y],[a.l+12+a.e*28,a.y],[b.l+12+b.e*28,b.y],[b.l,b.y]],col);
-    drawPoly([[a.r-12-a.e*28,a.y],[a.r,a.y],[b.r,b.y],[b.r-12-b.e*28,b.y]],col);
-  }
-  drawCenterDashed(0,'#ffffff',2,5,.09,10,.85,.15);
-}
-function rSunsetBoulevard(){
-  fillRoadBase('#7c2d12','#361005');
-  drawEdgeStripSeries(18,.82,7,36,'#f97316','#fde047');
-  drawCenterDashed(-.05,'#fed7aa',2,4.5,.08,10,.85,.15);
-  drawCenterDashed(.05,'#fed7aa',2,4.5,.08,10,.85,.15);
-}
-function rPastelDream(){
-  fillRoadBase('#701a75','#3b0764');
-  drawEdgeStripSeries(18,.8,7,34,'#f472b6','#38bdf8');
-  drawCenterDashed(0,'#fbcfe8',2,5,.09,10,.82,.14);
-}
-function rEmeraldCity(){
-  fillRoadBase('#064e3b','#022c22');
-  drawEdgeStripSeries(18,.85,7,36,'#34d399','#a7f3d0');
-  drawCenterDashed(0,'#6ee7b7',3,6,.1,10,.85,.12);
-}
-function rRubyRoyale(){
-  fillRoadBase('#881337','#4c0519');
-  drawEdgeStripSeries(18,.85,7,38,'#fb7185','#ffe4e6');
-  drawCenterDashed(0,'#fda4af',3,6.5,.11,10,.85,.15);
-}
-function rCleanWhiteTrack(){
-  fillRoadBase('#cbd5e1','#94a3b8');
-  drawEdgeStripSeries(18,.82,6,32,'#0f172a','#ffffff');
-  drawCenterDashed(0,'#0f172a',2.5,5,.1,10,.85,.14);
-}
-function rDarkObsidian(){
-  fillRoadBase('#0f172a','#020617');
-  drawRoadTexture(.035);
-  drawEdgeStripSeries(18,.75,5,24,'#334155','#0f172a');
-  drawCenterDashed(0,'rgba(148,163,184,.6)',1.5,3.5,.08,9,.8,.2);
-}
-function rCarbonTrack(){
-  fillRoadBase('#323b49','#151c24');
-  for(var i=0;i<11;i++){
-    var z0=(i/11 + roadTime*state.speed*TRACK_MOTION_SCALE*.62)%1;
-    var z1=z0+.075;
-    if(z1>1 || z0<.12) continue;
-    var a=roadBoundsAtZ(z0), b=roadBoundsAtZ(z1);
-    var insetA=a.half*.08, insetB=b.half*.08;
-    drawPoly([[a.l+insetA,a.y],[a.r-insetA,a.y],[b.r-insetB,b.y],[b.l+insetB,b.y]], i%2===0?'rgba(255,255,255,.05)':'rgba(0,0,0,.09)');
-  }
-  drawEdgeStripSeries(18,.78,6,28,'#ff8f29','#ffffff');
-  drawCenterDashed(0,'rgba(255,171,85,.75)',2,4,.07,10,.90,.18);
-}
-function rDiamondFlow(){
-  fillRoadBase('#414b59','#1c232c');
-  drawRoadTexture(.020);
-  drawEdgeStripSeries(18,.82,6,30,'#ff3347','#ffffff');
-  for(var i=0;i<8;i++){
-    var z=(i/8 + roadTime*state.speed*TRACK_MOTION_SCALE*.88)%1;
-    if(z<.15 || z>.94) continue;
-    var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
-    var midY=(a.y+b.y)/2;
-    var w=18+a.e*80, h=9+a.e*48;
-    ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();ctx.moveTo(W/2-w,midY);ctx.lineTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.closePath();ctx.fill();ctx.restore();
-  }
-}
-function rMinimalGrey(){
-  fillRoadBase('#475569','#1e293b');
-  drawEdgeStripSeries(18,.8,6,30,'#ffffff','#64748b');
-  drawCenterDashed(0,'rgba(255,255,255,.7)',2,4,.1,10,.8,.15);
-}
-function rHyperSpace(){
-  fillRoadBase('#0f0728','#03010a');
-  drawSideRails('rgba(168,85,247,.9)');
-  drawCenterDashed(-.15,'#38bdf8',2,5,.15,14,1.2,.1);
-  drawCenterDashed(.15,'#38bdf8',2,5,.15,14,1.2,.1);
-  drawCenterPulseDots(0,'#ffffff',2,7,12,1.3,.1);
-}
-function rRetroSun(){
-  fillRoadBase('#4a044e','#1c021f');
-  drawEdgeStripSeries(18,.85,6,32,'#facc15','#ec4899');
-  drawSideRails('#ec4899');
-  drawCenterDashed(0,'#fde047',3,6,.12,9,.84,.15);
-}
+// Group 3: ☀️ Day-Light & Scenic Drives (12 Roads)
+function rSunnyDesert(){ makeRoad('#8a7561', '#4f3f31', '#f59e0b', '#fdf6e2', '#ffffff', false); }
+function rMiamiBeach(){ makeRoad('#586b7c', '#2c3c4a', '#06b6d4', '#ffffff', '#ffffff', true); }
+function rGreenMeadow(){ makeRoad('#536653', '#2b3b2b', '#22c55e', '#ecfdf5', '#ffffff', false); }
+function rCaliforniaSunset(){ makeRoad('#7c5848', '#42281c', '#fb923c', '#fef3c7', '#fed7aa', true); }
+function rRedClayTrail(){ makeRoad('#7c4a40', '#44221c', '#f87171', '#fee2e2', '#ffffff', false); }
+function rNordicSnow(){ makeRoad('#64748b', '#334155', '#93c5fd', '#f0f9ff', '#ffffff', true); }
+function rAutumnMaple(){ makeRoad('#705345', '#3d281e', '#ea580c', '#fde047', '#ffedd5', false); }
+function rGoldenSands(){ makeRoad('#7c6f5a', '#42392b', '#f59e0b', '#2563eb', '#ffffff', false); }
+function rAlpineMountain(){ makeRoad('#525c68', '#2a313a', '#e2e8f0', '#eab308', '#fef08a', false, 'rgba(255,255,255,0.6)'); }
+function rEmeraldGolfway(){ makeRoad('#4d6154', '#26332b', '#10b981', '#d1fae5', '#ffffff', false); }
+function rHawaiianOcean(){ makeRoad('#4b6670', '#23373e', '#14b8a6', '#f0fdfa', '#ffffff', true); }
+function rLavenderValley(){ makeRoad('#5d596b', '#302d3b', '#c084fc', '#faf5ff', '#ffffff', false); }
+
+// Group 4: ⚡ Clean Cyber & Synth (12 Roads)
+function rNeonPulse(){ makeRoad('#4b4257', '#251e2d', '#ec4899', '#06b6d4', '#ffffff', true); }
+function rEdgeGlow(){ makeRoad('#3d5248', '#1b2923', '#10b981', '#064e3b', '#6ee7b7', false, 'rgba(16,185,129,0.7)'); }
+function rArcadeGrid(){ makeRoad('#43495d', '#1f2331', '#f43f5e', '#38bdf8', '#38bdf8', false); }
+function rRailRunner(){ makeRoad('#475569', '#1e293b', '#38bdf8', '#0284c7', '#ffffff', true, 'rgba(56,189,248,0.7)'); }
+function rChevronRush(){ makeRoad('#4b4b5e', '#242431', '#f43f5e', '#ffffff', '#ffffff', false); }
+function rCyberViolet(){ makeRoad('#534460', '#2a1f33', '#c084fc', '#e879f9', '#ffffff', false); }
+function rLaserCyan(){ makeRoad('#3b5568', '#1b2d39', '#38bdf8', '#0284c7', '#38bdf8', true); }
+function rPlasmaPink(){ makeRoad('#5b4055', '#2f1a2b', '#fb7185', '#fda4af', '#ffffff', false); }
+function rOverdriveNeon(){ makeRoad('#513e63', '#271b33', '#f472b6', '#a78bfa', '#fbcfe8', false); }
+function rHyperSpace(){ makeRoad('#464964', '#202235', '#818cf8', '#c7d2fe', '#ffffff', true); }
+function rMatrixCode(){ makeRoad('#385342', '#182b1f', '#22c55e', '#14532d', '#86efac', false); }
+function rMidnightHighway(){ makeRoad('#3b4559', '#1a2233', '#60a5fa', '#93c5fd', '#ffffff', false, 'rgba(96,165,250,0.6)'); }
+
+// Group 5: 💎 Elemental & Crystal Worlds (12 Roads)
+function rIceCrystal(){ makeRoad('#4b6070', '#21303b', '#7dd3fc', '#f0f9ff', '#ffffff', true, 'rgba(125,211,252,0.7)'); }
+function rAmethystPath(){ makeRoad('#564468', '#2d1e3a', '#c084fc', '#f3e8ff', '#e9d5ff', false); }
+function rEmeraldCity(){ makeRoad('#3b5a4d', '#1a332a', '#34d399', '#d1fae5', '#a7f3d0', false); }
+function rRubyRoyale(){ makeRoad('#643b46', '#361b23', '#fb7185', '#ffe4e6', '#ffffff', false); }
+function rElectricThunder(){ makeRoad('#3c516d', '#1a293c', '#38bdf8', '#ffffff', '#7dd3fc', false, 'rgba(56,189,248,0.8)'); }
+function rInfernoFire(){ makeRoad('#6d4540', '#3a1f1b', '#f97316', '#fef08a', '#ffedd5', false); }
+function rLavaCrack(){ makeRoad('#543936', '#2b1917', '#ea580c', '#431407', '#fdba74', false); }
+function rGoldenPath(){ makeRoad('#685c46', '#352e1f', '#eab308', '#fef08a', '#ffffff', false); }
+function rToxicHazard(){ makeRoad('#4c5c36', '#253017', '#84cc16', '#142008', '#d9f99d', false); }
+function rCosmicVoid(){ makeRoad('#494161', '#211c31', '#a855f7', '#38bdf8', '#ffffff', true); }
+function rCleanSlateMinimal(){ makeRoad('#556272', '#2c3540', '#94a3b8', '#cbd5e1', '#ffffff', false); }
+function rTwinStripe(){ makeRoad('#515b69', '#262d36', '#ffffff', '#cbd5e1', '#facc15', true); }
 
 function drawRoad(){
   var dict={
+    classic: rClassic,
     v6Gold: rV6Gold,
     v6CyberBlue: rV6CyberBlue,
     v6LimeBeast: rV6LimeBeast,
-    v6SunsetOrange: rV6SunsetOrange,
     v6Monza: rV6Monza,
-
+    monacoF1: rMonacoF1,
+    asphaltSpeed: rAsphaltSpeed,
+    tokyoDay: rTokyoDay,
+    studioPaperWhite: rStudioPaperWhite,
+    carbonTrack: rCarbonTrack,
+    candyPop: rCandyPop,
+    skyRainbow: rSkyRainbow,
+    marioKartCircuit: rMarioKartCircuit,
+    toyTownBlock: rToyTownBlock,
+    pastelDream: rPastelDream,
+    donutDune: rDonutDune,
+    retroPixel: rRetroPixel,
+    lemonLimeSpeed: rLemonLimeSpeed,
+    mintChoco: rMintChoco,
+    sunflowerMeadow: rSunflowerMeadow,
     sunnyDesert: rSunnyDesert,
     miamiBeach: rMiamiBeach,
     greenMeadow: rGreenMeadow,
-    tokyoDay: rTokyoDay,
     californiaSunset: rCaliforniaSunset,
     redClayTrail: rRedClayTrail,
-    monacoF1: rMonacoF1,
     nordicSnow: rNordicSnow,
-    studioPaperWhite: rStudioPaperWhite,
     autumnMaple: rAutumnMaple,
-    skyRainbow: rSkyRainbow,
     goldenSands: rGoldenSands,
     alpineMountain: rAlpineMountain,
-    neonDaylight: rNeonDaylight,
     emeraldGolfway: rEmeraldGolfway,
-
-    classic: rClassic,
-    twinStripe: rTwinStripe,
-    tripleLane: rTripleLane,
-    asphaltSpeed: rAsphaltSpeed,
-    midnightHighway: rMidnightHighway,
-    carbonTrack: rCarbonTrack,
-    diamondFlow: rDiamondFlow,
-    minimalGrey: rMinimalGrey,
+    hawaiianOcean: rHawaiianOcean,
+    lavenderValley: rLavenderValley,
     neonPulse: rNeonPulse,
     edgeGlow: rEdgeGlow,
     arcadeGrid: rArcadeGrid,
@@ -2975,26 +2182,23 @@ function drawRoad(){
     chevronRush: rChevronRush,
     cyberViolet: rCyberViolet,
     laserCyan: rLaserCyan,
-    matrixCode: rMatrixCode,
     plasmaPink: rPlasmaPink,
-    overdriveNeon: rOverdriveSynth,
+    overdriveNeon: rOverdriveNeon,
     hyperSpace: rHyperSpace,
-    retroSun: rRetroSun,
-    lavaCrack: rLavaCrack,
+    matrixCode: rMatrixCode,
+    midnightHighway: rMidnightHighway,
     iceCrystal: rIceCrystal,
+    amethystPath: rAmethystPath,
+    emeraldCity: rEmeraldCity,
+    rubyRoyale: rRubyRoyale,
+    electricThunder: rElectricThunder,
+    infernoFire: rInfernoFire,
+    lavaCrack: rLavaCrack,
     goldenPath: rGoldenPath,
     toxicHazard: rToxicHazard,
     cosmicVoid: rCosmicVoid,
-    amethystPath: rAmethystPath,
-    infernoFire: rInfernoFire,
-    electricThunder: rElectricThunder,
-    rainbowPrism: rRainbowPrism,
-    sunsetBoulevard: rSunsetBoulevard,
-    pastelDream: rPastelDream,
-    emeraldCity: rEmeraldCity,
-    rubyRoyale: rRubyRoyale,
-    cleanWhiteTrack: rCleanWhiteTrack,
-    darkObsidian: rDarkObsidian
+    cleanSlateMinimal: rCleanSlateMinimal,
+    twinStripe: rTwinStripe
   };
   var fn = dict[state.roadVariant] || rClassic;
   fn();
@@ -3043,219 +2247,8 @@ function drawImageFit(im, x, y, boxW, boxH, anchor){
   ctx.drawImage(im,dx,dy,dw,dh);
 }
 
-function drawFlameIcon(cx, cy, s){
-  ctx.save();
-  ctx.translate(cx, cy);
-  var sc = s / 70;
-  ctx.scale(sc, sc);
-
-  var gf = ctx.createLinearGradient(0, -26, 0, 24);
-  gf.addColorStop(0, '#ffff55'); gf.addColorStop(0.4, '#ff7700'); gf.addColorStop(1, '#ff1a00');
-  ctx.fillStyle = gf;
-  ctx.beginPath();
-  ctx.moveTo(0, -28);
-  ctx.bezierCurveTo(14, -14, 26, 4, 18, 22);
-  ctx.bezierCurveTo(12, 30, -12, 30, -18, 22);
-  ctx.bezierCurveTo(-26, 4, -14, -14, 0, -28);
-  ctx.fill();
-
-  ctx.fillStyle = '#fff9a6';
-  ctx.beginPath();
-  ctx.moveTo(0, -8);
-  ctx.bezierCurveTo(7, 2, 12, 12, 8, 20);
-  ctx.bezierCurveTo(4, 25, -4, 25, -8, 20);
-  ctx.bezierCurveTo(-12, 12, -7, 2, 0, -8);
-  ctx.fill();
-  ctx.restore();
-}
-
-function drawDropletIcon(cx, cy, s){
-  ctx.save();
-  ctx.translate(cx, cy);
-  var sc = s / 70;
-  ctx.scale(sc, sc);
-
-  var gd = ctx.createLinearGradient(0, -26, 0, 24);
-  gd.addColorStop(0, '#e0f7ff'); gd.addColorStop(0.5, '#00b4d8'); gd.addColorStop(1, '#0077b6');
-  ctx.fillStyle = gd;
-  ctx.beginPath();
-  ctx.moveTo(0, -26);
-  ctx.bezierCurveTo(18, -4, 22, 16, 12, 24);
-  ctx.bezierCurveTo(2, 30, -2, 30, -12, 24);
-  ctx.bezierCurveTo(-22, 16, -18, -4, 0, -26);
-  ctx.fill();
-
-  ctx.fillStyle = 'rgba(255,255,255,0.75)';
-  ctx.beginPath();
-  ctx.ellipse(-6, 2, 4, 9, -0.4, 0, Math.PI*2);
-  ctx.fill();
-  ctx.restore();
-}
-
-function drawDiamondIcon(cx, cy, s){
-  ctx.save();
-  ctx.translate(cx, cy);
-  var sc = s / 70;
-  ctx.scale(sc, sc);
-
-  var gm = ctx.createLinearGradient(-22, -22, 22, 22);
-  gm.addColorStop(0, '#f3e8ff'); gm.addColorStop(0.5, '#c084fc'); gm.addColorStop(1, '#7e22ce');
-  ctx.fillStyle = gm;
-  ctx.beginPath();
-  ctx.moveTo(0, -26);
-  ctx.lineTo(24, 0);
-  ctx.lineTo(0, 26);
-  ctx.lineTo(-24, 0);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.strokeStyle = 'rgba(255,255,255,0.85)';
-  ctx.lineWidth = 3;
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.moveTo(-24, 0); ctx.lineTo(24, 0);
-  ctx.moveTo(0, -26); ctx.lineTo(0, 26);
-  ctx.strokeStyle = 'rgba(255,255,255,0.45)';
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  ctx.restore();
-}
-
-function drawBoltIcon(cx, cy, s){
-  ctx.save();
-  ctx.translate(cx, cy);
-  var sc = s / 70;
-  ctx.scale(sc, sc);
-
-  var gb = ctx.createLinearGradient(0, -26, 0, 26);
-  gb.addColorStop(0, '#ffffff'); gb.addColorStop(0.4, '#fde047'); gb.addColorStop(1, '#eab308');
-  ctx.fillStyle = gb;
-  ctx.beginPath();
-  ctx.moveTo(4, -28);
-  ctx.lineTo(-16, 2);
-  ctx.lineTo(-2, 2);
-  ctx.lineTo(-6, 28);
-  ctx.lineTo(16, -2);
-  ctx.lineTo(2, -2);
-  ctx.closePath();
-  ctx.fill();
-  ctx.restore();
-}
-
-function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, popAge){
-  ctx.save();
-  var cx = bx + size/2;
-  var cy = by + size/2;
-
-  if(isPopping && popAge < 0.40){
-    var progress = popAge / 0.40;
-    var alpha = Math.max(0, 1 - progress);
-
-    ctx.save();
-    if(style === 'fireInferno'){
-      for(var f=0; f<6; f++){
-        var ang = (f / 6) * Math.PI*2 + progress * 2;
-        var r = (size * 0.4) + progress * (size * 0.65);
-        ctx.fillStyle = f % 2 ? 'rgba(255,100,0,'+alpha+')' : 'rgba(255,220,50,'+alpha+')';
-        ctx.beginPath(); ctx.arc(cx + Math.cos(ang)*r, cy + Math.sin(ang)*r - progress*25, 6 + 6*alpha, 0, Math.PI*2); ctx.fill();
-      }
-    } else if(style === 'waterCrystal'){
-      ctx.strokeStyle = 'rgba(0,210,255,'+alpha+')';
-      ctx.lineWidth = 5 * alpha;
-      ctx.beginPath(); ctx.arc(cx, cy, (size * 0.5) + progress * (size * 0.7), 0, Math.PI*2); ctx.stroke();
-    } else {
-      ctx.strokeStyle = 'rgba(255,215,0,'+alpha+')';
-      ctx.lineWidth = 5.5 * alpha;
-      ctx.beginPath(); ctx.arc(cx, cy, (size * 0.5) + progress * (size * 0.6), 0, Math.PI*2); ctx.stroke();
-    }
-    ctx.restore();
-  }
-
-  ctx.translate(cx, cy);
-  ctx.scale(popScale, popScale);
-  ctx.translate(-cx, -cy);
-
-  if(activeImg){
-    ctx.save();
-    ctx.fillStyle = 'rgba(0,0,0,0.58)';
-    ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 3.5; ctx.stroke();
-    drawImageFit(activeImg, cx, by + size - 8, size * 0.88, size * 0.88, 'bottom');
-    ctx.restore();
-  } else {
-    var qThemes = {
-      royal3DGold:    { border:'#ff9900', face:'#fde047', stroke:'#451a03', text:'#451a03' },
-      royalAmber:     { border:'#d97706', face:'#fbbf24', stroke:'#451a03', text:'#451a03' },
-      arcadeYellow:   { border:'#eab308', face:'#fef08a', stroke:'#000000', text:'#000000' },
-      laserCrimson:   { border:'#b91c1c', face:'#ef4444', stroke:'#450a0a', text:'#240202' },
-      cyberCyan:      { border:'#0284c7', face:'#00f5ff', stroke:'#082f49', text:'#041f30' },
-      neonGreen:      { border:'#15803d', face:'#22c55e', stroke:'#052e16', text:'#021f0e' },
-      plasmaPink:     { border:'#be185d', face:'#f43f5e', stroke:'#4c0519', text:'#26020c' },
-      electricBlue:   { border:'#1d4ed8', face:'#3b82f6', stroke:'#0f172a', text:'#06142e' },
-      synthwaveViolet:{ border:'#6d28d9', face:'#8b5cf6', stroke:'#2e1065', text:'#1a043d' },
-      toxicAcid:      { border:'#4d7c0f', face:'#84cc16', stroke:'#1a2e05', text:'#102002' },
-      pureWhiteBox:   { border:'#cbd5e1', face:'#f8fafc', stroke:'#0f172a', text:'#0f172a' },
-      stealthCarbon:  { border:'#334155', face:'#1e293b', stroke:'#090d16', text:'#94a3b8' }
-    };
-
-    if(style === 'fireInferno'){
-      var gf = ctx.createLinearGradient(bx, by, bx + size, by + size);
-      gf.addColorStop(0, '#ff1a00'); gf.addColorStop(0.5, '#ff7700'); gf.addColorStop(1, '#ffdd00');
-      ctx.fillStyle = gf; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
-
-      ctx.fillStyle = '#380500'; ctx.beginPath(); ctx.roundRect(bx+5, by+5, size-10, size-10, 14); ctx.fill();
-      ctx.strokeStyle = '#ff9900'; ctx.lineWidth = 4; ctx.stroke();
-
-      drawFlameIcon(cx, cy, size * 0.65);
-
-    } else if(style === 'waterCrystal'){
-      var gw = ctx.createLinearGradient(bx, by, bx + size);
-      gw.addColorStop(0, '#00f0ff'); gw.addColorStop(0.7, '#0077ff'); gw.addColorStop(1, '#0033aa');
-      ctx.fillStyle = gw; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
-
-      ctx.fillStyle = '#02183a'; ctx.beginPath(); ctx.roundRect(bx+5, by+5, size-10, size-10, 14); ctx.fill();
-      ctx.strokeStyle = '#67e8f9'; ctx.lineWidth = 4; ctx.stroke();
-
-      drawDropletIcon(cx, cy, size * 0.65);
-
-    } else if(style === 'amethystGem'){
-      ctx.fillStyle = '#7e22ce'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
-
-      ctx.fillStyle = '#220638'; ctx.beginPath(); ctx.roundRect(bx+5, by+5, size-10, size-10, 14); ctx.fill();
-      ctx.strokeStyle = '#d8b4fe'; ctx.lineWidth = 4; ctx.stroke();
-
-      drawDiamondIcon(cx, cy, size * 0.65);
-
-    } else if(style === 'electricThunder'){
-      ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
-
-      ctx.fillStyle = '#082f49'; ctx.beginPath(); ctx.roundRect(bx+5, by+5, size-10, size-10, 14); ctx.fill();
-      ctx.strokeStyle = '#facc15'; ctx.lineWidth = 4; ctx.stroke();
-
-      drawBoltIcon(cx, cy, size * 0.65);
-
-    } else {
-      var th = qThemes[style] || qThemes.royal3DGold;
-
-      ctx.fillStyle = th.border; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
-
-      ctx.fillStyle = th.face; ctx.beginPath(); ctx.roundRect(bx+5, by+5, size-10, size-10, 14); ctx.fill();
-      ctx.strokeStyle = th.stroke; ctx.lineWidth = 4; ctx.stroke();
-
-      ctx.fillStyle = th.text;
-      ctx.font = '900 ' + Math.floor(size * 0.68) + 'px Impact, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('?', cx, cy + 3);
-    }
-  }
-
-  ctx.restore();
-}
-
 function drawMysteryHUD(){
   if(!state.showHud) return;
-
   var count = 5;
   var boxS = state.hudBoxSize || 132;
   var gap = state.hudSpacing || 18;
@@ -3275,7 +2268,28 @@ function drawMysteryHUD(){
       popScale = 1.0 + Math.sin(progress * Math.PI) * 0.28;
     }
 
-    drawMysteryBoxVFX(bx, hudY, boxS, state.hudStyle, activeImg, isPopping, popScale, popAge);
+    ctx.save();
+    var cx = bx + boxS/2;
+    var cy = hudY + boxS/2;
+    ctx.translate(cx, cy);
+    ctx.scale(popScale, popScale);
+    ctx.translate(-cx, -cy);
+
+    if(activeImg){
+      ctx.fillStyle = 'rgba(0,0,0,0.58)';
+      ctx.beginPath(); ctx.roundRect(bx, hudY, boxS, boxS, 18); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 3.5; ctx.stroke();
+      drawImageFit(activeImg, cx, hudY + boxS - 8, boxS * 0.88, boxS * 0.88, 'bottom');
+    } else {
+      ctx.fillStyle = '#ff9900'; ctx.beginPath(); ctx.roundRect(bx, hudY, boxS, boxS, 18); ctx.fill();
+      ctx.fillStyle = '#fde047'; ctx.beginPath(); ctx.roundRect(bx+5, hudY+5, boxS-10, boxS-10, 14); ctx.fill();
+      ctx.strokeStyle = '#451a03'; ctx.lineWidth = 4; ctx.stroke();
+      ctx.fillStyle = '#451a03';
+      ctx.font = '900 ' + Math.floor(boxS * 0.68) + 'px Impact, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('?', cx, cy + 3);
+    }
+    ctx.restore();
   }
 }
 
@@ -3283,264 +2297,49 @@ function renderAnimatedText(text, style, inAnim, outAnim, targetY, fSize, startT
   var elapsed = roadTime - startTime;
   if(elapsed < 0 || elapsed > duration) return;
 
-  var inDur = 0.35;
-  var outDur = 0.35;
+  var inDur = 0.35, outDur = 0.35;
   var remain = duration - elapsed;
+  var scale = 1.0, alpha = 1.0, curY = targetY;
 
-  var scale = 1.0;
-  var alpha = 1.0;
-  var curY = targetY;
-
-  // ENTRY ANIMATION
   if(elapsed < inDur){
     var tIn = elapsed / inDur;
-    if(inAnim === 'elasticPunch'){
-      scale = 0.2 + 0.8 * Math.sin(tIn * Math.PI * 0.7);
-      if(tIn > 0.65) scale += Math.sin((tIn - 0.65) / 0.35 * Math.PI) * 0.22;
-    } else if(inAnim === 'slamImpact'){
-      scale = 2.4 - 1.4 * tIn;
-      curY = (targetY - 140) + 140 * tIn;
-      if(tIn > 0.85){
-        curY += Math.sin((tIn - 0.85) * 40) * 8;
-      }
-    } else if(inAnim === 'jelloBounce'){
-      scale = 0.4 + 0.6 * Math.sin(tIn * Math.PI);
-      curY = targetY + Math.sin(tIn * Math.PI * 3) * 14;
-    } else if(inAnim === 'speedWarp'){
-      scale = 0.1 + 0.9 * tIn;
-      alpha = tIn;
-      curY = targetY + (1 - tIn) * 80;
-    } else if(inAnim === 'dropSpring'){
-      curY = (targetY - 200) + 200 * Math.sin(tIn * Math.PI * 0.5);
-      scale = 0.8 + 0.2 * Math.sin(tIn * Math.PI);
-    }
+    if(inAnim === 'elasticPunch') scale = 0.2 + 0.8 * Math.sin(tIn * Math.PI * 0.7);
+    else if(inAnim === 'slamImpact') { scale = 2.4 - 1.4 * tIn; curY = (targetY - 140) + 140 * tIn; }
+    else if(inAnim === 'jelloBounce') { scale = 0.4 + 0.6 * Math.sin(tIn * Math.PI); curY = targetY + Math.sin(tIn * Math.PI * 3) * 14; }
   } else if(remain > outDur){
     scale = 1.0 + Math.sin(elapsed * 4.2) * 0.03;
   }
 
-  // EXIT ANIMATION
   if(remain <= outDur){
     var tOut = (outDur - remain) / outDur;
-    if(outAnim === 'shrinkPop'){
-      scale = 1.0 - 0.8 * Math.sin(tOut * Math.PI * 0.5);
-      alpha = Math.max(0, 1.0 - tOut * 1.2);
-    } else if(outAnim === 'flyUp'){
-      curY = targetY - (tOut * tOut * 240);
-      alpha = Math.max(0, 1.0 - tOut);
-    } else if(outAnim === 'flashFade'){
-      scale = 1.0 + tOut * 0.3;
-      alpha = Math.max(0, 1.0 - tOut);
-    } else if(outAnim === 'instantCut'){
-      alpha = remain > 0.05 ? 1.0 : 0.0;
-    }
+    if(outAnim === 'shrinkPop') { scale = 1.0 - 0.8 * Math.sin(tOut * Math.PI * 0.5); alpha = Math.max(0, 1.0 - tOut * 1.2); }
+    else if(outAnim === 'flyUp') { curY = targetY - (tOut * tOut * 240); alpha = Math.max(0, 1.0 - tOut); }
   }
 
   ctx.save();
   ctx.globalAlpha = Math.max(0, Math.min(1.0, alpha));
   ctx.translate(W / 2, curY);
   ctx.scale(scale, scale);
-
   ctx.font = '900 ' + fSize + 'px "Arial Black", Impact, sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
   var strokeW = Math.floor(fSize * 0.22);
-
-  if(style === 'dualWinLose'){
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    var grad = ctx.createLinearGradient(-fSize*2, 0, fSize*2, 0);
-    grad.addColorStop(0, '#2aff84');
-    grad.addColorStop(0.48, '#2aff84');
-    grad.addColorStop(0.52, '#ff323a');
-    grad.addColorStop(1, '#ff323a');
-    ctx.fillStyle = grad;
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'arcadeGold'){
-    ctx.strokeStyle = '#3e1a00';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    var gg = ctx.createLinearGradient(0, -fSize/2, 0, fSize/2);
-    gg.addColorStop(0, '#fff385');
-    gg.addColorStop(0.5, '#ffb703');
-    gg.addColorStop(1, '#d47a00');
-    ctx.fillStyle = gg;
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'tryloxyRed'){
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    ctx.fillStyle = '#ff1133';
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'cyberCyan'){
-    ctx.strokeStyle = '#041f35';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    ctx.fillStyle = '#00f5ff';
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'cyberYellow' || style === 'pureYellow'){
-    ctx.strokeStyle = '#181200';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    ctx.fillStyle = '#ffe600';
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'infernoFire'){
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    var gFire = ctx.createLinearGradient(0, -fSize/2, 0, fSize/2);
-    gFire.addColorStop(0, '#ffff00');
-    gFire.addColorStop(0.5, '#ff6600');
-    gFire.addColorStop(1, '#ff0033');
-    ctx.fillStyle = gFire;
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'monsterLime' || style === 'comicLime' || style === 'toxicAcid'){
-    ctx.strokeStyle = '#052b12';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    ctx.fillStyle = '#2aff84';
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'plasmaPink'){
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    ctx.fillStyle = '#ff007f';
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'synthViolet' || style === 'synthPurple'){
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    ctx.fillStyle = '#c026d3';
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'candyRainbow' || style === 'candyPop'){
-    ctx.strokeStyle = '#2b0938';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    var gCandy = ctx.createLinearGradient(-fSize*2, 0, fSize*2, 0);
-    gCandy.addColorStop(0, '#ff4d6d');
-    gCandy.addColorStop(0.33, '#ffd166');
-    gCandy.addColorStop(0.66, '#06d6a0');
-    gCandy.addColorStop(1, '#118ab2');
-    ctx.fillStyle = gCandy;
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'royalAmber' || style === 'sunsetTrophy'){
-    ctx.strokeStyle = '#381600';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    var gAmber = ctx.createLinearGradient(0, -fSize/2, 0, fSize/2);
-    gAmber.addColorStop(0, '#ffe8a3');
-    gAmber.addColorStop(0.5, '#ff9e00');
-    gAmber.addColorStop(1, '#d84a00');
-    ctx.fillStyle = gAmber;
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'iceFrost' || style === 'frozenFrost'){
-    ctx.strokeStyle = '#052a42';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    var gIce = ctx.createLinearGradient(0, -fSize/2, 0, fSize/2);
-    gIce.addColorStop(0, '#ffffff');
-    gIce.addColorStop(0.45, '#a5f3fc');
-    gIce.addColorStop(1, '#0284c7');
-    ctx.fillStyle = gIce;
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'stealthDark' || style === 'stealthCharcoal'){
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    ctx.fillStyle = '#1e293b';
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'laserCrimson' || style === 'laserRedWarning'){
-    ctx.strokeStyle = '#280006';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    ctx.fillStyle = '#ff1744';
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'deepAmethyst'){
-    ctx.strokeStyle = '#2e0854';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    var gGem = ctx.createLinearGradient(0, -fSize/2, 0, fSize/2);
-    gGem.addColorStop(0, '#fae8ff');
-    gGem.addColorStop(0.5, '#c084fc');
-    gGem.addColorStop(1, '#701a75');
-    ctx.fillStyle = gGem;
-    ctx.fillText(text, 0, 0);
-
-  } else if(style === 'electricCyan'){
-    ctx.strokeStyle = '#021028';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    ctx.fillStyle = '#38bdf8';
-    ctx.fillText(text, 0, 0);
-
-  } else {
-    ctx.strokeStyle = '#090d16';
-    ctx.lineWidth = strokeW;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(text, 0, 0);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(text, 0, 0);
-  }
-
+  ctx.strokeStyle = '#090d16';
+  ctx.lineWidth = strokeW;
+  ctx.lineJoin = 'round';
+  ctx.strokeText(text, 0, 0);
+  ctx.fillStyle = (style === 'tryloxyRed') ? '#ff1133' : '#ffffff';
+  ctx.fillText(text, 0, 0);
   ctx.restore();
 }
 
 function drawDualChainIntroTexts(){
   var t1Start = 0.0;
   var t1Dur = Math.max(0.5, state.t1_duration || 2.2);
-
   if(state.t1_show && state.t1_val && state.t1_val.trim()){
     renderAnimatedText(state.t1_val.trim(), state.t1_style, state.t1_inAnim, state.t1_outAnim, state.t1_y, state.t1_size, t1Start, t1Dur);
   }
-
   if(state.t2_show && state.t2_val && state.t2_val.trim()){
     var t2Start = (state.t2_chainWithT1 && state.t1_show) ? t1Dur : 0.0;
     var t2Dur = Math.max(0.5, state.t2_duration || 3.5);
@@ -3574,7 +2373,6 @@ function getActiveRunnerInfo(){
     curImg = state.baseStage.img;
     curSize = state.baseStage.size || 215;
   }
-
   return { img: curImg, size: curSize };
 }
 
@@ -3582,7 +2380,6 @@ function triggerImpactVfx(isGreen, rx, ry){
   lastImpactType = isGreen ? 'green' : 'red';
   lastImpactTime = roadTime;
   vfxParticles.length = 0;
-
   var count = isGreen ? 18 : 22;
   var spreadMul = state.vfxAuraSpread || 0.85;
 
@@ -3610,15 +2407,10 @@ function drawRunnerBehind(){
   var pSize = rInfo.size * (0.3 + 0.7 * p.e);
 
   var targetX = W/2;
-  if(state.playerLane === 'slider'){
-    targetX = W/2 + (p.half * 0.50 * state.steerOffset);
-  } else if(state.playerLane === 'right'){
-    targetX = W/2 + p.half * 0.50;
-  } else if(state.playerLane === 'left'){
-    targetX = W/2 - p.half * 0.50;
-  } else {
-    targetX = state.currentLane === 'right' ? (W/2 + p.half * 0.50) : (W/2 - p.half * 0.50);
-  }
+  if(state.playerLane === 'slider') targetX = W/2 + (p.half * 0.50 * state.steerOffset);
+  else if(state.playerLane === 'right') targetX = W/2 + p.half * 0.50;
+  else if(state.playerLane === 'left') targetX = W/2 - p.half * 0.50;
+  else targetX = state.currentLane === 'right' ? (W/2 + p.half * 0.50) : (W/2 - p.half * 0.50);
 
   state.playerX = state.playerX || (W/2);
   state.playerX += (targetX - state.playerX) * 0.35;
@@ -3626,25 +2418,18 @@ function drawRunnerBehind(){
   var drawX = state.playerX;
   var drawY = p.y + 6;
   var scaleMul = 1.0;
-
   var hitAge = roadTime - lastImpactTime;
 
   if(state.enableVfx && hitAge >= 0 && hitAge < 0.35){
     var progress = hitAge / 0.35;
     var maxJump = (state.vfxScaleJump !== undefined) ? state.vfxScaleJump : 0.08;
-    if(lastImpactType === 'green'){
-      scaleMul = 1.0 + Math.sin(progress * Math.PI) * maxJump;
-    } else if(lastImpactType === 'red'){
-      drawX += Math.sin(hitAge * 55) * Math.max(0, 10 * (1 - progress));
-    }
+    if(lastImpactType === 'green') scaleMul = 1.0 + Math.sin(progress * Math.PI) * maxJump;
+    else if(lastImpactType === 'red') drawX += Math.sin(hitAge * 55) * Math.max(0, 10 * (1 - progress));
   }
 
   var finalW = pSize * scaleMul;
   var finalH = pSize * scaleMul;
 
-  ctx.save();
-
-  // 🌟 RUNNER CONTACT GROUND SHADOW (सड़क से चिपका हुआ लुक)
   ctx.save();
   ctx.fillStyle = 'rgba(0,0,0,0.48)';
   ctx.beginPath();
@@ -3652,73 +2437,24 @@ function drawRunnerBehind(){
   ctx.fill();
   ctx.restore();
 
-  // LIGHTNING VFX
-  if(state.enableVfx && lastImpactType === 'green' && hitAge >= 0 && hitAge < 0.38){
-    var auraProgress = hitAge / 0.38;
-    var auraAlpha = Math.max(0, 1.0 - auraProgress);
-    var spreadMul = (state.vfxAuraSpread !== undefined) ? state.vfxAuraSpread : 0.85;
-
-    ctx.save();
-    ctx.strokeStyle = 'rgba(42,255,132,' + (auraAlpha * 0.85) + ')';
-    ctx.lineWidth = 5 * auraAlpha;
-    ctx.beginPath();
-    ctx.ellipse(drawX, drawY - finalH * 0.45, ((finalW * 0.50) + auraProgress * (finalW * 0.65)) * spreadMul, (16 + auraProgress * 45) * spreadMul, 0, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.restore();
-
-    ctx.save();
-    ctx.strokeStyle = Math.random() > 0.4 ? '#2aff84' : '#00f5ff';
-    ctx.lineWidth = 3.5 * auraAlpha;
-    ctx.lineCap = 'round';
-    for(var l = 0; l < 3; l++){
-      ctx.beginPath();
-      var lx = drawX + (Math.random() - 0.5) * finalW * spreadMul;
-      var ly = drawY - Math.random() * finalH;
-      ctx.moveTo(lx, ly);
-      for(var seg = 0; seg < 3; seg++){
-        lx += (Math.random() - 0.5) * 26 * spreadMul;
-        ly += (Math.random() - 0.5) * 26 * spreadMul;
-        ctx.lineTo(lx, ly);
-      }
-      ctx.stroke();
-    }
-    ctx.restore();
-  }
-
-  // Draw Runner Image
   drawImageFit(rInfo.img, drawX, drawY, finalW, finalH, 'bottom');
-
-  ctx.restore();
 }
 
 function updateAndDrawVfx(delta){
   if(!state.enableVfx || vfxParticles.length === 0) return;
-
   for(var i = vfxParticles.length - 1; i >= 0; i--){
     var p = vfxParticles[i];
     p.life += delta;
-    if(p.life >= p.maxLife){
-      vfxParticles.splice(i, 1);
-      continue;
-    }
-
+    if(p.life >= p.maxLife){ vfxParticles.splice(i, 1); continue; }
     var progress = p.life / p.maxLife;
     p.x += p.vx * delta;
     p.y += p.vy * delta;
 
     ctx.save();
-    if(p.isGreen){
-      ctx.fillStyle = progress < 0.5 ? '#00f5ff' : '#2aff84';
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size * (1.0 - progress * 0.5), 0, Math.PI * 2);
-      ctx.fill();
-    } else {
-      var sa = Math.max(0, (1.0 - progress) * 0.42);
-      ctx.fillStyle = progress < 0.4 ? 'rgba(40,4,8,' + sa + ')' : 'rgba(200,20,30,' + sa + ')';
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size * (1.0 + progress * 1.5), 0, Math.PI * 2);
-      ctx.fill();
-    }
+    ctx.fillStyle = p.isGreen ? (progress < 0.5 ? '#00f5ff' : '#2aff84') : 'rgba(200,20,30,0.4)';
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * (1.0 - progress * 0.5), 0, Math.PI * 2);
+    ctx.fill();
     ctx.restore();
   }
 }
@@ -3769,7 +2505,6 @@ function drawRows(){
   var closestActiveZ = -1;
   var activeLaneColor = '#2aff84';
   var pZ = state.playerZ || 0.86;
-
   var activePads = [];
 
   state.rows.slice(0,5).forEach(function(row,i){
@@ -3788,13 +2523,8 @@ function drawRows(){
         collectedHud[i] = itemImg;
         collectedTimes[i] = roadTime;
       }
-      
       var isGreen = (padHex.indexOf('2a') !== -1 || padHex.indexOf('00') !== -1 || padHex.indexOf('green') !== -1);
-      if(isGreen){
-        currentPath = 'green';
-      } else {
-        currentPath = 'red';
-      }
+      currentPath = isGreen ? 'green' : 'red';
       currentStageLevel = i + 1;
 
       var p = roadBoundsAtZ(pZ);
@@ -3805,7 +2535,6 @@ function drawRows(){
       closestActiveZ = zz;
       activeLaneColor = row.leftColor;
     }
-
     activePads.push({row: row, zz: zz, rawZ: zz});
   });
 
@@ -3816,7 +2545,6 @@ function drawRows(){
 
   activePads.sort(function(a, b){ return a.rawZ - b.rawZ; });
 
-  // 🌟 ABSOLUTE FIXED LOCKED ANCHOR: 5वें पैड तक 1mm भी नहीं हिलेगा
   var initialBossZ = 0.08;
   var pad5CrossTime = initialDelay + 4 * state.padDelay + (pZ / (state.speed * 1.28 * TRACK_MOTION_SCALE));
   var bDist = Math.max(1.0, state.bossDistance || 2.8);
@@ -3831,37 +2559,29 @@ function drawRows(){
   var lockedBossBase = staticBaseSize * 1.18;
 
   activePads.forEach(function(item){
-    if(item.rawZ < bossZ){
-      drawSinglePadRow(item);
-    }
+    if(item.rawZ < bossZ) drawSinglePadRow(item);
   });
 
   if(state.opponent.img){
     var op = roadBoundsAtZ(bossZ);
     var bossSize = lockedBossBase * (0.30 + 0.70 * op.e);
-
     ctx.save();
     ctx.fillStyle = 'rgba(0,0,0,0.40)';
     ctx.beginPath();
     ctx.ellipse(W/2, op.y + 2, bossSize * 0.35, 5 + 9 * op.e, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
-
     drawImageFit(state.opponent.img, W/2, op.y + 2, bossSize, bossSize, 'bottom');
   }
 
   activePads.forEach(function(item){
-    if(item.rawZ >= bossZ && item.rawZ < pZ){
-      drawSinglePadRow(item);
-    }
+    if(item.rawZ >= bossZ && item.rawZ < pZ) drawSinglePadRow(item);
   });
 
   drawRunnerBehind();
 
   activePads.forEach(function(item){
-    if(item.rawZ >= pZ){
-      drawSinglePadRow(item);
-    }
+    if(item.rawZ >= pZ) drawSinglePadRow(item);
   });
 }
 
@@ -3892,7 +2612,6 @@ function frame(now){
 
   if(running && !isTouching && !isScrubbing){
     roadTime += delta;
-    
     frameCount++;
     if(frameCount % 6 === 0 && scrubber){
       scrubber.value = roadTime.toFixed(2);
@@ -3922,10 +2641,7 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v33'); 
-    localStorage.removeItem('runner_studio_saved_v32'); 
-    localStorage.removeItem('runner_studio_saved_v31'); 
-    localStorage.removeItem('runner_studio_saved_v30'); 
+    localStorage.removeItem('runner_studio_saved_v35'); 
     localStorage.removeItem('runner_studio_panel_order');
   }catch(e){}
   location.reload();
@@ -3935,18 +2651,13 @@ $('logoutBtn').onclick=async function(){await fetch('/api/logout',{method:'POST'
 $('exportBtn').onclick = function(){
   if (recorder) return;
   var sec = Math.max(2, Math.min(60, +$('recordSec').value || 20));
-  
   var stream = canvas.captureStream(60);
   var mime = 'video/webm;codecs=vp9';
   if (!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm;codecs=vp8';
   if (!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm';
   
   var chunks = [];
-  recorder = new MediaRecorder(stream, { 
-    mimeType: mime, 
-    videoBitsPerSecond: 28000000 
-  });
-  
+  recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 28000000 });
   recorder.ondataavailable = function(e){ if (e.data.size) chunks.push(e.data); };
   recorder.onstop = function(){
     var blob = new Blob(chunks, { type: mime });
