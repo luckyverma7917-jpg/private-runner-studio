@@ -6,9 +6,6 @@ const APP_PASSWORD = process.env.APP_PASSWORD || 'change-me-now';
 const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
 const SESSION_MS = 7 * 24 * 60 * 60 * 1000;
 
-if(!process.env.APP_PASSWORD) console.warn('WARNING: APP_PASSWORD env var set nahi hai - default password "change-me-now" chal raha hai. Render > Environment me APP_PASSWORD set karo.');
-if(!process.env.SESSION_SECRET) console.warn('WARNING: SESSION_SECRET env var set nahi hai - har restart par login logout ho jayega. Render > Environment me SESSION_SECRET (lambi random string) set karo.');
-
 function parseCookies(req){
   var out={};
   (req.headers.cookie||'').split(';').forEach(function(p){
@@ -805,29 +802,20 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Top Width (सीधी सड़क की चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.20</span></span>
+          <span class="label-head"><span>Top Width (सीधी सड़क की चौड़ाई)</span><span class="val-badge" id="v_topWidth">0.17</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="-1">◀</button>
-            <input id="topWidth" type="range" min="0.04" max="0.35" step="0.005" value="0.20">
+            <input id="topWidth" type="range" min="0.04" max="0.35" step="0.005" value="0.17">
             <button type="button" class="step-btn" data-step-for="topWidth" data-dir="1">▶</button>
           </div>
         </label>
         <label>
-          <span class="label-head"><span>Bottom Width (निचली चौड़ाई)</span><span class="val-badge" id="v_bottomWidth">0.70</span></span>
+          <span class="label-head"><span>Bottom Width (निचली चौड़ाई)</span><span class="val-badge" id="v_bottomWidth">0.98</span></span>
           <div class="range-wrap">
             <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="-1">◀</button>
-            <input id="bottomWidth" type="range" min="0.50" max="1.15" step="0.02" value="0.70">
+            <input id="bottomWidth" type="range" min="0.50" max="1.15" step="0.02" value="0.98">
             <button type="button" class="step-btn" data-step-for="bottomWidth" data-dir="1">▶</button>
           </div>
-        </label>
-        <label>
-          <span class="label-head"><span>Road Length (सड़क की लंबाई)</span><span class="val-badge gold" id="v_roadLen">3</span></span>
-          <div class="range-wrap">
-            <button type="button" class="step-btn" data-step-for="roadLen" data-dir="-1">◀</button>
-            <input id="roadLen" type="range" min="1" max="11" step="0.2" value="3">
-            <button type="button" class="step-btn" data-step-for="roadLen" data-dir="1">▶</button>
-          </div>
-          <span class="small" style="color:var(--muted)">कम = लंबी और सीधी सड़क (YouTube जैसी)। 11 = पुरानी छोटी/त्रिकोण वाली सड़क।</span>
         </label>
         <label>
           <span class="label-head"><span>Camera Height</span><span class="val-badge" id="v_camHeight">0.95</span></span>
@@ -1185,9 +1173,8 @@ var vfxParticles = [];
 var state={
   speed:0.24,
   horizon:0.42,
-  topWidth:0.20,
-  bottomWidth:0.70,
-  roadLen:3.0,
+  topWidth:0.17,
+  bottomWidth:0.98,
   camHeight:0.95,
   padDelay:2.40,
   padThickness:22,
@@ -1446,7 +1433,6 @@ function autoSaveStudio(){
       horizon: state.horizon,
       topWidth: state.topWidth,
       bottomWidth: state.bottomWidth,
-      roadLen: state.roadLen,
       camHeight: state.camHeight,
       padDelay: state.padDelay,
       padThickness: state.padThickness,
@@ -1503,13 +1489,13 @@ function autoSaveStudio(){
         };
       })
     };
-    localStorage.setItem('runner_studio_saved_v34', JSON.stringify(s));
+    localStorage.setItem('runner_studio_saved_v33', JSON.stringify(s));
   }catch(err){}
 }
 
 function getSavedSettings(){
   try{
-    var raw = localStorage.getItem('runner_studio_saved_v34') || localStorage.getItem('runner_studio_saved_v33') || localStorage.getItem('runner_studio_saved_v32') || localStorage.getItem('runner_studio_saved_v31') || localStorage.getItem('runner_studio_saved_v30');
+    var raw = localStorage.getItem('runner_studio_saved_v33') || localStorage.getItem('runner_studio_saved_v32') || localStorage.getItem('runner_studio_saved_v31') || localStorage.getItem('runner_studio_saved_v30');
     return raw ? JSON.parse(raw) : null;
   }catch(e){ return null; }
 }
@@ -1583,7 +1569,7 @@ function bindRange(id,key){
   });
 }
 
-['speed','horizon','topWidth','bottomWidth','roadLen','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
+['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
 
 if($('t1_duration')) $('t1_duration').oninput = function(e){ state.t1_duration = Number(e.target.value); updateBadge('t1_duration', e.target.value); autoSaveStudio(); };
 if($('t1_y')) $('t1_y').oninput = function(e){ state.t1_y = Number(e.target.value); updateBadge('t1_y', e.target.value); autoSaveStudio(); };
@@ -2228,20 +2214,13 @@ function initRows(){
   
   var savedData = getSavedSettings();
   if(savedData && typeof savedData === 'object'){
-    // Purani saved settings (roadLen ke bina) ki road values ignore hoti hain, taaki nayi lambi sidhi road dikhe.
-    var roadKeysOk = (savedData.roadLen !== undefined);
-    var numericKeys = ['speed','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'];
-    if(roadKeysOk) numericKeys = numericKeys.concat(['horizon','topWidth','bottomWidth','roadLen','camHeight']);
-    numericKeys.forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       if(savedData[id] !== undefined && $(id)){
         state[id] = Number(savedData[id]);
         $(id).value = savedData[id];
         updateBadge(id, savedData[id]);
       }
     });
-    if(!roadKeysOk){
-      ['horizon','topWidth','bottomWidth','roadLen','camHeight'].forEach(function(id){ updateBadge(id, state[id]); });
-    }
 
     if(savedData.t1_show !== undefined && $('t1_show')){ state.t1_show = Boolean(savedData.t1_show); $('t1_show').checked = state.t1_show; }
     if(savedData.t1_val !== undefined && $('t1_val')){ state.t1_val = savedData.t1_val; $('t1_val').value = state.t1_val; }
@@ -2327,7 +2306,7 @@ function initRows(){
     ];
     rowList.forEach(addRow);
   } else {
-    ['speed','horizon','topWidth','bottomWidth','roadLen','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
+    ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){
       updateBadge(id, state[id]);
     });
     updateBadge('t1_duration', state.t1_duration);
@@ -2413,28 +2392,19 @@ function roadBoundsAtZ(z){
   var dynamicHorizon = H * (state.horizon || 0.42) + (1.0 - camH) * (H * 0.12);
   var dynamicHorizonY = Math.max(H * 0.15, Math.min(H * 0.75, dynamicHorizon));
 
-  var TOP_HALF = W * (state.topWidth || 0.20);
-  var BOTTOM_HALF = W * (state.bottomWidth || 0.70);
+  var TOP_HALF = W * (state.topWidth || 0.17);
+  var BOTTOM_HALF = W * (state.bottomWidth || 0.98);
 
-  // 🌟 ROAD LENGTH: chhota number = lambi aur sidhi sadak (YouTube jaisi). 11 = purani dabi hui sadak.
-  var K = Math.max(0.5, state.roadLen || 3.0);
-  var zDistance = Math.max(0.01, (1.0 - t) * (K / camH) + 0.85);
+  var zDistance = Math.max(0.01, (1.0 - t) * (11.0 / camH) + 0.85);
   var scale = 1.0 / zDistance;
-  var minScale = 1.0 / ((K / camH) + 0.85);
+  var minScale = 1.0 / ((11.0 / camH) + 0.85);
   var maxScale = 1.0 / 0.85;
   var depth = (scale - minScale) / (maxScale - minScale);
-
-  // Purani perspective (K=11) se nikla "size factor": isse PNG/runner/boss ka size waisa hi rehta hai jo tumne set kiya tha.
-  var KO = 11.0;
-  var zDistO = Math.max(0.01, (1.0 - t) * (KO / camH) + 0.85);
-  var scaleO = 1.0 / zDistO;
-  var minScaleO = 1.0 / ((KO / camH) + 0.85);
-  var sizeFactor = (scaleO - minScaleO) / (maxScale - minScaleO);
 
   var y = dynamicHorizonY + (H - dynamicHorizonY) * depth;
   var half = TOP_HALF + (BOTTOM_HALF - TOP_HALF) * depth;
 
-  return {e:depth, s:sizeFactor, y:y, l:W/2-half, r:W/2+half, half:half};
+  return {e:depth, y:y, l:W/2-half, r:W/2+half, half:half};
 }
 function lerp(a,b,t){return a+(b-a)*t;}
 function drawPoly(pts, fill){
@@ -2943,9 +2913,8 @@ function rDiamondFlow(){
     var a=roadBoundsAtZ(z), b=roadBoundsAtZ(Math.min(1,z+.06));
     var midY=(a.y+b.y)/2;
     var w=18+a.e*80, h=9+a.e*48;
-    // 🛠️ BUG FIX: pehle yahan ctx.lineTo(W/2+midY+h) tha (sirf 1 value) - isse Diamond Flow road par error aata tha.
     ctx.save();ctx.fillStyle='rgba(255,255,255,'+(.14+.32*a.e)+')';
-    ctx.beginPath();ctx.moveTo(W/2-w,midY);ctx.lineTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2,midY+h);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.moveTo(W/2-w,midY);ctx.lineTo(W/2,midY-h);ctx.lineTo(W/2+w,midY);ctx.lineTo(W/2+midY+h);ctx.closePath();ctx.fill();ctx.restore();
   }
 }
 function rMinimalGrey(){
@@ -3041,10 +3010,9 @@ function drawRaisedPad(z, side, hexColor){
   
   var c = hexToRgb(hexColor);
   var rgb = c.r + ',' + c.g + ',' + c.b;
-  // 🛠️ BUG FIX: pehle darkG aur darkB me bhi c.r use hota tha, ab sahi g aur b use hote hain.
   var darkR = Math.max(0, Math.floor(c.r * 0.45));
-  var darkG = Math.max(0, Math.floor(c.g * 0.45));
-  var darkB = Math.max(0, Math.floor(c.b * 0.45));
+  var darkG = Math.max(0, Math.floor(c.r * 0.45));
+  var darkB = Math.max(0, Math.floor(c.r * 0.45));
   var dark = darkR + ',' + darkG + ',' + darkB;
 
   ctx.save();ctx.fillStyle='rgba(0,0,0,.28)';ctx.beginPath();ctx.ellipse(laneCenter,baseY+6,width*.48,7+12*e,0,0,Math.PI*2);ctx.fill();ctx.restore();
@@ -3061,8 +3029,7 @@ function drawRaisedPad(z, side, hexColor){
   
   ctx.save();ctx.strokeStyle='rgba('+rgb+',.98)';ctx.lineWidth=(2.5+2.5*e)*1.5;ctx.beginPath();ctx.moveTo(laneCenter-width*.49,baseY-1);ctx.lineTo(laneCenter+width*.49,baseY-1);ctx.stroke();ctx.restore();
   
-  // e yahan sprite-size factor (p.s) hai, taaki PNG ka size pehle jaisa rahe
-  return {center:[laneCenter,baseY-height*.43], baseY:baseY, topY:topY, width:width, height:height, e:p.s};
+  return {center:[laneCenter,baseY-height*.43], baseY:baseY, topY:topY, width:width, height:height, e:e};
 }
 
 function drawImageFit(im, x, y, boxW, boxH, anchor){
@@ -3243,8 +3210,7 @@ function drawMysteryBoxVFX(bx, by, size, style, activeImg, isPopping, popScale, 
       drawFlameIcon(cx, cy, size * 0.65);
 
     } else if(style === 'waterCrystal'){
-      // 🛠️ BUG FIX: pehle createLinearGradient(bx, by, bx + size) me sirf 3 values thi, 4 chahiye (error aata tha).
-      var gw = ctx.createLinearGradient(bx, by, bx + size, by + size);
+      var gw = ctx.createLinearGradient(bx, by, bx + size);
       gw.addColorStop(0, '#00f0ff'); gw.addColorStop(0.7, '#0077ff'); gw.addColorStop(1, '#0033aa');
       ctx.fillStyle = gw; ctx.beginPath(); ctx.roundRect(bx, by, size, size, 18); ctx.fill();
 
@@ -3641,8 +3607,7 @@ function drawRunnerBehind(){
   if(!rInfo.img) return;
 
   var p = roadBoundsAtZ(state.playerZ || 0.86);
-  // p.s = sprite-size factor (purani perspective jaisa), taaki runner ka size waisa hi rahe jo tumne set kiya
-  var pSize = rInfo.size * (0.3 + 0.7 * p.s);
+  var pSize = rInfo.size * (0.3 + 0.7 * p.e);
 
   var targetX = W/2;
   if(state.playerLane === 'slider'){
@@ -3873,8 +3838,7 @@ function drawRows(){
 
   if(state.opponent.img){
     var op = roadBoundsAtZ(bossZ);
-    // op.s = sprite-size factor (purani perspective jaisa), boss ka size pehle jaisa rahega
-    var bossSize = lockedBossBase * (0.30 + 0.70 * op.s);
+    var bossSize = lockedBossBase * (0.30 + 0.70 * op.e);
 
     ctx.save();
     ctx.fillStyle = 'rgba(0,0,0,0.40)';
@@ -3958,7 +3922,6 @@ $('saveBtn').onclick=function(){
 };
 $('resetStorageBtn').onclick=function(){
   try{ 
-    localStorage.removeItem('runner_studio_saved_v34'); 
     localStorage.removeItem('runner_studio_saved_v33'); 
     localStorage.removeItem('runner_studio_saved_v32'); 
     localStorage.removeItem('runner_studio_saved_v31'); 
