@@ -1588,6 +1588,13 @@ function bindRange(id,key){
 // --- BACKDROP COLOR & PAPER PATTERN LOGIC ---
 var selectedBgColor = '#1a2230';
 var isPaperPatternActive = false;
+var bgThemeSelect = document.getElementById('bgTheme') || document.querySelector('select[id*="theme"]');
+if (bgThemeSelect) {
+  bgThemeSelect.addEventListener('change', function() {
+    selectedBgColor = '#1a2230';
+    isPaperPatternActive = false;
+  });
+}
 
 var bgInput = document.getElementById('customBgColor');
 var bgValSpan = document.getElementById('bgColorVal');
