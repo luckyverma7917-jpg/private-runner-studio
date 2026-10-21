@@ -784,6 +784,23 @@ input[type=text], select{padding:9px;background:#0f1217;color:white;border:1px s
         <span>🛣️ Moving Highway & Perspective (Straight YouTube Setup)</span>
         <span class="drag-handle" draggable="true" title="Sirf ise pakad kar upar-niche khinchein">⠿ Drag</span>
       </summary>
+      <!-- 🎨 CUSTOM BACKDROP COLOR & PAPER THEMES -->
+<div style="margin:10px 0; padding:10px; background:#0f172a; border-radius:8px; border:1px solid #334155;">
+  <span style="font-size:13px; font-weight:bold; color:#38bdf8; display:block; margin-bottom:8px;">
+    🎨 Sky & Backdrop Custom Color
+  </span>
+  <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+    <label style="font-size:12px; color:#cbd5e1;">Pick Color:</label>
+    <input id="customBgColor" type="color" value="#1a2230" style="width:45px; height:32px; border:none; cursor:pointer; background:none;">
+    <span id="bgColorVal" style="font-size:12px; color:#94a3b8; font-family:monospace;">#1a2230</span>
+  </div>
+  <div style="font-size:11px; color:#94a3b8; margin-bottom:6px;">Paper & Matte Themes:</div>
+  <div style="display:flex; flex-wrap:wrap; gap:6px;">
+    <button type="button" class="btn-theme" data-color="#e8e8e3" data-pattern="true" style="padding:4px 8px; font-size:11px; background:#e8e8e3; color:#1e293b; border:1px solid #cbd5e1; border-radius:4px; cursor:pointer; font-weight:600;">📜 Paper Slate Grey</button>
+    <button type="button" class="btn-theme" data-color="#8ba8b7" data-pattern="true" style="padding:4px 8px; font-size:11px; background:#8ba8b7; color:#0f172a; border:1px solid #64748b; border-radius:4px; cursor:pointer; font-weight:600;">☁️ Sky Cyan Matte</button>
+    <button type="button" class="btn-theme" data-color="#1b2a4a" data-pattern="false" style="padding:4px 8px; font-size:11px; background:#1b2a4a; color:#f8fafc; border:1px solid #475569; border-radius:4px; cursor:pointer;">Cobalt Studio</button>
+  </div>
+</div>
       <div class="grid two">
         <label>
           <span class="label-head"><span>Forward speed</span><span class="val-badge" id="v_speed">0.24</span></span>
@@ -1568,6 +1585,29 @@ function bindRange(id,key){
     autoSaveStudio();
   });
 }
+// --- BACKDROP COLOR & PAPER PATTERN LOGIC ---
+var selectedBgColor = '#1a2230';
+var isPaperPatternActive = false;
+
+var bgInput = document.getElementById('customBgColor');
+var bgValSpan = document.getElementById('bgColorVal');
+
+if (bgInput) {
+  bgInput.addEventListener('input', function(e) {
+    selectedBgColor = e.target.value;
+    isPaperPatternActive = false;
+    if (bgValSpan) bgValSpan.innerText = selectedBgColor;
+  });
+}
+
+document.querySelectorAll('.btn-theme').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    selectedBgColor = this.getAttribute('data-color');
+    isPaperPatternActive = (this.getAttribute('data-pattern') === 'true');
+    if (bgInput) bgInput.value = selectedBgColor;
+    if (bgValSpan) bgValSpan.innerText = selectedBgColor;
+  });
+});
 
 ['speed','horizon','topWidth','bottomWidth','camHeight','padDelay','padThickness','bossDistance','playerZ','hudY','hudBoxSize','hudSpacing'].forEach(function(id){ bindRange(id,id); });
 
