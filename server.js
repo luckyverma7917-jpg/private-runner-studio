@@ -3939,6 +3939,19 @@ function frame(now){
       updateBadge('scrubBar', roadTime.toFixed(1));
     }
   }
+  // 🎨 Live Custom Backdrop Color & Paper Texture
+    ctx.fillStyle = selectedBgColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (isPaperPatternActive) {
+      ctx.save();
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.035)';
+      for (var pi = 0; pi < canvas.width; pi += 4) {
+        for (var pj = 0; pj < canvas.height * 0.65; pj += 4) {
+          if ((pi + pj) % 8 === 0) ctx.fillRect(pi, pj, 2, 2);
+        }
+      }
+      ctx.restore();
+    }
 
   drawBackground();
   drawRoad();
