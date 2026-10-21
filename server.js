@@ -3953,7 +3953,7 @@ function frame(now){
       ctx.restore();
     }
 
-  drawBackground();
+  // drawBackground();
   drawRoad();
   drawRows();
   updateAndDrawVfx(delta);
